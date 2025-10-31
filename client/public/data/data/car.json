@@ -1,0 +1,22 @@
+[
+    {
+        "Ma_xe": 1,
+        "Giay_to_xe": "./data/images/giatoxe.webp",
+        "Bien_so_xe": "51A-12345",
+        "Anh_xe": "./data/images/car1.jpg",
+        "Mo_ta": "Toyota Vios 2022, tiết kiệm nhiên liệu, nội thất sạch sẽ, phù hợp đi xa hoặc công tác.",
+        "Hang_xe": "Toyota",
+        "Dong_xe": "Vios",
+        "Nhien_lieu": "Xăng",
+        "Mau_sac": "Trắng",
+        "Hop_so": "Tự động",
+        "So_km": 35000,
+        "Muc_tieu_thu": 6.5,
+        "Gia_thue": 800000,
+        "So_cho": 5,
+        "Tinh_trang_xe": "Còn trống",
+        "Diem_danh_gia": 4.8,
+        "So_luot_danh_gia": 120,
+        "So_luot_thue": 85
+    }
+]

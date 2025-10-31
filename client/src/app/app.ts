@@ -1,12 +1,14 @@
-import { Component, signal } from '@angular/core';
-import { CarListComponent } from './car-list/car-list';
+import { Component } from '@angular/core';
+import { CommonModule } from '@angular/common';
+import { HttpClientModule } from '@angular/common/http';
+import { RouterModule } from '@angular/router';
+import { CarListComponent } from './components/car-list/car-list';
 
 @Component({
   selector: 'app-root',
-  imports: [CarListComponent],
+  standalone: true,
+  imports: [CommonModule, HttpClientModule, RouterModule, CarListComponent],
   templateUrl: './app.html',
   styleUrl: './app.css'
 })
-export class App {
-  protected readonly title = signal('client');
-}
+export class App { }

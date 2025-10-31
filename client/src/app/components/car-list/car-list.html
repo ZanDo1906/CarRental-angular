@@ -1,0 +1,10 @@
+<div class="car-list">
+    <h2>Danh sách xe</h2>
+    <div *ngFor="let car of cars" class="car-card">
+        <img [src]="car.Anh_xe" alt="{{ car.Hang_xe }}" width="200" />
+        <h3>{{ car.Hang_xe }} {{ car.Dong_xe }}</h3>
+        <p>Biển số: {{ car.Bien_so_xe }}</p>
+        <p>Mô tả: {{ car.Mo_ta }}</p>
+        <p>Giá thuê: {{ car.Gia_thue | currency:'VND' }}</p>
+    </div>
+</div>
