@@ -1,0 +1,67 @@
+[
+    {
+        "Ma_nguoi_dung": 1,
+        "Ho_va_ten": "Nguyen Van An",
+        "So_dien_thoai": "0912345678",
+        "Email": "an.nguyen@example.com",
+        "Mat_khau": "123456",
+        "Can_cuoc_cong_dan": "079203004512",
+        "Giay_phep_lai_xe": "GPLX123456",
+        "Vai_tro": "user",
+        "Anh_dai_dien": "./data/avatars/user_avt.jpg",
+        "Ngay_tao": "2024-10-01",
+        "So_lan_vi_pham": 0
+    },
+    {
+        "Ma_nguoi_dung": 2,
+        "Ho_va_ten": "Tran Thi Bich",
+        "So_dien_thoai": "0987654321",
+        "Email": "bich.tran@example.com",
+        "Mat_khau": "bich2024",
+        "Can_cuoc_cong_dan": "023456789012",
+        "Giay_phep_lai_xe": "GPLX654321",
+        "Vai_tro": "user",
+        "Anh_dai_dien": "./data/avatars/user_avt.jpg",
+        "Ngay_tao": "2024-10-03",
+        "So_lan_vi_pham": 1
+    },
+    {
+        "Ma_nguoi_dung": 3,
+        "Ho_va_ten": "Le Minh Khoa",
+        "So_dien_thoai": "0901234567",
+        "Email": "khoa.le@example.com",
+        "Mat_khau": "khoa@123",
+        "Can_cuoc_cong_dan": "012345678999",
+        "Giay_phep_lai_xe": "GPLX998877",
+        "Vai_tro": "user",
+        "Anh_dai_dien": "./data/avatars/user_avt.jpg",
+        "Ngay_tao": "2024-11-10",
+        "So_lan_vi_pham": 0
+    },
+    {
+        "Ma_nguoi_dung": 4,
+        "Ho_va_ten": "Pham Quoc Huy",
+        "So_dien_thoai": "0977123456",
+        "Email": "huy.pham@example.com",
+        "Mat_khau": "huy!2024",
+        "Can_cuoc_cong_dan": "043210987654",
+        "Giay_phep_lai_xe": "GPLX445566",
+        "Vai_tro": "user",
+        "Anh_dai_dien": "./data/avatars/user_avt.jpg",
+        "Ngay_tao": "2024-12-01",
+        "So_lan_vi_pham": 2
+    },
+    {
+        "Ma_nguoi_dung": 5,
+        "Ho_va_ten": "Do Thi Ha",
+        "So_dien_thoai": "0939988776",
+        "Email": "ha.do@example.com",
+        "Mat_khau": "ha@2024",
+        "Can_cuoc_cong_dan": "056789012345",
+        "Giay_phep_lai_xe": "GPLX334455",
+        "Vai_tro": "user",
+        "Anh_dai_dien": "./data/avatars/user_avt.jpg",
+        "Ngay_tao": "2025-01-15",
+        "So_lan_vi_pham": 0
+    }
+]
