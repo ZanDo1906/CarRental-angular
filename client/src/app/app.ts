@@ -1,13 +1,12 @@
 import { Component } from '@angular/core';
-import { CommonModule } from '@angular/common';
-import { HttpClientModule } from '@angular/common/http';
-import { RouterModule } from '@angular/router';
-import { CarListComponent } from './components/car-list/car-list';
+import { TestData } from "./pages/test-data/test-data";
+import { JsonPipe } from '@angular/common';
+
 
 @Component({
   selector: 'app-root',
   standalone: true,
-  imports: [CommonModule, HttpClientModule, RouterModule, CarListComponent],
+  imports: [TestData, JsonPipe],
   templateUrl: './app.html',
   styleUrl: './app.css'
 })
