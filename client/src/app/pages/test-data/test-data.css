@@ -34,9 +34,16 @@
     align-items: flex-start;
 }
 
+.car-images {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 8px;
+    width: 320px;
+}
+
 .car-image {
-    width: 200px;
-    height: 150px;
+    width: 150px;
+    height: 100px;
     object-fit: cover;
     border-radius: 5px;
     border: 1px solid #ccc;

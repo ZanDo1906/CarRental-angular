@@ -6,14 +6,15 @@
         <div class="list-group-item">
             <div class="car-info">
                 <div class="car-images">
-                    <img [src]="c.Anh_xe" [alt]="c.Hang_xe + ' ' + c.Dong_xe" class="car-image" />
-                    <img [src]="c.Giay_to_xe" [alt]="'Giấy tờ xe ' + c.Hang_xe" class="document-image" />
+                    <img *ngFor="let img of c.Anh_xe" [src]="img" [alt]="c.Hang_xe + ' ' + c.Dong_xe"
+                        class="car-image" />
                 </div>
                 <div class="car-details">
                     <h4>{{c.Hang_xe}} {{c.Dong_xe}}</h4>
                     <p>Biển số: {{c.Bien_so_xe}}</p>
                     <p>Màu sắc: {{c.Mau_sac}}</p>
                     <p>Số chỗ: {{c.So_cho}}</p>
+                    <p>Mô tả: {{c.Mo_ta}}</p>
                     <p class="price">Giá thuê: {{c.Gia_thue | currency:'VND':'symbol':'1.0-0'}}</p>
                 </div>
             </div>

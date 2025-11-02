@@ -1,10 +1,11 @@
 ├── admin/                          
 │   ├── src/
 │   │   ├── app/
-│   │   │   ├── pages             ← Mỗi trang  
-│   │   │   └── app-routing.module.ts
+│   │   │   └── pages             ← Mỗi trang  
+│   │   │       └── test-data             ← thử data  
 │   │   │
-│   │   ├── assets/                ← Ảnh & dữ liệu (mọi người cần lưu trữ ảnh khi code thì bỏ vô đây)
+│   │   ├── assets/    
+│   │   │   ├── assets/ ← Ảnh & dữ liệu (mọi người cần lưu trữ ảnh khi code thì bỏ vô đây)
 │   │   │   ├── data/
 │   │   │   │   ├── Car.json -> xe nè
 │   │   │   │   ├── User.json -> người dùng
@@ -22,10 +23,11 @@
 ├── client/                        ← Giao diện người dùng (người thuê xe)
 │   ├── src/
 │   │   ├── app/
-│   │   │   ├── pages
-│   │   │   └── app-routing.module.ts
+│   │   │   └── pages             ← Mỗi trang  
+│   │   │       └── test-data             ← thử data  
 │   │   │
-│   │   ├── assets/                ← Ảnh & dữ liệu (mọi người cần lưu trữ ảnh khi code thì bỏ vô đây)
+│   │   ├── assets/    
+│   │   │   ├── assets/ ← Ảnh & dữ liệu (mọi người cần lưu trữ ảnh khi code thì bỏ vô đây)
 │   │   │   ├── data/
 │   │   │   │   ├── Car.json -> xe nè
 │   │   │   │   ├── User.json -> người dùng
