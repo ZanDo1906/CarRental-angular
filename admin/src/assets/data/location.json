@@ -1,0 +1,142 @@
+[
+    {
+        "Ma_vi_tri": "1",
+        "Dia_chi_cu_the": "12 Nguyễn Huệ",
+        "Tinh_thanh": "TP. Hồ Chí Minh",
+        "Quan_huyen": "Quận 1",
+        "Phuong_xa": "Bến Nghé"
+    },
+    {
+        "Ma_vi_tri": "2",
+        "Dia_chi_cu_the": "45 Hoàng Diệu 2",
+        "Tinh_thanh": "TP. Thủ Đức",
+        "Quan_huyen": "Linh Trung",
+        "Phuong_xa": "Linh Chiểu"
+    },
+    {
+        "Ma_vi_tri": "3",
+        "Dia_chi_cu_the": "92 Cách Mạng Tháng 8",
+        "Tinh_thanh": "TP. Hồ Chí Minh",
+        "Quan_huyen": "Quận 3",
+        "Phuong_xa": "Phường 11"
+    },
+    {
+        "Ma_vi_tri": "4",
+        "Dia_chi_cu_the": "220 Lê Văn Việt",
+        "Tinh_thanh": "TP. Thủ Đức",
+        "Quan_huyen": "Quận 9",
+        "Phuong_xa": "Hiệp Phú"
+    },
+    {
+        "Ma_vi_tri": "5",
+        "Dia_chi_cu_the": "88 Lý Thường Kiệt",
+        "Tinh_thanh": "Hà Nội",
+        "Quan_huyen": "Hoàn Kiếm",
+        "Phuong_xa": "Hàng Bài"
+    },
+    {
+        "Ma_vi_tri": "6",
+        "Dia_chi_cu_the": "12 Nguyễn Chí Thanh",
+        "Tinh_thanh": "Hà Nội",
+        "Quan_huyen": "Ba Đình",
+        "Phuong_xa": "Ngọc Khánh"
+    },
+    {
+        "Ma_vi_tri": "7",
+        "Dia_chi_cu_the": "102 Trần Phú",
+        "Tinh_thanh": "Đà Nẵng",
+        "Quan_huyen": "Hải Châu",
+        "Phuong_xa": "Phước Ninh"
+    },
+    {
+        "Ma_vi_tri": "8",
+        "Dia_chi_cu_the": "45 Nguyễn Văn Linh",
+        "Tinh_thanh": "Đà Nẵng",
+        "Quan_huyen": "Thanh Khê",
+        "Phuong_xa": "Thạc Gián"
+    },
+    {
+        "Ma_vi_tri": "9",
+        "Dia_chi_cu_the": "56 Lê Lợi",
+        "Tinh_thanh": "Huế",
+        "Quan_huyen": "TP. Huế",
+        "Phuong_xa": "Vĩnh Ninh"
+    },
+    {
+        "Ma_vi_tri": "10",
+        "Dia_chi_cu_the": "33 Nguyễn Sinh Cung",
+        "Tinh_thanh": "Huế",
+        "Quan_huyen": "TP. Huế",
+        "Phuong_xa": "Phú Hội"
+    },
+    {
+        "Ma_vi_tri": "11",
+        "Dia_chi_cu_the": "22 Nguyễn Văn Cừ",
+        "Tinh_thanh": "Cần Thơ",
+        "Quan_huyen": "Ninh Kiều",
+        "Phuong_xa": "An Hòa"
+    },
+    {
+        "Ma_vi_tri": "12",
+        "Dia_chi_cu_the": "89 Trần Văn Hoài",
+        "Tinh_thanh": "Cần Thơ",
+        "Quan_huyen": "Ninh Kiều",
+        "Phuong_xa": "Xuân Khánh"
+    },
+    {
+        "Ma_vi_tri": "13",
+        "Dia_chi_cu_the": "199 Lê Hồng Phong",
+        "Tinh_thanh": "Nha Trang",
+        "Quan_huyen": "TP. Nha Trang",
+        "Phuong_xa": "Phước Hải"
+    },
+    {
+        "Ma_vi_tri": "14",
+        "Dia_chi_cu_the": "12 Nguyễn Thiện Thuật",
+        "Tinh_thanh": "Nha Trang",
+        "Quan_huyen": "TP. Nha Trang",
+        "Phuong_xa": "Lộc Thọ"
+    },
+    {
+        "Ma_vi_tri": "15",
+        "Dia_chi_cu_the": "77 Nguyễn Tất Thành",
+        "Tinh_thanh": "Buôn Ma Thuột",
+        "Quan_huyen": "TP. Buôn Ma Thuột",
+        "Phuong_xa": "Tân Lợi"
+    },
+    {
+        "Ma_vi_tri": "16",
+        "Dia_chi_cu_the": "55 Phan Chu Trinh",
+        "Tinh_thanh": "Buôn Ma Thuột",
+        "Quan_huyen": "TP. Buôn Ma Thuột",
+        "Phuong_xa": "Tự An"
+    },
+    {
+        "Ma_vi_tri": "17",
+        "Dia_chi_cu_the": "33 Trần Hưng Đạo",
+        "Tinh_thanh": "Đà Lạt",
+        "Quan_huyen": "TP. Đà Lạt",
+        "Phuong_xa": "Phường 1"
+    },
+    {
+        "Ma_vi_tri": "18",
+        "Dia_chi_cu_the": "21 Phan Đình Phùng",
+        "Tinh_thanh": "Đà Lạt",
+        "Quan_huyen": "TP. Đà Lạt",
+        "Phuong_xa": "Phường 2"
+    },
+    {
+        "Ma_vi_tri": "19",
+        "Dia_chi_cu_the": "19 Nguyễn Trãi",
+        "Tinh_thanh": "Hải Phòng",
+        "Quan_huyen": "Ngô Quyền",
+        "Phuong_xa": "Máy Tơ"
+    },
+    {
+        "Ma_vi_tri": "20",
+        "Dia_chi_cu_the": "101 Tô Hiệu",
+        "Tinh_thanh": "Hải Phòng",
+        "Quan_huyen": "Lê Chân",
+        "Phuong_xa": "Hàng Kênh"
+    }
+]
