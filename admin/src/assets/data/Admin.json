@@ -5,12 +5,9 @@
         "So_dien_thoai": "0905001122",
         "Email": "ngoc.le@gmail.com",
         "Mat_khau": "ngoc@admin",
-        "Can_cuoc_cong_dan": null,
-        "Giay_phep_lai_xe": null,
         "Vai_tro": "3",
         "Anh_dai_dien": "./assets/images/admin_avt.png",
-        "Ngay_tao": "2025-03-15",
-        "So_lan_vi_pham": null
+        "Ngay_tao": "2025-03-15"
     },
     {
         "Ma_nguoi_dung": "A2",
@@ -18,12 +15,9 @@
         "So_dien_thoai": "0987665544",
         "Email": "nhi.nguyen@gmail.com",
         "Mat_khau": "nhi@admin",
-        "Can_cuoc_cong_dan": null,
-        "Giay_phep_lai_xe": null,
         "Vai_tro": "3",
         "Anh_dai_dien": "./assets/images/admin_avt.png",
-        "Ngay_tao": "2025-03-18",
-        "So_lan_vi_pham": null
+        "Ngay_tao": "2025-03-18"
     },
     {
         "Ma_nguoi_dung": "A3",
@@ -31,12 +25,9 @@
         "So_dien_thoai": "0933778899",
         "Email": "thao.le@gmail.com",
         "Mat_khau": "thao@admin",
-        "Can_cuoc_cong_dan": null,
-        "Giay_phep_lai_xe": null,
         "Vai_tro": "3",
         "Anh_dai_dien": "./assets/images/admin_avt.png",
-        "Ngay_tao": "2025-03-20",
-        "So_lan_vi_pham": null
+        "Ngay_tao": "2025-03-20"
     },
     {
         "Ma_nguoi_dung": "A4",
@@ -44,12 +35,9 @@
         "So_dien_thoai": "0977889900",
         "Email": "quyen.nguyen@gmail.com",
         "Mat_khau": "quyen@admin",
-        "Can_cuoc_cong_dan": null,
-        "Giay_phep_lai_xe": null,
         "Vai_tro": "3",
         "Anh_dai_dien": "./assets/images/admin_avt.png",
-        "Ngay_tao": "2025-03-25",
-        "So_lan_vi_pham": null
+        "Ngay_tao": "2025-03-25"
     },
     {
         "Ma_nguoi_dung": "A5",
@@ -57,11 +45,8 @@
         "So_dien_thoai": "0911002233",
         "Email": "van.do@gmail.com",
         "Mat_khau": "van@admin",
-        "Can_cuoc_cong_dan": null,
-        "Giay_phep_lai_xe": null,
         "Vai_tro": "3",
         "Anh_dai_dien": "./assets/images/admin_avt.png",
-        "Ngay_tao": "2025-03-30",
-        "So_lan_vi_pham": null
+        "Ngay_tao": "2025-03-30"
     }
 ]
