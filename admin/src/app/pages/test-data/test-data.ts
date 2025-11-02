@@ -4,6 +4,7 @@ import { UserService } from '../../services/user';
 import { CarRental } from '../../services/car-rental';
 import { LocationService } from '../../services/location';
 import { AdminService } from '../../services/admin';
+import { ReviewService } from '../../services/review';
 import { CommonModule } from '@angular/common';
 import { NgForOf } from '@angular/common';
 
@@ -21,6 +22,7 @@ export class TestData implements OnInit {
   rentals: any;
   locations: any;
   admins: any;
+  reviews: any;
   Array = Array; // Expose Array to template
 
   constructor(
@@ -29,6 +31,7 @@ export class TestData implements OnInit {
     private _rentalService: CarRental,
     private _locationService: LocationService,
     private _adminService: AdminService,
+    private _reviewService: ReviewService,
     private cdr: ChangeDetectorRef
   ) { }
 
@@ -69,6 +72,14 @@ export class TestData implements OnInit {
     this._adminService.getAllAdmins().subscribe({
       next: (data) => {
         this.admins = data;
+        this.cdr.detectChanges();
+      }
+    });
+
+    // Load reviews data
+    this._reviewService.getAllReviews().subscribe({
+      next: (data) => {
+        this.reviews = data;
         this.cdr.detectChanges();
       }
     });
@@ -132,6 +143,10 @@ export class TestData implements OnInit {
   getUserName(id: number): string {
     const user = this.getUserById(id);
     return user ? user.Ho_va_ten : 'Chưa xác định';
+  }
+
+  getStars(rating: number): string {
+    return '⭐'.repeat(rating) + '☆'.repeat(5 - rating);
   }
 
 }

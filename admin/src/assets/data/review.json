@@ -1,0 +1,142 @@
+[
+    {
+        "Ma_danh_gia": 1,
+        "Ma_don_thue": 1,
+        "Diem_danh_gia": 5,
+        "Noi_dung": "Xe sạch, chạy êm, chủ xe hỗ trợ nhiệt tình. Rất hài lòng!",
+        "Thoi_gian_gui": "2025-04-12T12:00:00"
+    },
+    {
+        "Ma_danh_gia": 2,
+        "Ma_don_thue": 2,
+        "Diem_danh_gia": 4,
+        "Noi_dung": "Xe ổn, nhận xe nhanh, hơi tốn xăng chút.",
+        "Thoi_gian_gui": "2025-05-03T09:30:00"
+    },
+    {
+        "Ma_danh_gia": 3,
+        "Ma_don_thue": 3,
+        "Diem_danh_gia": 5,
+        "Noi_dung": "Xe mới, lái rất mượt, giá thuê hợp lý.",
+        "Thoi_gian_gui": "2025-05-23T17:10:00"
+    },
+    {
+        "Ma_danh_gia": 4,
+        "Ma_don_thue": 4,
+        "Diem_danh_gia": 2,
+        "Noi_dung": "Bị hủy chuyến, chủ xe phản hồi chậm.",
+        "Thoi_gian_gui": "2025-06-06T10:00:00"
+    },
+    {
+        "Ma_danh_gia": 5,
+        "Ma_don_thue": 5,
+        "Diem_danh_gia": 5,
+        "Noi_dung": "Xe sạch, giao đúng giờ, rất hài lòng.",
+        "Thoi_gian_gui": "2025-07-04T12:00:00"
+    },
+    {
+        "Ma_danh_gia": 6,
+        "Ma_don_thue": 6,
+        "Diem_danh_gia": 4,
+        "Noi_dung": "Mọi thứ ổn, chỉ hơi khó tìm chỗ trả xe.",
+        "Thoi_gian_gui": "2025-08-17T10:30:00"
+    },
+    {
+        "Ma_danh_gia": 7,
+        "Ma_don_thue": 7,
+        "Diem_danh_gia": 3,
+        "Noi_dung": "Xe tốt nhưng giao trễ hơn dự kiến.",
+        "Thoi_gian_gui": "2025-09-05T09:00:00"
+    },
+    {
+        "Ma_danh_gia": 8,
+        "Ma_don_thue": 8,
+        "Diem_danh_gia": 5,
+        "Noi_dung": "Chủ xe cực kỳ nhiệt tình, xe mới tinh!",
+        "Thoi_gian_gui": "2025-09-13T10:15:00"
+    },
+    {
+        "Ma_danh_gia": 9,
+        "Ma_don_thue": 9,
+        "Diem_danh_gia": 4,
+        "Noi_dung": "Xe bán tải chạy mạnh, hơi ồn nhưng đáng tiền.",
+        "Thoi_gian_gui": "2025-10-04T09:30:00"
+    },
+    {
+        "Ma_danh_gia": 10,
+        "Ma_don_thue": 10,
+        "Diem_danh_gia": 5,
+        "Noi_dung": "Xe Fortuner ngon, chạy xa ổn định, rất hài lòng.",
+        "Thoi_gian_gui": "2025-10-18T10:00:00"
+    },
+    {
+        "Ma_danh_gia": 11,
+        "Ma_don_thue": 11,
+        "Diem_danh_gia": 5,
+        "Noi_dung": "Xe tốt, nội thất sạch, giao nhận nhanh chóng.",
+        "Thoi_gian_gui": "2025-11-04T11:30:00"
+    },
+    {
+        "Ma_danh_gia": 12,
+        "Ma_don_thue": 12,
+        "Diem_danh_gia": 4,
+        "Noi_dung": "Xe mới, phục vụ ok, giá hợp lý.",
+        "Thoi_gian_gui": "2025-11-07T11:00:00"
+    },
+    {
+        "Ma_danh_gia": 13,
+        "Ma_don_thue": 13,
+        "Diem_danh_gia": 5,
+        "Noi_dung": "Rất hài lòng! Xe chạy êm, tiết kiệm xăng.",
+        "Thoi_gian_gui": "2025-11-12T10:00:00"
+    },
+    {
+        "Ma_danh_gia": 14,
+        "Ma_don_thue": 14,
+        "Diem_danh_gia": 3,
+        "Noi_dung": "Xe ổn nhưng giao trễ, chủ xe bận việc.",
+        "Thoi_gian_gui": "2025-11-17T10:15:00"
+    },
+    {
+        "Ma_danh_gia": 15,
+        "Ma_don_thue": 15,
+        "Diem_danh_gia": 4,
+        "Noi_dung": "Xe tốt, đi mượt, hơi mùi nước hoa nặng.",
+        "Thoi_gian_gui": "2025-11-21T09:45:00"
+    },
+    {
+        "Ma_danh_gia": 16,
+        "Ma_don_thue": 16,
+        "Diem_danh_gia": 5,
+        "Noi_dung": "Gia đình mình thuê 3 ngày, xe rất ok, chủ thân thiện.",
+        "Thoi_gian_gui": "2025-11-25T10:15:00"
+    },
+    {
+        "Ma_danh_gia": 17,
+        "Ma_don_thue": 17,
+        "Diem_danh_gia": 4,
+        "Noi_dung": "Xe xịn, điều hòa mát, giá hơi cao.",
+        "Thoi_gian_gui": "2025-11-30T09:30:00"
+    },
+    {
+        "Ma_danh_gia": 18,
+        "Ma_don_thue": 18,
+        "Diem_danh_gia": 5,
+        "Noi_dung": "Xe Fortuner ngon, hành trình 4 ngày cực ổn.",
+        "Thoi_gian_gui": "2025-12-05T11:00:00"
+    },
+    {
+        "Ma_danh_gia": 19,
+        "Ma_don_thue": 19,
+        "Diem_danh_gia": 2,
+        "Noi_dung": "Bị hủy sát giờ, khá thất vọng.",
+        "Thoi_gian_gui": "2025-12-07T09:30:00"
+    },
+    {
+        "Ma_danh_gia": 20,
+        "Ma_don_thue": 20,
+        "Diem_danh_gia": 5,
+        "Noi_dung": "Xe tốt, phục vụ chuyên nghiệp, giá hợp lý.",
+        "Thoi_gian_gui": "2025-12-14T12:00:00"
+    }
+]

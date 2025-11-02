@@ -92,7 +92,29 @@
                     <p>🆔 Mã quản trị viên: {{admin.Ma_nguoi_dung}}</p>
                     <p>📧 Email: {{admin.Email}}</p>
                     <p>📱 Số điện thoại: {{admin.So_dien_thoai}}</p>
-                    <p> Ngày tạo tài khoản: {{admin.Ngay_tao}}</p>
+                    <p>📅 Ngày tạo tài khoản: {{admin.Ngay_tao}}</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Reviews Section -->
+<div class="container mt-5">
+    <h3>⭐ Danh Sách Đánh Giá</h3>
+    <div class="list-group" *ngFor="let review of reviews">
+        <div class="list-group-item">
+            <div class="review-info">
+                <div class="review-details">
+                    <div class="review-header">
+                        <h5>Đánh giá #{{review.Ma_danh_gia}} - Đơn thuê #{{review.Ma_don_thue}}</h5>
+                        <div class="rating">
+                            <span class="stars">{{getStars(review.Diem_danh_gia)}}</span>
+                            <span class="rating-number">({{review.Diem_danh_gia}}/5)</span>
+                        </div>
+                    </div>
+                    <p class="review-content">💬 {{review.Noi_dung}}</p>
+                    <p class="review-time">🕒 {{review.Thoi_gian_gui | date:'dd/MM/yyyy HH:mm'}}</p>
                 </div>
             </div>
         </div>
