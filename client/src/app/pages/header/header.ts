@@ -11,7 +11,7 @@ import { iUser } from '../../interfaces/User';
   standalone: true
 })
 export class Header {
-  isLoggedIn: boolean = true;  // Luôn true để xem giao diện đã đăng nhập
+  isLoggedIn: boolean = false;  // Luôn true để xem giao diện đã đăng nhập
   currentUser: iUser = {
     Ma_nguoi_dung: 1,
     Ho_va_ten: "Nguyen Van An",

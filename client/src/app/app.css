@@ -1,31 +1,9 @@
-/* General styles */
-body {
-  font-family: 'Inter', sans-serif;
-  color: #000000;
+html, body { height: 100%; }
+.app-shell{
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
 }
+.app-main{ flex: 1 0 auto; }     /* phần nội dung chiếm chỗ đẩy footer xuống đáy */
+app-footer, .tc-footer{ flex: 0 0 auto; }
 
-/* TRUSTCAR brand text */
-.brand-text {
-  font-family: 'Montserrat', sans-serif;
-}
-
-/* Button styling */
-.btn-teal {
-  background-color: #1D7363;
-  color: white;
-  border-color: #1D7363;
-}
-
-.btn-teal:hover {
-  background-color: #15574b;
-  border-color: #15574b;
-  color: white;
-}
-
-.nav-link {
-  color: #000000;
-}
-
-.nav-link.active {
-  color: #1D7363 !important;
-}
