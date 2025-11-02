@@ -5,7 +5,6 @@
         "So_dien_thoai": "0905001122",
         "Email": "ngoc.le@gmail.com",
         "Mat_khau": "ngoc@admin",
-        "Vai_tro": "3",
         "Anh_dai_dien": "./assets/images/admin_avt.png",
         "Ngay_tao": "2025-03-15"
     },
@@ -15,7 +14,6 @@
         "So_dien_thoai": "0987665544",
         "Email": "nhi.nguyen@gmail.com",
         "Mat_khau": "nhi@admin",
-        "Vai_tro": "3",
         "Anh_dai_dien": "./assets/images/admin_avt.png",
         "Ngay_tao": "2025-03-18"
     },
@@ -25,7 +23,6 @@
         "So_dien_thoai": "0933778899",
         "Email": "thao.le@gmail.com",
         "Mat_khau": "thao@admin",
-        "Vai_tro": "3",
         "Anh_dai_dien": "./assets/images/admin_avt.png",
         "Ngay_tao": "2025-03-20"
     },
@@ -35,7 +32,6 @@
         "So_dien_thoai": "0977889900",
         "Email": "quyen.nguyen@gmail.com",
         "Mat_khau": "quyen@admin",
-        "Vai_tro": "3",
         "Anh_dai_dien": "./assets/images/admin_avt.png",
         "Ngay_tao": "2025-03-25"
     },
@@ -45,7 +41,6 @@
         "So_dien_thoai": "0911002233",
         "Email": "van.do@gmail.com",
         "Mat_khau": "van@admin",
-        "Vai_tro": "3",
         "Anh_dai_dien": "./assets/images/admin_avt.png",
         "Ngay_tao": "2025-03-30"
     }

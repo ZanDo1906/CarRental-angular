@@ -82,18 +82,17 @@
 
 <!-- Admins Section -->
 <div class="container mt-5">
-    <h3>👨‍💼 Danh Sách Admin</h3>
+    <h3>👨‍💼 Danh Sách Quản Trị Viên</h3>
     <div class="list-group" *ngFor="let admin of admins">
         <div class="list-group-item">
             <div class="user-info">
                 <img [src]="admin.Anh_dai_dien" [alt]="admin.Ho_va_ten" class="user-avatar" />
                 <div class="user-details">
                     <h4>{{admin.Ho_va_ten}}</h4>
-                    <p>🆔 Mã: {{admin.Ma_nguoi_dung}}</p>
+                    <p>🆔 Mã quản trị viên: {{admin.Ma_nguoi_dung}}</p>
                     <p>📧 Email: {{admin.Email}}</p>
-                    <p>📱 Phone: {{admin.So_dien_thoai}}</p>
-                    <p>👤 Vai trò: <span class="badge bg-danger">Admin</span></p>
-                    <p>📅 Ngày tạo: {{admin.Ngay_tao}}</p>
+                    <p>📱 Số điện thoại: {{admin.So_dien_thoai}}</p>
+                    <p> Ngày tạo tài khoản: {{admin.Ngay_tao}}</p>
                 </div>
             </div>
         </div>
