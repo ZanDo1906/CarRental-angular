@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, signal } from '@angular/core';
 import { TestData } from "./pages/test-data/test-data";
 import { JsonPipe } from '@angular/common';
 

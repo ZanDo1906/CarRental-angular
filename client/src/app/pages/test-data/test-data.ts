@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ChangeDetectorRef } from '@angular/core';
 import { CarService } from '../../services/car';
 import { CommonModule } from '@angular/common';
 import { NgForOf } from '@angular/common';
@@ -7,22 +7,19 @@ import { NgForOf } from '@angular/common';
 @Component({
   selector: 'app-test-data',
   standalone: true,
-  imports: [CommonModule],
+  imports: [CommonModule, NgForOf],
   templateUrl: './test-data.html',
   styleUrl: './test-data.css',
 })
 export class TestData implements OnInit {
-  cars: any[] = [];
-  constructor(private _pService: CarService) { }
+  cars: any;
+  constructor(private _carService: CarService, private cdr: ChangeDetectorRef) { }
+
   ngOnInit(): void {
-    console.log('TestData component initialized');
-    this._pService.getAllCars().subscribe({
+    this._carService.getAllCars().subscribe({
       next: (data) => {
-        console.log('Data received:', data);
         this.cars = data;
-      },
-      error: (error) => {
-        console.error('Error loading cars:', error);
+        this.cdr.detectChanges();
       }
     });
   }

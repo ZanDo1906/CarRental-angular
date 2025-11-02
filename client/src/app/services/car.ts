@@ -6,7 +6,7 @@ import { iCar } from '../interfaces/Car';
   providedIn: 'root',
 })
 export class CarService {
-  url: string = './data/data/Car.json';
+  url: string = '/assets/data/Car.json';
 
   constructor(private _http: HttpClient) { }
 
