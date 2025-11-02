@@ -100,3 +100,52 @@
     font-size: 0.8em;
     text-transform: uppercase;
 }
+
+/* Rental Styles */
+.rental-info {
+    padding: 10px 0;
+}
+
+.rental-details h4 {
+    margin: 0 0 15px 0;
+    color: #333;
+    font-size: 1.3em;
+}
+
+.rental-row {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 20px;
+}
+
+.rental-col p {
+    margin: 8px 0;
+    color: #555;
+}
+
+.status-badge {
+    padding: 4px 12px;
+    border-radius: 15px;
+    font-size: 0.85em;
+    font-weight: bold;
+}
+
+.status-1 {
+    background-color: #ffc107;
+    color: #000;
+}
+
+.status-2 {
+    background-color: #28a745;
+    color: white;
+}
+
+.status-3 {
+    background-color: #dc3545;
+    color: white;
+}
+
+.status-4 {
+    background-color: #6c757d;
+    color: white;
+}

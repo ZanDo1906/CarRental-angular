@@ -6,8 +6,14 @@
         <div class="list-group-item">
             <div class="car-info">
                 <div class="car-images">
-                    <img *ngFor="let img of c.Anh_xe" [src]="img" [alt]="c.Hang_xe + ' ' + c.Dong_xe"
-                        class="car-image" />
+                    <!-- Kiểm tra xem Anh_xe là array hay string -->
+                    <ng-container *ngIf="Array.isArray(c.Anh_xe); else singleImage">
+                        <img *ngFor="let img of c.Anh_xe" [src]="img" [alt]="c.Hang_xe + ' ' + c.Dong_xe"
+                            class="car-image" />
+                    </ng-container>
+                    <ng-template #singleImage>
+                        <img [src]="c.Anh_xe" [alt]="c.Hang_xe + ' ' + c.Dong_xe" class="car-image" />
+                    </ng-template>
                 </div>
                 <div class="car-details">
                     <h4>{{c.Hang_xe}} {{c.Dong_xe}}</h4>
@@ -35,8 +41,39 @@
                     <p>📱 Phone: {{u.So_dien_thoai}}</p>
                     <p>🆔 CCCD: {{u.Can_cuoc_cong_dan}}</p>
                     <p>🚗 GPLX: {{u.Giay_phep_lai_xe}}</p>
-                    <p>👤 Vai trò: <span class="badge">{{u.Vai_tro}}</span></p>
+                    <p>👤 Vai trò: <span class="badge bg-info">{{getRoleName(u.Vai_tro)}}</span></p>
                     <p>⚠️ Vi phạm: {{u.So_lan_vi_pham}} lần</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Rentals Section -->
+<div class="container mt-5">
+    <h3>🚗 Danh Sách Đơn Thuê Xe</h3>
+    <div class="list-group" *ngFor="let r of rentals">
+        <div class="list-group-item">
+            <div class="rental-info">
+                <div class="rental-details">
+                    <h4>Đơn #{{r.Ma_don_thue}} - <span class="status-badge"
+                            [ngClass]="'status-' + r.Trang_thai">{{getRentalStatus(r.Trang_thai)}}</span></h4>
+                    <div class="rental-row">
+                        <div class="rental-col">
+                            <p><strong>👤 Người thuê:</strong> {{getUserName(r.Ma_nguoi_thue)}}</p>
+                            <p><strong>🏠 Người cho thuê:</strong> {{getCarOwnerName(r.Ma_xe)}}</p>
+                            <p><strong>🚘 Xe:</strong> {{getCarName(r.Ma_xe)}}</p>
+                            <p><strong>📍 Địa điểm nhận:</strong> {{getLocationAddress(r.Ma_vi_tri_nhan)}}</p>
+                            <p><strong>📍 Địa điểm trả:</strong> {{getLocationAddress(r.Ma_vi_tri_tra)}}</p>
+                        </div>
+                        <div class="rental-col">
+                            <p><strong>📅 Nhận xe:</strong> {{r.Ngay_nhan_xe}} lúc {{r.Gio_nhan_xe}}</p>
+                            <p><strong>📅 Trả xe:</strong> {{r.Ngay_tra_xe}} lúc {{r.Gio_tra_xe}}</p>
+                            <p><strong>⏱️ Tổng ngày thuê:</strong> {{r.Tong_ngay_thue}} ngày</p>
+                            <p><strong>💰 Tổng chi phí:</strong> {{r.Tong_chi_phi | currency:'VND':'symbol':'1.0-0'}}
+                            </p>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>

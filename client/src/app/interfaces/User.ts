@@ -1,13 +1,13 @@
 export interface iUser {
-    Ma_nguoi_dung: number;        // int
-    Ho_va_ten: string;            // String
-    So_dien_thoai: string;        // String
-    Email: string;                // String
-    Mat_khau: string;             // String
-    Can_cuoc_cong_dan: string;    // String
-    Giay_phep_lai_xe: string;     // String
-    Vai_tro: string;              // String (vd: "user", "admin", "owner")
-    Anh_dai_dien: string;         // String (đường dẫn ảnh)
-    Ngay_tao: string | Date;      // LocalDate (dạng "YYYY-MM-DD")
-    So_lan_vi_pham: number;       // int
+    Ma_nguoi_dung: number;
+    Ho_va_ten: string;
+    So_dien_thoai: string;
+    Email: string;
+    Mat_khau: string;
+    Vai_tro: string; // "1" thuê, "2" chủ xe, "3" admin
+    Anh_dai_dien: string;
+    Ngay_tao: string;
+    Can_cuoc_cong_dan?: string;    // chỉ có cho thuê & chủ xe
+    Giay_phep_lai_xe?: string;     // chỉ có cho thuê & chủ xe
+    So_lan_vi_pham?: number;       // chỉ có cho thuê & chủ xe
 }

@@ -1,6 +1,8 @@
 [
     {
         "Ma_xe": 1,
+        "Ma_nguoi_dung": 6,
+        "Ma_vi_tri": 1,
         "Giay_to_xe": "/assets/images/giaytoxe.webp",
         "Bien_so_xe": "51A-12345",
         "Anh_xe": [
@@ -27,6 +29,8 @@
     },
     {
         "Ma_xe": 2,
+        "Ma_vi_tri": 2,
+        "Ma_nguoi_dung": 7,
         "Giay_to_xe": "/assets/images/giaytoxe.webp",
         "Bien_so_xe": "51H-56789",
         "Anh_xe": [
@@ -39,7 +43,7 @@
         "Hang_xe": "Hyundai",
         "Dong_xe": "Accent",
         "Nhien_lieu": "Xăng",
-        "Mau_sac": "Đỏ",
+        "Mau_sac": "Bạc",
         "Hop_so": "Tự động",
         "So_km": 28000,
         "Muc_tieu_thu": 6.2,
@@ -53,8 +57,9 @@
     },
     {
         "Ma_xe": 3,
+        "Ma_vi_tri": 3,
+        "Ma_nguoi_dung": 8,
         "Giay_to_xe": "/assets/images/giaytoxe.webp",
-        "Bien_so_xe": "60A-88888",
         "Anh_xe": [
             "/assets/images/xe_Mazda3_2020_1.jpg",
             "/assets/images/xe_Mazda3_2020_2.jpg",
@@ -65,7 +70,7 @@
         "Hang_xe": "Mazda",
         "Dong_xe": "Mazda 3",
         "Nhien_lieu": "Xăng",
-        "Mau_sac": "Đen",
+        "Mau_sac": "Đỏ",
         "Hop_so": "Tự động",
         "So_km": 42000,
         "Muc_tieu_thu": 7.0,
@@ -79,6 +84,8 @@
     },
     {
         "Ma_xe": 4,
+        "Ma_vi_tri": 4,
+        "Ma_nguoi_dung": 9,
         "Giay_to_xe": "/assets/images/giaytoxe.webp",
         "Bien_so_xe": "72B-33456",
         "Anh_xe": [
@@ -91,7 +98,7 @@
         "Hang_xe": "Kia",
         "Dong_xe": "Morning",
         "Nhien_lieu": "Xăng",
-        "Mau_sac": "Bạc",
+        "Mau_sac": "Vàng",
         "Hop_so": "Số sàn",
         "So_km": 55000,
         "Muc_tieu_thu": 5.8,
@@ -105,6 +112,8 @@
     },
     {
         "Ma_xe": 5,
+        "Ma_vi_tri": 5,
+        "Ma_nguoi_dung": 10,
         "Giay_to_xe": "/assets/images/giaytoxe.webp",
         "Bien_so_xe": "50G-99999",
         "Anh_xe": [
@@ -117,7 +126,7 @@
         "Hang_xe": "Honda",
         "Dong_xe": "City",
         "Nhien_lieu": "Xăng",
-        "Mau_sac": "Bạc",
+        "Mau_sac": "Xám",
         "Hop_so": "Tự động",
         "So_km": 22000,
         "Muc_tieu_thu": 6.0,
@@ -131,6 +140,8 @@
     },
     {
         "Ma_xe": 6,
+        "Ma_vi_tri": 6,
+        "Ma_nguoi_dung": 10,
         "Giay_to_xe": "/assets/images/giaytoxe.webp",
         "Bien_so_xe": "43C-55667",
         "Anh_xe": [
@@ -157,6 +168,8 @@
     },
     {
         "Ma_xe": 7,
+        "Ma_vi_tri": 7,
+        "Ma_nguoi_dung": 9,
         "Giay_to_xe": "/assets/images/giaytoxe.webp",
         "Bien_so_xe": "51C-77889",
         "Anh_xe": [
@@ -169,7 +182,7 @@
         "Hang_xe": "Ford",
         "Dong_xe": "Ranger",
         "Nhien_lieu": "Dầu",
-        "Mau_sac": "Cam",
+        "Mau_sac": "Xanh đen",
         "Hop_so": "Số sàn",
         "So_km": 68000,
         "Muc_tieu_thu": 8.5,
@@ -183,6 +196,8 @@
     },
     {
         "Ma_xe": 8,
+        "Ma_vi_tri": 8,
+        "Ma_nguoi_dung": 6,
         "Giay_to_xe": "/assets/images/giaytoxe.webp",
         "Bien_so_xe": "30G-45678",
         "Anh_xe": [
@@ -209,6 +224,8 @@
     },
     {
         "Ma_xe": 9,
+        "Ma_vi_tri": 9,
+        "Ma_nguoi_dung": 6,
         "Giay_to_xe": "/assets/images/giaytoxe.webp",
         "Bien_so_xe": "64A-98765",
         "Anh_xe": [
@@ -221,7 +238,7 @@
         "Hang_xe": "Toyota",
         "Dong_xe": "Fortuner",
         "Nhien_lieu": "Dầu",
-        "Mau_sac": "Trắng",
+        "Mau_sac": "Trắng ngọc trai",
         "Hop_so": "Tự động",
         "So_km": 32000,
         "Muc_tieu_thu": 8.3,
