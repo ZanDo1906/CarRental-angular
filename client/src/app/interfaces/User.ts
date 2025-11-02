@@ -4,7 +4,7 @@ export interface iUser {
     So_dien_thoai: string;
     Email: string;
     Mat_khau: string;
-    Vai_tro: string; // "1" thuê, "2" chủ xe, "3" admin
+    Vai_tro: string; // "1" thuê, "2" chủ xe,  
     Anh_dai_dien: string;
     Ngay_tao: string;
     Can_cuoc_cong_dan?: string;    // chỉ có cho thuê & chủ xe

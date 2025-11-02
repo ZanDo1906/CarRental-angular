@@ -3,6 +3,7 @@ import { CarService } from '../../services/car';
 import { UserService } from '../../services/user';
 import { CarRental } from '../../services/car-rental';
 import { LocationService } from '../../services/location';
+import { AdminService } from '../../services/admin';
 import { CommonModule } from '@angular/common';
 import { NgForOf } from '@angular/common';
 
@@ -19,6 +20,7 @@ export class TestData implements OnInit {
   users: any;
   rentals: any;
   locations: any;
+  admins: any;
   Array = Array; // Expose Array to template
 
   constructor(
@@ -26,6 +28,7 @@ export class TestData implements OnInit {
     private _userService: UserService,
     private _rentalService: CarRental,
     private _locationService: LocationService,
+    private _adminService: AdminService,
     private cdr: ChangeDetectorRef
   ) { }
 
@@ -61,13 +64,20 @@ export class TestData implements OnInit {
         this.cdr.detectChanges();
       }
     });
+
+    // Load admins data
+    this._adminService.getAllAdmins().subscribe({
+      next: (data) => {
+        this.admins = data;
+        this.cdr.detectChanges();
+      }
+    });
   }
 
   getRoleName(role: string): string {
     switch (role) {
       case '1': return 'Người thuê';
       case '2': return 'Chủ xe';
-      case '3': return 'Quản trị viên';
       default: return role;
     }
   }
