@@ -8,7 +8,7 @@
         "Can_cuoc_cong_dan": "079203004512",
         "Giay_phep_lai_xe": "GPLX123456",
         "Vai_tro": "user",
-        "Anh_dai_dien": "./data/avatars/user_avt.jpg",
+        "Anh_dai_dien": "./assets/images/user_avt.jpg",
         "Ngay_tao": "2024-10-01",
         "So_lan_vi_pham": 0
     },
@@ -21,7 +21,7 @@
         "Can_cuoc_cong_dan": "023456789012",
         "Giay_phep_lai_xe": "GPLX654321",
         "Vai_tro": "user",
-        "Anh_dai_dien": "./data/avatars/user_avt.jpg",
+        "Anh_dai_dien": "./assets/images/user_avt.jpg",
         "Ngay_tao": "2024-10-03",
         "So_lan_vi_pham": 1
     },
@@ -34,7 +34,7 @@
         "Can_cuoc_cong_dan": "012345678999",
         "Giay_phep_lai_xe": "GPLX998877",
         "Vai_tro": "user",
-        "Anh_dai_dien": "./data/avatars/user_avt.jpg",
+        "Anh_dai_dien": "./assets/images/user_avt.jpg",
         "Ngay_tao": "2024-11-10",
         "So_lan_vi_pham": 0
     },
@@ -47,7 +47,7 @@
         "Can_cuoc_cong_dan": "043210987654",
         "Giay_phep_lai_xe": "GPLX445566",
         "Vai_tro": "user",
-        "Anh_dai_dien": "./data/avatars/user_avt.jpg",
+        "Anh_dai_dien": "./assets/images/user_avt.jpg",
         "Ngay_tao": "2024-12-01",
         "So_lan_vi_pham": 2
     },
@@ -60,7 +60,7 @@
         "Can_cuoc_cong_dan": "056789012345",
         "Giay_phep_lai_xe": "GPLX334455",
         "Vai_tro": "user",
-        "Anh_dai_dien": "./data/avatars/user_avt.jpg",
+        "Anh_dai_dien": "./assets/images/user_avt.jpg",
         "Ngay_tao": "2025-01-15",
         "So_lan_vi_pham": 0
     }

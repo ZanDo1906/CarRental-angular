@@ -1,19 +1,17 @@
-├── admin/                         ← Giao diện quản trị (dành cho chủ xe / admin)
+├── admin/                          
 │   ├── src/
 │   │   ├── app/
-│   │   │   ├── pages             ← Mỗi trang 1 folder riêng
+│   │   │   ├── pages             ← Mỗi trang  
 │   │   │   └── app-routing.module.ts
 │   │   │
-│   │   ├── assets/                ← Ảnh & dữ liệu 
+│   │   ├── assets/                ← Ảnh & dữ liệu (mọi người cần lưu trữ ảnh khi code thì bỏ vô đây)
 │   │   │   ├── data/
-│   │   │   │   ├── Car.json
-│   │   │   │   ├── User.json
-│   │   │   │   └── Booking.json
-│   │   │   └── images/
+│   │   │   │   ├── Car.json -> xe nè
+│   │   │   │   ├── User.json -> người dùng
+│   │   │   └── images/ -> cái này là để lưu trữ ảnh đi kèm với data (đừng có đụng zô)
 │   │   │       ├── xe1.jpg
 │   │   │       ├── xe2.jpg
 │   │   │       ├── user_avt.jpg
-│   │   │       └── logo.png
 │   │   │
 │   │   ├── index.html
 │   │   └── styles.css
@@ -27,20 +25,20 @@
 │   │   │   ├── pages
 │   │   │   └── app-routing.module.ts
 │   │   │
-│   │   ├── assets/                ← 💾 Dữ liệu & ảnh demo  
+│   │   ├── assets/                ← Ảnh & dữ liệu (mọi người cần lưu trữ ảnh khi code thì bỏ vô đây)
 │   │   │   ├── data/
-│   │   │   │   ├── Car.json
-│   │   │   │   ├── User.json
-│   │   │   │   └── Booking.json
-│   │   │   └── images/
+│   │   │   │   ├── Car.json -> xe nè
+│   │   │   │   ├── User.json -> người dùng
+│   │   │   └── images/ -> cái này là để lưu trữ ảnh đi kèm với data (đừng có đụng zô)
 │   │   │       ├── xe1.jpg
 │   │   │       ├── xe2.jpg
 │   │   │       ├── user_avt.jpg
-│   │   │       └── logo.png
 │   │   │
 │   │   ├── index.html
 │   │   └── styles.css
 │   │
 │   └── angular.json
 │
-└── README.md                      ← Hướng dẫn cho nhóm (leader ghi sẵn)
+└── README.md                   
+
+

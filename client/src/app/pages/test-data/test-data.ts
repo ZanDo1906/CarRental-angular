@@ -1,5 +1,6 @@
 import { Component, OnInit, ChangeDetectorRef } from '@angular/core';
 import { CarService } from '../../services/car';
+import { UserService } from '../../services/user';
 import { CommonModule } from '@angular/common';
 import { NgForOf } from '@angular/common';
 
@@ -13,12 +14,27 @@ import { NgForOf } from '@angular/common';
 })
 export class TestData implements OnInit {
   cars: any;
-  constructor(private _carService: CarService, private cdr: ChangeDetectorRef) { }
+  users: any;
+
+  constructor(
+    private _carService: CarService,
+    private _userService: UserService,
+    private cdr: ChangeDetectorRef
+  ) { }
 
   ngOnInit(): void {
+    // Load cars data
     this._carService.getAllCars().subscribe({
       next: (data) => {
         this.cars = data;
+        this.cdr.detectChanges();
+      }
+    });
+
+    // Load users data
+    this._userService.getAllUsers().subscribe({
+      next: (data) => {
+        this.users = data;
         this.cdr.detectChanges();
       }
     });

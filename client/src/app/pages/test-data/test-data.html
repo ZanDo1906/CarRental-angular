@@ -3,7 +3,41 @@
 <div class="container">
     <h3>Car List</h3>
     <div class="list-group" *ngFor="let c of cars">
-        <div class="list-group-item">{{c.Hang_xe}} {{c.Dong_xe}} >> {{c.Gia_thue | currency:'VND':'symbol':'1.0-0'}}
+        <div class="list-group-item">
+            <div class="car-info">
+                <div class="car-images">
+                    <img [src]="c.Anh_xe" [alt]="c.Hang_xe + ' ' + c.Dong_xe" class="car-image" />
+                    <img [src]="c.Giay_to_xe" [alt]="'Giấy tờ xe ' + c.Hang_xe" class="document-image" />
+                </div>
+                <div class="car-details">
+                    <h4>{{c.Hang_xe}} {{c.Dong_xe}}</h4>
+                    <p>Biển số: {{c.Bien_so_xe}}</p>
+                    <p>Màu sắc: {{c.Mau_sac}}</p>
+                    <p>Số chỗ: {{c.So_cho}}</p>
+                    <p class="price">Giá thuê: {{c.Gia_thue | currency:'VND':'symbol':'1.0-0'}}</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Users Section -->
+<div class="container mt-5">
+    <h3>User List từ Local JSON</h3>
+    <div class="list-group" *ngFor="let u of users">
+        <div class="list-group-item">
+            <div class="user-info">
+                <img [src]="u.Anh_dai_dien" [alt]="u.Ho_va_ten" class="user-avatar" />
+                <div class="user-details">
+                    <h4>{{u.Ho_va_ten}}</h4>
+                    <p>📧 Email: {{u.Email}}</p>
+                    <p>📱 Phone: {{u.So_dien_thoai}}</p>
+                    <p>🆔 CCCD: {{u.Can_cuoc_cong_dan}}</p>
+                    <p>🚗 GPLX: {{u.Giay_phep_lai_xe}}</p>
+                    <p>👤 Vai trò: <span class="badge">{{u.Vai_tro}}</span></p>
+                    <p>⚠️ Vi phạm: {{u.So_lan_vi_pham}} lần</p>
+                </div>
+            </div>
         </div>
     </div>
 </div>
