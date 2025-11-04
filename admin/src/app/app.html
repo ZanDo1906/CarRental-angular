@@ -1,11 +1,14 @@
-<div class="container mt-5">
-    <button class="btn btn-primary">Click me</button>
+<div class="app-container">
+  <app-header></app-header>
+
+  <div class="main-layout">
+    <app-side-bar></app-side-bar>
+
+    <main class="app-content">
+      <router-outlet></router-outlet>
+    </main>
+  </div>
+
+  <app-footer></app-footer>
 </div>
 
-<div class="text-center mt-3">
-    <i class="bi bi-alarm" style="font-size: 2rem; color: red;"></i>
-    <i class="bi bi-car-front" style="font-size: 2rem; color: blue;"></i>
-</div>
-
-<!-- <app-dashboard></app-dashboard> -->
-<app-test-data></app-test-data>

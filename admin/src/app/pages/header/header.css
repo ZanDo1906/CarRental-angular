@@ -1,0 +1,61 @@
+.tc-logo{ width:100px; height:auto; object-fit:contain; }
+.text-teal{ color:#1D7363; }
+
+.navbar {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 1000;
+  background-color: rgba(255, 255, 255, 0.95);
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  transition: all 0.3s ease;
+}
+
+/* Thêm padding-top cho body để tránh content bị che bởi fixed header */
+body {
+  padding-top: 80px;
+}
+
+/* Hiệu ứng thu nhỏ header khi scroll */
+.navbar.scrolled {
+  padding-top: 0.5rem;
+  padding-bottom: 0.5rem;
+  background-color: rgba(255, 255, 255, 0.98);
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+/* Styles cho phần header đã đăng nhập */
+.user-menu-container {
+  position: relative;
+}
+
+.user-avatar {
+  width: 40px;
+  height: 40px;
+  object-fit: cover;
+  /* border: 2px solid #1D7363; */
+}
+
+.user-name {
+  font-weight: 500;
+  color: black;
+}
+
+.cursor-pointer {
+  cursor: pointer;
+}
+
+/* Style cho icons */
+.nav-link i {
+  font-size: 1.2rem;
+  color: #1D7363;
+}
+
+/* Badge thông báo */
+.badge {
+  font-size: 0.65rem;
+  padding: 0.25em 0.5em;
+  background-color: #dc3545;
+  border: 2px solid #fff;
+}

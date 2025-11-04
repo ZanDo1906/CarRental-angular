@@ -1,0 +1,59 @@
+<main class="main-content">
+  
+  <h2>Duyệt đơn đăng ký xe ({{ cars().length }})</h2>
+
+  <div class="card-list">
+    
+    <div *ngFor="let car of displayedCars()" class="approval-card">
+
+      <div class="card-content-wrapper">
+        <div class="card-image">
+          <img [src]="car.Anh_xe[0]" [alt]="car.Hang_xe + ' ' + car.Dong_xe" (error)="onImageError($event)">
+        </div>
+        <div class="card-details">
+          <h3>{{ car.Hang_xe | uppercase }} {{ car.Dong_xe | uppercase }} {{ car.Nam_san_xuat }}</h3>
+          <p><span class="label">Địa điểm:</span> <span class="value"> {{ car.Vi_tri }}</span></p>
+          <p><span class="label">Số xe:</span> <span class="value"> {{ car.Bien_so_xe }}</span></p>
+          <p><span class="label">Loại xe:</span> <span class="value"> {{ car.Dong_xe }}</span></p>
+          <p><span class="label">Số km đã đi:</span> <span class="value"> {{ formatNumber(car.So_km) }} km</span></p>
+          <p><span class="label">Đơn giá thuê:</span> <span class="value price" style="color: #1D7363"> {{ formatCurrencyShort(car.Gia_thue) }}đ/ngày</span></p>
+          <p><span class="label">Màu sắc:</span> <span class="value"> {{ car.Mau_sac }}</span></p>
+        </div>
+      </div>
+      
+      <div class="card-actions">
+        <button (click)="onAction('detail', car)" class="btn btn-detail">Xem chi tiết</button>
+        <button (click)="onAction('approve', car)" class="btn btn-approve">Duyệt xe</button>
+        <button (click)="onAction('reject', car)" class="btn btn-outline-danger">Từ chối</button>
+      </div>
+
+    </div>
+
+    <nav aria-label="Page navigation" class="d-flex justify-content-end mt-3" *ngIf="totalPages() > 1">
+      <ul class="pagination">
+        
+        <li class="page-item" [class.disabled]="currentPage() === 1">
+          <a class="page-link" (click)="prevPage()" href="javascript:void(0)" aria-label="Previous">
+            <i class="bi bi-chevron-left"></i>
+          </a>
+        </li>
+        
+        <li *ngFor="let page of totalPagesArray()" 
+            class="page-item" 
+            [class.active]="page === currentPage()">
+          <a class="page-link" (click)="goToPage(page)" href="javascript:void(0)">
+            {{ page }}
+          </a>
+        </li>
+        
+        <li class="page-item" [class.disabled]="currentPage() === totalPages()">
+          <a class="page-link" (click)="nextPage()" href="javascript:void(0)" aria-label="Next">
+            <i class="bi bi-chevron-right"></i>
+          </a>
+        </li>
+
+      </ul>
+    </nav>
+  </div>
+
+</main>
