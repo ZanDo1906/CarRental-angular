@@ -1,0 +1,57 @@
+<!-- Sign Up Modal -->
+<div class="modal fade" id="signUpModal" tabindex="-1" aria-labelledby="signUpModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered">
+    <div class="modal-content login-modal">
+      <div class="modal-header border-0">
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body px-4 pb-4">
+        <h3 class="topic">Đăng ký</h3>
+
+        <div class="form-row">
+          <label for="email" class="form-label">Email</label>
+          <input type="email" id="email" class="form-control" placeholder="Nhập email" [(ngModel)]="email" autocomplete="email">
+        </div>
+
+        <div class="form-row">
+          <label for="hoten" class="form-label">Họ và tên</label>
+          <input type="text" id="hoten" class="form-control" placeholder="Nhập họ và tên" [(ngModel)]="hoTen" autocomplete="name">
+        </div>
+
+        <div class="form-row">
+          <label for="sdt_dk" class="form-label">Số điện thoại</label>
+          <input type="text" id="sdt_dk" class="form-control" placeholder="Nhập số điện thoại" [(ngModel)]="phoneNumber" autocomplete="username">
+        </div>
+
+        <div class="form-row">
+          <label for="matkhau_dk" class="form-label">Mật khẩu</label>
+          <div class="password-container">
+            <input type="password" id="matkhau_dk" class="form-control" placeholder="Nhập mật khẩu" [(ngModel)]="password" autocomplete="new-password">
+            <i class="bi bi-eye" id="togglePassword_dk" (click)="togglePassword('matkhau_dk','togglePassword_dk')"></i>
+          </div>
+        </div>
+
+        <div class="form-row">
+          <label for="matkhau2_dk" class="form-label">Nhập lại mật khẩu</label>
+          <div class="password-container">
+            <input type="password" id="matkhau2_dk" class="form-control" placeholder="Nhập lại mật khẩu" [(ngModel)]="confirmPassword" (keyup.enter)="onRegister()" autocomplete="new-password">
+            <i class="bi bi-eye" id="togglePassword2_dk" (click)="togglePassword('matkhau2_dk','togglePassword2_dk')"></i>
+          </div>
+        </div>
+
+        <div class="check">
+          <label>
+            <input type="checkbox" [(ngModel)]="agreed" />
+            Tôi đã đọc và đồng ý với Chính sách & Quy định.
+          </label>
+        </div>
+
+        <div *ngIf="errorMessage" class="alert alert-danger" role="alert">
+          {{ errorMessage }}
+        </div>
+
+        <button class="btn btn-primary" (click)="onRegister()">Đăng ký</button>
+      </div>
+    </div>
+  </div>
+</div>

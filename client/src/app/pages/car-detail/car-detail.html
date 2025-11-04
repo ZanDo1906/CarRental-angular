@@ -1,25 +1,26 @@
-<div class="container car-detail-page" *ngIf="car; else loading">
+<div class="tc-container py-4" *ngIf="car; else loading">
   
-  <!-- Main Content Grid -->
-  <div class="detail-layout">
+  <div class="container">
     
-    <!-- Left Column: Gallery -->
+    <!-- Gallery Section - Full Width -->
     <div class="gallery-section">
-      <div class="main-image">
-        <img [src]="hero || car?.Anh_xe?.[0] || 'assets/images/placeholder.webp'" 
+      <div class="main-image" (click)="openLightbox(0)">
+        <img [src]="car?.Anh_xe?.[0] || 'assets/images/placeholder.webp'" 
              [alt]="car.Hang_xe + ' ' + car.Dong_xe">
       </div>
       <div class="thumbnail-grid">
-        <img *ngFor="let img of car?.Anh_xe?.slice(1, 4)" 
+        <img *ngFor="let img of car?.Anh_xe?.slice(1, 4); let i = index" 
              [src]="img" 
              [alt]="car.Hang_xe"
-             (click)="setHero(img)"
-             [class.active]="img === hero">
+             (click)="openLightbox(i + 1)">
       </div>
     </div>
 
-    <!-- Right Column: Info -->
-    <div class="info-section">
+    <!-- Main Content Grid: 2 columns (Info + Price Card) -->
+    <div class="detail-layout">
+      
+      <!-- Left Column: Car Info -->
+      <div class="info-section">
       <!-- Header -->
       <div class="car-header">
         <div class="title-row">
@@ -167,20 +168,91 @@
           </div>
         </div>
       </div>
-    </div>
-  </div>
-
-  <!-- Price & Booking Card (Fixed) -->
-  <div class="booking-card">
-    <div class="price-info">
-      <div class="price-amount">{{vnd(car.Gia_thue)}}<span class="price-unit">/ngày</span></div>
-      <div class="location-info">
-        <i class="bi bi-geo-alt-fill"></i>
-        <span>{{ getLocationAddress(car.Ma_vi_tri) }}</span>
       </div>
+      
+      <!-- Right Column: Booking Card -->
+      <div class="booking-card">
+        <div class="booking-header">
+          <h2 class="booking-price">{{vnd(car.Gia_thue)}}<span class="price-unit">/ngày</span></h2>
+        </div>
+
+        <!-- Thời gian thuê/trả -->
+        <div class="datetime-section">
+          <div class="datetime-group">
+            <label class="datetime-label">Thời gian nhận</label>
+            <input type="datetime-local" class="datetime-input">
+          </div>
+          <div class="datetime-group">
+            <label class="datetime-label">Thời gian trả</label>
+            <input type="datetime-local" class="datetime-input">
+          </div>
+        </div>
+
+        <!-- Điểm giao nhận xe -->
+        <div class="pickup-section">
+          <h4 class="section-label">Điểm giao nhận xe</h4>
+          <div class="checkbox-group">
+            <label class="checkbox-item">
+              <input type="checkbox" checked>
+              <span>Nhận xe tại vị trí xe</span>
+            </label>
+            <label class="checkbox-item">
+              <input type="checkbox">
+              <span>Giao xe tận nơi</span>
+            </label>
+          </div>
+        </div>
+
+        <!-- Chi phí thuê xe -->
+        <div class="cost-breakdown">
+          <div class="cost-row">
+            <span class="cost-label">Đơn giá thuê:</span>
+            <span class="cost-value">{{vnd(car.Gia_thue)}}/ngày</span>
+          </div>
+          <div class="cost-row">
+            <span class="cost-label">Bảo hiểm thuê xe:</span>
+            <span class="cost-value">50.000 vnd/ngày</span>
+          </div>
+          <div class="cost-row total-before">
+            <span class="cost-label">Tổng tiền:</span>
+            <span class="cost-value">{{vnd((car.Gia_thue || 0) + 50000)}} vnd</span>
+          </div>
+          <div class="cost-row">
+            <span class="cost-label">Giảm giá:</span>
+            <span class="cost-value text-muted">Nhập mã giảm giá</span>
+          </div>
+          <div class="cost-row">
+            <span class="cost-label">Thuế VAT:</span>
+            <span class="cost-value">50.000 vnd</span>
+          </div>
+          <div class="cost-row total">
+            <span class="cost-label">THÀNH TIỀN:</span>
+            <span class="cost-value">{{vnd((car.Gia_thue || 0) + 100000)}} vnd</span>
+          </div>
+        </div>
+
+        <!-- Nút thuê xe -->
+        <button class="btn-rent">Thuê xe</button>
+
+        <!-- Các chi phí khác -->
+        <div class="other-fees">
+          <h4 class="section-label">Các chi phí khác</h4>
+          <div class="fee-item">
+            <span class="fee-label">Phụ phí xăng:</span>
+            <span class="fee-value">30.000 vnd/lít</span>
+          </div>
+          <p class="fee-note">Trustcar chi trả khi vạch xăng thấp hơn lúc nhận xe. Trả lại cùng vạch xăng như lúc nhận xe thì không phải trả phí này.</p>
+          
+          <div class="fee-item">
+            <span class="fee-label">Phí vệ sinh:</span>
+            <span class="fee-value">120.000 vnd - 150.000 vnd</span>
+          </div>
+          <p class="fee-note">Vui lòng trả lại xe trong trạng thái vệ sinh như lúc nhận xe để không mất phí này.</p>
+        </div>
+      </div>
+
     </div>
-    <button class="btn-rent">Thuê xe</button>
-  </div>
+    <!-- End detail-layout -->
 
   <!-- Chủ xe section -->
   <div class="owner-section">
@@ -237,8 +309,33 @@
         </div>
       </div>
     </div>
+    
+    </div>
+    <!-- End detail-layout -->
   </div>
+  <!-- End Container -->
 
+</div>
+<!-- End car-detail-page -->
+
+<!-- Lightbox Modal -->
+<div class="lightbox-overlay" *ngIf="showLightbox" (click)="closeLightbox()">
+  <button class="lightbox-close" (click)="closeLightbox()">
+    <i class="bi bi-x-lg"></i>
+  </button>
+  
+  <button class="lightbox-prev" (click)="prevImage($event)" *ngIf="car?.Anh_xe?.length > 1">
+    <i class="bi bi-chevron-left"></i>
+  </button>
+  
+  <div class="lightbox-content" (click)="$event.stopPropagation()">
+    <img [src]="car?.Anh_xe?.[currentImageIndex]" [alt]="car.Hang_xe + ' ' + car.Dong_xe">
+    <div class="lightbox-counter">{{currentImageIndex + 1}} / {{car?.Anh_xe?.length}}</div>
+  </div>
+  
+  <button class="lightbox-next" (click)="nextImage($event)" *ngIf="car?.Anh_xe?.length > 1">
+    <i class="bi bi-chevron-right"></i>
+  </button>
 </div>
 
 <ng-template #loading>
