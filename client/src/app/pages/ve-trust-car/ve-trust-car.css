@@ -3,9 +3,9 @@ body {
 }
 
 .first {
+    padding: 20px 0;
     text-align: center;
     display: flex;
-    padding: 40px;
     gap: 20px;
 }
 
@@ -33,9 +33,9 @@ body {
 }
 
 .second {
+    padding: 20px 0;
     text-align: center;
     display: flex;
-    padding: 40px;
     gap: 20px;
     opacity: 0; 
     transition: opacity 0.8s ease-out;
@@ -75,22 +75,21 @@ body {
 }
 
 h3 {
+    padding: 20px 15px 0;
     font-size: 25px;
     font-family: 'Montserrat';
     font-weight: bold;
     color: #1D7363;
     text-align: center;
-    padding-top: 20px;
 }
 
 .thirth {
     text-align: center;
     display: flex;
-    max-width: 900px;
     background-color: rgb(235, 235, 235);
     border-radius: 20px;
     overflow: hidden;
-    margin: 20px auto;
+    margin: 20px 0px;
 }
 
 
@@ -131,11 +130,10 @@ h3 {
 .fourth {
     text-align: center;
     display: flex;
-    max-width: 900px;
     background-color: rgb(235, 235, 235);
     border-radius: 20px;
     overflow: hidden;
-    margin: 20px auto;
+    margin: 20px 0;
 }
 
 
