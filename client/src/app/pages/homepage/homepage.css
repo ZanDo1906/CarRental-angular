@@ -130,6 +130,16 @@
     font-family: 'Inter';
     font-size: 16px;
 }
+.btn.btn-primary:hover {
+    background-color: #176557 !important;
+    border-color: #176557 !important;
+    box-shadow: 0 8px 16px rgba(29, 115, 99, 0.32);
+}
+
+.btn.btn-primary:active {
+    transform: translateY(1px);
+    box-shadow: 0 4px 8px rgba(29, 115, 99, 0.2);
+}
 
 @media (max-width: 768px) {
     .first-content h1 {
