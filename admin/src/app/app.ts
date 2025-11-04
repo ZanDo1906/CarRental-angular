@@ -1,12 +1,11 @@
 import { Component, signal } from '@angular/core';
-import { TestData } from "./pages/test-data/test-data";
-import { JsonPipe } from '@angular/common';
+import { Dashboard } from "./pages/dashboard/dashboard";
 
 
 @Component({
   selector: 'app-root',
   standalone: true,
-  imports: [TestData, JsonPipe],
+  imports: [Dashboard],
   templateUrl: './app.html',
   styleUrl: './app.css'
 })
