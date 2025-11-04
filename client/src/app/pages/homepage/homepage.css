@@ -1,59 +1,102 @@
-/* === CSS CHO KHỐI HERO MỚI (Cập nhật) === */
+/* === CSS CHO KHỐI HERO MỚI (Cập nhật giao diện mới) === */
 
 .hero-section {
-  position: relative; /* Quan trọng để căn chỉnh các lớp con */
+  position: relative;
   height: 80vh; /* Cao 80% chiều cao màn hình */
   display: flex;
   justify-content: center;
   align-items: center;
   text-align: center;
-  color: white;
-  overflow: hidden; /* Ngăn ảnh bị tràn nếu có lỗi */
+  color: white; /* Màu chữ chung là trắng */
+  overflow: hidden; 
 }
 
-/* 1. Style cho ảnh nền (thẻ <img>) */
+/* Style cho ảnh nền (thẻ <img>) */
 .hero-background-image {
   position: absolute;
   top: 0;
   left: 0;
   width: 100%;
   height: 100%;
-  object-fit: cover; /* Đảm bảo ảnh phủ đầy, không bị méo */
-  z-index: 1; /* Nằm lớp dưới cùng */
+  object-fit: cover; 
+  z-index: 1; 
 }
 
-/* 2. Style cho lớp phủ đen mờ */
+/* Style cho lớp phủ đen mờ */
 .hero-overlay {
   position: absolute;
   top: 0;
   left: 0;
   width: 100%;
   height: 100%;
-  background-color: rgba(0, 0, 0, 0.4); /* Mờ 40% */
-  z-index: 2; /* Nằm trên ảnh */
+  background-color: rgba(0, 0, 0, 0.5); /* Mờ 50% để chữ rõ hơn */
+  z-index: 2; 
 }
 
-/* 3. Style cho nội dung (chữ) */
+/* Style cho nội dung (chữ) */
 .hero-content {
-  position: relative; /* Hoặc 'absolute' cũng được */
-  z-index: 3; /* Nằm trên cùng, trên cả lớp phủ */
+  position: relative; 
+  z-index: 3; 
   padding: 20px;
+  max-width: 900px; /* Giới hạn chiều rộng của nội dung chữ */
+  margin: 0 auto;
 }
 
 .hero-content h1 {
-  font-family: 'Montserrat', sans-serif;
-  font-size: 3.5rem;
-  font-weight: 700;
+  font-family: 'Montserrat', sans-serif; /* Giữ font Montserrat */
+  font-size: 3.8rem; /* Cỡ chữ to hơn */
+  font-weight: 900; /* Rất đậm */
+  letter-spacing: 2px; /* Tăng khoảng cách chữ */
+  text-transform: uppercase; /* Chữ in hoa */
   margin-bottom: 20px;
+  /* Hiệu ứng stroke (viền chữ trắng mờ) */
+  -webkit-text-stroke: 1px rgba(255, 255, 255, 0.5); 
+  text-stroke: 1px rgba(255, 255, 255, 0.5);
+  color: transparent; /* Nội dung chữ trong suốt để chỉ thấy viền */
+}
+
+/* Style cho đường kẻ trắng */
+.divider {
+  width: 300px; /* Chiều rộng đường kẻ */
+  height: 2px; /* Độ dày đường kẻ */
+  background-color: white;
+  margin: 20px auto; /* Căn giữa và khoảng cách */
 }
 
 .hero-content p {
-  font-family: 'Inter', sans-serif;
-  font-size: 1.25rem;
-  font-weight: 300;
+  font-family: 'Inter', sans-serif; /* Giữ font Inter */
+  font-size: 1.4rem; /* Cỡ chữ to hơn chút */
+  font-weight: 400;
+  margin-top: 20px;
 }
 
+/* Style cho riêng số */
 .hero-content #customer-count {
-  font-weight: 700;
-  color: #4ac8ff;
+  font-weight: 700; 
+  color: #4ac8ff; /* Màu xanh nhạt */
+}
+
+/* Thêm hiệu ứng responsive cho cỡ chữ to */
+@media (max-width: 768px) {
+  .hero-content h1 {
+    font-size: 2.5rem;
+  }
+  .hero-content p {
+    font-size: 1rem;
+  }
+  .divider {
+    width: 200px;
+  }
+}
+
+@media (max-width: 480px) {
+  .hero-content h1 {
+    font-size: 1.8rem;
+  }
+  .hero-content p {
+    font-size: 0.9rem;
+  }
+  .divider {
+    width: 150px;
+  }
 }
