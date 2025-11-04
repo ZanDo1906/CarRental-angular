@@ -1,18 +1,16 @@
-/* === CSS CHO KHỐI HERO MỚI (Cập nhật giao diện mới) === */
-
-.hero-section {
+.first {
   position: relative;
-  height: 80vh; /* Cao 80% chiều cao màn hình */
+  height: 500px;
   display: flex;
   justify-content: center;
   align-items: center;
   text-align: center;
-  color: white; /* Màu chữ chung là trắng */
+  color: rgb(255, 255, 255); 
   overflow: hidden; 
 }
 
-/* Style cho ảnh nền (thẻ <img>) */
-.hero-background-image {
+
+.first-background-image {
   position: absolute;
   top: 0;
   left: 0;
@@ -22,37 +20,32 @@
   z-index: 1; 
 }
 
-/* Style cho lớp phủ đen mờ */
-.hero-overlay {
+.first-overlay {
   position: absolute;
   top: 0;
   left: 0;
   width: 100%;
   height: 100%;
-  background-color: rgba(0, 0, 0, 0.5); /* Mờ 50% để chữ rõ hơn */
+  background-color: rgba(0, 0, 0, 0.5); 
   z-index: 2; 
 }
 
-/* Style cho nội dung (chữ) */
-.hero-content {
+
+.first-content {
   position: relative; 
   z-index: 3; 
   padding: 20px;
-  max-width: 900px; /* Giới hạn chiều rộng của nội dung chữ */
+  max-width: 900px; 
   margin: 0 auto;
 }
 
-.hero-content h1 {
-  font-family: 'Montserrat', sans-serif; /* Giữ font Montserrat */
-  font-size: 3.8rem; /* Cỡ chữ to hơn */
-  font-weight: 900; /* Rất đậm */
-  letter-spacing: 2px; /* Tăng khoảng cách chữ */
-  text-transform: uppercase; /* Chữ in hoa */
+.first-content h1 {
+  font-family: 'Montserrat';
+  font-size: 60px; 
+  font-weight: 900; 
+  letter-spacing: 2px; 
+  text-transform: uppercase; 
   margin-bottom: 20px;
-  /* Hiệu ứng stroke (viền chữ trắng mờ) */
-  -webkit-text-stroke: 1px rgba(255, 255, 255, 0.5); 
-  text-stroke: 1px rgba(255, 255, 255, 0.5);
-  color: transparent; /* Nội dung chữ trong suốt để chỉ thấy viền */
 }
 
 /* Style cho đường kẻ trắng */
@@ -63,7 +56,7 @@
   margin: 20px auto; /* Căn giữa và khoảng cách */
 }
 
-.hero-content p {
+.first-content p {
   font-family: 'Inter', sans-serif; /* Giữ font Inter */
   font-size: 1.4rem; /* Cỡ chữ to hơn chút */
   font-weight: 400;
@@ -71,17 +64,17 @@
 }
 
 /* Style cho riêng số */
-.hero-content #customer-count {
+.first-content #customer-count {
   font-weight: 700; 
   color: #4ac8ff; /* Màu xanh nhạt */
 }
 
 /* Thêm hiệu ứng responsive cho cỡ chữ to */
 @media (max-width: 768px) {
-  .hero-content h1 {
+  .first-content h1 {
     font-size: 2.5rem;
   }
-  .hero-content p {
+  .first-content p {
     font-size: 1rem;
   }
   .divider {
@@ -90,13 +83,31 @@
 }
 
 @media (max-width: 480px) {
-  .hero-content h1 {
+  .first-content h1 {
     font-size: 1.8rem;
   }
-  .hero-content p {
+  .first-content p {
     font-size: 0.9rem;
   }
   .divider {
     width: 150px;
   }
+}
+
+/* Filter box theo ảnh mẫu */
+.filter-box{
+  border:2px solid #1D7363;
+  border-radius:15px;
+  background:#fff;
+  padding:16px 18px;
+  margin-bottom:18px;
+}
+
+.filter-label{
+  display:block; font-size:12px; color:#1D7363; margin-bottom:4px; font-weight:600;
+}
+
+.fields-center { justify-content: center; }
+.field-input {
+  width: 260px;       
 }
