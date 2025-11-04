@@ -1,5 +1,9 @@
 .tc-logo{ width:100px; height:auto; object-fit:contain; }
-.text-teal{ color:#1D7363; }
+
+.brand-text {
+  font-family: 'Montserrat', 'Inter', sans-serif;
+  color: #1D7363;
+}
 
 .navbar {
   position: fixed;
@@ -8,7 +12,6 @@
   right: 0;
   z-index: 1000;
   background-color: rgba(255, 255, 255, 0.95);
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
   transition: all 0.3s ease;
 }
 

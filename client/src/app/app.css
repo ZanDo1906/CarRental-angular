@@ -7,3 +7,13 @@ html, body { height: 100%; }
 .app-main{ flex: 1 0 auto; }     /* phần nội dung chiếm chỗ đẩy footer xuống đáy */
 app-footer, .tc-footer{ flex: 0 0 auto; }
 
+/* Typography: Inter as app default, Montserrat for TRUSTCAR brand */
+body {
+  font-family: 'Inter', system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+  color: #000; /* default text color black */
+}
+.brand-text {
+  font-family: 'Montserrat', 'Inter', sans-serif;
+  color:#1D7363 ;
+}
+

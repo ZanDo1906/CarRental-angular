@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, AfterViewInit, HostListener, Renderer2 } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterModule } from '@angular/router';
 import { iUser } from '../../interfaces/User';
@@ -10,22 +10,36 @@ import { iUser } from '../../interfaces/User';
   styleUrl: './header.css',
   standalone: true
 })
-export class Header {
-  isLoggedIn: boolean = false;  // Luôn true để xem giao diện đã đăng nhập
-  currentUser: iUser = {
-    Ma_nguoi_dung: 1,
-    Ho_va_ten: "Nguyen Van An",
-    So_dien_thoai: "0912345678",
-    Email: "an.nguyen@gmail.com",
-    Mat_khau: "123456",
-    Can_cuoc_cong_dan: "079203004512",
-    Giay_phep_lai_xe: "GPLX123456",
-    Vai_tro: "1",
-    Anh_dai_dien: "./assets/images/user_avt.jpg",
-    Ngay_tao: "2024-10-01",
-    So_lan_vi_pham: 0
-  };
+export class Header implements AfterViewInit {
+  isLoggedIn: boolean = false;  // default: not logged in
+  currentUser: iUser | null = null;
   showUserMenu: boolean = false;
+
+  constructor(private renderer: Renderer2) {}
+
+  ngAfterViewInit(): void {
+    // Ensure body padding equals navbar height to avoid overlap
+    this.adjustBodyPadding();
+    // small defensive re-run to handle fonts/loading
+    setTimeout(() => this.adjustBodyPadding(), 50);
+  }
+
+  @HostListener('window:resize')
+  onWindowResize() {
+    this.adjustBodyPadding();
+  }
+
+  private adjustBodyPadding() {
+    try {
+      const navbar = document.querySelector('.navbar') as HTMLElement | null;
+      if (navbar) {
+        const h = navbar.offsetHeight;
+        document.body.style.paddingTop = h + 'px';
+      }
+    } catch (e) {
+      // ignore
+    }
+  }
 
   toggleUserMenu() {
     this.showUserMenu = !this.showUserMenu;

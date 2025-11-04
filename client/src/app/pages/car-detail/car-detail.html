@@ -1,0 +1,41 @@
+<div class="car-detail-container">
+  <button class="btn-back" (click)="goBack()">← Quay lại</button>
+
+  <div *ngIf="car; else loading">
+    <div class="detail-grid">
+      <div class="gallery">
+        <img class="hero" [src]="hero || car?.Anh_xe?.[0] || 'assets/images/placeholder.webp'" alt="{{car.Hang_xe}} {{car.Dong_xe}}">
+        <div class="thumbs">
+          <img *ngFor="let img of car?.Anh_xe; let i = index"
+               [src]="img" [alt]="car.Hang_xe + ' ' + car.Dong_xe + ' - ' + i"
+               (click)="setHero(img)" [class.active]="img===hero">
+        </div>
+      </div>
+
+      <div class="info">
+        <div class="specs">
+          <span class="badge"><i class="bi bi-gear"></i> {{car.Hop_so}}</span>
+          <span class="badge"><i class="bi bi-people"></i> {{car.So_cho}} chỗ</span>
+          <span class="badge"><i class="bi bi-fuel-pump"></i> {{car.Nhien_lieu}}</span>
+          <span class="badge" *ngIf="car.Ma_vi_tri"><i class="bi bi-geo-alt"></i> {{ getLocationAddress(car.Ma_vi_tri) }}</span>
+        </div>
+
+        <p class="description">{{car.Mo_ta}}</p>
+
+        <div class="meta-row">
+          <div class="price"><strong>{{ vnd(car.Gia_thue) }}</strong> /ngày</div>
+          <div class="rating">⭐ {{car.Diem_danh_gia}} ({{car.So_luot_danh_gia || 0}})</div>
+        </div>
+
+        <div class="actions">
+          <button class="btn-primary">Đặt ngay</button>
+          <button class="btn-outline" (click)="contactOwner()">Liên hệ chủ xe</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <ng-template #loading>
+    <p>Đang tải chi tiết xe…</p>
+  </ng-template>
+</div>

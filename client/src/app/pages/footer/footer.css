@@ -9,42 +9,23 @@
   height: auto;
   object-fit: contain;
 }
-.text-teal{ color:#1D7363; }
+
+.brand-text {
+  font-family: 'Montserrat', 'Inter', sans-serif;
+  color: #1D7363;
+}
+
+
+img{
+  width: 30px
+}
+
 
 .badge-bct {
-  width: 230px;
-  height: 87px;
+  width: 100%;
   object-fit: contain;
 }
 
-.social-link {
-  width: 32px;
-  height: 32px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  border: 1px solid #ddd;
-  border-radius: 4px;
-  color: #1D7363;
-  transition: all 0.3s ease;
-  text-decoration: none;
-}
-
-.social-link:hover {
-  background-color: #1D7363;
-  color: white;
-  border-color: #1D7363;
-}
-
-.social-link i {
-  font-size: 1.2rem;
-}
-
-.zalo-icon {
-  width: 20px;
-  height: 20px;
-  object-fit: contain;
-}
 
 h6 {
   font-weight: 600;

@@ -1,0 +1,21 @@
+/* Basic styles for car detail */
+:root{ --brand:#1D7363; --line:#cfe3de; }
+.car-detail-container{ padding:18px 0; }
+.btn-back{ border:0; background:none; color:var(--brand); font-weight:700; margin-bottom:12px; cursor:pointer; }
+.car-title{ font-size:24px; margin:8px 0 18px; color:var(--brand); }
+.detail-grid{ display:grid; grid-template-columns: 420px 1fr; gap:20px; align-items:start; }
+.gallery{ background:#fff; border-radius:12px; overflow:hidden; border:1px solid var(--line); }
+.gallery .hero{ width:100%; height:300px; object-fit:cover; display:block; }
+.thumbs{ display:flex; gap:8px; padding:8px; overflow-x:auto; }
+.thumbs img{ width:72px; height:48px; object-fit:cover; border-radius:6px; cursor:pointer; opacity:0.9; border:2px solid transparent; }
+.thumbs img.active{ border-color:var(--brand); opacity:1; }
+.info{ padding:6px 0; }
+.specs{ display:flex; gap:8px; flex-wrap:wrap; margin-bottom:12px; }
+.badge{ background:#f7faf9; border:1px solid var(--line); padding:8px 10px; border-radius:8px; font-weight:700; color:var(--brand); }
+.description{ color:#334155; margin-bottom:12px; }
+.meta-row{ display:flex; align-items:center; justify-content:space-between; gap:12px; margin-bottom:12px; }
+.price{ font-size:20px; color:var(--brand); font-weight:800; }
+.actions{ display:flex; gap:10px; }
+.btn-primary{ background:var(--brand); color:#fff; border:0; padding:8px 14px; border-radius:10px; cursor:pointer; }
+.btn-outline{ border:1px solid var(--brand); color:var(--brand); background:#fff; padding:8px 12px; border-radius:10px; cursor:pointer; }
+@media (max-width: 900px){ .detail-grid{ grid-template-columns:1fr; } .gallery .hero{ height:240px; }}
