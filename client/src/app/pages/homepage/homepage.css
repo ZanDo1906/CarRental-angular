@@ -1,0 +1,59 @@
+/* === CSS CHO KHỐI HERO MỚI (Cập nhật) === */
+
+.hero-section {
+  position: relative; /* Quan trọng để căn chỉnh các lớp con */
+  height: 80vh; /* Cao 80% chiều cao màn hình */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  color: white;
+  overflow: hidden; /* Ngăn ảnh bị tràn nếu có lỗi */
+}
+
+/* 1. Style cho ảnh nền (thẻ <img>) */
+.hero-background-image {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover; /* Đảm bảo ảnh phủ đầy, không bị méo */
+  z-index: 1; /* Nằm lớp dưới cùng */
+}
+
+/* 2. Style cho lớp phủ đen mờ */
+.hero-overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.4); /* Mờ 40% */
+  z-index: 2; /* Nằm trên ảnh */
+}
+
+/* 3. Style cho nội dung (chữ) */
+.hero-content {
+  position: relative; /* Hoặc 'absolute' cũng được */
+  z-index: 3; /* Nằm trên cùng, trên cả lớp phủ */
+  padding: 20px;
+}
+
+.hero-content h1 {
+  font-family: 'Montserrat', sans-serif;
+  font-size: 3.5rem;
+  font-weight: 700;
+  margin-bottom: 20px;
+}
+
+.hero-content p {
+  font-family: 'Inter', sans-serif;
+  font-size: 1.25rem;
+  font-weight: 300;
+}
+
+.hero-content #customer-count {
+  font-weight: 700;
+  color: #4ac8ff;
+}
