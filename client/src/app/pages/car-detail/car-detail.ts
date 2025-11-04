@@ -82,6 +82,10 @@ export class CarDetail implements OnInit {
     return 'Chưa cập nhật';
   }
 
+  getOwnerName(): string {
+    return this.car?.Ten_chu_xe || 'Chủ xe';
+  }
+
   goBack() { this.router.navigate(['/']); }
 
   contactOwner() {
