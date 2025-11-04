@@ -62,3 +62,26 @@ body {
   background-color: #dc3545;
   border: 2px solid #fff;
 }
+
+/* Buttons Đăng ký & Đăng nhập */
+.btn-outline-success {
+  color: #1D7363;
+  border-color: #1D7363;
+  background-color: transparent;
+  font-weight: 600;
+  transition: all 0.3s ease;
+}
+
+.btn-outline-success:hover {
+  background-color: #1D7363;
+  border-color: #1D7363;
+  color: #fff;
+}
+
+.btn-outline-success:focus,
+.btn-outline-success:active {
+  background-color: #1D7363;
+  border-color: #1D7363;
+  color: #fff;
+  box-shadow: 0 0 0 0.2rem rgba(29, 115, 99, 0.25);
+}

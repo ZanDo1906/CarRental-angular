@@ -5,7 +5,55 @@ import { Router, RouterLink } from '@angular/router';
 import { CarService } from '../../services/car';
 import { LocationService } from '../../services/location';
 
-type FilterKey = 'location' | 'brand' | 'type' | 'seat' | 'fuel' | 'price'|  'purpose';
+type FilterKey = 'location' | 'brand' | 'type' | 'seat' | 'fuel' | 'price' | 'purpose' | 'transmission' | 'consumption' | 'rating';
+
+// Định nghĩa mục đích chuyến đi
+export const PURPOSES = [
+  'Đi trong phố',
+  'Đi xa / đi tỉnh',
+  'Gia đình / nhóm 6-7 chỗ',
+  'Chở hàng / công trình',
+  'Sang trọng / sự kiện',
+  'Tiết kiệm ngân sách',
+  'Cho người mới lái',
+] as const;
+export type Purpose = typeof PURPOSES[number];
+
+// Logic matching xe theo mục đích
+function matchPurpose(car: any, purpose: Purpose): boolean {
+  switch (purpose) {
+    case 'Đi trong phố':
+      return ['Hatchback','Sedan'].includes(car.Loai_xe)
+          && car.So_cho <= 5
+          && (car.Muc_tieu_thu || 0) <= 7;
+
+    case 'Đi xa / đi tỉnh':
+      return ['Sedan','SUV/CUV'].includes(car.Loai_xe)
+          && (car.Muc_tieu_thu || 0) <= 7.5;
+
+    case 'Gia đình / nhóm 6-7 chỗ':
+      return car.So_cho >= 6 || (car.Loai_xe === 'SUV/CUV' && car.So_cho >= 5);
+
+    case 'Chở hàng / công trình':
+      return car.Loai_xe === 'Bán tải'
+          || (car.Loai_xe === 'SUV/CUV' && car.Nhien_lieu === 'Dầu');
+
+    case 'Sang trọng / sự kiện':
+      return (car.Gia_thue || 0) >= 1_000_000
+          || /Lux|Camry|Mercedes|BMW|Audi/i.test(`${car.Hang_xe} ${car.Dong_xe}`);
+
+    case 'Tiết kiệm ngân sách':
+      return (car.Gia_thue || 0) <= 700_000 || (car.Muc_tieu_thu || 0) <= 6.2;
+
+    case 'Cho người mới lái':
+      return (car.Hop_so || '').includes('Tự động')
+          && ['Hatchback','Sedan','MPV'].includes(car.Loai_xe)
+          && car.So_cho <= 7;
+    
+    default:
+      return false;
+  }
+}
 
 @Component({
   selector: 'app-carList',
@@ -24,6 +72,9 @@ export class CarList implements OnInit {
   // inject location service so we can resolve Ma_vi_tri → address
   users: any[] = [];
   locations: any[] = [];
+  
+  // Mục đích chuyến đi
+  readonly PURPOSES = PURPOSES;
 
   constructor(private carService: CarService, private _locationService: LocationService,  private router: Router,) {}
 
@@ -64,7 +115,9 @@ export class CarList implements OnInit {
     seat: null as string | null,
     fuel: null as string | null,
     price: null as string | null,
-    
+    transmission: null as string | null,
+    consumption: null as string | null,
+    rating: null as string | null,
   };
 
   // mở/đóng dropdown
@@ -89,8 +142,14 @@ export class CarList implements OnInit {
   applyFilter() {
     let list = [...this.cars];
 
-    if (this.filters.location)
-      list = list.filter(c => (c.Dia_diem || '').includes(this.filters.location!));
+    // Lọc theo địa điểm - dựa vào Ma_vi_tri và locations
+    if (this.filters.location) {
+      list = list.filter(c => {
+        const location = this.getLocationById(c.Ma_vi_tri);
+        return location && (location.Tinh_thanh || '').includes(this.filters.location!);
+      });
+    }
+    
     if (this.filters.brand)
       list = list.filter(c => (c.Hang_xe || '').includes(this.filters.brand!));
     if (this.filters.type)
@@ -104,6 +163,32 @@ export class CarList implements OnInit {
       if (this.filters.price === '<800k') list = list.filter(x => n(x) < 800000);
       else if (this.filters.price === '800k–1tr') list = list.filter(x => n(x) >= 800000 && n(x) <= 1000000);
       else if (this.filters.price === '>1tr') list = list.filter(x => n(x) > 1000000);
+    }
+    
+    // Truyền động
+    if (this.filters.transmission)
+      list = list.filter(c => (c.Hop_so || '').includes(this.filters.transmission!));
+    
+    // Mức tiêu thụ (giả sử có field Muc_tieu_thu, đơn vị l/100km)
+    if (this.filters.consumption) {
+      const n = (x: any) => Number(x?.Muc_tieu_thu || 0);
+      if (this.filters.consumption === '<5l') list = list.filter(x => n(x) < 5);
+      else if (this.filters.consumption === '5-8l') list = list.filter(x => n(x) >= 5 && n(x) <= 8);
+      else if (this.filters.consumption === '>8l') list = list.filter(x => n(x) > 8);
+    }
+    
+    // Đánh giá
+    if (this.filters.rating) {
+      const r = (x: any) => Number(x?.Diem_danh_gia || 0);
+      if (this.filters.rating === '<3') list = list.filter(x => r(x) < 3);
+      else if (this.filters.rating === '3-4') list = list.filter(x => r(x) >= 3 && r(x) < 4);
+      else if (this.filters.rating === '4-4.5') list = list.filter(x => r(x) >= 4 && r(x) < 4.5);
+      else if (this.filters.rating === '>=4.5') list = list.filter(x => r(x) >= 4.5);
+    }
+    
+    // Mục đích chuyến đi - logic matching dựa trên thuộc tính xe
+    if (this.filters.purpose) {
+      list = list.filter(c => matchPurpose(c, this.filters.purpose as Purpose));
     }
 
     this.filtered = list;                          // lưu full list đã lọc
