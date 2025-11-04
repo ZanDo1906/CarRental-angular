@@ -1,0 +1,256 @@
+<div class="container">
+    <div class="form-container">
+        <!-- Header -->
+        <h1 class="form-title">Đăng ký xe</h1>
+
+        <!-- Progress Steps -->
+        <div class="progress-container">
+            <div class="step" [class.active]="currentStep === 1">
+                <div class="step-number">1</div>
+                <span class="step-label">Thông tin xe</span>
+            </div>
+            <div class="arrow">
+                <i class="bi bi-arrow-right"></i>
+            </div>
+            <div class="step" [class.active]="currentStep === 2">
+                <div class="step-number">2</div>
+                <span class="step-label">Thông tin thuê xe</span>
+            </div>
+            <div class="arrow">
+                <i class="bi bi-arrow-right"></i>
+            </div>
+            <div class="step" [class.active]="currentStep === 3">
+                <div class="step-number">3</div>
+                <span class="step-label">Hình ảnh xe</span>
+            </div>
+        </div>
+
+        <!-- Form -->
+        <form class="registration-form">
+            <!-- Step 1: Thông tin xe -->
+            <div *ngIf="currentStep === 1">
+                <!-- Biển số xe -->
+                <div class="form-section">
+                    <h3 class="small-title">Biển số xe</h3>
+                    <p class="note">Lưu ý: Biển số sẽ không thể thay đổi sau khi đăng kí.</p>
+                    <input type="text" class="form-input" [class.error]="errors.bienSo" [(ngModel)]="step1Data.bienSo"
+                        name="bienSo" placeholder="Nhập biển số xe">
+                    <div *ngIf="errors.bienSo" class="error-message">Vui lòng nhập biển số xe</div>
+                </div>
+
+                <!-- Thông tin cơ bản -->
+                <div class="form-section">
+                    <h3>Thông tin cơ bản</h3>
+                    <p class="note">Lưu ý: Các thông tin cơ bản sẽ không thể thay đổi sau khi đăng ký</p>
+
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label>Hãng xe</label>
+                            <input type="text" class="form-input" [class.error]="errors.hangXe"
+                                [(ngModel)]="step1Data.hangXe" name="hangXe" placeholder="">
+                            <div *ngIf="errors.hangXe" class="error-message">Vui lòng nhập hãng xe</div>
+                        </div>
+                        <div class="form-group">
+                            <label>Mẫu xe</label>
+                            <input type="text" class="form-input" [class.error]="errors.mauXe"
+                                [(ngModel)]="step1Data.mauXe" name="mauXe" placeholder="">
+                            <div *ngIf="errors.mauXe" class="error-message">Vui lòng nhập mẫu xe</div>
+                        </div>
+                    </div>
+
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label>Loại nhiên liệu</label>
+                            <select class="form-input" [class.error]="errors.loaiNhienLieu"
+                                [(ngModel)]="step1Data.loaiNhienLieu" name="loaiNhienLieu">
+                                <option value="">-- Chọn loại nhiên liệu --</option>
+                                <option value="Xăng">Xăng</option>
+                                <option value="Dầu">Dầu</option>
+                                <option value="Điện">Điện</option>
+                                <option value="Hybrid">Hybrid</option>
+                            </select>
+                            <div *ngIf="errors.loaiNhienLieu" class="error-message">Vui lòng chọn loại nhiên liệu</div>
+                        </div>
+                        <div class="form-group">
+                            <label>Số ghế</label>
+                            <select class="form-input" [class.error]="errors.soGhe" [(ngModel)]="step1Data.soGhe"
+                                name="soGhe">
+                                <option value="">-- Chọn số ghế --</option>
+                                <option value="4">4 ghế</option>
+                                <option value="5">5 ghế</option>
+                                <option value="7">7 ghế</option>
+                                <option value="9">9 ghế</option>
+                            </select>
+                            <div *ngIf="errors.soGhe" class="error-message">Vui lòng chọn số ghế</div>
+                        </div>
+                    </div>
+
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label>Năm sản xuất</label>
+                            <select class="form-input" [class.error]="errors.namSanXuat"
+                                [(ngModel)]="step1Data.namSanXuat" name="namSanXuat">
+                                <option value="">-- Chọn năm sản xuất --</option>
+                                <option value="2024">2024</option>
+                                <option value="2023">2023</option>
+                                <option value="2022">2022</option>
+                                <option value="2021">2021</option>
+                                <option value="2020">2020</option>
+                            </select>
+                            <div *ngIf="errors.namSanXuat" class="error-message">Vui lòng chọn năm sản xuất</div>
+                        </div>
+                        <div class="form-group">
+                            <label>Truyền động</label>
+                            <select class="form-input" [class.error]="errors.truyenDong"
+                                [(ngModel)]="step1Data.truyenDong" name="truyenDong">
+                                <option value="">-- Chọn truyền động --</option>
+                                <option value="Số tự động">Số tự động</option>
+                                <option value="Số sàn">Số sàn</option>
+                            </select>
+                            <div *ngIf="errors.truyenDong" class="error-message">Vui lòng chọn truyền động</div>
+                        </div>
+                    </div>
+
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label>Loại xe</label>
+                            <select class="form-input" [class.error]="errors.loaiXe" [(ngModel)]="step1Data.loaiXe"
+                                name="loaiXe">
+                                <option value="">-- Chọn loại xe --</option>
+                                <option value="Sedan">Sedan</option>
+                                <option value="SUV">SUV</option>
+                                <option value="Hatchback">Hatchback</option>
+                                <option value="MPV">MPV</option>
+                                <option value="Pickup">Pickup</option>
+                            </select>
+                            <div *ngIf="errors.loaiXe" class="error-message">Vui lòng chọn loại xe</div>
+                        </div>
+                        <div class="form-group">
+                            <label>Màu sắc</label>
+                            <select class="form-input" [class.error]="errors.mauSac" [(ngModel)]="step1Data.mauSac"
+                                name="mauSac">
+                                <option value="">-- Chọn màu sắc --</option>
+                                <option value="Trắng">Trắng</option>
+                                <option value="Đen">Đen</option>
+                                <option value="Xám">Xám</option>
+                                <option value="Đỏ">Đỏ</option>
+                                <option value="Xanh">Xanh</option>
+                            </select>
+                            <div *ngIf="errors.mauSac" class="error-message">Vui lòng chọn màu sắc</div>
+                        </div>
+                    </div>
+
+                    <div class="form-group full-width">
+                        <label>Số nhiên liệu cho quĐịa chỉ cụ thể 100km</label>
+                        <input type="text" class="form-input" [class.error]="errors.nhieuLieu100km"
+                            [(ngModel)]="step1Data.nhieuLieu100km" name="nhieuLieu100km"
+                            placeholder="Nhập số lít nhiên liệu">
+                        <div *ngIf="errors.nhieuLieu100km" class="error-message">Vui lòng nhập số lít nhiên liệu</div>
+                    </div>
+                </div>
+
+                <!-- Mô tả -->
+                <div class="form-section">
+                    <h3>Mô tả</h3>
+                    <textarea class="form-textarea full-width" [(ngModel)]="step1Data.moTa" name="moTa"
+                        placeholder="Nhập mô tả chi tiết về xe..." rows="8"></textarea>
+                </div>
+            </div>
+
+            <!-- Step 2: Thông tin thuê xe -->
+            <div *ngIf="currentStep === 2">
+                <!-- Giá cho thuê -->
+                <div class="form-section">
+                    <h3>Giá cho thuê đề xuất</h3>
+                    <p class="note">Đơn giá áp dụng cho tất cả các ngày. Bạn có thể tùy chỉnh giá khác cho các ngày đặc
+                        biệt (cuối tuần, lễ, tết...) trong mục quản lý xe sau khi đăng kí.</p>
+
+                    <div class="price-input-container">
+                        <input type="number" class="form-input price-input" [class.error]="errors.giaChoThue"
+                            [(ngModel)]="step2Data.giaChoThue" name="giaChoThue" placeholder="500000" min="0">
+                        <span class="price-unit">VNĐ/ngày</span>
+                    </div>
+                    <div class="price-suggestions">
+                        <p class="suggestion-label">Gợi ý giá theo loại xe:</p>
+                        <div class="suggestion-list">
+                            <span class="suggestion-item" (click)="setSuggestedPrice(400000)">Sedan: 400.000đ</span>
+                            <span class="suggestion-item" (click)="setSuggestedPrice(600000)">SUV: 600.000đ</span>
+                            <span class="suggestion-item" (click)="setSuggestedPrice(800000)">Luxury: 800.000đ</span>
+                        </div>
+                    </div>
+                    <div *ngIf="errors.giaChoThue" class="error-message">Vui lòng nhập giá cho thuê</div>
+                </div>
+
+                <!-- Địa điểm nhận xe -->
+                <div class="form-section">
+                    <h3>Địa điểm nhận xe</h3>
+                    <p class="note">Lưu ý: Đây là địa điểm mà khách nhận xe.</p>
+
+                    <div class="form-group">
+                        <label>Thành phố, tỉnh:</label>
+                        <select class="form-input" [class.error]="errors.thanhPho" [(ngModel)]="step2Data.thanhPho"
+                            name="thanhPho" (change)="onProvinceChange()">
+                            <option value="">-- Chọn tỉnh thành --</option>
+                            <option *ngFor="let province of provinces" [value]="province">
+                                {{ province }}
+                            </option>
+                        </select>
+                        <div *ngIf="errors.thanhPho" class="error-message">Vui lòng chọn tỉnh thành</div>
+                    </div>
+
+                    <div class="form-group">
+                        <label>Quận Huyện:</label>
+                        <select class="form-input" [class.error]="errors.quanHuyen" [(ngModel)]="step2Data.quanHuyen"
+                            name="quanHuyen" [disabled]="!step2Data.thanhPho">
+                            <option value="">-- Chọn quận huyện --</option>
+                            <option *ngFor="let district of currentDistricts" [value]="district">
+                                {{ district }}
+                            </option>
+                        </select>
+                        <div *ngIf="errors.quanHuyen" class="error-message">Vui lòng chọn quận huyện</div>
+                    </div>
+
+                    <div class="form-group">
+                        <label>Địa chỉ cụ thể:</label>
+                        <input type="text" class="form-input" [class.error]="errors.tenDuong"
+                            [(ngModel)]="step2Data.tenDuong" name="tenDuong"
+                            placeholder="Số nhà, tên đường, phường/xã...">
+                        <div *ngIf="errors.tenDuong" class="error-message">Vui lòng nhập địa chỉ cụ thể</div>
+                    </div>
+                </div>
+
+                <!-- Số km của xe -->
+                <div class="form-section">
+                    <h3>Số km của xe</h3>
+                    <input type="text" class="form-input" [class.error]="errors.soKm" [(ngModel)]="step2Data.soKm"
+                        name="soKm" placeholder="">
+                    <div *ngIf="errors.soKm" class="error-message">Vui lòng nhập số km</div>
+                </div>
+            </div>
+
+            <!-- Step 3: Hình ảnh xe -->
+            <div *ngIf="currentStep === 3">
+                <div class="form-section">
+                    <h3>Hình ảnh xe</h3>
+                    <p class="note">Vui lòng tải lên hình ảnh xe của bạn</p>
+                    <div class="upload-area">
+                        <p>Kéo thả hình ảnh vào đây hoặc click để chọn file</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Form Actions -->
+            <div class="form-actions">
+                <button type="button" class="btn-secondary" (click)="previousStep()" [disabled]="currentStep === 1">
+                    Quay lại
+                </button>
+                <button type="button" class="btn-primary" (click)="nextStep()" *ngIf="currentStep < 3">
+                    Chuyển tiếp
+                </button>
+                <button type="submit" class="btn-primary" *ngIf="currentStep === 3">
+                    Hoàn thành
+                </button>
+            </div>
+        </form>
+    </div>
+</div>
