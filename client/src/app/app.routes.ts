@@ -5,6 +5,7 @@ import { TroThanhChuXe } from './pages/tro-thanh-chu-xe/tro-thanh-chu-xe';
 import { DKChoThueXe } from './pages/dk-cho-thue-xe/dk-cho-thue-xe';
 import { VeTrustCar } from './pages/ve-trust-car/ve-trust-car';
 import { Homepage } from './pages/homepage/homepage';
+import { CarRentalGuide } from './pages/car-rental-guide/car-rental-guide';
 
 export const routes: Routes = [
     { path: '', component: Homepage },         // trang homepage
@@ -13,6 +14,9 @@ export const routes: Routes = [
     { path: 'tro-thanh-chu-xe', component: TroThanhChuXe }, // trang trở thành chủ xe
     { path: 'dk-cho-thue-xe', component: DKChoThueXe }, // trang đăng ký cho thuê xe
     { path: 've-trust-car', component: VeTrustCar }, // trang Về Trustcar
+    { path: 'guide', component: CarRentalGuide }, // trang hướng dẫn thuê xe
+    
+
     { path: '**', redirectTo: '' },
 
 ];
