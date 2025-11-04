@@ -1,4 +1,4 @@
-import { Component,AfterViewInit, ElementRef } from '@angular/core';
+import { Component, AfterViewInit, ElementRef } from '@angular/core';
 
 @Component({
   selector: 'app-ve-trust-car',
@@ -6,13 +6,14 @@ import { Component,AfterViewInit, ElementRef } from '@angular/core';
   templateUrl: './ve-trust-car.html',
   styleUrl: './ve-trust-car.css',
 })
-export class VeTrustCar implements AfterViewInit { 
-constructor(private el: ElementRef) {}
+export class VeTrustCar implements AfterViewInit {
+  constructor(private el: ElementRef) { }
 
   ngAfterViewInit(): void {
     this.setupSlideAnimation();
-    
     this.setupFadeInAnimation();
+    this.setupThirthAnimation();
+    this.setupFourthAnimation();
   }
 
   // Hàm  xử lý animation .first
@@ -37,7 +38,7 @@ constructor(private el: ElementRef) {}
         }
       });
     }, {
-      threshold: 0.2 
+      threshold: 0.2
     });
 
     slideObserver.observe(container);
@@ -61,9 +62,55 @@ constructor(private el: ElementRef) {}
         }
       });
     }, {
-      threshold: 0.2 
+      threshold: 0.2
     });
 
     fadeObserver.observe(secondContainer);
   }
+  //Thirth
+  private setupThirthAnimation(): void {
+    const container = this.el.nativeElement.querySelector('.thirth');
+    const img = this.el.nativeElement.querySelector('.thirth-img');
+    const content = this.el.nativeElement.querySelector('.thirth-content');
+
+    if (!container || !img || !content) { return; }
+
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          img.classList.add('animate-left');
+          content.classList.add('animate-right');
+        } else {
+          img.classList.remove('animate-left');
+          content.classList.remove('animate-right');
+        }
+      });
+    }, { threshold: 0.2 });
+
+    observer.observe(container);
+  }
+
+  //Fouth
+  private setupFourthAnimation(): void {
+    const container = this.el.nativeElement.querySelector('.fourth');
+    const content = this.el.nativeElement.querySelector('.fourth-content');
+    const img = this.el.nativeElement.querySelector('.fourth-img');
+
+    if (!container || !img || !content) { return; }
+
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          content.classList.add('animate-left');
+          img.classList.add('animate-right');
+        } else {
+          content.classList.remove('animate-left');
+          img.classList.remove('animate-right');
+        }
+      });
+    }, { threshold: 0.2 });
+
+    observer.observe(container);
+  }
+
 }

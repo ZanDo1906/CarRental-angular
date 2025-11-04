@@ -25,7 +25,7 @@ body {
     padding: 20px;
     flex: 1;
     font-family: 'Inter';
-    font-size: 17px;
+    font-size: 16px;
     display: flex;
     flex-direction: column;
     justify-content: center;
@@ -51,7 +51,7 @@ body {
 .second p {
     font-family: 'Inter';
     font-style: italic;
-    font-size: 17px;
+    font-size: 16px;
 }
 
 .second-content {
@@ -95,6 +95,7 @@ h3 {
 
 .thirth-img {
     flex-basis: 50%;
+    opacity: 0; 
 }
 
 .thirth-img img {
@@ -109,6 +110,10 @@ h3 {
     flex-basis: 50%;
     padding: 40px;
     box-sizing: border-box;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    opacity: 0; 
 
 }
 
@@ -123,7 +128,7 @@ h3 {
 
 .thirth-content p {
     font-family: 'Inter';
-    font-size: 17px;
+    font-size: 16px;
     margin-bottom: 20px;
 }
 
@@ -139,6 +144,7 @@ h3 {
 
 .fourth-img {
     flex-basis: 50%;
+    opacity: 0;
 }
 
 .fourth-img img {
@@ -153,7 +159,10 @@ h3 {
     flex-basis: 50%;
     padding: 40px;
     box-sizing: border-box;
-
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    opacity: 0;
 }
 
 .fourth-content h3 {
@@ -167,7 +176,7 @@ h3 {
 
 .fourth-content p {
     font-family: 'Inter';
-    font-size: 17px;
+    font-size: 16x;
     margin-bottom: 20px;
 }
 
@@ -179,7 +188,7 @@ h3 {
     animation: slideInFromRight 0.8s ease-out forwards;
 }
 .animate-fade-in {
-    animation: fadeIn 1s ease-out forwards;
+    animation: fadeIn 2s ease-out forwards;
 }
 
 @keyframes slideInFromLeft {
@@ -211,5 +220,49 @@ h3 {
     }
     to {
         opacity: 1;
+    }
+}
+@media (max-width: 768px) {
+
+    .first {
+        flex-direction: column;
+        padding: 10px; 
+    }
+
+    .first img {
+        height: auto;
+        max-height: 300px;
+    }
+    .second {
+        flex-direction: column;
+        padding: 10px;
+    }
+
+
+    .thirth {
+        flex-direction: column;
+        margin: 20px 10px;
+    }
+
+   
+    .fourth {
+        flex-direction: column-reverse; 
+        margin: 20px 10px; 
+    }
+
+  
+    .thirth-content,
+    .fourth-content {
+        padding: 25px;
+    }
+
+    .car-row {
+        font-size: 30px;
+        padding: 10px 0;
+    }
+
+    h3, .second h3, .thirth-content h3, .fourth-content h3 {
+        font-size: 22px;
+        padding-top: 15px;
     }
 }
