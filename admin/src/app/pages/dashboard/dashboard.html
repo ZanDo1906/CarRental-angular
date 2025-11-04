@@ -4,9 +4,9 @@
         <div class="time-filter">
             <select class="time-select" (change)="onPeriodChange($event)" [value]="selectedPeriod">
                 <option value="all">Tất cả thời gian</option>
-                <option value="week">Tuần trước</option>
-                <option value="month">Tháng trước</option>
-                <option value="year">Năm trước</option>
+                <option value="week">Tuần này</option>
+                <option value="month">Tháng này</option>
+                <option value="year">Năm này</option>
             </select>
         </div>
     </div>
@@ -53,28 +53,50 @@
         </div>
     </div>
 
-    <!-- Top Car Owners Section -->
-    <div class="top-owners-section">
-        <h3 class="section-title">Top 5 chủ xe có doanh thu cao nhất</h3>
-        <div class="top-owners-list">
-            @if (dataLoaded && topCarOwners.length > 0) {
+    <!-- Chart and Top Owners Layout -->
+    <div class="chart-top-owners-container">
+        <!-- Chart Section -->
+        <div class="chart-section">
+            <div class="chart-container">
+                <canvas #revenueChart></canvas>
+            </div>
+        </div>
+
+        <!-- Top Car Owners Section -->
+        <div class="top-owners-section">
+            <h3 class="section-title">Top 5 chủ xe có doanh thu cao nhất</h3>
+            <div class="top-owners-list">
+                @if (dataLoaded && topCarOwners.length > 0) {
                 @for (owner of topCarOwners; track owner.Ma_nguoi_dung; let i = $index) {
-                    <div class="owner-item">
-                        <span class="owner-rank">Top {{ i + 1 }}:</span>
-                        <span class="owner-name">{{ owner.Ho_va_ten }}</span>
-                        <span class="owner-revenue">{{ owner.totalRevenue.toLocaleString('vi-VN') }} đ</span>
-                    </div>
+                <div class="owner-item">
+                    <span class="owner-rank">Top {{ i + 1 }}:</span>
+                    <span class="owner-name">{{ owner.Ho_va_ten }}</span>
+                    <span class="owner-revenue">{{ owner.totalRevenue.toLocaleString('vi-VN') }} đ</span>
+                </div>
                 }
-            } @else {
+                } @else {
                 <div class="owner-item loading">
                     <span class="loading-text">Đang tải dữ liệu...</span>
                 </div>
-            }
+                }
+            </div>
         </div>
     </div>
 
-    <!-- Chart Section -->
-    <div class="chart-container">
-        <canvas #revenueChart></canvas>
+    <!-- Additional Charts Section -->
+    <div class="additional-charts-container">
+        <!-- Status Chart Section -->
+        <div class="status-chart-section">
+            <div class="chart-container">
+                <canvas #statusChart></canvas>
+            </div>
+        </div>
+
+        <!-- Vehicle Type Chart Section -->
+        <div class="vehicle-type-chart-section">
+            <div class="chart-container">
+                <canvas #vehicleTypeChart></canvas>
+            </div>
+        </div>
     </div>
 </div>

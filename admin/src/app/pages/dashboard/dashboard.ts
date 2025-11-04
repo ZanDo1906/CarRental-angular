@@ -24,6 +24,7 @@ interface Car {
   Hang_xe: string;
   Dong_xe: string;
   Tinh_trang_xe: string;
+  Loai_xe: string;
 }
 
 interface User {
@@ -47,6 +48,8 @@ interface CarOwnerRevenue {
 })
 export class Dashboard implements OnInit, AfterViewInit {
   @ViewChild('revenueChart', { static: false }) revenueChartRef!: ElementRef<HTMLCanvasElement>;
+  @ViewChild('statusChart', { static: false }) statusChartRef!: ElementRef<HTMLCanvasElement>;
+  @ViewChild('vehicleTypeChart', { static: false }) vehicleTypeChartRef!: ElementRef<HTMLCanvasElement>;
 
   carRentals: CarRental[] = [];
   cars: Car[] = [];
@@ -67,8 +70,10 @@ export class Dashboard implements OnInit, AfterViewInit {
   carsLoaded: boolean = false;
   usersLoaded: boolean = false;
 
-  // Chart
+  // Charts
   revenueChart: Chart | null = null;
+  statusChart: Chart | null = null;
+  vehicleTypeChart: Chart | null = null;
 
   // Filter
   selectedPeriod: string = 'all';
@@ -102,9 +107,11 @@ export class Dashboard implements OnInit, AfterViewInit {
         // Calculate statistics immediately after data is loaded
         this.calculateAllTimeStatistics();
 
-        // Create chart after data is ready
+        // Create charts after data is ready
         setTimeout(() => {
           this.createRevenueChart();
+          this.createStatusChart();
+          this.createVehicleTypeChart();
         }, 100);
 
         // Check if we can calculate top owners
@@ -123,7 +130,7 @@ export class Dashboard implements OnInit, AfterViewInit {
       this.calculateCarStatistics();
       console.log('Car data loaded:', data.length, 'cars');
       console.log('Available cars:', this.totalAvailableCars);
-      
+
       // Check if we can calculate top owners
       this.checkAndCalculateTopOwners();
     });
@@ -133,7 +140,7 @@ export class Dashboard implements OnInit, AfterViewInit {
       this.users = data;
       this.usersLoaded = true;
       console.log('User data loaded:', data.length, 'users');
-      
+
       // Check if we can calculate top owners
       this.checkAndCalculateTopOwners();
     });
@@ -155,6 +162,10 @@ export class Dashboard implements OnInit, AfterViewInit {
 
       // Mark that data is ready and ensure the view updates immediately
       this.dataLoaded = true;
+
+      // Calculate top car owners for all time
+      this.calculateTopCarOwners();
+
       // Run change detection immediately so the template shows updated values on first render
       try { this.cd.detectChanges(); } catch (e) { /* noop if detection isn't available */ }
     } else {
@@ -201,9 +212,11 @@ export class Dashboard implements OnInit, AfterViewInit {
       this.calculateFilteredStatistics();
     }
 
-    // Recreate chart with new data
+    // Recreate charts with new data
     setTimeout(() => {
       this.createRevenueChart();
+      this.createStatusChart();
+      this.createVehicleTypeChart();
     }, 100);
   }
 
@@ -230,35 +243,43 @@ export class Dashboard implements OnInit, AfterViewInit {
 
     switch (this.selectedPeriod) {
       case 'week':
-        // Tuần trước (7 ngày trước)
-        startDate = new Date(now.getTime() - 7 * 24 * 60 * 60 * 1000);
+        // Tuần này (từ thứ 2 đến hiện tại)
+        const startOfWeek = new Date(now);
+        const dayOfWeek = now.getDay();
+        const daysSinceMonday = dayOfWeek === 0 ? 6 : dayOfWeek - 1; // Chủ nhật = 0, cần chuyển thành 6
+        startOfWeek.setDate(now.getDate() - daysSinceMonday);
+        startOfWeek.setHours(0, 0, 0, 0);
+        startDate = startOfWeek;
         endDate = new Date(now);
         break;
       case 'month':
-        // Tháng trước
-        startDate = new Date(now.getFullYear(), now.getMonth() - 1, 1);
-        endDate = new Date(now.getFullYear(), now.getMonth(), 0);
+        // Tháng này (từ đầu tháng đến hiện tại)
+        startDate = new Date(now.getFullYear(), now.getMonth(), 1);
+        endDate = new Date(now);
         break;
       case 'year':
-        // Năm trước
-        startDate = new Date(now.getFullYear() - 1, 0, 1);
-        endDate = new Date(now.getFullYear() - 1, 11, 31);
+        // Năm này (từ đầu năm đến hiện tại)
+        startDate = new Date(now.getFullYear(), 0, 1);
+        endDate = new Date(now);
         break;
       default:
         startDate = new Date(now.getTime() - 7 * 24 * 60 * 60 * 1000);
         endDate = new Date(now);
     }
 
-    // Filter rentals by date range
+    // Filter rentals by date range (using return date for revenue recognition)
     const filteredRentals = this.carRentals.filter(rental => {
-      const rentalDate = new Date(rental.Ngay_nhan_xe);
-      return rentalDate >= startDate && rentalDate <= endDate;
+      const returnDate = new Date(rental.Ngay_tra_xe);
+      return returnDate >= startDate && returnDate <= endDate;
     });
 
     // Calculate statistics for filtered data
     this.totalRevenue = filteredRentals.reduce((sum, rental) => sum + rental.Tong_chi_phi, 0);
     this.totalBookings = filteredRentals.length;
     this.totalCompletedBookings = filteredRentals.filter(rental => rental.Trang_thai === 4).length;
+
+    // Calculate top car owners for filtered period
+    this.calculateTopCarOwners();
 
     // Ensure the UI reflects the newly calculated filtered stats immediately
     try { this.cd.detectChanges(); } catch (e) { }
@@ -359,7 +380,7 @@ export class Dashboard implements OnInit, AfterViewInit {
             beginAtZero: true,
             ticks: {
               callback: function (value) {
-                return (Number(value) / 1000) + 'K';
+                return (Number(value) / 1000000).toFixed(1) + 'tr';
               },
               font: {
                 family: 'Inter',
@@ -386,6 +407,286 @@ export class Dashboard implements OnInit, AfterViewInit {
     });
   }
 
+  createStatusChart() {
+    if (!this.statusChartRef?.nativeElement) {
+      return;
+    }
+
+    const ctx = this.statusChartRef.nativeElement.getContext('2d');
+    if (!ctx) {
+      return;
+    }
+
+    // Destroy existing chart if it exists
+    if (this.statusChart) {
+      this.statusChart.destroy();
+    }
+
+    // Get rental status data
+    const statusData = this.getStatusData();
+
+    this.statusChart = new Chart(ctx, {
+      type: 'bar',
+      data: {
+        labels: ['Đang chờ duyệt', 'Đang thực hiện', 'Đã hoàn thành', 'Đã hủy'],
+        datasets: [{
+          label: 'Số đơn',
+          data: statusData,
+          backgroundColor: [
+            '#60A5FA', // Blue for pending
+            '#34D399', // Green for in progress  
+            '#1F2937', // Dark for completed
+            '#60A5FA'  // Blue for cancelled
+          ],
+          borderRadius: 8,
+          borderWidth: 0
+        }]
+      },
+      options: {
+        responsive: true,
+        maintainAspectRatio: false,
+        plugins: {
+          legend: {
+            display: false
+          },
+          title: {
+            display: true,
+            text: 'Tình trạng đơn đặt xe',
+            font: {
+              family: 'Montserrat',
+              size: 16,
+              weight: 700
+            },
+            color: '#1F2937',
+            padding: {
+              bottom: 20
+            }
+          }
+        },
+        scales: {
+          y: {
+            beginAtZero: true,
+            ticks: {
+              font: {
+                family: 'Inter',
+                size: 11
+              }
+            },
+            grid: {
+              color: 'rgba(0, 0, 0, 0.1)'
+            }
+          },
+          x: {
+            ticks: {
+              font: {
+                family: 'Inter',
+                size: 11
+              }
+            },
+            grid: {
+              display: false
+            }
+          }
+        }
+      }
+    });
+  }
+
+  createVehicleTypeChart() {
+    if (!this.vehicleTypeChartRef?.nativeElement) {
+      return;
+    }
+
+    const ctx = this.vehicleTypeChartRef.nativeElement.getContext('2d');
+    if (!ctx) {
+      return;
+    }
+
+    // Destroy existing chart if it exists
+    if (this.vehicleTypeChart) {
+      this.vehicleTypeChart.destroy();
+    }
+
+    // Get vehicle type data
+    const vehicleTypeData = this.getVehicleTypeData();
+
+    // Map colors for each vehicle type
+    const colors = vehicleTypeData.labels.map(label => this.getVehicleTypeColor(label));
+
+    this.vehicleTypeChart = new Chart(ctx, {
+      type: 'doughnut',
+      data: {
+        labels: vehicleTypeData.labels,
+        datasets: [{
+          data: vehicleTypeData.values,
+          backgroundColor: colors,
+          borderWidth: 0
+        }]
+      },
+      options: {
+        responsive: true,
+        maintainAspectRatio: false,
+        cutout: '60%',
+        plugins: {
+          legend: {
+            display: true,
+            position: 'right',
+            labels: {
+              usePointStyle: true,
+              pointStyle: 'circle',
+              font: {
+                family: 'Inter',
+                size: 12
+              },
+              padding: 15,
+              generateLabels: function (chart) {
+                const data = chart.data;
+                if (data.labels && data.datasets.length > 0) {
+                  return data.labels.map((label, i) => {
+                    const dataset = data.datasets[0];
+                    const value = dataset.data[i] as number;
+                    const total = (dataset.data as number[]).reduce((sum, val) => sum + val, 0);
+                    const percentage = ((value / total) * 100).toFixed(1);
+
+                    const backgroundColor = dataset.backgroundColor as string[];
+
+                    return {
+                      text: `${label} - ${percentage}%`,
+                      fillStyle: backgroundColor?.[i] || '#000',
+                      strokeStyle: backgroundColor?.[i] || '#000',
+                      lineWidth: 0,
+                      index: i
+                    };
+                  });
+                }
+                return [];
+              }
+            }
+          },
+          title: {
+            display: true,
+            text: 'Tỷ lệ đặt xe theo loại xe',
+            font: {
+              family: 'Montserrat',
+              size: 16,
+              weight: 700
+            },
+            color: '#1F2937',
+            padding: {
+              bottom: 20
+            }
+          }
+        }
+      }
+    });
+  }
+
+  getDateRangeForPeriod(): { startDate: Date, endDate: Date } {
+    const now = new Date();
+    let startDate: Date;
+    let endDate: Date = new Date(now);
+
+    switch (this.selectedPeriod) {
+      case 'week':
+        // Tuần này (từ thứ 2 đến hiện tại)
+        const startOfWeek = new Date(now);
+        const dayOfWeek = now.getDay();
+        const daysSinceMonday = dayOfWeek === 0 ? 6 : dayOfWeek - 1;
+        startOfWeek.setDate(now.getDate() - daysSinceMonday);
+        startOfWeek.setHours(0, 0, 0, 0);
+        startDate = startOfWeek;
+        break;
+      case 'month':
+        // Tháng này (từ đầu tháng đến hiện tại)
+        startDate = new Date(now.getFullYear(), now.getMonth(), 1);
+        break;
+      case 'year':
+        // Năm này (từ đầu năm đến hiện tại)
+        startDate = new Date(now.getFullYear(), 0, 1);
+        break;
+      default:
+        const defaultStartOfWeek = new Date(now);
+        const defaultDayOfWeek = now.getDay();
+        const defaultDaysSinceMonday = defaultDayOfWeek === 0 ? 6 : defaultDayOfWeek - 1;
+        defaultStartOfWeek.setDate(now.getDate() - defaultDaysSinceMonday);
+        defaultStartOfWeek.setHours(0, 0, 0, 0);
+        startDate = defaultStartOfWeek;
+    }
+
+    return { startDate, endDate };
+  }
+
+  getStatusData(): number[] {
+    // Filter rentals based on current period
+    let filteredRentals = this.carRentals;
+
+    if (this.selectedPeriod !== 'all') {
+      const { startDate, endDate } = this.getDateRangeForPeriod();
+
+      filteredRentals = this.carRentals.filter(rental => {
+        const returnDate = new Date(rental.Ngay_tra_xe);
+        return returnDate >= startDate && returnDate <= endDate;
+      });
+    }
+
+    // Count by status (Trang_thai: 1=pending, 2=in progress, 4=completed, 0=cancelled)
+    const pending = filteredRentals.filter(rental => rental.Trang_thai === 1).length;
+    const inProgress = filteredRentals.filter(rental => rental.Trang_thai === 2).length;
+    const completed = filteredRentals.filter(rental => rental.Trang_thai === 4).length;
+    const cancelled = filteredRentals.filter(rental => rental.Trang_thai === 0).length;
+
+    return [pending, inProgress, completed, cancelled];
+  }
+
+  getVehicleTypeData(): { labels: string[], values: number[] } {
+    // Filter rentals based on current period
+    let filteredRentals = this.carRentals;
+
+    if (this.selectedPeriod !== 'all') {
+      const { startDate, endDate } = this.getDateRangeForPeriod();
+
+      filteredRentals = this.carRentals.filter(rental => {
+        const returnDate = new Date(rental.Ngay_tra_xe);
+        return returnDate >= startDate && returnDate <= endDate;
+      });
+    }
+
+    // Count vehicle types using Loai_xe field
+    const vehicleTypeCounts = new Map<string, number>();
+
+    filteredRentals.forEach(rental => {
+      const car = this.cars.find(c => c.Ma_xe === rental.Ma_xe);
+      if (car && car.Loai_xe) {
+        // Use the Loai_xe field directly
+        const vehicleType = car.Loai_xe;
+        vehicleTypeCounts.set(vehicleType, (vehicleTypeCounts.get(vehicleType) || 0) + 1);
+      }
+    });
+
+    const labels: string[] = [];
+    const values: number[] = [];
+
+    vehicleTypeCounts.forEach((count, type) => {
+      labels.push(type);
+      values.push(count);
+    });
+
+    return { labels, values };
+  }
+
+  getVehicleTypeColor(vehicleType: string): string {
+    // Define colors for each vehicle type
+    const colorMap: { [key: string]: string } = {
+      'Sedan': '#1F2937',      // Dark gray
+      'SUV/CUV': '#60A5FA',    // Blue  
+      'Hatchback': '#34D399',  // Green
+      'MPV': '#F59E0B',        // Orange
+      'Bán tải': '#EF4444'     // Red
+    };
+
+    return colorMap[vehicleType] || '#A78BFA'; // Purple for unknown types
+  }
+
   getChartConfig() {
     switch (this.selectedPeriod) {
       case 'all':
@@ -402,13 +703,13 @@ export class Dashboard implements OnInit, AfterViewInit {
         };
       case 'month':
         return {
-          labels: ['Tuần 1', 'Tuần 2', 'Tuần 3', 'Tuần 4', '', '', ''],
+          labels: ['1-4', '5-8', '9-12', '13-16', '17-20', '21-24', '25-31'],
           currentLabel: 'Tháng hiện tại',
           previousLabel: 'Tháng trước'
         };
       case 'year':
         return {
-          labels: ['T1', 'T2', 'T3', 'T4', 'T5', 'T6', 'T7'],
+          labels: ['T1-T2', 'T3-T4', 'T5-T6', 'T7-T8', 'T9-T10', 'T11-T12', 'Khác'],
           currentLabel: 'Năm hiện tại',
           previousLabel: 'Năm trước'
         };
@@ -422,41 +723,86 @@ export class Dashboard implements OnInit, AfterViewInit {
   }
 
   processWeeklyRevenue() {
-    // Generate different data based on selected period
-    let currentData: number[];
-    let previousData: number[];
-
-    switch (this.selectedPeriod) {
-      case 'all':
-        // Summary data for all time
-        currentData = [2500000, 2200000, 2800000, 2400000, 3200000, 2900000, 3100000];
-        previousData = [2000000, 1800000, 2300000, 2000000, 2700000, 2400000, 2600000];
-        break;
-      case 'week':
-        // Daily data for a week (T2-CN)
-        currentData = [120000, 80000, 140000, 160000, 260000, 220000, 200000];
-        previousData = [60000, 140000, 180000, 150000, 90000, 160000, 260000];
-        break;
-      case 'month':
-        // Weekly data for a month (4 weeks)
-        currentData = [500000, 400000, 600000, 550000, 0, 0, 0]; // Only 4 data points
-        previousData = [300000, 450000, 700000, 400000, 0, 0, 0];
-        break;
-      case 'year':
-        // Monthly data for a year (12 months, show only first 7)
-        currentData = [2000000, 1800000, 2200000, 1900000, 2500000, 2100000, 2300000];
-        previousData = [1500000, 1600000, 2000000, 1700000, 2100000, 1900000, 2000000];
-        break;
-      default:
-        currentData = [120000, 80000, 140000, 160000, 260000, 220000, 200000];
-        previousData = [60000, 140000, 180000, 150000, 90000, 160000, 260000];
+    // Use real data from database instead of fake data
+    if (this.selectedPeriod === 'all') {
+      // For "all time", show data across all available data
+      return this.calculateAllTimeChartData();
     }
 
+    const { startDate, endDate } = this.getDateRangeForPeriod();
+
+    // Get current period data
+    const currentPeriodData = this.calculateRealChartData(startDate, endDate);
+
+    // Calculate previous period for comparison
+    const periodLength = endDate.getTime() - startDate.getTime();
+    const previousStartDate = new Date(startDate.getTime() - periodLength);
+    const previousEndDate = new Date(startDate.getTime());
+    const previousPeriodData = this.calculateRealChartData(previousStartDate, previousEndDate);
+
     return {
-      currentWeek: currentData,
-      lastWeek: previousData
+      currentWeek: currentPeriodData,
+      lastWeek: previousPeriodData
     };
   }
+
+  calculateAllTimeChartData(): { currentWeek: number[], lastWeek: number[] } {
+    if (this.carRentals.length === 0) {
+      return {
+        currentWeek: [0, 0, 0, 0, 0, 0, 0],
+        lastWeek: [0, 0, 0, 0, 0, 0, 0]
+      };
+    }
+
+    // Find date range of all data
+    const allDates = this.carRentals.map(r => new Date(r.Ngay_tra_xe).getTime());
+    const minDate = new Date(Math.min(...allDates));
+    const maxDate = new Date(Math.max(...allDates));
+
+    // Split into two periods for comparison
+    const totalPeriod = maxDate.getTime() - minDate.getTime();
+    const midPoint = new Date(minDate.getTime() + totalPeriod / 2);
+
+    const earlierData = this.calculateRealChartData(minDate, midPoint);
+    const laterData = this.calculateRealChartData(midPoint, maxDate);
+
+    return {
+      currentWeek: laterData,
+      lastWeek: earlierData
+    };
+  }
+
+  calculateRealChartData(startDate: Date, endDate: Date): number[] {
+    // Filter rentals for the period (using return date)
+    const filteredRentals = this.carRentals.filter(rental => {
+      const returnDate = new Date(rental.Ngay_tra_xe);
+      return returnDate >= startDate && returnDate <= endDate;
+    });
+
+    // Initialize array with 7 periods (all zeros)
+    const revenueData = [0, 0, 0, 0, 0, 0, 0];
+
+    if (filteredRentals.length === 0) {
+      return revenueData;
+    }
+
+    // Calculate period length and divide into 7 segments
+    const totalPeriodMs = endDate.getTime() - startDate.getTime();
+    const segmentMs = totalPeriodMs / 7;
+
+    // Distribute revenue across the 7 segments based on return dates
+    filteredRentals.forEach(rental => {
+      const returnDate = new Date(rental.Ngay_tra_xe);
+      const timeFromStart = returnDate.getTime() - startDate.getTime();
+      const segmentIndex = Math.min(6, Math.floor(timeFromStart / segmentMs));
+
+      revenueData[segmentIndex] += rental.Tong_chi_phi;
+    });
+
+    return revenueData;
+  }
+
+
 
   calculateTopCarOwners() {
     // Only calculate if all required data is loaded
@@ -464,13 +810,28 @@ export class Dashboard implements OnInit, AfterViewInit {
       return;
     }
 
-    console.log('🏆 Calculating top car owners...');
+    console.log('🏆 Calculating top car owners for period:', this.selectedPeriod);
+
+    // Filter rentals by selected period (same logic as calculateFilteredStatistics)
+    let filteredRentals = this.carRentals;
+
+    if (this.selectedPeriod !== 'all') {
+      const { startDate, endDate } = this.getDateRangeForPeriod();
+
+      // Filter rentals by date range (using return date for revenue recognition)
+      filteredRentals = this.carRentals.filter(rental => {
+        const returnDate = new Date(rental.Ngay_tra_xe);
+        return returnDate >= startDate && returnDate <= endDate;
+      });
+
+      console.log(`📅 Filtered rentals for ${this.selectedPeriod}:`, filteredRentals.length, 'records');
+    }
 
     // Create a map to accumulate revenue by car owner
     const ownerRevenueMap = new Map<number, number>();
 
-    // Process each rental to accumulate revenue by car owner
-    this.carRentals.forEach(rental => {
+    // Process each filtered rental to accumulate revenue by car owner
+    filteredRentals.forEach(rental => {
       // Find the car for this rental
       const car = this.cars.find(c => c.Ma_xe === rental.Ma_xe);
       if (car) {
@@ -501,10 +862,10 @@ export class Dashboard implements OnInit, AfterViewInit {
     console.log('🎯 Top 5 car owners calculated:', this.topCarOwners);
 
     // Trigger change detection
-    try { 
-      this.cd.detectChanges(); 
-    } catch (e) { 
-      console.log('Change detection not available'); 
+    try {
+      this.cd.detectChanges();
+    } catch (e) {
+      console.log('Change detection not available');
     }
   }
 

@@ -18,4 +18,6 @@ export interface iCar {
     So_luot_danh_gia: number;   // int
     So_luot_thue: number;       // int
     Bao_hanh_gan_nhat: string | Date; // ✅ Ngày gần nhất bảo hành
+    Loai_xe: string;           // String
+    Nam_san_xuat: number;     // int
 }
