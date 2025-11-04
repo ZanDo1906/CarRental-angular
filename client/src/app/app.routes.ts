@@ -10,6 +10,7 @@ export const routes: Routes = [
     { path: 'xe/:id', component: CarDetail },  // trang chi tiết
     { path: 'tro-thanh-chu-xe', component: TroThanhChuXe }, // trang trở thành chủ xe
     { path: 'dk-cho-thue-xe', component: DKChoThueXe }, // trang đăng ký cho thuê xe
+    { path: 've-trust-car', component: VeTrustCar }, // trang Về Trustcar
     { path: '**', redirectTo: '' },
 
 ];
