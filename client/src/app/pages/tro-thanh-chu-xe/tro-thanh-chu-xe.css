@@ -1,0 +1,129 @@
+.become-owner-page {
+    background: white;
+    min-height: 100vh;
+    padding: 20px 0;
+    font-family: 'Montserrat', sans-serif;
+}
+
+.container {
+    max-width: 480px;
+    margin: 0 auto;
+    padding: 0 15px;
+}
+
+/* Header Section */
+.header-section {
+    background: white;
+    padding: 30px 25px;
+    text-align: center;
+    margin-bottom: 20px;
+}
+
+.main-title {
+    font-family: 'Montserrat', sans-serif;
+    font-size: 36px;
+    font-weight: bold;
+    color: #333;
+    margin-bottom: 20px;
+    margin-top: 0;
+}
+
+/* Illustration */
+.illustration {
+    width: 350px;
+    height: 280px;
+    margin: 25px auto;
+    display: block;
+    object-fit: contain;
+}
+
+/* Register Button */
+.register-btn {
+    background: #107363;
+    color: white;
+    border: none;
+    padding: 15px 30px;
+    font-size: 16px;
+    font-weight: 600;
+    cursor: pointer;
+    margin: 20px 0 15px 0;
+    transition: background 0.3s ease;
+    width: 250px;
+}
+
+.register-btn:hover {
+    background: #0d5d54;
+}
+
+.subtitle {
+    font-family: 'Montserrat', sans-serif;
+    font-size: 14px;
+    /* font-weight: 500; */
+    color: black;
+    margin: 15px 0 0 0;
+    line-height: 1.4;
+    font-weight: bolder;
+}
+
+/* Benefits Section */
+.benefits-section {
+    background: white;
+    padding: 25px 20px;
+}
+
+.section-title {
+    font-family: 'Inter', sans-serif;
+    font-size: 24px;
+    font-weight: bold;
+    color: #333;
+    margin-bottom: 25px;
+    margin-top: 0;
+    text-align: center;
+    line-height: 1.4;
+}
+
+.benefits-list {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+}
+
+.benefit-item {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
+.benefit-icon {
+    width: 40px;
+    height: 40px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+}
+
+.benefit-icon i {
+    font-size: 24px;
+    color: black;
+}
+
+.benefit-text h3 {
+    margin: 0;
+    font-size: 18px;
+    color: #495057;
+    font-weight: 500;
+}
+
+/* Responsive */
+@media (max-width: 480px) {
+    .container {
+        padding: 0 15px;
+    }
+
+    .header-section,
+    .benefits-section {
+        padding: 25px 20px;
+    }
+
+}
