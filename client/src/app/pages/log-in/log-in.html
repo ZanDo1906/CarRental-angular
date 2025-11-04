@@ -1,0 +1,39 @@
+<!-- Modal -->
+<div class="modal fade" id="loginModal" tabindex="-1" aria-labelledby="loginModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered">
+    <div class="modal-content login-modal">
+      <div class="modal-header border-0">
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body px-4 pb-4">
+        <h3 class="topic">Đăng nhập</h3>
+        
+        <div class="form-row">
+          <label for="sdt" class="form-label">Số điện thoại:</label>
+          <input type="text" id="sdt" class="form-control" placeholder="Nhập số điện thoại" [(ngModel)]="phoneNumber">
+        </div>
+
+        <div class="form-row">
+          <label for="matkhau" class="form-label">Mật khẩu:</label>
+          <div class="password-container">
+            <input type="password" id="matkhau" class="form-control" placeholder="Nhập mật khẩu" [(ngModel)]="password" (keyup.enter)="onLogin()">
+            <i class="bi bi-eye" id="togglePassword" (click)="An_Hien_Password()"></i>
+          </div>
+        </div>
+
+        <p class="forget-password"><a href="#">Quên mật khẩu?</a></p>
+
+        <div *ngIf="errorMessage" class="alert alert-danger" role="alert">
+          {{ errorMessage }}
+        </div>
+
+        <button class="btn btn-primary" style="background-color: #1D7363; border: #1D7363; width: 100%; padding: 10px;" (click)="onLogin()">Đăng nhập</button>
+
+        <div class="log-in">
+          <p>Bạn chưa có tài khoản?</p>
+          <a href="#">Đăng ký ngay</a>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

@@ -1,7 +1,8 @@
 import { iUser } from './../interfaces/User';
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { Observable } from 'rxjs';
+import { Observable, of } from 'rxjs';
+import { map } from 'rxjs/operators';
 @Injectable({
   providedIn: 'root',
 })
@@ -10,8 +11,35 @@ export class UserService {
 
   constructor(private _http: HttpClient) { }
 
+  private localKey = 'extraUsers';
+  private readExtras(): iUser[] {
+    try {
+      const raw = localStorage.getItem(this.localKey);
+      return raw ? (JSON.parse(raw) as iUser[]) : [];
+    } catch {
+      return [];
+    }
+  }
+
+  private writeExtras(users: iUser[]): void {
+    localStorage.setItem(this.localKey, JSON.stringify(users));
+  }
+
+  // Trả về danh sách gốc + người dùng tạo mới (localStorage)
   getAllUsers(): Observable<iUser[]> {
-    return this._http
-      .get<iUser[]>(this.url);
+    return this._http.get<iUser[]>(this.url).pipe(
+      map(assetUsers => {
+        const extras = this.readExtras();
+        return [...assetUsers, ...extras];
+      })
+    );
+  }
+
+  // Lưu người dùng mới (giả lập lưu file)
+  addUser(user: iUser) {
+    const extras = this.readExtras();
+    extras.push(user);
+    this.writeExtras(extras);
+    return of(user);
   }
 }

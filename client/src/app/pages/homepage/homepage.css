@@ -1,0 +1,113 @@
+.first {
+  position: relative;
+  height: 500px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  color: rgb(255, 255, 255); 
+  overflow: hidden; 
+}
+
+
+.first-background-image {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover; 
+  z-index: 1; 
+}
+
+.first-overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.5); 
+  z-index: 2; 
+}
+
+
+.first-content {
+  position: relative; 
+  z-index: 3; 
+  padding: 20px;
+  max-width: 900px; 
+  margin: 0 auto;
+}
+
+.first-content h1 {
+  font-family: 'Montserrat';
+  font-size: 60px; 
+  font-weight: 900; 
+  letter-spacing: 2px; 
+  text-transform: uppercase; 
+  margin-bottom: 20px;
+}
+
+/* Style cho đường kẻ trắng */
+.divider {
+  width: 300px; /* Chiều rộng đường kẻ */
+  height: 2px; /* Độ dày đường kẻ */
+  background-color: white;
+  margin: 20px auto; /* Căn giữa và khoảng cách */
+}
+
+.first-content p {
+  font-family: 'Inter', sans-serif; /* Giữ font Inter */
+  font-size: 1.4rem; /* Cỡ chữ to hơn chút */
+  font-weight: 400;
+  margin-top: 20px;
+}
+
+/* Style cho riêng số */
+.first-content #customer-count {
+  font-weight: 700; 
+  color: #4ac8ff; /* Màu xanh nhạt */
+}
+
+/* Thêm hiệu ứng responsive cho cỡ chữ to */
+@media (max-width: 768px) {
+  .first-content h1 {
+    font-size: 2.5rem;
+  }
+  .first-content p {
+    font-size: 1rem;
+  }
+  .divider {
+    width: 200px;
+  }
+}
+
+@media (max-width: 480px) {
+  .first-content h1 {
+    font-size: 1.8rem;
+  }
+  .first-content p {
+    font-size: 0.9rem;
+  }
+  .divider {
+    width: 150px;
+  }
+}
+
+/* Filter box theo ảnh mẫu */
+.filter-box{
+  border:2px solid #1D7363;
+  border-radius:15px;
+  background:#fff;
+  padding:16px 18px;
+  margin-bottom:18px;
+}
+
+.filter-label{
+  display:block; font-size:12px; color:#1D7363; margin-bottom:4px; font-weight:600;
+}
+
+.fields-center { justify-content: center; }
+.field-input {
+  width: 260px;       
+}

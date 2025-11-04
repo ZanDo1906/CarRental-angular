@@ -23,10 +23,10 @@
           <a class="nav-link" routerLink="/owner" routerLinkActive="active">Trở thành chủ xe</a>
         </li>
         <li class="nav-item d-lg-block">
-          <a class="btn btn-outline-success px-3" routerLink="/signup">Đăng ký</a>
+          <button class="btn btn-outline-success px-3" data-bs-toggle="modal" data-bs-target="#signUpModal">Đăng ký</button>
         </li>
         <li class="nav-item d-lg-block">
-          <a class="btn btn-outline-success px-3" routerLink="/login">Đăng nhập</a>
+          <button class="btn btn-outline-success px-3" data-bs-toggle="modal" data-bs-target="#loginModal">Đăng nhập</button>
         </li>
       </ul>
 
@@ -52,14 +52,29 @@
           </a>
         </li>
         <li class="nav-item dropdown user-menu-container">
-          <div class="d-flex align-items-center gap-2 cursor-pointer" (click)="toggleUserMenu()">
+          <div class="d-flex align-items-center gap-2 cursor-pointer dropdown-toggle" 
+               id="userDropdown" 
+               data-bs-toggle="dropdown" 
+               aria-expanded="false">
             <img [src]="currentUser?.Anh_dai_dien || 'assets/images/default-avatar.png'" 
                  [alt]="currentUser?.Ho_va_ten"
                  class="rounded-circle user-avatar">
             <span class="user-name">{{ currentUser?.Ho_va_ten }}</span>
           </div>
+          <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="userDropdown">
+            <li><a class="dropdown-item" routerLink="/profile">Tài khoản của tôi</a></li>
+            <li><a class="dropdown-item" routerLink="/my-trips">Chuyến đi</a></li>
+            <li><a class="dropdown-item" routerLink="/my-cars">Xe của tôi</a></li>
+            <li><hr class="dropdown-divider"></li>
+            <li><a class="dropdown-item" href="#" (click)="logout()">Đăng xuất</a></li>
+          </ul>
         </li>
       </ul>
     </div>
   </div>
 </nav>
+
+<!-- Login Modal -->
+<app-log-in (loginSuccess)="onLoginSuccess($event)"></app-log-in>
+<!-- Sign Up Modal -->
+<app-sign-in (registerSuccess)="onLoginSuccess($event)"></app-sign-in>

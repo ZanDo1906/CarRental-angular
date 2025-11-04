@@ -16,8 +16,11 @@ import { LocationService } from '../../services/location';
 export class CarDetail implements OnInit {
   id!: string | null;
   car: any;
-  hero: string | null = null;
   locations: any[] = [];
+  
+  // Lightbox
+  showLightbox = false;
+  currentImageIndex = 0;
 
   constructor(
     private route: ActivatedRoute,
@@ -40,7 +43,6 @@ export class CarDetail implements OnInit {
             ? list.find((x: any) => String(x.Ma_xe) === String(this.id))
             : null;
           console.log('Found car:', this.car);
-          this.hero = this.car?.Anh_xe?.[0] || null;
           this.cdr.detectChanges();
         },
         error: (err) => {
@@ -62,7 +64,31 @@ export class CarDetail implements OnInit {
     });
   }
 
-  setHero(url: string) { this.hero = url; }
+  // Lightbox functions
+  openLightbox(index: number) {
+    this.currentImageIndex = index;
+    this.showLightbox = true;
+    document.body.style.overflow = 'hidden';
+  }
+
+  closeLightbox() {
+    this.showLightbox = false;
+    document.body.style.overflow = 'auto';
+  }
+
+  nextImage(event: Event) {
+    event.stopPropagation();
+    if (this.car?.Anh_xe?.length) {
+      this.currentImageIndex = (this.currentImageIndex + 1) % this.car.Anh_xe.length;
+    }
+  }
+
+  prevImage(event: Event) {
+    event.stopPropagation();
+    if (this.car?.Anh_xe?.length) {
+      this.currentImageIndex = (this.currentImageIndex - 1 + this.car.Anh_xe.length) % this.car.Anh_xe.length;
+    }
+  }
 
   vnd(n: number | string | undefined) {
     if (n == null) return '';
