@@ -12,6 +12,10 @@
   padding: 24px 0 48px;
 }
 
+.tc-container {
+  padding: 0 15px;
+}
+
 .car-detail-page .container {
   max-width: 1200px;
   padding-left: 15px;
@@ -73,14 +77,14 @@
 .thumbnail-grid img:hover,
 .thumbnail-grid img.active{
   opacity: 1;
-  outline: 2px solid var(--brand);
+  outline: 2px solid #1D7363;
 }
 
 /* ====== INFO RIGHT COLUMN ====== */
 .info-section { 
   display: flex;
   flex-direction: column;
-  gap: 24px;
+  gap: 20px;
 }
 
 .car-header {
@@ -95,82 +99,326 @@
   margin-bottom: 8px;
 }
 
-.car-title {
-  font-size: 20px; 
-  font-weight: 800; 
-  color: var(--ink);
+.car-name {
+  font-family: 'Montserrat', 'Inter', sans-serif;
+  font-size: 30px; 
+  font-weight: 700; 
+  color: #1D7363;
   margin: 0;
+  text-transform: uppercase;
 }
+
 .actions-icons .icon-btn{
-  border:1px solid var(--line); background:#fff; border-radius:10px;
-  padding:6px 10px; margin-left:6px; cursor:pointer;
+  border:1px solid var(--line); 
+  background:#fff; 
+  border-radius:50%;
+  width: 40px;
+  height: 40px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  margin-left:8px; 
+  cursor:pointer;
+  transition: all 0.2s;
 }
-.actions-icons .icon-btn i{ color: var(--brand); }
+
+.actions-icons .icon-btn:hover {
+  background: var(--bg);
+  transform: scale(1.05);
+}
+
+.actions-icons .icon-btn i{ 
+  color: #1D7363; 
+  font-size: 25px;
+}
+
+.actions-icons .icon-btn.liked i,
+.actions-icons .icon-btn.liked {
+  color: #1D7363;
+}
+
+.actions-icons .icon-btn .bi-heart-fill {
+  color: #1D7363;
+}
 
 .rating-row{
-  margin-top: 6px; color: var(--muted); display:flex; align-items:center; gap:8px;
+  margin-top: 6px; 
+  color: #000; 
+  display: flex; 
+  align-items: center; 
+  justify-content: space-between;
+  gap: 8px;
+  font-family: 'Inter', sans-serif;
+  font-size: 16px;
+  font-weight: 500;
 }
-.rating-row .bi-star-fill{ color:#f59e0b; }
-.rating-row .dot{ color:#cbd5e1; }
+
+.rating-left {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.rating-row .rating,
+.rating-row .trips,
+.rating-row .location {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+
+.rating-row .bi-star-fill { 
+  color:#FFD700; 
+  font-size: 18px;
+}
+
+.rating-row .bi-graph-up,
+.rating-row .bi-geo-alt { 
+  color:#1D7363; 
+  font-size: 18px;
+}
+
+.rating-row .dot{ 
+  color:#cbd5e1; 
+}
+
+.status-badge {
+  padding: 4px 12px;
+  border-radius: 999px;
+  font-family: 'Inter', sans-serif;
+  font-size: 14px;
+  font-weight: 600;
+}
+
+.status-good {
+  background: #d1fae5;
+  color: #065f46;
+}
+
+.status-warning {
+  background: #fef3c7;
+  color: #92400e;
+}
+
+.status-danger {
+  background: #fee2e2;
+  color: #991b1b;
+}
+
+.status-unknown {
+  background: #f3f4f6;
+  color: #6b7280;
+}
 
 /* section title */
 .section-title{
-  margin: 16px 0 10px; font-weight: 800; color: var(--brand); font-size: 16px;
+  margin: 0 0 12px; 
+  font-family: 'Montserrat', 'Inter', sans-serif;
+  font-weight: 700; 
+  color: #1D7363; 
+  font-size: 20px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.section-title i {
+  font-size: 20px;
 }
 
 /* Đặc điểm */
+.features-section {
+  background: #fff;
+  border: 1px solid var(--line);
+  border-radius: 12px;
+  padding: 11px;
+}
+
 .features-grid{
-  display:grid; grid-template-columns: repeat(3,1fr); gap: 10px 12px;
+  display:grid; 
+  grid-template-columns: repeat(4, 1fr); 
+  gap: 12px;
 }
+
 .feature-item{
-  display:flex; gap:10px; align-items:center;
-  border:1px solid var(--line); border-radius: 10px;
-  padding:10px; background:#fff;
+  display:flex; 
+  gap:10px; 
+  align-items:flex-start;
+  padding: 0;
 }
-.feature-item i{ color: var(--brand); font-size:18px; }
-.feature-label{ font-size:12px; color: var(--muted); }
-.feature-value{ font-weight:700; color: var(--ink); }
+
+.feature-item i{ 
+  color: #1D7363; 
+  font-size: 20px;
+  margin-top: 2px;
+}
+
+.feature-content {
+  flex: 1;
+}
+
+.feature-label{ 
+  font-family: 'Inter', sans-serif;
+  font-size: 16px; 
+  color: var(--muted);
+  margin-bottom: 2px;
+}
+
+.feature-value{ 
+  font-family: 'Inter', sans-serif;
+  font-weight: 600; 
+  color: var(--ink);
+  font-size: 16px;
+}
 
 /* Mô tả */
+.description-section {
+  background: #fff;
+  border: 1px solid var(--line);
+  border-radius: 12px;
+  padding: 11px;
+}
+
 .description-text{
-  line-height: 1.6; color:#1f2937; font-size:14px;
-  background:#fff; border:1px solid var(--line); border-radius:10px; padding:12px;
+  font-family: 'Inter', sans-serif;
+  line-height: 1.6; 
+  color: #000; 
+  font-size: 16px;
+  margin: 0;
 }
 
 /* Tiện nghi */
+.amenities-section {
+  background: #fff;
+  border: 1px solid var(--line);
+  border-radius: 12px;
+  padding: 11px;
+}
+
 .amenities-list{
-  display:grid; grid-template-columns: repeat(3,1fr); gap:10px 12px;
+  display: grid; 
+  grid-template-columns: repeat(3, 1fr); 
+  gap: 10px;
 }
+
 .amenity-item{
-  display:flex; align-items:center; gap:8px;
-  border:1px dashed var(--line); border-radius:10px; padding:8px 10px; background:#fff;
+  display: flex; 
+  align-items: center; 
+  gap: 8px;
+  font-family: 'Inter', sans-serif;
+  font-size: 16px;
+  color: #000;
 }
-.amenity-item i{ color:var(--brand); }
+
+.amenity-item i{ 
+  color: #1D7363;
+  font-size: 18px;
+}
 
 /* Điều khoản */
-.terms-list{
-  margin:0; padding-left: 18px; line-height:1.6; color:#1f2937; font-size:14px;
+.terms-section {
+  background: #fff;
+  border: 1px solid var(--line);
+  border-radius: 12px;
+  padding: 11px;
 }
 
-/* Chính sách hủy */
-.policy-table{
-  border:1px solid var(--line); border-radius:12px; overflow:hidden; background:#fff;
+.terms-content {
+  font-family: 'Inter', sans-serif;
 }
-.policy-row{
-  display:flex; justify-content:space-between; padding:10px 12px; border-top:1px solid var(--line);
+
+.terms-intro {
+  font-size: 16px;
+  font-weight: 600;
+  color: #000;
+  margin: 0 0 8px 0;
 }
-.policy-row:first-child{ border-top:0; }
-.policy-time{ color:#111827; font-weight:600; }
-.policy-fee{ color:#111827; }
+
+.terms-list{
+  margin: 0 0 12px 0; 
+  padding-left: 20px; 
+  line-height: 1.7; 
+  color: #000; 
+  font-size: 16px;
+}
+
+.terms-list li {
+  margin-bottom: 4px;
+}
+
+.terms-note {
+  font-size: 16px;
+  color: #000;
+  font-style: italic;
+  margin: 0;
+}
+
+/* Chính sách hủy chuyến */
+.policy-section {
+  background: #fff;
+  border: 1px solid var(--line);
+  border-radius: 12px;
+  padding: 11px;
+}
+
+.policy-table {
+  border: none;
+}
+
+.policy-header {
+  display: grid;
+  grid-template-columns: 220px 1fr;
+  border-bottom: 1px solid var(--line);
+  font-family: 'Inter', sans-serif;
+  font-weight: 700;
+  color: #000;
+  font-size: 16px;
+}
+
+.policy-header .policy-col {
+  padding: 12px 16px;
+  text-align: center;
+}
+
+.policy-header .policy-col:first-child {
+  border-right: 1px solid var(--line);
+}
+
+.policy-row {
+  display: grid;
+  grid-template-columns: 220px 1fr;
+  border-bottom: 1px solid var(--line);
+  font-family: 'Inter', sans-serif;
+  font-size: 16px;
+}
+
+.policy-row:last-child {
+  border-bottom: none;
+}
+
+.policy-time {
+  padding: 12px 16px;
+  text-align: center;
+  font-weight: 500;
+  color: #000;
+  border-right: 1px solid var(--line);
+}
+
+.policy-fee {
+  padding: 12px 16px;
+  text-align: center;
+  color: #000;
+}
 
 /* ====== BOOKING CARD RIGHT (STICKY) ====== */
 .booking-card {
   position: sticky; 
   top: 86px;
-  background: #f9fafb;
+  background: #fff;
   border: 1px solid var(--line);
   border-radius: 12px;
-  padding: 20px;
+  padding: 15px;
+  height: fit-content;
 }
 
 .booking-header {
@@ -178,14 +426,15 @@
 }
 
 .booking-price {
+  font-family: 'Montserrat', 'Inter', sans-serif;
   font-size: 28px; 
-  font-weight: 900; 
-  color: var(--brand);
+  font-weight: 700; 
+  color: #1D7363;
   margin: 0;
 }
 
 .booking-price .price-unit { 
-  font-size: 18px;
+  font-size: 16px;
   font-weight: 600; 
   color: #6b7280; 
 }
@@ -205,22 +454,24 @@
 }
 
 .datetime-label {
-  font-size: 13px;
+  font-family: 'Inter', sans-serif;
+  font-size: 16px;
   font-weight: 600;
-  color: #374151;
+  color: #000;
 }
 
 .datetime-input {
+  font-family: 'Inter', sans-serif;
   padding: 10px 12px;
   border: 1px solid #d1d5db;
   border-radius: 8px;
-  font-size: 14px;
+  font-size: 16px;
   background: white;
 }
 
 .datetime-input:focus {
   outline: none;
-  border-color: var(--brand);
+  border-color: #1D7363;
 }
 
 /* Điểm giao nhận */
@@ -231,9 +482,10 @@
 }
 
 .section-label {
-  font-size: 14px;
+  font-family: 'Inter', sans-serif;
+  font-size: 16px;
   font-weight: 700;
-  color: #111827;
+  color: #000;
   margin: 0 0 12px 0;
 }
 
@@ -254,12 +506,13 @@
   width: 18px;
   height: 18px;
   cursor: pointer;
-  accent-color: var(--brand);
+  accent-color: #1D7363;
 }
 
 .checkbox-item span {
-  font-size: 14px;
-  color: #374151;
+  font-family: 'Inter', sans-serif;
+  font-size: 16px;
+  color: #000;
 }
 
 /* Chi phí */
@@ -274,16 +527,17 @@
   justify-content: space-between;
   align-items: center;
   padding: 8px 0;
-  font-size: 14px;
+  font-family: 'Inter', sans-serif;
+  font-size: 16px;
 }
 
 .cost-label {
-  color: #6b7280;
+  color: #000;
   font-weight: 500;
 }
 
 .cost-value {
-  color: #111827;
+  color: #000;
   font-weight: 600;
 }
 
@@ -301,28 +555,29 @@
 .cost-row.total {
   margin-top: 12px;
   padding-top: 16px;
-  border-top: 2px solid var(--brand);
+  border-top: 2px solid #1D7363;
 }
 
 .cost-row.total .cost-label {
   font-size: 16px;
   font-weight: 800;
-  color: #111827;
+  color: #000;
 }
 
 .cost-row.total .cost-value {
   font-size: 16px;
   font-weight: 900;
-  color: var(--brand);
+  color: #1D7363;
 }
 
 /* Nút thuê xe */
 .btn-rent {
+  font-family: 'Montserrat', 'Inter', sans-serif;
   width: 100%; 
   padding: 14px 20px; 
   border-radius: 10px; 
   border: 0;
-  background: var(--brand); 
+  background: #1D7363; 
   color: #fff; 
   font-weight: 800; 
   font-size: 16px;
@@ -350,50 +605,146 @@
 }
 
 .fee-label {
-  font-size: 13px;
+  font-family: 'Inter', sans-serif;
+  font-size: 16px;
   font-weight: 600;
-  color: #374151;
+  color: #000;
 }
 
 .fee-value {
-  font-size: 13px;
+  font-family: 'Inter', sans-serif;
+  font-size: 16px;
   font-weight: 600;
-  color: #111827;
+  color: #000;
 }
 
 .fee-note {
-  font-size: 12px;
+  font-family: 'Inter', sans-serif;
+  font-size: 16px;
   line-height: 1.5;
-  color: #6b7280;
+  color: #000;
   margin: 0 0 16px 0;
   font-style: italic;
 }
 
 /* ====== OWNER & REVIEWS ====== */
-.owner-section{ margin-top: 28px; }
-.owner-card{
-  border:1px solid var(--line); border-radius:12px; padding:12px; background:#fff;
-  display:flex; align-items:center; justify-content:space-between;
+.owner-section{ 
+  margin-top: 28px; 
 }
-.owner-info{ display:flex; align-items:center; gap:12px; }
-.owner-avatar{ width:44px; height:44px; border-radius:50%; border:1px solid var(--line); object-fit:cover; }
-.owner-name{ margin:0 0 4px; font-weight:800; color:var(--ink); }
-.owner-stats{ color:var(--muted); display:flex; gap:8px; align-items:center; }
-.owner-stats .bi-star-fill{ color:#f59e0b; }
+
+.owner-card{
+  border: 1px solid var(--line); 
+  border-radius: 12px; 
+  padding: 11px; 
+  background: #fff;
+  display: flex; 
+  align-items: center; 
+  justify-content: space-between;
+}
+
+.owner-info{ 
+  display: flex; 
+  align-items: center; 
+  gap: 12px; 
+}
+
+.owner-avatar{ 
+  width: 48px; 
+  height: 48px; 
+  border-radius: 50%; 
+  border: 1px solid var(--line); 
+  object-fit: cover; 
+}
+
+.owner-name{ 
+  margin: 0 0 4px; 
+  font-family: 'Montserrat', 'Inter', sans-serif;
+  font-weight: 700; 
+  color: var(--ink);
+  font-size: 16px;
+}
+
+.owner-stats{ 
+  color: #000; 
+  display: flex; 
+  gap: 8px; 
+  align-items: center;
+  font-family: 'Inter', sans-serif;
+  font-size: 16px;
+}
+
+.owner-stats .bi-star-fill{ 
+  color: #f59e0b; 
+}
+
 .owner-badges .badge-item{
-  background:#eaf5f2; color:var(--brand); border:1px solid var(--line);
-  padding:6px 10px; border-radius:999px; font-weight:700; font-size:12px;
+  background: #eaf5f2; 
+  color: #1D7363; 
+  border: 1px solid var(--line);
+  padding: 6px 12px; 
+  border-radius: 999px; 
+  font-family: 'Inter', sans-serif;
+  font-weight: 600; 
+  font-size: 16px;
 }
 
 /* đánh giá tổng hợp */
-.reviews-section{ margin-top: 18px; }
-.reviews-title{ margin:0 0 10px; font-weight:800; color:var(--ink); }
-.rating-bars{ border:1px solid var(--line); border-radius:12px; padding:10px; background:#fff; }
-.rating-bar-item{ display:grid; grid-template-columns: 40px 1fr 32px; align-items:center; gap:10px; padding:2px 0; }
-.rating-bar-item .stars{ color:#111; }
-.rating-bar-item .bi-star-fill{ color:#f59e0b; }
-.rating-bar-item .bar{ height:8px; background:#eef4f2; border-radius:999px; overflow:hidden; }
-.rating-bar-item .fill{ height:100%; background:var(--brand); }
+.reviews-section{ 
+  margin-top: 18px; 
+}
+
+.reviews-title{ 
+  margin: 0 0 12px; 
+  font-family: 'Montserrat', 'Inter', sans-serif;
+  font-weight: 700; 
+  color: #1D7363;
+  font-size: 20px;
+}
+
+.rating-bars{ 
+  border: 1px solid var(--line); 
+  border-radius: 12px; 
+  padding: 11px; 
+  background: #fff; 
+}
+
+.rating-bar-item{ 
+  display: grid; 
+  grid-template-columns: 40px 1fr 32px; 
+  align-items: center; 
+  gap: 10px; 
+  padding: 4px 0; 
+}
+
+.rating-bar-item .stars{ 
+  font-family: 'Inter', sans-serif;
+  color: #000; 
+  font-size: 16px;
+  font-weight: 600;
+}
+
+.rating-bar-item .bi-star-fill{ 
+  color: #f59e0b; 
+}
+
+.rating-bar-item .bar{ 
+  height: 8px; 
+  background: #eef4f2; 
+  border-radius: 999px; 
+  overflow: hidden; 
+}
+
+.rating-bar-item .fill{ 
+  height: 100%; 
+  background:#1D7363; 
+}
+
+.rating-bar-item .count {
+  font-family: 'Inter', sans-serif;
+  font-size: 16px;
+  color: #000;
+  text-align: right;
+}
 
 /* ====== LIGHTBOX ====== */
 .lightbox-overlay {
@@ -434,6 +785,7 @@
   left: 50%;
   transform: translateX(-50%);
   color: white;
+  font-family: 'Inter', sans-serif;
   font-size: 16px;
   font-weight: 600;
   background: rgba(0, 0, 0, 0.5);

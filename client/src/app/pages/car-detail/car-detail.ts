@@ -22,6 +22,9 @@ export class CarDetail implements OnInit {
   showLightbox = false;
   currentImageIndex = 0;
 
+  // Favorite
+  isFavorite = false;
+
   constructor(
     private route: ActivatedRoute,
     private carService: CarService,
@@ -108,8 +111,46 @@ export class CarDetail implements OnInit {
     return 'Chưa cập nhật';
   }
 
+  getLocationCity(): string {
+    if (!this.car?.Ma_vi_tri) return '';
+    const location = this.getLocationById(this.car.Ma_vi_tri);
+    return location ? (location.Quan_huyen + ', ' + location.Tinh_thanh) : '';
+  }
+
+  getCarStatus(): { label: string; class: string } {
+    if (!this.car?.Bao_hanh_gan_nhat) {
+      return { label: 'Chưa có thông tin', class: 'status-unknown' };
+    }
+
+    const maintenanceDate = new Date(this.car.Bao_hanh_gan_nhat);
+    const today = new Date();
+    const diffTime = today.getTime() - maintenanceDate.getTime();
+    const diffDays = Math.floor(diffTime / (1000 * 60 * 60 * 24));
+
+    if (diffDays < 90) {
+      return { label: 'Đã bảo dưỡng gần đây', class: 'status-good' };
+    } else if (diffDays >= 90 && diffDays <= 180) {
+      return { label: 'Sắp đến hạn bảo dưỡng', class: 'status-warning' };
+    } else {
+      return { label: 'Cần bảo dưỡng', class: 'status-danger' };
+    }
+  }
+
   getOwnerName(): string {
     return this.car?.Ten_chu_xe || 'Chủ xe';
+  }
+
+  toggleFavorite() {
+    this.isFavorite = !this.isFavorite;
+  }
+
+  shareLink() {
+    const url = window.location.href;
+    navigator.clipboard.writeText(url).then(() => {
+      alert('Đã sao chép liên kết!');
+    }).catch(() => {
+      alert('Không thể sao chép liên kết. Vui lòng thử lại.');
+    });
   }
 
   goBack() { this.router.navigate(['/']); }

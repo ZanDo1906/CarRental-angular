@@ -24,52 +24,46 @@
       <!-- Header -->
       <div class="car-header">
         <div class="title-row">
-          <h1 class="car-title">{{car.Hang_xe}} {{car.Dong_xe}}</h1>
+          <h1 class="car-name">{{car.Hang_xe}} {{car.Dong_xe}} {{car.Nam_san_xuat}}</h1>
           <div class="actions-icons">
-            <button class="icon-btn"><i class="bi bi-share"></i></button>
-            <button class="icon-btn"><i class="bi bi-heart"></i></button>
+            <button class="icon-btn" (click)="shareLink()"><i class="bi bi-share"></i></button>
+            <button class="icon-btn" [class.liked]="isFavorite" (click)="toggleFavorite()">
+              <i [class]="isFavorite ? 'bi bi-heart-fill' : 'bi bi-heart'"></i>
+            </button>
           </div>
         </div>
         <div class="rating-row">
-          <span class="rating">
-            <i class="bi bi-star-fill"></i>
-            {{car.Diem_danh_gia || 5.0}}
+          <div class="rating-left">
+            <span class="rating">
+              <i class="bi bi-star-fill"></i>
+              {{car.Diem_danh_gia || 5.0}}
+            </span>
+            <span class="dot">•</span>
+            <span class="trips">
+              <i class="bi bi-graph-up"></i>
+              {{car.So_luot_danh_gia || 0}} chuyến
+            </span>
+            <span class="dot">•</span>
+            <span class="location">
+              <i class="bi bi-geo-alt"></i>
+              {{getLocationCity()}}
+            </span>
+          </div>
+          <span class="status-badge" [ngClass]="getCarStatus().class">
+            {{getCarStatus().label}}
           </span>
-          <span class="dot">•</span>
-          <span class="trips">{{car.So_chuyen || car.So_luot_danh_gia || 0}} chuyến</span>
         </div>
       </div>
-
+      <hr>
       <!-- Đặc điểm -->
       <div class="features-section">
         <h3 class="section-title">Đặc điểm</h3>
         <div class="features-grid">
           <div class="feature-item">
-            <i class="bi bi-diagram-3"></i>
-            <div class="feature-content">
-              <div class="feature-label">Số ghế</div>
-              <div class="feature-value">{{car.So_cho}} chỗ</div>
-            </div>
-          </div>
-          <div class="feature-item">
-            <i class="bi bi-palette"></i>
-            <div class="feature-content">
-              <div class="feature-label">Màu xe</div>
-              <div class="feature-value">{{car.Mau_sac || 'Đen'}}</div>
-            </div>
-          </div>
-          <div class="feature-item">
             <i class="bi bi-gear"></i>
             <div class="feature-content">
               <div class="feature-label">Truyền động</div>
               <div class="feature-value">{{car.Hop_so}}</div>
-            </div>
-          </div>
-          <div class="feature-item">
-            <i class="bi bi-ev-front"></i>
-            <div class="feature-content">
-              <div class="feature-label">Dòng xe</div>
-              <div class="feature-value">{{car.Loai_xe || 'Sedan'}}</div>
             </div>
           </div>
           <div class="feature-item">
@@ -80,9 +74,16 @@
             </div>
           </div>
           <div class="feature-item">
+            <i class="bi bi-people"></i>
+            <div class="feature-content">
+              <div class="feature-label">Số chỗ</div>
+              <div class="feature-value">{{car.So_cho}} chỗ</div>
+            </div>
+          </div>
+          <div class="feature-item">
             <i class="bi bi-speedometer2"></i>
             <div class="feature-content">
-              <div class="feature-label">Mức tiêu thụ</div>
+              <div class="feature-label">Tiêu hao</div>
               <div class="feature-value">{{car.Muc_tieu_thu || '6.5'}} lít/100km</div>
             </div>
           </div>
@@ -92,7 +93,7 @@
       <!-- Mô tả -->
       <div class="description-section">
         <h3 class="section-title">Mô tả</h3>
-        <p class="description-text">{{car.Mo_ta || 'Xe trong tình trạng tốt, bảo dưỡng định kỳ.'}}</p>
+        <p class="description-text">{{car.Mo_ta || 'Xe trong tình trạng tốt, bảo dưỡng định kỳ. Chủ xe nhiệt tình, hỗ trợ tận tình trong suốt chuyến đi.'}}</p>
       </div>
 
       <!-- Các tiện nghi khác -->
@@ -100,12 +101,12 @@
         <h3 class="section-title">Các tiện nghi khác</h3>
         <div class="amenities-list">
           <div class="amenity-item">
-            <i class="bi bi-camera-video"></i>
-            <span>Camera hành trình</span>
+            <i class="bi bi-bluetooth"></i>
+            <span>Bluetooth</span>
           </div>
           <div class="amenity-item">
-            <i class="bi bi-geo-alt"></i>
-            <span>Định vị GPS</span>
+            <i class="bi bi-camera-video"></i>
+            <span>Camera hành trình</span>
           </div>
           <div class="amenity-item">
             <i class="bi bi-usb-symbol"></i>
@@ -114,10 +115,6 @@
           <div class="amenity-item">
             <i class="bi bi-disc"></i>
             <span>Lốp dự phòng</span>
-          </div>
-          <div class="amenity-item">
-            <i class="bi bi-bluetooth"></i>
-            <span>Bluetooth</span>
           </div>
           <div class="amenity-item">
             <i class="bi bi-droplet"></i>
@@ -132,6 +129,10 @@
             <span>ETC</span>
           </div>
           <div class="amenity-item">
+            <i class="bi bi-geo-alt"></i>
+            <span>Định vị GPS</span>
+          </div>
+          <div class="amenity-item">
             <i class="bi bi-map"></i>
             <span>Bản đồ</span>
           </div>
@@ -141,33 +142,45 @@
       <!-- Điều khoản -->
       <div class="terms-section">
         <h3 class="section-title">Điều khoản</h3>
-        <ul class="terms-list">
-          <li>Sử dụng xe đúng mục đích.</li>
-          <li>Không sử dụng xe thuê vào mục đích phi pháp, trái pháp luật.</li>
-          <li>Không sử dụng xe thuê để cầm cố, thế chấp.</li>
-          <li>Không hút thuốc, nhả kẹo cao su, xả rác trong xe.</li>
-          <li>Trả xe đúng hạn. Trường hợp trả muộn, khách hàng sẽ chịu phụ phí.</li>
-        </ul>
+        <div class="terms-content">
+          <p class="terms-intro">Quy định/Lưu ý khi thuê xe:</p>
+          <ul class="terms-list">
+            <li>Sử dụng xe đúng mục đích.</li>
+            <li>Không sử dụng xe thuê vào mục đích phi pháp, trái pháp luật.</li>
+            <li>Không sử dụng xe thuê để cầm cố, thế chấp.</li>
+            <li>Không hút thuốc, nhả kẹo cao su, xả rác trong xe.</li>
+            <li>Không chở hàng có mùi trong xe.</li>
+            <li>Trả xe đúng hạn. Trường hợp trả muộn, khách hàng sẽ chịu phụ phí.</li>
+          </ul>
+          <p class="terms-note">Trân trọng cảm ơn, chúc quý khách hàng có những chuyến đi tuyệt vời!</p>
+        </div>
       </div>
 
-      <!-- Chính sách huỷ chuyến -->
+      <!-- Chính sách hủy chuyến -->
       <div class="policy-section">
-        <h3 class="section-title">Chính sách huỷ chuyến</h3>
+        <h3 class="section-title">Chính sách hủy chuyến</h3>
         <div class="policy-table">
-          <div class="policy-row">
-            <div class="policy-time">Trong vòng 1h</div>
-            <div class="policy-fee">Hoàn tiền 100%</div>
+          <div class="policy-header">
+            <div class="policy-col">Thời điểm hủy chuyến</div>
+            <div class="policy-col">Phí hủy chuyến</div>
           </div>
           <div class="policy-row">
-            <div class="policy-time">Trước chuyến đi 7 ngày</div>
-            <div class="policy-fee">Hoàn tiền 70%</div>
+            <div class="policy-time">< 1 ngày</div>
+            <div class="policy-fee">Hoàn trả toàn bộ tiền cọc giữ chỗ</div>
           </div>
           <div class="policy-row">
-            <div class="policy-time">Trong vòng 7 ngày</div>
-            <div class="policy-fee">Không hoàn tiền</div>
+            <div class="policy-time">< 5 ngày</div>
+            <div class="policy-fee">Thu phí dịch vụ, hoàn phần còn lại của tiền cọc giữ chỗ</div>
+          </div>
+          <div class="policy-row">
+            <div class="policy-time">> 10 ngày</div>
+            <div class="policy-fee">Không cho phép hủy</div>
           </div>
         </div>
       </div>
+      <hr>
+
+
       </div>
       
       <!-- Right Column: Booking Card -->
