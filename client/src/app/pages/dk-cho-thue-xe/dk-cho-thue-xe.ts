@@ -78,6 +78,9 @@ export class DKChoThueXe implements OnInit {
   vehicleDocumentsImage: string | null = null;
   ownerIDImage: string | null = null;
   carImages: (string | null)[] = [null, null, null, null];
+  
+  // Success notification
+  showSuccessMessage = false;
 
   @ViewChild('licensePlateInput') licensePlateInput!: ElementRef<HTMLInputElement>;
   @ViewChild('vehicleDocumentsInput') vehicleDocumentsInput!: ElementRef<HTMLInputElement>;
@@ -413,5 +416,46 @@ export class DKChoThueXe implements OnInit {
       };
       reader.readAsDataURL(file);
     }
+  }
+
+  // Check if all required images are uploaded
+  areAllImagesUploaded(): boolean {
+    return this.licensePlateImage !== null &&
+           this.vehicleDocumentsImage !== null &&
+           this.ownerIDImage !== null &&
+           this.carImages.every(img => img !== null);
+  }
+
+  // Submit form
+  onSubmit(): void {
+    if (this.areAllImagesUploaded()) {
+      // Simulate form submission
+      this.showSuccessMessage = true;
+      
+      // Remove auto hide since we now have action buttons
+      // setTimeout(() => {
+      //   this.showSuccessMessage = false;
+      // }, 5000);
+    } else {
+      alert('Vui lòng tải lên tất cả hình ảnh bắt buộc!');
+    }
+  }
+
+  // View details method
+  viewDetails(): void {
+    this.showSuccessMessage = false;
+    // Navigate to details page or show details modal
+    // You can implement this based on your routing structure
+    console.log('Viewing registration details...');
+    alert('Chức năng xem chi tiết đang được phát triển!');
+  }
+
+  // Go to homepage method
+  goToHomepage(): void {
+    this.showSuccessMessage = false;
+    // Navigate to homepage
+    // You can use Router here: this.router.navigate(['/']);
+    console.log('Navigating to homepage...');
+    window.location.href = '/';
   }
 }

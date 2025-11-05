@@ -712,3 +712,165 @@ select.form-input {
     border-color: #1D7363;
     box-shadow: 0 0 0 0.25rem rgba(29, 115, 99, 0.25);
 }
+
+/* Success Notification */
+.success-notification {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 9999;
+    animation: fadeIn 0.3s ease-in-out;
+}
+
+.success-content {
+    background-color: white;
+    border-radius: 16px;
+    padding: 40px;
+    max-width: 500px;
+    width: 90%;
+    text-align: center;
+    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
+    position: relative;
+    animation: slideUp 0.3s ease-out;
+}
+
+.success-icon {
+    margin-bottom: 20px;
+}
+
+.success-icon i {
+    font-size: 4rem;
+    color: #1D7363;
+}
+
+.success-text h3 {
+    color: #1D7363;
+    margin-bottom: 16px;
+    font-size: 1.5rem;
+    font-weight: 600;
+}
+
+.success-text p {
+    color: #666;
+    line-height: 1.6;
+    margin-bottom: 20px;
+    font-size: 0.95rem;
+}
+
+.success-details {
+    margin-top: 20px;
+}
+
+.status-badge {
+    display: inline-block;
+    background-color: #eef6f4;
+    color: #1D7363;
+    padding: 8px 16px;
+    border-radius: 20px;
+    font-size: 0.9rem;
+    font-weight: 500;
+    border: 1px solid #1D7363;
+}
+
+.success-actions {
+    display: flex;
+    gap: 16px;
+    margin-top: 30px;
+    justify-content: center;
+}
+
+.success-actions .btn-secondary,
+.success-actions .btn-primary {
+    flex: 1;
+    max-width: 180px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    font-size: 0.9rem;
+    padding: 12px 20px;
+    border-radius: 8px;
+    font-weight: 500;
+    transition: all 0.2s ease;
+}
+
+.success-actions .btn-secondary {
+    background-color: white;
+    border: 1px solid #d1d5db;
+    color: #6b7280;
+}
+
+.success-actions .btn-secondary:hover {
+    background-color: #f9fafb;
+    border-color: #9ca3af;
+    color: #4b5563;
+}
+
+.success-actions .btn-primary {
+    background-color: #1D7363;
+    border: none;
+    color: white;
+}
+
+.success-actions .btn-primary:hover {
+    background-color: #4CAF50;
+    color: #1D7363;
+    transform: translateY(-1px);
+}
+
+.success-actions i {
+    font-size: 1rem;
+}
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+    }
+    to {
+        opacity: 1;
+    }
+}
+
+@keyframes slideUp {
+    from {
+        opacity: 0;
+        transform: translateY(30px) scale(0.95);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0) scale(1);
+    }
+}
+
+/* Responsive for success notification */
+@media (max-width: 768px) {
+    .success-content {
+        padding: 30px 20px;
+        margin: 20px;
+    }
+    
+    .success-icon i {
+        font-size: 3rem;
+    }
+    
+    .success-text h3 {
+        font-size: 1.3rem;
+    }
+
+    .success-actions {
+        flex-direction: column;
+        gap: 12px;
+    }
+
+    .success-actions .btn-secondary,
+    .success-actions .btn-primary {
+        max-width: 100%;
+        padding: 14px 20px;
+    }
+}
