@@ -37,20 +37,20 @@
 .nav-link {
   color: var(--text-color); 
   font-weight: 500;
-  padding: 0.75rem 1rem;
+  padding: 0.7rem 1rem;
   display: flex;
   align-items: center;
   font-size: 16px;
   border-radius: 8px;
   font-family: 'Inter', sans-serif;
-  transition: all 0.2s ease-in-out;
+  transition: all 0.2s ease;
 }
 
 .nav-link.active {
   background-color: #1D7363;
   color:#ffffff;
   box-shadow: var(--shadow-active-nav);
-  transform: translateX(2px);
+  transform: translateX(3px);
 }
 
 .nav-link:hover:not(.active) {

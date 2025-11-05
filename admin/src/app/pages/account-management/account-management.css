@@ -69,7 +69,7 @@
   border-radius: 20px;
   font-size: 16px; 
   padding: 2rem;
-  box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.05), 0 1px 2px 0 rgba(0, 0, 0, 0.02);
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.06); 
   border: 1px solid #1D7363;
   max-width: 100%; 
   margin-left: auto; 

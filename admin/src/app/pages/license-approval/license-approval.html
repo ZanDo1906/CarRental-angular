@@ -1,0 +1,58 @@
+<main class="main-content">
+  
+  <h2>Duyệt bằng lái xe ({{ users().length }})</h2>
+
+  <div class="card-list">
+    
+    <div *ngFor="let user of displayedUsers()" class="license-card">
+
+      <div class="license-avatar">
+        <img [src]="user.Anh_dai_dien" [alt]="user.Ho_va_ten" (error)="onImageError($event)">
+      </div>
+
+      <div class="license-details">
+        <h3>{{ user.Ho_va_ten | uppercase }}</h3>
+        <p><span class="label">Email:</span> {{ user.Email }}</p>
+        <p><span class="label">Số điện thoại:</span> {{ user.So_dien_thoai }}</p>
+        <p><span class="label">Ngày tạo:</span> {{ user.Ngay_tao | date: 'dd/MM/yyyy' }}</p>
+        <p class="status-pending">
+          <span class="label">Trạng thái:</span> {{ user.Trang_thai }}
+        </p>
+      </div>
+      
+      <div class="license-actions">
+        <button (click)="onAction('view', user)" class="btn btn-solid-primary">Xem bằng lái</button>
+        <button (click)="onAction('approve', user)" class="btn btn-approve">Duyệt bằng lái</button>
+        <button (click)="onAction('reject', user)" class="btn btn-outline-danger">Từ chối duyệt</button>
+      </div>
+
+    </div>
+
+    <nav aria-label="Page navigation" class="d-flex justify-content-end mt-3" *ngIf="totalPages() > 1">
+      <ul class="pagination">
+        
+        <li class="page-item" [class.disabled]="currentPage() === 1">
+          <a class="page-link" (click)="prevPage()" href="javascript:void(0)" aria-label="Previous">
+            <i class="bi bi-chevron-left"></i>
+          </a>
+        </li>
+        
+        <li *ngFor="let page of totalPagesArray()" 
+            class="page-item" 
+            [class.active]="page === currentPage()">
+          <a class="page-link" (click)="goToPage(page)" href="javascript:void(0)">
+            {{ page }}
+          </a>
+        </li>
+        
+        <li class="page-item" [class.disabled]="currentPage() === totalPages()">
+          <a class="page-link" (click)="nextPage()" href="javascript:void(0)" aria-label="Next">
+            <i class="bi bi-chevron-right"></i>
+          </a>
+        </li>
+
+      </ul>
+    </nav>
+  </div>
+
+</main>
