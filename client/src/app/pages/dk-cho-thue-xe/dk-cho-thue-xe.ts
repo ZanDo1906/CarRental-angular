@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild, ElementRef } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { HttpClient } from '@angular/common/http';
@@ -63,6 +63,18 @@ export class DKChoThueXe implements OnInit {
   provincesData: Province[] = [];
   provinces: string[] = [];
   currentDistricts: string[] = [];
+
+  // Image upload data
+  thumbnailImage: string | null = null;
+  mainImage: string | null = null;
+  subImages: (string | null)[] = [null, null, null, null];
+
+  @ViewChild('thumbnailInput') thumbnailInput!: ElementRef<HTMLInputElement>;
+  @ViewChild('mainInput') mainInput!: ElementRef<HTMLInputElement>;
+  @ViewChild('sub1Input') sub1Input!: ElementRef<HTMLInputElement>;
+  @ViewChild('sub2Input') sub2Input!: ElementRef<HTMLInputElement>;
+  @ViewChild('sub3Input') sub3Input!: ElementRef<HTMLInputElement>;
+  @ViewChild('sub4Input') sub4Input!: ElementRef<HTMLInputElement>;
 
   ngOnInit(): void {
     this.loadProvincesData();
@@ -184,5 +196,60 @@ export class DKChoThueXe implements OnInit {
       this.currentDistricts = [];
     }
     this.step2Data.quanHuyen = ''; // Reset quận huyện khi đổi tỉnh
+  }
+
+  triggerFileInput(type: string): void {
+    switch (type) {
+      case 'thumbnail':
+        this.thumbnailInput?.nativeElement.click();
+        break;
+      case 'main':
+        this.mainInput?.nativeElement.click();
+        break;
+      case 'sub1':
+        this.sub1Input?.nativeElement.click();
+        break;
+      case 'sub2':
+        this.sub2Input?.nativeElement.click();
+        break;
+      case 'sub3':
+        this.sub3Input?.nativeElement.click();
+        break;
+      case 'sub4':
+        this.sub4Input?.nativeElement.click();
+        break;
+    }
+  }
+
+  onImageSelected(event: any, type: string): void {
+    const file = event.target.files[0];
+    if (file) {
+      const reader = new FileReader();
+      reader.onload = (e: any) => {
+        const imageUrl = e.target.result;
+
+        switch (type) {
+          case 'thumbnail':
+            this.thumbnailImage = imageUrl;
+            break;
+          case 'main':
+            this.mainImage = imageUrl;
+            break;
+          case 'sub1':
+            this.subImages[0] = imageUrl;
+            break;
+          case 'sub2':
+            this.subImages[1] = imageUrl;
+            break;
+          case 'sub3':
+            this.subImages[2] = imageUrl;
+            break;
+          case 'sub4':
+            this.subImages[3] = imageUrl;
+            break;
+        }
+      };
+      reader.readAsDataURL(file);
+    }
   }
 }

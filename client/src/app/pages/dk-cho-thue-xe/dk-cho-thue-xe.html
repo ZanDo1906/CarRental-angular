@@ -231,10 +231,88 @@
             <!-- Step 3: Hình ảnh xe -->
             <div *ngIf="currentStep === 3">
                 <div class="form-section">
-                    <h3>Hình ảnh xe</h3>
-                    <p class="note">Vui lòng tải lên hình ảnh xe của bạn</p>
-                    <div class="upload-area">
-                        <p>Kéo thả hình ảnh vào đây hoặc click để chọn file</p>
+                    <!-- Ảnh thumbnail chính -->
+                    <div class="upload-section">
+                        <label class="upload-label">Ảnh Thumbnail (600x600)</label>
+                        <div class="upload-area thumbnail-upload" (click)="triggerFileInput('thumbnail')"
+                            [class.has-image]="thumbnailImage">
+                            <input #thumbnailInput type="file" accept="image/*"
+                                (change)="onImageSelected($event, 'thumbnail')" hidden>
+                            <div *ngIf="!thumbnailImage" class="upload-placeholder">
+                                <i class="bi bi-camera"></i>
+                                <p>Click để chọn ảnh thumbnail</p>
+                            </div>
+                            <img *ngIf="thumbnailImage" [src]="thumbnailImage" class="preview-image" alt="Thumbnail">
+                        </div>
+                    </div>
+
+                    <!-- Ảnh chính ngang -->
+                    <div class="upload-section">
+                        <label class="upload-label">Ảnh chính (1260x720)</label>
+                        <div class="upload-area main-upload" (click)="triggerFileInput('main')"
+                            [class.has-image]="mainImage">
+                            <input #mainInput type="file" accept="image/*" (change)="onImageSelected($event, 'main')"
+                                hidden>
+                            <div *ngIf="!mainImage" class="upload-placeholder">
+                                <i class="bi bi-image"></i>
+                                <p>Click để chọn ảnh chính</p>
+                            </div>
+                            <img *ngIf="mainImage" [src]="mainImage" class="preview-image" alt="Main">
+                        </div>
+                    </div>
+
+                    <!-- Grid ảnh phụ -->
+                    <div class="upload-section">
+                        <label class="upload-label">Ảnh chính (1260x720)</label>
+                        <div class="upload-grid">
+                            <!-- Ảnh phụ 1 -->
+                            <div class="upload-area grid-upload" (click)="triggerFileInput('sub1')"
+                                [class.has-image]="subImages[0]">
+                                <input #sub1Input type="file" accept="image/*"
+                                    (change)="onImageSelected($event, 'sub1')" hidden>
+                                <div *ngIf="!subImages[0]" class="upload-placeholder">
+                                    <i class="bi bi-camera"></i>
+                                    <p>Ảnh Thumbnail (600x600)</p>
+                                </div>
+                                <img *ngIf="subImages[0]" [src]="subImages[0]" class="preview-image" alt="Sub 1">
+                            </div>
+
+                            <!-- Ảnh phụ 2 -->
+                            <div class="upload-area grid-upload" (click)="triggerFileInput('sub2')"
+                                [class.has-image]="subImages[1]">
+                                <input #sub2Input type="file" accept="image/*"
+                                    (change)="onImageSelected($event, 'sub2')" hidden>
+                                <div *ngIf="!subImages[1]" class="upload-placeholder">
+                                    <i class="bi bi-camera"></i>
+                                    <p>Ảnh Thumbnail (600x600)</p>
+                                </div>
+                                <img *ngIf="subImages[1]" [src]="subImages[1]" class="preview-image" alt="Sub 2">
+                            </div>
+
+                            <!-- Ảnh phụ 3 -->
+                            <div class="upload-area grid-upload" (click)="triggerFileInput('sub3')"
+                                [class.has-image]="subImages[2]">
+                                <input #sub3Input type="file" accept="image/*"
+                                    (change)="onImageSelected($event, 'sub3')" hidden>
+                                <div *ngIf="!subImages[2]" class="upload-placeholder">
+                                    <i class="bi bi-camera"></i>
+                                    <p>Ảnh Thumbnail (600x600)</p>
+                                </div>
+                                <img *ngIf="subImages[2]" [src]="subImages[2]" class="preview-image" alt="Sub 3">
+                            </div>
+
+                            <!-- Ảnh phụ 4 -->
+                            <div class="upload-area grid-upload" (click)="triggerFileInput('sub4')"
+                                [class.has-image]="subImages[3]">
+                                <input #sub4Input type="file" accept="image/*"
+                                    (change)="onImageSelected($event, 'sub4')" hidden>
+                                <div *ngIf="!subImages[3]" class="upload-placeholder">
+                                    <i class="bi bi-camera"></i>
+                                    <p>Ảnh Thumbnail (600x600)</p>
+                                </div>
+                                <img *ngIf="subImages[3]" [src]="subImages[3]" class="preview-image" alt="Sub 4">
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>
