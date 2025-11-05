@@ -379,7 +379,7 @@ export class Dashboard implements OnInit, AfterViewInit {
           y: {
             beginAtZero: true,
             ticks: {
-              callback: function (value) {
+              callback: function (value:any) {
                 return (Number(value) / 1000000).toFixed(1) + 'tr';
               },
               font: {
@@ -539,10 +539,10 @@ export class Dashboard implements OnInit, AfterViewInit {
                 size: 12
               },
               padding: 15,
-              generateLabels: function (chart) {
+              generateLabels: function (chart:any) {
                 const data = chart.data;
                 if (data.labels && data.datasets.length > 0) {
-                  return data.labels.map((label, i) => {
+                  return data.labels.map((label: any, i: number) => {
                     const dataset = data.datasets[0];
                     const value = dataset.data[i] as number;
                     const total = (dataset.data as number[]).reduce((sum, val) => sum + val, 0);

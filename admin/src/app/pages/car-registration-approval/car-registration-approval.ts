@@ -18,32 +18,25 @@ interface iCarWithLocation extends iCar {
   styleUrls: ['./car-registration-approval.css'],
 })
 export class CarRegistrationApproval implements OnInit {
-  
-  // 1. Signal NGUỒN (chứa TẤT CẢ xe)
+
   cars = signal<iCarWithLocation[]>([]);
 
-  // 2. Thêm các signal cho việc phân trang
   currentPage = signal<number>(1);
   itemsPerPage: number = 5; // Giới hạn 5 xe/trang
 
-  // 3. Signal TÍNH TOÁN (chỉ chứa 5 xe để hiển thị)
   displayedCars = computed(() => {
     const page = this.currentPage();
     const startIndex = (page - 1) * this.itemsPerPage;
     const endIndex = startIndex + this.itemsPerPage;
-    
-    // Tự động cắt 5 xe từ signal nguồn 'cars()'
+
     return this.cars().slice(startIndex, endIndex);
   });
 
-  // 4. Signal TÍNH TOÁN (tổng số trang)
   totalPages = computed(() => {
     return Math.ceil(this.cars().length / this.itemsPerPage);
   });
 
-  // 5. Signal TÍNH TOÁN (mảng số trang, ví dụ: [1, 2, 3])
   totalPagesArray = computed(() => {
-    // Tạo một mảng [1, 2, ...] dựa trên tổng số trang
     return Array.from({ length: this.totalPages() }, (_, i) => i + 1);
   });
 
@@ -53,7 +46,6 @@ export class CarRegistrationApproval implements OnInit {
   ngOnInit(): void {
     forkJoin({
       carsData: this.http.get<iCar[]>('assets/data/Car.json'),
-      // Đảm bảo đường dẫn này chính xác
       locationsData: this.http.get<iLocation[]>('assets/data/location.json'), 
     }).subscribe({
       next: (results) => {
@@ -81,30 +73,26 @@ export class CarRegistrationApproval implements OnInit {
 
   onAction(action: string, car: iCarWithLocation) {
     if (action === 'detail') {
-      this.router.navigate(['/admin/car-detail', car.Ma_xe]);
+      this.router.navigate(['/car-detail-approval', car.Ma_xe]);
 
     } else if (action === 'approve' || action === 'reject') {
       
       if (action === 'approve') {
-        alert(`✅ Đã duyệt xe: ${car.Hang_xe} ${car.Dong_xe}`);
+        alert(`Đã duyệt xe: ${car.Hang_xe} ${car.Dong_xe}`);
       } else {
-        alert(`❌ Đã từ chối xe: ${car.Hang_xe} ${car.Dong_xe}`);
+        alert(`Đã từ chối xe: ${car.Hang_xe} ${car.Dong_xe}`);
       }
       
-      // 1. Cập nhật signal NGUỒN (cars)
       this.cars.update(currentCars => 
         currentCars.filter(c => c.Ma_xe !== car.Ma_xe)
       );
 
-      // 2. Kiểm tra lại trang
-      // Nếu xóa hết xe ở trang hiện tại, lùi về 1 trang
       if (this.displayedCars().length === 0 && this.currentPage() > 1) {
         this.currentPage.set(this.currentPage() - 1);
       }
     }
   }
 
-  // === CÁC HÀM PHÂN TRANG MỚI ===
   goToPage(page: number): void {
     if (page >= 1 && page <= this.totalPages()) {
       this.currentPage.set(page);
@@ -119,7 +107,6 @@ export class CarRegistrationApproval implements OnInit {
     this.goToPage(this.currentPage() - 1);
   }
 
-  // ... (các hàm formatNumber, formatCurrencyShort, onImageError giữ nguyên) ...
   formatNumber(num: number): string {
     return num?.toLocaleString('vi-VN') || '0';
   }

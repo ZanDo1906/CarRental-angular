@@ -1,53 +1,74 @@
+@import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700;800&family=Inter:wght@400;500;600;700&display=swap');
 
-:root {
-  --sidebar-bg: #FFFFFF;
-  --content-bg: #F9FAFB;
-  --active-bg: #F3F4F6;
+
+:host {
   --border-color: #E5E7EB;
-  --text-color: #000000;
-  --active-text: #1D7363;
+  --text-color: #374151; 
   --main-color: #1D7363;
+  
+  --active-text: #FFFFFF; 
+  --active-bg: #1D7363;
+  --hover-bg: #eef6f4;  
+  --hover-text: #1D7363;  
+  --color-error: #d32f2f; 
+  --color-error-hover-bg: #fde8e8; 
+  --shadow-active-nav: 0 4px 12px rgba(29, 115, 99, 0.3);
 }
 
 .sidebar {
-  background-color: var(--sidebar-bg);
   height: 100%; 
-  width: 240px; 
+  width: 260px; 
   flex-shrink: 0;
   overflow-y: auto;
-  margin-right: 20px;
+  margin-right: 10px;
+  padding-right: 1rem;
 }
 
 .sidebar > h2 {
-  font-size: 32px;
-  margin-top: 20px;
+  font-size: 28px;
+  margin-top: 15px;
+  font-family: 'Montserrat', sans-serif;
+  font-weight: 700;
+  color: var(--text-color);
+  text-align: center;
+
 }
 
 .nav-link {
   color: var(--text-color); 
-  font-weight: normal;
+  font-weight: 500;
   padding: 0.75rem 1rem;
   display: flex;
   align-items: center;
   font-size: 16px;
+  border-radius: 8px;
+  font-family: 'Inter', sans-serif;
+  transition: all 0.2s ease-in-out;
 }
 
 .nav-link.active {
-  background-color: #1D7363; 
-  color: #ffffff;
-  border-radius: 8px;
+  background-color: #1D7363;
+  color:#ffffff;
+  box-shadow: var(--shadow-active-nav);
+  transform: translateX(2px);
 }
 
 .nav-link:hover:not(.active) {
   background-color: #eef6f4 ;
   color:#1D7363;
-  border-radius: 8px;
+  transform: translateX(2px);
+  
 }
 
-.logout-nav {
-  padding-bottom: 1rem;
-  margin-top: 2rem; 
-  color:red;
+.nav-item:last-child .nav-link {
+  color: #d32f2f;
+  font-weight: 500;
+}
+
+.nav-item:last-child .nav-link:hover:not(.active) {
+  background-color: #fde8e8;
+  color: #d32f2f;
+;
 }
 
 .sidebar::-webkit-scrollbar,
@@ -64,3 +85,4 @@
 .main-content {
   -ms-overflow-style: none; 
 }
+

@@ -1,0 +1,343 @@
+<div class="tc-container py-4" *ngIf="car; else loading">
+  
+  <div class="container">
+    
+    <!-- Gallery Section - Full Width -->
+    <div class="gallery-section">
+      <div class="main-image" (click)="openLightbox(0)">
+        <img [src]="car?.Anh_xe?.[0] || 'assets/images/placeholder.webp'" 
+             [alt]="car.Hang_xe + ' ' + car.Dong_xe">
+      </div>
+      <div class="thumbnail-grid">
+        <img *ngFor="let img of car?.Anh_xe?.slice(1, 4); let i = index" 
+             [src]="img" 
+             [alt]="car.Hang_xe"
+             (click)="openLightbox(i + 1)">
+      </div>
+    </div>
+
+    <!-- Main Content Grid: 2 columns (Info + Price Card) -->
+    <div class="detail-layout">
+      
+      <!-- Left Column: Car Info -->
+      <div class="info-section">
+      <!-- Header -->
+      <div class="car-header">
+        <div class="title-row">
+          <h1 class="car-title">{{car.Hang_xe}} {{car.Dong_xe}}</h1>
+          <div class="actions-icons">
+            <button class="icon-btn"><i class="bi bi-share"></i></button>
+            <button class="icon-btn"><i class="bi bi-heart"></i></button>
+          </div>
+        </div>
+        <div class="rating-row">
+          <span class="rating">
+            <i class="bi bi-star-fill"></i>
+            {{car.Diem_danh_gia || 5.0}}
+          </span>
+          <span class="dot">•</span>
+          <span class="trips">{{car.So_chuyen || car.So_luot_danh_gia || 0}} chuyến</span>
+        </div>
+      </div>
+
+      <!-- Đặc điểm -->
+      <div class="features-section">
+        <h3 class="section-title">Đặc điểm</h3>
+        <div class="features-grid">
+          <div class="feature-item">
+            <i class="bi bi-diagram-3"></i>
+            <div class="feature-content">
+              <div class="feature-label">Số ghế</div>
+              <div class="feature-value">{{car.So_cho}} chỗ</div>
+            </div>
+          </div>
+          <div class="feature-item">
+            <i class="bi bi-palette"></i>
+            <div class="feature-content">
+              <div class="feature-label">Màu xe</div>
+              <div class="feature-value">{{car.Mau_sac || 'Đen'}}</div>
+            </div>
+          </div>
+          <div class="feature-item">
+            <i class="bi bi-gear"></i>
+            <div class="feature-content">
+              <div class="feature-label">Truyền động</div>
+              <div class="feature-value">{{car.Hop_so}}</div>
+            </div>
+          </div>
+          <div class="feature-item">
+            <i class="bi bi-ev-front"></i>
+            <div class="feature-content">
+              <div class="feature-label">Dòng xe</div>
+              <div class="feature-value">{{car.Loai_xe || 'Sedan'}}</div>
+            </div>
+          </div>
+          <div class="feature-item">
+            <i class="bi bi-fuel-pump"></i>
+            <div class="feature-content">
+              <div class="feature-label">Nhiên liệu</div>
+              <div class="feature-value">{{car.Nhien_lieu}}</div>
+            </div>
+          </div>
+          <div class="feature-item">
+            <i class="bi bi-speedometer2"></i>
+            <div class="feature-content">
+              <div class="feature-label">Mức tiêu thụ</div>
+              <div class="feature-value">{{car.Muc_tieu_thu || '6.5'}} lít/100km</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Mô tả -->
+      <div class="description-section">
+        <h3 class="section-title">Mô tả</h3>
+        <p class="description-text">{{car.Mo_ta || 'Xe trong tình trạng tốt, bảo dưỡng định kỳ.'}}</p>
+      </div>
+
+      <!-- Các tiện nghi khác -->
+      <div class="amenities-section">
+        <h3 class="section-title">Các tiện nghi khác</h3>
+        <div class="amenities-list">
+          <div class="amenity-item">
+            <i class="bi bi-camera-video"></i>
+            <span>Camera hành trình</span>
+          </div>
+          <div class="amenity-item">
+            <i class="bi bi-geo-alt"></i>
+            <span>Định vị GPS</span>
+          </div>
+          <div class="amenity-item">
+            <i class="bi bi-usb-symbol"></i>
+            <span>Khe cắm USB</span>
+          </div>
+          <div class="amenity-item">
+            <i class="bi bi-disc"></i>
+            <span>Lốp dự phòng</span>
+          </div>
+          <div class="amenity-item">
+            <i class="bi bi-bluetooth"></i>
+            <span>Bluetooth</span>
+          </div>
+          <div class="amenity-item">
+            <i class="bi bi-droplet"></i>
+            <span>Cảm biến lốp</span>
+          </div>
+          <div class="amenity-item">
+            <i class="bi bi-badge-4k"></i>
+            <span>Camera 360</span>
+          </div>
+          <div class="amenity-item">
+            <i class="bi bi-laptop"></i>
+            <span>ETC</span>
+          </div>
+          <div class="amenity-item">
+            <i class="bi bi-map"></i>
+            <span>Bản đồ</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Điều khoản -->
+      <div class="terms-section">
+        <h3 class="section-title">Điều khoản</h3>
+        <ul class="terms-list">
+          <li>Sử dụng xe đúng mục đích.</li>
+          <li>Không sử dụng xe thuê vào mục đích phi pháp, trái pháp luật.</li>
+          <li>Không sử dụng xe thuê để cầm cố, thế chấp.</li>
+          <li>Không hút thuốc, nhả kẹo cao su, xả rác trong xe.</li>
+          <li>Trả xe đúng hạn. Trường hợp trả muộn, khách hàng sẽ chịu phụ phí.</li>
+        </ul>
+      </div>
+
+      <!-- Chính sách huỷ chuyến -->
+      <div class="policy-section">
+        <h3 class="section-title">Chính sách huỷ chuyến</h3>
+        <div class="policy-table">
+          <div class="policy-row">
+            <div class="policy-time">Trong vòng 1h</div>
+            <div class="policy-fee">Hoàn tiền 100%</div>
+          </div>
+          <div class="policy-row">
+            <div class="policy-time">Trước chuyến đi 7 ngày</div>
+            <div class="policy-fee">Hoàn tiền 70%</div>
+          </div>
+          <div class="policy-row">
+            <div class="policy-time">Trong vòng 7 ngày</div>
+            <div class="policy-fee">Không hoàn tiền</div>
+          </div>
+        </div>
+      </div>
+      </div>
+      
+      <!-- Right Column: Booking Card -->
+      <div class="booking-card">
+        <div class="booking-header">
+          <h2 class="booking-price">{{vnd(car.Gia_thue)}}<span class="price-unit">/ngày</span></h2>
+        </div>
+
+        <!-- Thời gian thuê/trả -->
+        <div class="datetime-section">
+          <div class="datetime-group">
+            <label class="datetime-label">Thời gian nhận</label>
+            <input type="datetime-local" class="datetime-input">
+          </div>
+          <div class="datetime-group">
+            <label class="datetime-label">Thời gian trả</label>
+            <input type="datetime-local" class="datetime-input">
+          </div>
+        </div>
+
+        <!-- Điểm giao nhận xe -->
+        <div class="pickup-section">
+          <h4 class="section-label">Điểm giao nhận xe</h4>
+          <div class="checkbox-group">
+            <label class="checkbox-item">
+              <input type="checkbox" checked>
+              <span>Nhận xe tại vị trí xe</span>
+            </label>
+            <label class="checkbox-item">
+              <input type="checkbox">
+              <span>Giao xe tận nơi</span>
+            </label>
+          </div>
+        </div>
+
+        <!-- Chi phí thuê xe -->
+        <div class="cost-breakdown">
+          <div class="cost-row">
+            <span class="cost-label">Đơn giá thuê:</span>
+            <span class="cost-value">{{vnd(car.Gia_thue)}}/ngày</span>
+          </div>
+          <div class="cost-row">
+            <span class="cost-label">Bảo hiểm thuê xe:</span>
+            <span class="cost-value">50.000 vnd/ngày</span>
+          </div>
+          <div class="cost-row total-before">
+            <span class="cost-label">Tổng tiền:</span>
+            <span class="cost-value">{{vnd((car.Gia_thue || 0) + 50000)}} vnd</span>
+          </div>
+          <div class="cost-row">
+            <span class="cost-label">Giảm giá:</span>
+            <span class="cost-value text-muted">Nhập mã giảm giá</span>
+          </div>
+          <div class="cost-row">
+            <span class="cost-label">Thuế VAT:</span>
+            <span class="cost-value">50.000 vnd</span>
+          </div>
+          <div class="cost-row total">
+            <span class="cost-label">THÀNH TIỀN:</span>
+            <span class="cost-value">{{vnd((car.Gia_thue || 0) + 100000)}} vnd</span>
+          </div>
+        </div>
+
+        <!-- Nút thuê xe -->
+        <button class="btn-rent">Thuê xe</button>
+
+        <!-- Các chi phí khác -->
+        <div class="other-fees">
+          <h4 class="section-label">Các chi phí khác</h4>
+          <div class="fee-item">
+            <span class="fee-label">Phụ phí xăng:</span>
+            <span class="fee-value">30.000 vnd/lít</span>
+          </div>
+          <p class="fee-note">Trustcar chi trả khi vạch xăng thấp hơn lúc nhận xe. Trả lại cùng vạch xăng như lúc nhận xe thì không phải trả phí này.</p>
+          
+          <div class="fee-item">
+            <span class="fee-label">Phí vệ sinh:</span>
+            <span class="fee-value">120.000 vnd - 150.000 vnd</span>
+          </div>
+          <p class="fee-note">Vui lòng trả lại xe trong trạng thái vệ sinh như lúc nhận xe để không mất phí này.</p>
+        </div>
+      </div>
+
+    </div>
+    <!-- End detail-layout -->
+
+  <!-- Chủ xe section -->
+  <div class="owner-section">
+    <h3 class="section-title">Chủ xe</h3>
+    <div class="owner-card">
+      <div class="owner-info">
+        <img src="assets/images/default-avatar.png" alt="Owner" class="owner-avatar">
+        <div class="owner-details">
+          <h4 class="owner-name">{{getOwnerName()}}</h4>
+          <div class="owner-stats">
+            <span class="stat-item">
+              <i class="bi bi-star-fill"></i> {{car.Diem_danh_gia || 5.0}}
+            </span>
+            <span class="dot">•</span>
+            <span class="stat-item">{{car.So_chuyen || 0}} chuyến</span>
+          </div>
+        </div>
+      </div>
+      <div class="owner-badges">
+        <span class="badge-item">Chủ xe uy tín</span>
+      </div>
+    </div>
+
+    <!-- Reviews -->
+    <div class="reviews-section">
+      <h4 class="reviews-title">Đánh giá</h4>
+      <div class="review-summary">
+        <div class="rating-bars">
+          <div class="rating-bar-item">
+            <span class="stars">5 <i class="bi bi-star-fill"></i></span>
+            <div class="bar"><div class="fill" style="width: 80%"></div></div>
+            <span class="count">16</span>
+          </div>
+          <div class="rating-bar-item">
+            <span class="stars">4 <i class="bi bi-star-fill"></i></span>
+            <div class="bar"><div class="fill" style="width: 15%"></div></div>
+            <span class="count">3</span>
+          </div>
+          <div class="rating-bar-item">
+            <span class="stars">3 <i class="bi bi-star-fill"></i></span>
+            <div class="bar"><div class="fill" style="width: 5%"></div></div>
+            <span class="count">1</span>
+          </div>
+          <div class="rating-bar-item">
+            <span class="stars">2 <i class="bi bi-star-fill"></i></span>
+            <div class="bar"><div class="fill" style="width: 0%"></div></div>
+            <span class="count">0</span>
+          </div>
+          <div class="rating-bar-item">
+            <span class="stars">1 <i class="bi bi-star-fill"></i></span>
+            <div class="bar"><div class="fill" style="width: 0%"></div></div>
+            <span class="count">0</span>
+          </div>
+        </div>
+      </div>
+    </div>
+    
+    </div>
+
+  </div>
+
+
+</div>
+
+<div class="lightbox-overlay" *ngIf="showLightbox" (click)="closeLightbox()">
+  <button class="lightbox-close" (click)="closeLightbox()">
+    <i class="bi bi-x-lg"></i>
+  </button>
+  
+  <button class="lightbox-prev" (click)="prevImage($event)" *ngIf="car?.Anh_xe?.length > 1">
+    <i class="bi bi-chevron-left"></i>
+  </button>
+  
+  <div class="lightbox-content" (click)="$event.stopPropagation()">
+    <img [src]="car?.Anh_xe?.[currentImageIndex]" [alt]="car.Hang_xe + ' ' + car.Dong_xe">
+    <div class="lightbox-counter">{{currentImageIndex + 1}} / {{car?.Anh_xe?.length}}</div>
+  </div>
+  
+  <button class="lightbox-next" (click)="nextImage($event)" *ngIf="car?.Anh_xe?.length > 1">
+    <i class="bi bi-chevron-right"></i>
+  </button>
+</div>
+
+<ng-template #loading>
+  <div class="container">
+    <p class="text-center py-5">Đang tải chi tiết xe…</p>
+  </div>
+</ng-template>
