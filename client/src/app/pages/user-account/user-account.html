@@ -1,1 +1,332 @@
-<p>user-account works!</p>
+
+    <div class="account-section sec space">
+        <div class="container">
+            <div class="row">
+                <div class="sidebar col-md-3 mb-3">
+                    <app-side-bar></app-side-bar>
+                </div>
+                <div class="content-account col-md-9 m-4">
+                    <div class="content-item user-profile">
+                        <div class="title">
+                            <div class="title-edit">
+                                <h5>Thông tin tài khoản</h5>
+                                <div class="wrap-svg">
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
+                                        class="bi bi-pencil" viewBox="0 0 16 16">
+                                        <path
+                                            d="M12.146.146a.5.5 0 0 1 .708 0l3 3a.5.5 0 0 1 0 .708l-10 10a.5.5 0 0 1-.168.11l-5 2a.5.5 0 0 1-.65-.65l2-5a.5.5 0 0 1 .11-.168zM11.207 2.5 13.5 4.793 14.793 3.5 12.5 1.207zm1.586 3L10.5 3.207 4 9.707V10h.5a.5.5 0 0 1 .5.5v.5h.5a.5.5 0 0 1 .5.5v.5h.293zm-9.761 5.175-.106.106-1.528 3.821 3.821-1.528.106-.106A.5.5 0 0 1 5 12.5V12h-.5a.5.5 0 0 1-.5-.5V11h-.5a.5.5 0 0 1-.468-.325" />
+                                    </svg>
+                                </div>
+                            </div>
+                            <div class="total-trips" style="align-items: center;">
+                                <div class="wrap-svg">
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor"
+                                        class="bi bi-car-front-fill" viewBox="0 0 16 16">
+                                        <path
+                                            d="M2.52 3.515A2.5 2.5 0 0 1 4.82 2h6.362c1 0 1.904.596 2.298 1.515l.792 1.848c.075.175.21.319.38.404.5.25.855.715.965 1.262l.335 1.679q.05.242.049.49v.413c0 .814-.39 1.543-1 1.997V13.5a.5.5 0 0 1-.5.5h-2a.5.5 0 0 1-.5-.5v-1.338c-1.292.048-2.745.088-4 .088s-2.708-.04-4-.088V13.5a.5.5 0 0 1-.5.5h-2a.5.5 0 0 1-.5-.5v-1.892c-.61-.454-1-1.183-1-1.997v-.413a2.5 2.5 0 0 1 .049-.49l.335-1.68c.11-.546.465-1.012.964-1.261a.8.8 0 0 0 .381-.404l.792-1.848ZM3 10a1 1 0 1 0 0-2 1 1 0 0 0 0 2m10 0a1 1 0 1 0 0-2 1 1 0 0 0 0 2M6 8a1 1 0 0 0 0 2h4a1 1 0 1 0 0-2zM2.906 5.189a.51.51 0 0 0 .497.731c.91-.073 3.35-.17 4.597-.17s3.688.097 4.597.17a.51.51 0 0 0 .497-.731l-.956-1.913A.5.5 0 0 0 11.691 3H4.309a.5.5 0 0 0-.447.276L2.906 5.19Z" />
+                                    </svg>
+                                </div>
+                                <p class="count">0</p>
+                                <span>Chuyến</span>
+                            </div>
+                        </div>
+                        <div class="content">
+                            <div class="avatar-box">
+                                <div class="avatar avatar--xl has-edit">
+                                    <img src="" alt="">
+                                </div>
+                                <h6>Nhi Nguyễn Thị Yến</h6>
+                                <p class="note">Tham gia </p>
+                                <!-- <div class="trip-class">
+                                    <div class="user-class">
+                                        <div class="wrap-svg"></div>
+                                        <div class="desc">
+                                            <p></p>
+                                        </div>
+                                    </div>
+                                </div> -->
+                            </div>
+                            <div class="info-user">
+                                <!-- <div class="info-box">
+                                    <div class="info-box__item">
+                                        <p>Ngày sinh</p>
+                                        <p class="main"></p>
+                                    </div>
+                                    <div class="info-box__item">
+                                        <p>Giới tính</p>
+                                        <p class="main"></p>
+                                    </div>
+                                </div> -->
+                                <div class="info-desc">
+                                    <div class="info-desc__item">
+                                        <div class="title-item">
+                                            Ngày sinh
+                                        </div>
+                                        <div class="name pointer">
+                                            <p></p>
+                                            <div class="wrap-svg"></div>
+                                        </div>
+                                    </div>
+                                    <div class="info-desc__item">
+                                        <div class="title-item">
+                                            Giới tính
+                                        </div>
+                                        <div class="name pointer">
+                                            <p></p>
+                                            <div class="wrap-svg"></div>
+                                        </div>
+                                    </div>
+                                    <div class="info-desc__item">
+                                        <div class="title-item">
+                                            Số điện thoại
+                                            <!-- <div class="note warning">
+                                                <div class="wrap-svg"></div>
+                                                <span>Chưa xác thực</span>
+                                            </div> -->
+                                        </div>
+                                        <div class="name pointer">
+                                            Thêm số điện thoại
+                                            <div class="wrap-svg"></div>
+                                        </div>
+                                    </div>
+                                    <div class="info-desc__item">
+                                        <div class="title-item">
+                                            Email
+                                            
+                                        </div>
+                                        <div class="name pointer">
+                                            Thêm email
+                                            <div class="wrap-svg"></div>
+                                        </div>
+                                    </div>
+                                    <!-- <div class="info-desc__item">
+                                        <div class="title-item">
+                                            Facebook
+                                        </div>
+                                        <div class="name">
+                                            Thêm liên kết
+                                            <div class="wrap-svg"></div>
+                                        </div>
+                                    </div>
+                                    <div class="info-desc__item">
+                                        <div class="title-item">
+                                            Google
+                                        </div>
+                                        <div class="name">
+                                            Thêm liên kết
+                                            <div class="wrap-svg"></div>
+                                        </div>
+                                    </div> -->
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+                    <div class="content-item driver-license">
+                        <div class="title">
+                            <div class="title-item">
+                                <h6>Giấy phép lái xe</h6>
+                                <div class="title-item__info error">
+                                    <div class="wrap-svg">
+                                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16"
+                                            fill="currentColor" class="bi bi-exclamation-circle-fill"
+                                            viewBox="0 0 16 16">
+                                            <path
+                                                d="M16 8A8 8 0 1 1 0 8a8 8 0 0 1 16 0M8 4a.905.905 0 0 0-.9.995l.35 3.507a.552.552 0 0 0 1.1 0l.35-3.507A.905.905 0 0 0 8 4m.002 6a1 1 0 1 0 0 2 1 1 0 0 0 0-2" fill="#f04438" />
+                                        </svg>
+                                    </div>
+                                    Chưa xác thực
+                                </div>
+                            </div>
+                            <a class="btn1 btn--s" href="">
+                                Chỉnh sửa
+                                <div class="wrap-svg">
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
+                                        class="bi bi-pencil" viewBox="0 0 16 16">
+                                        <path
+                                            d="M12.146.146a.5.5 0 0 1 .708 0l3 3a.5.5 0 0 1 0 .708l-10 10a.5.5 0 0 1-.168.11l-5 2a.5.5 0 0 1-.65-.65l2-5a.5.5 0 0 1 .11-.168zM11.207 2.5 13.5 4.793 14.793 3.5 12.5 1.207zm1.586 3L10.5 3.207 4 9.707V10h.5a.5.5 0 0 1 .5.5v.5h.5a.5.5 0 0 1 .5.5v.5h.293zm-9.761 5.175-.106.106-1.528 3.821 3.821-1.528.106-.106A.5.5 0 0 1 5 12.5V12h-.5a.5.5 0 0 1-.5-.5V11h-.5a.5.5 0 0 1-.468-.325" />
+                                    </svg>
+                                </div>
+                            </a>
+                        </div>
+                        <div class="note-license">
+                            <p>
+                                <b>Lưu ý</b>: để tránh phát sinh vấn đề trong quá trình thuê xe, <u>người đặt xe</u>
+                                trên Mioto (đã
+                                xác thực GPLX) <b>ĐỒNG THỜI</b> phải là <u>người nhận xe</u>.
+                            </p>
+                        </div>
+                        <div class="learn-more">
+                            <p class="text-disabled">
+                                Bạn có thể sử dụng GPLX thẻ cứng hoặc GPLX điện tử trên VNeID
+                            </p>
+                            <div class="wrap-svg"></div>
+                        </div>
+                        <div class="content">
+                            <div class="info-license position-relative">
+                                <div class="info-license__title">
+                                    <p>Hình ảnh</p>
+                                </div>
+                                <label class="info-license__img" for="">
+                                    <div class="fix-img">
+                                        <img src="" alt="">
+                                    </div>
+                                </label>
+                            </div>
+                            <div class="info-license">
+                                <div class="info-license__title">
+                                    <p>Thông tin chung</p>
+                                </div>
+                                <div class="custom-input">
+                                    <div class="wrap-info">
+                                        <div class="title-status">
+                                            <p>Số GPLX</p>
+                                        </div>
+                                        <div class="desc text-success"></div>
+                                    </div>
+                                    <div class="wrap-input disabled">
+                                        <div class="wrap-text">
+                                            <input disabled type="text" name="licenseNumber"
+                                                placeholder="Nhập số GPLX đã cấp ">
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="custom-input">
+                                    <div class="wrap-info">
+                                        <div class="title-status">
+                                            <p>Họ và tên</p>
+                                        </div>
+                                        <div class="desc text-success"></div>
+                                    </div>
+                                    <div class="wrap-input disabled">
+                                        <div class="wrap-text">
+                                            <input disabled type="text" name="licenseName"
+                                                placeholder="Nhập đầy đủ họ tên ">
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="custom-input">
+                                    <div class="wrap-info">
+                                        <div class="title-status">
+                                            <p>Ngày sinh</p>
+                                        </div>
+                                        <div class="desc text-success"></div>
+                                    </div>
+                                    <div class="wrap-input disabled">
+                                        <div class="wrap-text">
+                                            <input disabled type="text" name="licenseBirth"
+                                                placeholder="Nhập ngày sinh ">
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="learn-more"></div>
+                    </div>
+                </div>
+            </div>
+
+
+            <!-- Main content -->
+            <div class="col-md-9">
+                <!-- Thông tin tài khoản -->
+                <!-- <div class="card shadow-sm mb-3">
+                    <div class="card-body">
+                        <div class="d-flex justify-content-between align-items-center mb-3">
+                            <div>
+                                <h5>Thông tin tài khoản</h5>
+                                <div><img src="" alt=""></div>
+                            </div>
+
+                        </div>
+
+                        <div class="d-flex align-items-center mb-4">
+                            <div class="rounded-circle bg-warning text-white d-flex align-items-center justify-content-center me-3"
+                                style="width:90px; height:90px; font-size:36px;">
+                                {{ user.initials }}
+                            </div>
+                            <div>
+                                <h5 class="fw-bold mb-1">{{ user.fullName }}</h5>
+                                <span class="badge bg-light text-dark me-2">Tham gia: {{ user.joinedAt }}</span>
+                                <span class="badge bg-secondary text-white"><i class="bi bi-award me-1"></i>0
+                                    điểm</span>
+                            </div>
+                        </div> -->
+
+                <!-- Info rows -->
+                <!-- <div class="row mb-2">
+                            <div class="col-4 text-muted">Ngày sinh</div>
+                            <div class="col-8">{{ user.dob }}</div>
+                        </div>
+                        <div class="row mb-2">
+                            <div class="col-4 text-muted">Giới tính</div>
+                            <div class="col-8">{{ user.gender }}</div>
+                        </div>
+                        <div class="row mb-2 align-items-center">
+                            <div class="col-4 text-muted">Số điện thoại</div>
+                            <div class="col-6">
+                                <span class="badge"
+                                    [ngClass]="user.phoneVerified ? 'bg-success' : 'bg-warning text-dark'">
+                                    {{ user.phoneVerified ? 'Đã xác thực' : 'Chưa xác thực' }}
+                                </span>
+                            </div>
+                            <div class="col-2 text-end">
+                                <button class="btn btn-sm btn-outline-primary"
+                                    (click)="onEdit('Số điện thoại')">Sửa</button>
+                            </div>
+                        </div>
+                        <div class="row mb-2 align-items-center">
+                            <div class="col-4 text-muted">Email</div>
+                            <div class="col-6">
+                                {{ user.email }}
+                                <span class="badge"
+                                    [ngClass]="user.emailVerified ? 'bg-success' : 'bg-warning text-dark'">
+                                    {{ user.emailVerified ? 'Đã xác thực' : 'Chưa xác thực' }}
+                                </span>
+                            </div>
+                            <div class="col-2 text-end">
+                                <button class="btn btn-sm btn-outline-primary" (click)="onEdit('Email')">Sửa</button>
+                            </div>
+                        </div>
+                        <div class="row mb-2 align-items-center">
+                            <div class="col-4 text-muted">Facebook</div>
+                            <div class="col-6">{{ user.facebook || 'Chưa liên kết' }}</div>
+                            <div class="col-2 text-end">
+                                <button class="btn btn-sm btn-outline-primary" (click)="onEdit('Facebook')">Liên
+                                    kết</button>
+                            </div>
+                        </div>
+                        <div class="row align-items-center">
+                            <div class="col-4 text-muted">Google</div>
+                            <div class="col-6">{{ user.google }}</div>
+                            <div class="col-2 text-end">
+                                <button class="btn btn-sm btn-outline-primary" (click)="onEdit('Google')">Liên
+                                    kết</button>
+                            </div>
+                        </div>
+                    </div>
+                </div> -->
+
+                <!-- Giấy phép lái xe -->
+                <!-- <div class="card shadow-sm">
+                    <div class="card-body">
+                        <div class="d-flex justify-content-between align-items-center mb-3">
+                            <h5 class="fw-bold mb-0">Giấy phép lái xe</h5>
+                            <div>
+                                <span class="badge" [ngClass]="licenseVerified ? 'bg-success' : 'bg-warning text-dark'">
+                                    {{ licenseVerified ? 'Đã xác thực' : 'Chưa xác thực' }}
+                                </span>
+                                <button class="btn btn-sm btn-outline-primary ms-2" (click)="onEdit('GPLX')">Chỉnh
+                                    sửa</button>
+                            </div>
+                        </div>
+                        <div class="alert alert-danger small mb-0">
+                            <strong>Lưu ý:</strong> để tránh phát sinh vấn đề trong quá trình thuê xe,
+                            người đặt xe trên hệ thống (đã xác thực GPLX) đồng thời phải là người nhận xe.
+                        </div>
+                    </div>
+                </div> -->
+            </div>
+        </div>
+    </div>
+

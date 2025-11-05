@@ -2,22 +2,6 @@
   color: #f04438 !important
 }
 
-/* Chỉ cần style phụ trợ nhỏ */
-.container-fluid {
-  font-family: 'Segoe UI', sans-serif;
-}
-
-.list-unstyled li {
-  cursor: pointer;
-}
-
-.list-unstyled li:hover {
-  color: #0d6efd;
-}
-
-.text-success {
-  color: #12b76a !important;
-}
 
 input:disabled {
   background-color: #f6f6f6;
@@ -30,9 +14,7 @@ input {
   background-color: initial;
   width: 100%;
   font-size: 1rem;
-  /* font-weight: 600; */
   color: #242420;
-  font-family: "Manrope", "Encode Sans Expanded", -apple-system, BlinkMacSystemFont, "Segoe UI", "Roboto", "Oxygen", "Ubuntu", "Cantarell", "Fira Sans", "Droid Sans", "Helvetica Neue", sans-serif;
   border: none;
   box-shadow: none;
 }
@@ -154,9 +136,6 @@ p {
 }
 
 
-.position-relative {
-  position: relative !important;
-}
 
 .pointer {
   cursor: pointer !important;
@@ -202,10 +181,6 @@ p {
   line-height: 148px
 }
 
-.account-section {
-  background: #f6f6f6
-}
-
 .account-section .account-container {
   display: flex;
   grid-gap: 20px;
@@ -214,7 +189,7 @@ p {
 
 
 
-.account-section .account-container .content-account {
+.content-account {
   display: flex;
   flex-direction: column;
   grid-gap: 24px;
@@ -222,88 +197,29 @@ p {
   width: calc(70% - 20px)
 }
 
-.account-section .account-container .content-account .content-title {
+.content-title {
   display: flex;
   flex-direction: column;
   grid-gap: 4px;
   gap: 4px
 }
 
-/* .account-section .account-container .content-account .mytrips-mode {
-  display: flex;
-  align-items: center;
-  justify-content: space-between
-}
 
-.account-section .account-container .content-account .mytrips-mode .tab-mode {
-  max-width: unset;
-  min-width: 350px
-}
-
-.account-section .account-container .content-account .mytrips-mode .btn {
-  margin-bottom: 16px
-}
-
-.account-section .account-container .content-account .mytrips-mode .btn.active {
-  background: #5fcf86;
-  color: #fff;
-  border: 1px solid #5fcf86
-}
-
-.account-section .account-container .content-account .mytrips-mode .btn.active .wrap-svg svg path {
-  stroke: #fff
-}
-
-.account-section .account-container .content-account .mytrips-mode .btn.active:after {
-  content: "";
-  position: absolute;
-  width: 16px;
-  height: 16px;
-  background: #f04438;
-  border-radius: 100%;
-  top: -6px;
-  right: -6px
-} */
-
-/* .account-section .account-container .content-account .tab-mode {
-  display: flex;
-  align-items: center;
-  margin-bottom: 16px;
-  max-width: 300px
-}
-
-.account-section .account-container .content-account .tab-mode__item {
-  cursor: pointer;
-  width: 50%;
-  text-align: center;
-  padding-bottom: 20px;
-  font-size: 1.125rem;
-  font-weight: 500;
-  color: #767676;
-  border-bottom: 1px solid #e0e0e0
-}
-
-.account-section .account-container .content-account .tab-mode__item.active {
-  color: #000;
-  font-weight: 600;
-  border-bottom: 4px solid #5fcf86
-} */
-
-.account-section .account-container .content-account .content-item {
+.content-item {
   background: #fff;
   border-radius: 12px;
   padding: 24px 32px;
   border: 1px solid #1D7363;
 }
 
-.account-section .account-container .content-account .user-profile {
+.user-profile {
   display: flex;
   flex-direction: column;
   grid-gap: 24px;
   gap: 24px
 }
 
-.account-section .account-container .content-account .user-profile .title {
+.user-profile .title {
   display: flex;
   align-items: center;
   justify-content: space-between;
@@ -311,32 +227,32 @@ p {
   gap: 8px
 }
 
-.account-section .account-container .content-account .user-profile .title-edit {
+.user-profile .title-edit {
   display: flex;
   align-items: center;
   grid-gap: 8px;
   gap: 8px
 }
 
-.account-section .account-container .content-account .user-profile .title-edit .wrap-svg {
+.user-profile .title-edit .wrap-svg {
   padding: 6px;
   border-radius: 100%;
   border: 1px solid #e0e0e0;
   cursor: pointer
 }
 
-.account-section .account-container .content-account .user-profile .title-edit h5 {
+.user-profile .title-edit h5 {
   font-size: 1.25rem;
   font-weight: 600;
   margin-bottom: 16px;
   color: #1D7363;
 }
 
-.account-section .account-container .content-account .user-profile .title .btn {
+.user-profile .title .btn {
   font-size: .75rem
 }
 
-.account-section .account-container .content-account .user-profile .title .total-trips {
+.user-profile .title .total-trips {
   display: flex;
   align-items: baseline;
   padding: 8px 16px;
@@ -346,7 +262,7 @@ p {
   border: 1px solid #e0e0e0
 }
 
-.account-section .account-container .content-account .user-profile .title .total-trips .count {
+.total-trips .count {
   font-size: 1.5rem;
   font-weight: 800;
   color: #1D7363
@@ -354,70 +270,24 @@ p {
 
 
 
-.account-section .account-container .content-account .user-profile .title .total-trips span {
+.total-trips span {
   font-size: .875rem;
   font-weight: 500;
   color: #767676
 }
 
-.account-section .account-container .content-account .user-profile .info-note {
+.user-profile .info-note {
   display: flex;
   flex-direction: column;
   background: #effaf3;
   border-radius: 8px
 }
-
-.account-section .account-container .content-account .user-profile .info-note .note-five-star {
-  display: flex;
-  grid-gap: 8px;
-  gap: 8px;
-  align-items: center;
-  justify-content: center;
-  padding: 8px 36px
-}
-
-.account-section .account-container .content-account .user-profile .info-note .note-five-star img {
-  width: 24px;
-  height: 24px
-}
-
-.account-section .account-container .content-account .user-profile .info-note .note-five-star p {
-  font-size: .75rem;
-  font-weight: 500;
-  color: #262626
-}
-
-.account-section .account-container .content-account .user-profile .info-note .owner-response {
-  padding: 8px 36px;
-  border-radius: 8px;
-  display: flex;
-  justify-content: space-between
-}
-
-.account-section .account-container .content-account .user-profile .info-note .owner-response__item {
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center
-}
-
-.account-section .account-container .content-account .user-profile .info-note .owner-response__item p {
-  font-size: .75rem;
-  font-weight: 500
-}
-
-.account-section .account-container .content-account .user-profile .info-note .owner-response__item p.main {
-  font-size: 1rem;
-  font-weight: 800
-}
-
-.account-section .account-container .content-account .user-profile .content {
+.user-profile .content {
   display: flex;
   grid-gap: 36px;
   gap: 36px
 }
-
-.account-section .account-container .content-account .user-profile .content .avatar-box {
+.user-profile .content .avatar-box {
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -425,27 +295,15 @@ p {
   gap: 16px;
   width: 30%
 }
-
-.account-section .account-container .content-account .user-profile .content .avatar-box h6 {
+.user-profile .content .avatar-box h6 {
   text-align: center
 }
 
-.account-section .account-container .content-account .user-profile .content .avatar-box .has-five-star {
-  margin-bottom: 8px
-}
-
-.account-section .account-container .content-account .user-profile .content .avatar-box .has-five-star:before {
-  width: 80px;
-  height: 40px;
-  bottom: -8px;
-  background-size: 32px 32px
-}
-
-.account-section .account-container .content-account .user-profile .content .avatar-box .has-edit {
+.user-profile .content .avatar-box .has-edit {
   cursor: pointer
 }
 
-.account-section .account-container .content-account .user-profile .content .avatar-box .has-edit:hover:after {
+.user-profile .content .avatar-box .has-edit:hover:after {
   content: "";
   position: absolute;
   top: 0;
@@ -459,79 +317,26 @@ p {
   background-position: 50%
 }
 
-.account-section .account-container .content-account .user-profile .content .avatar-box p.note {
+.user-profile .content .avatar-box p.note {
   font-size: .75rem;
   font-weight: 500;
   color: #666;
   text-align: center
 }
 
-.account-section .account-container .content-account .user-profile .content .avatar-box .trip-class {
-  display: flex;
-  width: 100%;
-  grid-gap: 4px;
-  gap: 4px;
-  justify-content: center;
-  align-items: center;
-  flex-wrap: wrap
-}
-
-.account-section .account-container .content-account .user-profile .content .avatar-box .trip-class .user-class {
-  display: flex;
-  align-items: center;
-  grid-gap: 4px;
-  gap: 4px;
-  padding: 8px;
-  border-radius: 8px;
-  border: 1px solid #e0e0e0
-}
-
-.account-section .account-container .content-account .user-profile .content .avatar-box .trip-class .user-class .desc {
-  display: flex;
-  flex-direction: column
-}
-
-.account-section .account-container .content-account .user-profile .content .avatar-box .trip-class .user-class .desc p {
-  font-size: 1rem;
-  font-weight: 800
-}
-
-.account-section .account-container .content-account .user-profile .content .avatar-box .trip-class .total-trips {
-  display: none;
-  align-items: baseline;
-  padding: 4px 8px;
-  grid-gap: 4px;
-  gap: 4px;
-  border-radius: 8px;
-  border: 1px solid #e0e0e0
-}
-
-.account-section .account-container .content-account .user-profile .content .avatar-box .trip-class .total-trips .count {
-  font-size: 1.5rem;
-  font-weight: 800;
-  color: #5fcf86
-}
-
-.account-section .account-container .content-account .user-profile .content .avatar-box .trip-class .total-trips span {
-  font-size: .875rem;
-  font-weight: 500;
-  color: #767676
-}
-
-.account-section .account-container .content-account .user-profile .content .info-user {
+.user-profile .content .info-user {
   display: flex;
   flex-direction: column;
   width: 70%;
   grid-gap: 24px;
   gap: 24px
 }
-
-.account-section .account-container .content-account .user-profile .content .info-user.center {
+.user-profile .content .info-user.center {
   height: 146px;
   justify-content: center
 }
 
-.account-section .account-container .content-account .user-profile .content .info-user .info-box {
+.user-profile .content .info-user .info-box {
   display: flex;
   flex-direction: column;
   grid-gap: 16px;
@@ -541,7 +346,7 @@ p {
   background: #f6f6f6
 }
 
-.account-section .account-container .content-account .user-profile .content .info-user .info-box .title {
+.user-profile .content .info-user .info-box .title {
   display: flex;
   justify-content: space-between;
   align-items: center;
@@ -549,53 +354,50 @@ p {
   gap: 8px
 }
 
-.account-section .account-container .content-account .user-profile .content .info-user .info-box .title .btn {
+.user-profile .content .info-user .info-box .title .btn {
   font-size: .75rem
 }
 
-.account-section .account-container .content-account .user-profile .content .info-user .info-box .title .report {
+.user-profile .content .info-user .info-box .title .report {
   padding: 12px;
   border-radius: 100%;
   border: 1px solid #e0e0e0;
   cursor: pointer
 }
 
-.account-section .account-container .content-account .user-profile .content .info-user .info-box__item {
+.user-profile .content .info-user .info-box__item {
   display: flex;
   align-items: baseline;
   justify-content: space-between
 }
 
-.account-section .account-container .content-account .user-profile .content .info-user .info-box__item p {
+.user-profile .content .info-user .info-box__item p {
   font-size: .75rem;
   color: #6f6f6f;
   font-weight: 500
 }
 
-.account-section .account-container .content-account .user-profile .content .info-user .info-box__item p.main {
+.user-profile .content .info-user .info-box__item p.main {
   font-size: 1rem;
   color: #000;
   font-weight: 600
 }
 
-.account-section .account-container .content-account .user-profile .content .info-user .info-note .note-five-star {
-  align-items: flex-start
-}
 
-.account-section .account-container .content-account .user-profile .content .info-user .info-desc {
+.user-profile .content .info-user .info-desc {
   display: flex;
   flex-direction: column;
   grid-gap: 16px;
   gap: 20px;
 }
 
-.account-section .account-container .content-account .user-profile .content .info-user .info-desc .note-desc {
+.user-profile .content .info-user .info-desc .note-desc {
   font-size: .75rem;
   font-weight: 500;
   color: #666
 }
 
-.account-section .account-container .content-account .user-profile .content .info-user .info-desc__item {
+.user-profile .content .info-user .info-desc__item {
   width: 100%;
   display: flex;
   align-items: center;
@@ -606,7 +408,7 @@ p {
   border-bottom: 1px solid #e0e0e0;
 }
 
-.account-section .account-container .content-account .user-profile .content .info-user .info-desc__item .title-item {
+.user-profile .content .info-user .info-desc__item .title-item {
   display: flex;
   flex-wrap: wrap;
   grid-gap: 8px;
@@ -617,7 +419,7 @@ p {
   color: #6f6f6f
 }
 
-.account-section .account-container .content-account .user-profile .content .info-user .info-desc__item .title-item .note {
+.user-profile .content .info-user .info-desc__item .title-item .note {
   display: flex;
   align-items: center;
   grid-gap: 4px;
@@ -629,19 +431,19 @@ p {
   color: #262626
 }
 
-.account-section .account-container .content-account .user-profile .content .info-user .info-desc__item .title-item .note.success {
+.user-profile .content .info-user .info-desc__item .title-item .note.success {
   background: #cff1db
 }
 
-.account-section .account-container .content-account .user-profile .content .info-user .info-desc__item .title-item .note.warning {
+.user-profile .content .info-user .info-desc__item .title-item .note.warning {
   background: #ffe2bb
 }
 
-.account-section .account-container .content-account .user-profile .content .info-user .info-desc__item .title-item .note.error {
+.user-profile .content .info-user .info-desc__item .title-item .note.error {
   background: #ffd0cd
 }
 
-.account-section .account-container .content-account .user-profile .content .info-user .info-desc__item .name {
+.user-profile .content .info-user .info-desc__item .name {
   font-size: 1rem;
   font-weight: 600;
   color: #000;
@@ -651,18 +453,18 @@ p {
   gap: 8px
 }
 
-.account-section .account-container .content-account .user-profile .content .info-user .info-desc__item .name .wrap-svg {
+.user-profile .content .info-user .info-desc__item .name .wrap-svg {
   cursor: pointer
 }
 
-.account-section .account-container .content-account .driver-license {
+.driver-license {
   display: flex;
   flex-direction: column;
   grid-gap: 24px;
   gap: 24px
 }
 
-.account-section .account-container .content-account .driver-license .title {
+.driver-license .title {
   display: flex;
   align-items: center;
   justify-content: space-between;
@@ -670,7 +472,7 @@ p {
   gap: 8px
 }
 
-.account-section .account-container .content-account .driver-license .title .title-item {
+.driver-license .title .title-item {
   display: flex;
   align-items: center;
   flex-wrap: wrap;
@@ -678,13 +480,13 @@ p {
   gap: 8px
 }
 
-.account-section .account-container .content-account .driver-license .title .title-item h6 {
+.driver-license .title .title-item h6 {
   font-size: 1.25rem;
   font-weight: 600;
   color: #1D7363
 }
 
-.account-section .account-container .content-account .driver-license .title .title-item__info {
+.driver-license .title .title-item__info {
   display: flex;
   align-items: center;
   grid-gap: 4px;
@@ -696,49 +498,48 @@ p {
   color: #262626
 }
 
-.account-section .account-container .content-account .driver-license .title .title-item__info.success {
+.driver-license .title .title-item__info.success {
   background: #cff1db
 }
 
-.account-section .account-container .content-account .driver-license .title .title-item__info.warning {
+.driver-license .title .title-item__info.warning {
   background: #ffe2bb
 }
 
-.account-section .account-container .content-account .driver-license .title .title-item__info.error {
+.driver-license .title .title-item__info.error {
   background: #ffd0cd
 }
-
-.account-section .account-container .content-account .driver-license .title .blah {
+.driver-license .title .blah {
   margin: -36px 0 20px auto
 }
 
-.account-section .account-container .content-account .driver-license .title .wrap-btn.has-2-btn {
+.driver-license .title .wrap-btn.has-2-btn {
   padding-top: 0;
   width: unset
 }
 
-.account-section .account-container .content-account .driver-license .title .btn {
+.driver-license .title .btn {
   font-size: .75rem
 }
 
-.account-section .account-container .content-account .driver-license .learn-more {
+.driver-license .learn-more {
   display: flex;
   align-items: center;
   grid-gap: 8px;
   gap: 8px
 }
 
-.account-section .account-container .content-account .driver-license .learn-more p {
+.driver-license .learn-more p {
   font-size: .75rem;
   font-weight: 500;
   color: #666
 }
 
-.account-section .account-container .content-account .driver-license .learn-more .wrap-svg {
+.driver-license .learn-more .wrap-svg {
   cursor: pointer
 }
 
-.account-section .account-container .content-account .driver-license .note-license {
+.driver-license .note-license {
   display: flex;
   flex-direction: column;
   border-radius: 4px;
@@ -746,18 +547,18 @@ p {
   background-color: #ffd0cd
 }
 
-.account-section .account-container .content-account .driver-license .note-license p {
+.driver-license .note-license p {
   font-size: 12px;
   color: #f04438
 }
 
-.account-section .account-container .content-account .driver-license .content {
+.driver-license .content {
   display: flex;
   grid-gap: 24px;
   gap: 24px
 }
 
-.account-section .account-container .content-account .driver-license .content .info-license {
+.driver-license .content .info-license {
   width: calc(50% - 12px);
   display: flex;
   flex-direction: column;
@@ -765,30 +566,29 @@ p {
   gap: 16px
 }
 
-.account-section .account-container .content-account .driver-license .content .info-license .support {
+.driver-license .content .info-license .support {
   border-radius: 8px;
   border: 1px solid #e0e0e0;
   padding: 14px
 }
 
-.account-section .account-container .content-account .driver-license .content .info-license .support p {
+.driver-license .content .info-license .support p {
   font-size: 14px
 }
 
-.account-section .account-container .content-account .driver-license .content .info-license .custom-input .wrap-input .wrap-text span,
-.account-section .account-container .content-account .driver-license .content .info-license .support a {
+.driver-license .content .info-license .custom-input .wrap-input .wrap-text span,
+.driver-license .content .info-license .support a {
   font-weight: 600
 }
-
-.account-section .account-container .content-account .driver-license .content .info-license .custom-input .wrap-info {
+.driver-license .content .info-license .custom-input .wrap-info {
   align-items: center
 }
 
-.account-section .account-container .content-account .driver-license .content .info-license__title p {
+.driver-license .content .info-license__title p {
   font-weight: 600
 }
 
-.account-section .account-container .content-account .driver-license .content .info-license__upload {
+.driver-license .content .info-license__upload {
   position: relative;
   border: 2px dashed #e0e0e0;
   border-radius: 16px;
@@ -800,20 +600,20 @@ p {
   cursor: pointer
 }
 
-.account-section .account-container .content-account .driver-license .content .info-license__upload p {
+.driver-license .content .info-license__upload p {
   font-size: .75rem;
   font-weight: 500;
   color: #666;
   text-align: center
 }
 
-.account-section .account-container .content-account .driver-license .content .info-license__upload p.main {
+.driver-license .content .info-license__upload p.main {
   font: 14px;
   font-weight: 800;
   color: #262626
 }
 
-.account-section .account-container .content-account .driver-license .content .info-license__upload .fileUploader {
+.driver-license .content .info-license__upload .fileUploader {
   position: absolute;
   top: 0;
   left: 0;
@@ -821,28 +621,28 @@ p {
   height: 100%
 }
 
-.account-section .account-container .content-account .driver-license .content .info-license__upload .fileUploader .fileContainer {
+.driver-license .content .info-license__upload .fileUploader .fileContainer {
   width: 100%;
   height: 100%;
   margin: 0
 }
 
-.account-section .account-container .content-account .driver-license .content .info-license__upload .fileUploader .fileContainer .chooseFileButton {
+.driver-license .content .info-license__upload .fileUploader .fileContainer .chooseFileButton {
   opacity: 0
 }
 
-.account-section .account-container .content-account .driver-license .content .info-license__img {
+.driver-license .content .info-license__img {
   position: relative;
   width: 100%;
   height: 100%;
   border-radius: 12px
 }
 
-.account-section .account-container .content-account .driver-license .content .info-license__img.has-edit {
+.driver-license .content .info-license__img.has-edit {
   cursor: pointer
 }
 
-.account-section .account-container .content-account .driver-license .content .info-license__img.has-edit:hover:after {
+.driver-license .content .info-license__img.has-edit:hover:after {
   content: "";
   position: absolute;
   top: 0;
@@ -855,13 +655,12 @@ p {
   background-position: 50%;
   border-radius: 16px
 }
-
-.account-section .account-container .content-account .driver-license .content .info-license__img .fix-img {
+ .driver-license .content .info-license__img .fix-img {
   padding-bottom: 65%;
   border-radius: 16px
 }
 
-.account-section .account-container .content-account .driver-license .content .info-license__img .fileUploader {
+.driver-license .content .info-license__img .fileUploader {
   position: absolute;
   top: 0;
   left: 0;
@@ -869,785 +668,27 @@ p {
   height: 100%
 }
 
-.account-section .account-container .content-account .driver-license .content .info-license__img .fileUploader .fileContainer {
+.driver-license .content .info-license__img .fileUploader .fileContainer {
   width: 100%;
   height: 100%;
   margin: 0
 }
 
-.account-section .account-container .content-account .driver-license .content .info-license__img .fileUploader .fileContainer .chooseFileButton {
+.driver-license .content .info-license__img .fileUploader .fileContainer .chooseFileButton {
   opacity: 0
 }
 
-/* .account-section .account-container .content-account .share-code {
-  display: flex;
-  justify-content: space-between
-}
-
-.account-section .account-container .content-account .share-code .main-content {
-  display: flex;
-  grid-gap: 24px;
-  gap: 24px;
-  flex-direction: column;
-  align-items: baseline;
-  width: calc(30% - 12px)
-}
-
-.account-section .account-container .content-account .share-code .content-img {
-  width: calc(70% - 12px);
-  height: 100%
-}
-
-.account-section .account-container .content-account .share-code .content-img img {
-  width: 100%;
-  height: 100%;
-  border-radius: 8px
-}
-
-.account-section .account-container .content-account .share-code .title {
-  display: flex;
-  flex-direction: column;
-  grid-gap: 8px;
-  gap: 8px
-}
-
-.account-section .account-container .content-account .share-code .title .learn-more {
-  display: flex;
-  align-items: center;
-  grid-gap: 8px;
-  gap: 8px
-}
-
-.account-section .account-container .content-account .share-code .title .learn-more p {
-  font-size: .75rem;
-  font-weight: 500;
-  color: #666
-}
-
-.account-section .account-container .content-account .share-code .title .learn-more .wrap-svg {
-  cursor: pointer
-}
-
-.account-section .account-container .content-account .share-code .content {
-  display: flex;
-  flex-direction: column;
-  align-items: flex-start;
-  grid-gap: 4px;
-  gap: 4px
-}
-
-.account-section .account-container .content-account .share-code .content .code {
-  display: flex;
-  grid-gap: 12px;
-  gap: 12px;
-  align-items: center;
-  padding: 12px 24px;
-  background: #5fcf86;
-  border-radius: 12px
-}
-
-.account-section .account-container .content-account .share-code .content .code p {
-  font-weight: 800;
-  color: #fff
-}
-
-.account-section .account-container .content-account .share-code .content .code .line-code {
-  height: 24px;
-  border-right: 1px dashed #fff
-}
-
-.account-section .account-container .content-account .share-code .content .code .wrap-svg {
-  cursor: pointer
-}
-
-.account-section .account-container .content-account .share-code .content .share-social {
-  display: flex;
-  align-items: center;
-  grid-gap: 12px;
-  gap: 12px;
-  margin: 8px 10px;
-  font-size: .875rem;
-  font-weight: 700;
-  color: #263d2a
-}
-
-.account-section .account-container .content-account .share-code .content .share-social .wrap-svg {
-  cursor: pointer
-} */
-
-.account-section .account-container .content-account .my-cards {
-  display: flex;
-  flex-direction: column;
-  grid-gap: 24px;
-  gap: 24px
-}
-
-.account-section .account-container .content-account .my-cards .title {
-  display: flex;
-  justify-content: space-between;
-  align-items: center
-}
-
-.account-section .account-container .content-account .my-cards .title .btn {
-  font-size: .75rem
-}
-
-.account-section .account-container .content-account .my-cards .content {
-  display: flex;
-  flex-wrap: wrap;
-  grid-gap: 20px;
-  gap: 20px
-}
-
-.account-section .account-container .content-account .my-cards .content .card-item {
-  width: calc(50% - 10px)
-}
-
-/* .account-section .account-container .content-account .review {
-  display: flex;
-  flex-direction: column;
-  grid-gap: 24px;
-  gap: 24px
-}
-
-.account-section .account-container .content-account .review .btn-see-more {
-  display: flex;
-  justify-content: flex-end
-}
-
-.account-section .account-container .content-account .review .list-reviews {
-  display: flex;
-  flex-direction: column;
-  grid-gap: 16px;
-  gap: 16px
-}
-
-.account-section .account-container .content-account .review .review-title {
-  display: flex;
-  justify-content: space-between
-}
-
-.account-section .account-container .content-account .review .review-title .tab-mode {
-  margin-bottom: 0;
-  max-width: unset;
-  width: 250px;
-  justify-content: flex-end
-}
-
-.account-section .account-container .content-account .review .review-title .review-info,
-.account-section .account-container .content-account .review .review-title .review-info .rate-review {
-  display: flex;
-  align-items: center;
-  grid-gap: 4px;
-  gap: 4px
-}
-
-.account-section .account-container .content-account .review .review-title .review-info .rate-review p.rate {
-  font-weight: 800
-} */
-
-/* .account-section .account-container .content-account .car-owner {
-  display: flex;
-  flex-direction: column;
-  grid-gap: 24px;
-  gap: 24px
-}
-
-.account-section .account-container .content-account .car-owner .title {
-  display: flex;
-  justify-content: space-between;
-  grid-gap: 24px;
-  gap: 24px
-}
-
-.account-section .account-container .content-account .car-owner .title .tab-mode {
-  margin-bottom: 0;
-  max-width: unset;
-  width: 250px;
-  justify-content: flex-end
-}
-
-.account-section .account-container .content-account .car-owner .content {
-  position: relative
-}
-
-.account-section .account-container .content-account .car-owner .content .item-car .item-box {
-  height: 100%
-}
-
-.account-section .account-container .content-account .car-owner .content .item-car .item-box .desc-car .line {
-  padding-top: 12px
-}
-
-.account-section .account-container .content-account .car-owner .content .swiper-list-car .swiper-wrapper .swiper-slide {
-  height: unset
-}
-
-.account-section .account-container .content-account .car-owner .content .swiper-list-car .swiper-pagination {
-  display: none;
-  margin-top: 24px
-}
-
-.account-section .account-container .content-account .address-list {
-  display: flex;
-  flex-direction: column;
-  grid-gap: 20px;
-  gap: 20px
-}
-
-.account-section .account-container .content-account .address-list .title {
-  display: flex;
-  align-items: center;
-  justify-content: space-between
-}
-
-.account-section .account-container .content-account .address-list .title .remove-address {
-  padding: 8px;
-  border-radius: 8px;
-  cursor: pointer;
-  border: 1px solid #f04438
-}
-
-.account-section .account-container .content-account .address-list .title .remove-address svg path {
-  stroke: #f04438
-}
-
-.account-section .account-container .content-account .address-list .content {
-  display: flex;
-  flex-direction: column;
-  grid-gap: 20px;
-  gap: 20px
-}
-
-.account-section .account-container .content-account .address-list .content .three-item {
-  display: flex;
-  grid-gap: 16px;
-  gap: 16px
-}
-
-.account-section .account-container .content-account .address-list .content .address-item {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  padding: 12px;
-  border: 1px solid #e0e0e0;
-  border-radius: 8px;
-  background: #fff;
-  grid-gap: 16px;
-  gap: 16px
-}
-
-.account-section .account-container .content-account .address-list .content .address-item.default {
-  background: #f7fdf9;
-  border-color: #5fcf86
-}
-
-.account-section .account-container .content-account .address-list .content .address-item.default .address-content .wrap-text p {
-  color: #000
-}
-
-.account-section .account-container .content-account .address-list .content .address-item.default .address-content .wrap-text p.address-title {
-  font-size: 1.25rem
-}
-
-.account-section .account-container .content-account .address-list .content .address-item.default .address-content .wrap-text p.address-title:after {
-  content: "Mặc định";
-  position: absolute;
-  top: 4px;
-  font-size: .625rem;
-  font-weight: 600;
-  color: #fff;
-  padding: 4px 8px;
-  background: #5fcf86;
-  border-radius: 100px;
-  margin-left: 8px
-}
-
-.account-section .account-container .content-account .address-list .content .address-item .address-content {
-  display: flex;
-  align-items: center;
-  grid-gap: 16px;
-  gap: 16px
-}
-
-.account-section .account-container .content-account .address-list .content .address-item .address-content .wrap-text {
-  display: flex;
-  flex-direction: column;
-  grid-gap: 8px;
-  gap: 8px
-}
-
-.account-section .account-container .content-account .address-list .content .address-item .address-content .wrap-text p {
-  font-size: .875rem;
-  color: #767676
-}
-
-.account-section .account-container .content-account .address-list .content .address-item .address-content .wrap-text p.address-title {
-  position: relative;
-  font-size: 1rem;
-  font-weight: 600;
-  color: #000
-}
-
-.account-section .account-container .content-account .address-list .content .address-item .address-edit {
-  cursor: pointer
-}
-
-.account-section .account-container .content-account .address-list .content .address-type {
-  display: flex;
-  flex-direction: column;
-  grid-gap: 12px;
-  gap: 12px;
-  width: 100%
-}
-
-.account-section .account-container .content-account .address-list .content .address-type .type-title {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  grid-gap: 4px;
-  gap: 4px;
-  font-size: .875rem;
-  font-weight: 700;
-  color: #767676
-}
-
-.account-section .account-container .content-account .address-list .content .address-type .type-title .custom-switch {
-  flex-direction: row-reverse
-}
-
-.account-section .account-container .content-account .address-list .content .address-type .type-title .custom-switch label {
-  font-size: .875rem;
-  font-weight: 700;
-  color: #000
-}
-
-.account-section .account-container .content-account .address-list .content .address-type .type-pick {
-  display: flex;
-  grid-gap: 12px;
-  gap: 12px
-}
-
-.account-section .account-container .content-account .address-list .content .address-type .type-pick .custom-radio input:checked+label {
-  border: 1px solid #fbd1bd;
-  background: #fbd1bd;
-  color: #000
-}
-
-.account-section .account-container .content-account .address-list .content .address-type .type-pick .custom-radio input:checked+label .wrap-svg svg path {
-  stroke: #000
-}
-
-.account-section .account-container .content-account .address-list .content .address-type .type-pick .custom-radio label {
-  font-size: .875rem;
-  font-weight: 500;
-  color: #6f6f6f;
-  padding: 10px;
-  grid-gap: 10px;
-  gap: 10px;
-  border-radius: 8px;
-  border: 1px solid #e0e0e0
-}
-
-.account-section .account-container .content-account .address-list .content .address-type .type-pick .custom-radio label .wrap-svg svg path {
-  stroke: #6f6f6f
-}
-
-.account-section .account-container .content-account .address-list .content .address-type .type-pick .custom-radio label:after {
-  content: none
-}
-
-.account-section .account-container .content-account .address-list .content .address-type .custom-input .wrap-input {
-  background: #fff;
-  padding: 12px
-}
-
-.account-section .account-container .content-account .address-list .content .address-type .custom-input .wrap-input input {
-  color: #000;
-  font-size: 1rem;
-  font-weight: 600
-}
-
-.account-section .account-container .content-account .address-list .content .address-type .custom-input .wrap-input input:-moz-placeholder {
-  font-weight: 400;
-  color: #aaa
-}
-
-.account-section .account-container .content-account .address-list .content .address-type .custom-input .wrap-input input:placeholder-shown {
-  font-weight: 400;
-  color: #aaa
-}
-
-.account-section .account-container .content-account .address-list .content .address-type .custom-input .here-autocomplete .autocomplt-box {
-  top: 48px;
-  right: 0
-}
 
-.account-section .account-container .content-account .address-list .content .apply-button {
-  display: flex;
-  justify-content: flex-end;
-  align-items: center;
-  grid-gap: 8px;
-  gap: 8px
+.driver-license .content .info-license__img .fileUploader .fileContainer .chooseFileButton {
+  opacity: 0
 }
 
-.account-section .account-container .content-account .list-car {
-  display: flex;
-  flex-direction: column;
-  grid-gap: 16px;
-  gap: 16px
-}
-
-.account-section .account-container .content-account .list-car .profile {
-  justify-content: center;
-  align-items: center
-}
-
-.account-section .account-container .content-account .fav-car .item-car.row .item-box {
-  grid-gap: 16px;
-  gap: 16px;
-  flex-direction: row
-}
-
-.account-section .account-container .content-account .fav-car .item-car.row .item-box .img-car .fix-img {
-  width: 250px
-}
-
-.account-section .account-container .content-account .fav-car .item-car.row .item-box .img-car .avatar,
-.account-section .account-container .content-account .fav-car .item-car.row .item-box .img-car span.discount {
-  display: none
-}
-
-.account-section .account-container .content-account .fav-car .item-car.row .item-box .desc-car {
-  width: calc(100% - 455px)
-}
-
-.account-section .account-container .content-account .fav-car .item-car.row .item-box .desc-car .desc-address {
-  margin-top: 12px
-}
-
-.account-section .account-container .content-account .fav-car .item-car.row .item-box .desc-car .line {
-  display: none;
-  padding-top: 12px
-}
-
-.account-section .account-container .content-account .fav-car .item-car.row .item-box .desc-car .desc-price {
-  display: none
-}
-
-.account-section .account-container .content-account .fav-car .item-car.row .item-box .btn-link:hover {
-  border-bottom: 1px solid transparent
-}
-
-.account-section .account-container .content-account .my-trips>div {
-  display: flex;
-  flex-direction: column;
-  grid-gap: 16px;
-  gap: 16px
-}
-
-.account-section .account-container .content-account .my-trips__item {
-  position: relative
-}
-
-.account-section .account-container .content-account .my-trips__item .item-car {
-  border: none;
-  border-top: 1px solid #e0e0e0
-}
-
-.account-section .account-container .content-account .my-trips__item .item-car .desc-car {
-  grid-gap: 6px;
-  gap: 6px
-}
-
-.account-section .account-container .content-account .my-trips__item .item-car .desc-car .desc-name,
-.account-section .account-container .content-account .my-trips__item .item-car .desc-car .desc-name-price,
-.account-section .account-container .content-account .my-trips__item .item-car .desc-car .desc-trip {
-  margin-bottom: 0
-}
-
-.account-section .account-container .content-account .my-trips__item .item-car .desc-car .desc-name {
-  font-weight: 800;
-  width: 100%;
-  justify-content: space-between
-}
-
-.account-section .account-container .content-account .my-trips__item .item-car .desc-car .desc-name .desc-tag {
-  display: flex;
-  align-items: center;
-  flex-wrap: nowrap;
-  grid-gap: 4px;
-  gap: 4px
-}
-
-.account-section .account-container .content-account .my-trips__item .item-car .desc-car .desc-name .desc-tag p {
-  font-size: 14px;
-  font-weight: 500
-}
-
-.account-section .account-container .content-account .my-trips__item .item-car .desc-car .line-page {
-  margin: 0
-}
-
-.account-section .account-container .content-account .my-trips__item .item-car .desc-car .desc-name-price {
-  display: flex;
-  justify-content: space-between;
-  align-items: center
-}
-
-.account-section .account-container .content-account .my-trips__item .item-car .desc-car .desc-name-price.pay {
-  align-items: flex-end
-}
-
-.account-section .account-container .content-account .my-trips__item .item-car .desc-car .desc-name-price.pay .desc-name-price__name {
-  flex-direction: column;
-  align-items: flex-start;
-  grid-gap: 0;
-  gap: 0
-}
-
-.account-section .account-container .content-account .my-trips__item .item-car .desc-car .desc-name-price__name {
-  display: flex;
-  align-items: center;
-  grid-gap: 4px;
-  gap: 4px
-}
-
-.account-section .account-container .content-account .my-trips__item .item-car .desc-car .desc-name-price__name img {
-  width: 32px;
-  height: 32px;
-  border-radius: 100%;
-  object-fit: cover
-}
-
-.account-section .account-container .content-account .my-trips__item .item-car .desc-car .desc-name-price__name a,
-.account-section .account-container .content-account .my-trips__item .item-car .desc-car .desc-name-price__name p {
-  font-size: .875rem;
-  font-weight: 500;
-  color: #666
-}
-
-.account-section .account-container .content-account .my-trips__item .item-car .desc-car .desc-name-price__name a span.main,
-.account-section .account-container .content-account .my-trips__item .item-car .desc-car .desc-name-price__name p span.main {
-  color: #5fcf86;
-  font-weight: 800;
-  font-size: 16px
-}
-
-.account-section .account-container .content-account .my-trips__item .item-car .desc-car .desc-name-price__price p {
-  color: #5fcf86;
-  font-weight: 800
-}
-
-.account-section .account-container .content-account .my-trips__item--header {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  grid-gap: 16px;
-  gap: 16px;
-  padding: 8px 16px;
-  border-radius: 12px 12px 0 0
-}
-
-.account-section .account-container .content-account .my-trips__item--header .title {
-  display: flex;
-  align-items: center;
-  grid-gap: 4px;
-  gap: 4px
-}
-
-.account-section .account-container .content-account .my-trips__item--header .title p {
-  font-size: .75rem;
-  font-weight: 500
-}
-
-.account-section .account-container .content-account .my-trips__item--header .title svg {
-  width: 16px;
-  height: 16px
-}
-
-.account-section .account-container .content-account .my-trips__item--header p.time {
-  font-size: .75rem;
-  font-weight: 500;
-  color: #262626
-}
-
-.account-section .account-container .content-account .my-trips__item--header.handle {
-  background: #fff0cb
-}
-
-.account-section .account-container .content-account .my-trips__item--header.handle .title p {
-  color: #f79009
-}
-
-.account-section .account-container .content-account .my-trips__item--header.warning {
-  background: #fff
-}
-
-.account-section .account-container .content-account .my-trips__item--header.warning .title p {
-  color: #ffc634
-}
-
-.account-section .account-container .content-account .my-trips__item--header.error {
-  background: #fff
-}
-
-.account-section .account-container .content-account .my-trips__item--header.error .title p {
-  color: #f04438
-}
-
-.account-section .account-container .content-account .my-trips__item--header.success {
-  background: #fff
-}
-
-.account-section .account-container .content-account .my-trips__item--header.success .title p {
-  color: #5fcf86
-}
-
-.account-section .account-container .content-account .my-trips__item--header.done {
-  background: #fff
-}
-
-.account-section .account-container .content-account .my-trips__item--header.done .title p {
-  color: #262626
-}
-
-.account-section .account-container .content-account .my-trips__item--header.waiting {
-  background: #fff
-}
-
-.account-section .account-container .content-account .my-trips__item--header.waiting .title p {
-  color: #f79009
-}
-
-.account-section .account-container .content-account .my-trips__item--header.review-t {
-  background: #fff
-}
-
-.account-section .account-container .content-account .my-trips__item--header.review-t .title p {
-  color: #5cb3ff
-}
-
-.account-section .account-container .content-account .my-trips__item .item-car {
-  border-radius: 0 0 12px 12px
-}
-
-.account-section .account-container .content-account .my-trips__item .item-car.row .item-box {
-  grid-gap: 16px;
-  gap: 16px;
-  flex-direction: row
-}
-
-.account-section .account-container .content-account .my-trips__item .item-car.row .item-box .img-car .fix-img {
-  width: 200px
-}
-
-.account-section .account-container .content-account .my-trips__item .item-car.row .item-box .desc-car {
-  width: calc(100% - 216px)
-}
-
-.account-section .account-container .content-account .my-trips__item .item-car.row .item-box .desc-car .desc-address {
-  margin-top: 12px
-}
-
-.account-section .account-container .content-account .my-trips__item .item-car.row .item-box .desc-car .desc-price .price {
-  width: 100%;
-  flex-direction: row;
-  align-items: baseline;
-  grid-gap: 4px;
-  gap: 4px
-}
-
-.account-section .account-container .content-account .my-trips__item.micar .item-car.row .item-box .img-car .fix-img {
-  width: 184px
-}
-
-.account-section .account-container .content-account .my-trips__item.micar .item-car.row .item-box .desc-car {
-  width: calc(100% - 200px)
-}
-
-.account-section .account-container .content-account .change-pw {
-  display: flex;
-  flex-direction: column;
-  grid-gap: 20px;
-  gap: 20px
-}
-
-.account-section .account-container .content-account .change-pw .content {
-  display: flex;
-  flex-direction: column;
-  grid-gap: 12px;
-  gap: 12px
-}
-
-.account-section .account-container .content-account .change-pw .content .apply-button {
-  display: flex;
-  justify-content: flex-end;
-  align-items: center;
-  grid-gap: 8px;
-  gap: 8px;
-  margin-top: 12px
-}
-
-.account-section .account-container .content-account .promo-list {
-  display: flex;
-  grid-gap: 20px;
-  gap: 20px;
-  flex-direction: column
-}
-
-.account-section .account-container .content-account .promo-list .custom-input {
-  width: 100%
-}
-
-.account-section .account-container .content-account .promo-item {
-  padding: 24px 16px;
-  background-color: #effaf3;
-  border-radius: 12px
-}
-
-.account-section .account-container .content-account .promo-item .promo-box {
-  display: flex;
-  grid-gap: 16px;
-  gap: 16px;
-  justify-content: space-between;
-  align-items: center
-}
-
-.account-section .account-container .content-account .promo-item .promo-box .info {
-  width: 100%;
-  border-right: 1px solid #e0e0e0
-}
-
-.account-section .account-container .content-account .promo-item .promo-box .info .warning {
-  align-items: center;
-  grid-gap: 4px;
-  gap: 4px;
-  margin-top: 8px
-}
-
-.account-section .account-container .content-account .promo-item .promo-box .info .warning p {
-  color: #f79009
-}
-
-.account-section .account-container .content-account .wrap-btn.user-report {
-  padding-top: 0;
-  display: flex;
-  justify-content: center
-}
 
-.account-section .account-container .content-account .wrap-btn.user-report .btn {
-  width: -webkit-fit-content;
-  width: -moz-fit-content;
-  width: fit-content;
-  font-weight: 500;
-  border-bottom: 1px solid #000
-} */
 
-.account-section .account-container .content-account .wrap-btn.user-report .btn.active,
-.account-section .account-container .content-account .wrap-btn.user-report .btn:active,
-.account-section .account-container .content-account .wrap-btn.user-report .btn:focus,
-.account-section .account-container .content-account .wrap-btn.user-report .btn:hover {
+.wrap-btn.user-report .btn.active,
+.wrap-btn.user-report .btn:active,
+.wrap-btn.user-report .btn:focus,
+.wrap-btn.user-report .btn:hover {
   border-bottom: 1px solid #5fcf86
 }
 
@@ -1673,68 +714,33 @@ p {
     max-width: 840px
   }
 
-  .account-section .account-container .content-account .content-item {
+  .content-account .content-item {
     padding: 24px
   }
 
-  .account-section .account-container .content-account .user-profile .content .info-user .info-note .note-five-star {
+  .content-account .user-profile .content .info-user .info-note .note-five-star {
     align-items: center
   }
 
-  .account-section .account-container .content-account .driver-license .content {
+  .content-account .driver-license .content {
     flex-direction: column
   }
 
-  .account-section .account-container .content-account .driver-license .content .info-license {
+  .content-account .driver-license .content .info-license {
     width: 100%
   }
 
-  .account-section .account-container .content-account .driver-license .content .info-license__upload {
+  .content-account .driver-license .content .info-license__upload {
     padding: 20% 0
   }
 
-  .account-section .account-container .content-account .driver-license .content .info-license .support {
+  .content-account .driver-license .content .info-license .support {
     padding: 12px
   }
 
-  .account-section .account-container .content-account .fav-car {
+  .content-account .fav-car {
     flex-direction: row;
     flex-wrap: wrap
   }
-/* 
-  .account-section .account-container .content-account .fav-car .item-car.row {
-    width: calc(50% - 8px)
-  }
 
-  .account-section .account-container .content-account .fav-car .item-car.row .item-box {
-    flex-direction: column;
-    grid-gap: 32px;
-    gap: 32px;
-    height: 100%
-  }
-
-  .account-section .account-container .content-account .fav-car .item-car.row .item-box .img-car .fix-img {
-    width: 100%
-  }
-
-  .account-section .account-container .content-account .fav-car .item-car.row .item-box .img-car .avatar,
-  .account-section .account-container .content-account .fav-car .item-car.row .item-box .img-car span.discount {
-    display: block
-  }
-
-  .account-section .account-container .content-account .fav-car .item-car.row .item-box .desc-car {
-    width: 100%
-  }
-
-  .account-section .account-container .content-account .fav-car .item-car.row .item-box .desc-car .line {
-    display: block
-  }
-
-  .account-section .account-container .content-account .fav-car .item-car.row .item-box .desc-car .desc-price {
-    display: flex
-  }
-
-  .account-section .account-container .content-account .fav-car .item-car.row .item-box .profile {
-    display: none
-  } */
 }
