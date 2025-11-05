@@ -10,6 +10,7 @@ import { CarRentalGuide } from './pages/car-rental-guide/car-rental-guide';
 import { UserAccount } from './pages/user-account/user-account';
 import { LogIn } from './pages/log-in/log-in';
 import { UserCar } from './pages/user-car/user-car';
+import { UserRental } from './pages/user-rental/user-rental';
 
 export const routes: Routes = [
     { path: '', component: Homepage },         // trang homepage
@@ -24,6 +25,7 @@ export const routes: Routes = [
     { path: 'guide', component: CarRentalGuide }, // trang Hướng dẫn thuê xe
     { path: 'user-account', component: UserAccount }, // trang Tài khoản người dùng
     { path: 'user-car', component: UserCar }, // trang Phê duyệt giấy phép
+    { path: 'user-rental', component: UserRental }, // trang Quản lý cho thuê
     { path: '**', redirectTo: '' },
 
 ];
