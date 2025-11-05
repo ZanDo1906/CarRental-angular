@@ -9,6 +9,12 @@
         <h2>Xe của tôi ({{ users().length }})</h2>
         <div *ngIf="ownerId" class="text-muted small">Chủ sở hữu hiển thị: {{ ownerId }}</div>
 
+        <!-- DEBUG: show raw cars data to help trace missing UI issues -->
+        <div class="debug-box mt-2 mb-2" style="background:#f8f9fa;padding:8px;border-radius:6px;">
+          <div class="small text-muted">DEBUG: ownerId={{ownerId}} cars.length={{cars.length}}</div>
+          <pre style="max-height:160px;overflow:auto;margin:6px 0 0 0">{{ cars | json }}</pre>
+        </div>
+
         <div class="card-list">
 
           <div *ngFor="let car of displayedCars()" class="license-card">

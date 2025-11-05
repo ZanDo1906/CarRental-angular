@@ -1,10 +1,13 @@
 <nav class="sidebar">
   <h2 class="h3 pt-3 pb-2 mb-3 px-3 text-center">Xin chào bạn!</h2>
+  <div class="px-3 mb-3 text-center small text-muted">
+    Tài khoản đang đăng nhập sẽ được sử dụng
+  </div>
 
   <div class="position-sticky pt-3" style="top: 0;">
     <ul class="nav flex-column">
       <li class="nav-item">
-        <a class="nav-link" href="#">
+  <a class="nav-link" routerLink="/user-account" routerLinkActive="active">
           <i class="bi bi-person me-2"></i>
           Tài khoản của tôi
         </a>
@@ -16,31 +19,31 @@
         </a>
       </li>
       <li class="nav-item">
-        <a class="nav-link" href="#">
+        <a class="nav-link" routerLink="/user-car" routerLinkActive="active">
           <i class="bi bi-car-front me-2"></i>
-          Quản lý xe
+          Xe của tôi
         </a>
       </li>
       <li class="nav-item">
-        <a class="nav-link" href="#">
+        <a class="nav-link" routerLink="/user-rental" routerLinkActive="active">
           <i class="bi bi-card-list me-2"></i>
-          Quản lý đơn thuê
+          Chuyến của tôi 
         </a>
       </li>
       <li class="nav-item">
         <a class="nav-link" routerLink="/car-registration-approval" routerLinkActive="active">
           <i class="bi bi-clipboard2-check me-2"></i>
-          Duyệt đơn đăng kí xe
+          Quà tặng 
         </a>
       </li>
       <li class="nav-item">
         <a class="nav-link" href="#">
           <i class="bi bi-person-vcard me-2"></i>
-          Duyệt bằng lái
+          Vị trí của tôi
         </a>
       </li>
       <li class="nav-item">
-        <a class="nav-link" href="#">
+        <a class="nav-link" routerLink="/dashboard" routerLinkActive="active">
           <i class="bi bi-wallet2 me-2"></i>
           Quản lý tài chính
         </a>

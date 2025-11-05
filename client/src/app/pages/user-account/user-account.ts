@@ -4,7 +4,8 @@ import { FormsModule } from '@angular/forms';
 import { RouterModule } from '@angular/router';
 import { SideBar } from '../side-bar/side-bar';
 import { UserService } from '../../services/user';
-import { CarService } from '../../services/car';
+import { Inject } from '@angular/core';
+import { OwnerService } from '../../services/owner.service';
 
 @Component({
   selector: 'app-user-account',
@@ -19,7 +20,7 @@ export class UserAccount implements OnInit {
   editingProfile: boolean = false;
   editingLicense: boolean = false;
 
-  constructor(private userService: UserService, private carService: CarService) { }
+  constructor(private userService: UserService, @Inject(OwnerService) private ownerService: OwnerService) { }
 
   ngOnInit(): void {
     // On init, just load the current user (if currentUserId is set) or the first user
@@ -106,8 +107,8 @@ export class UserAccount implements OnInit {
       } else {
         extras.push(user);
       }
-      localStorage.setItem(key, JSON.stringify(extras));
-      localStorage.setItem('currentUserId', String(user.Ma_nguoi_dung));
+  localStorage.setItem(key, JSON.stringify(extras));
+  try { this.ownerService.setOwnerId(Number(user.Ma_nguoi_dung)); } catch (e) { }
     } catch (e) {
       // tslint:disable-next-line:no-console
       console.error('localSaveUser failed', e);
@@ -116,7 +117,7 @@ export class UserAccount implements OnInit {
 
   // Load a single user from the JSON (or merged extras) by id. If no id provided, uses currentUserId or first user.
   loadUser(userId?: string | number): void {
-    const idToFind = userId || localStorage.getItem('currentUserId');
+  const idToFind = userId || this.ownerService.getOwnerId();
     this.userService.getAllUsers().subscribe({
       next: (users: any) => {
         const list = Array.isArray(users) ? users : [];
@@ -144,37 +145,6 @@ export class UserAccount implements OnInit {
           } else {
             (found as any)._licenseExists = false;
             (found as any)._licenseAuthenticated = false;
-          }
-
-          // Load cars owned by this user and attach them to the user object so the template can show car info.
-          try {
-            this.carService.getAllCars().subscribe({
-              next: (cars: any) => {
-                const carList = Array.isArray(cars) ? cars : [];
-                const myCars = carList.filter((c: any) => String(c.Ma_nguoi_dung) === String(found.Ma_nguoi_dung));
-                (found as any)._cars = myCars;
-                (found as any)._carCount = myCars.length;
-                // If user has no avatar, use the first car image as avatar
-                if ((!found as any)._avatar && myCars.length > 0) {
-                  const firstImg = Array.isArray(myCars[0].Anh_xe) && myCars[0].Anh_xe.length ? myCars[0].Anh_xe[0] : myCars[0].Anh_xe;
-                  if (firstImg) (found as any)._avatar = String(firstImg).replace(/^\.?\//, '/');
-                }
-                // If user has no license image, use the first car image
-                if (!(found as any)._licenseExists && myCars.length > 0) {
-                  const firstImg = Array.isArray(myCars[0].Anh_xe) && myCars[0].Anh_xe.length ? myCars[0].Anh_xe[0] : myCars[0].Anh_xe;
-                  if (firstImg) {
-                    (found as any)._license = String(firstImg).replace(/^\.?\//, '/');
-                    (found as any)._licenseExists = true;
-                    (found as any)._licenseAuthenticated = false;
-                  }
-                }
-              },
-              error: () => {
-                // ignore car load errors in learner mode
-              }
-            });
-          } catch (e) {
-            // ignore
           }
         }
 

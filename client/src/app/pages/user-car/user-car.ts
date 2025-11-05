@@ -5,6 +5,8 @@ import { SideBar } from '../side-bar/side-bar';
 import { CarService } from '../../services/car';
 import { LocationService } from '../../services/location';
 import { UserService } from '../../services/user';
+import { Inject } from '@angular/core';
+import { OwnerService } from '../../services/owner.service';
 
 // User car list for the first user
 @Component({
@@ -26,7 +28,8 @@ export class UserCar implements OnInit {
   constructor(
     private carService: CarService,
     private locationService: LocationService,
-    private userService: UserService
+    private userService: UserService,
+    @Inject(OwnerService) private ownerService: OwnerService
   ) {}
    vnd(n: number | string | undefined) {
   if (n == null) return '';
@@ -35,8 +38,8 @@ export class UserCar implements OnInit {
   }
 
   ngOnInit(): void {
-    // prefer currentUserId stored in localStorage (if set), otherwise fall back to first user
-    const currentUserId = localStorage.getItem('currentUserId');
+    // prefer ownerService stored owner id, otherwise fall back to first user
+    const currentUserId = this.ownerService.getOwnerId();
     this.userService.getAllUsers().subscribe((users: any[]) => {
       const list = Array.isArray(users) ? users : [];
       if (currentUserId) {
@@ -44,6 +47,7 @@ export class UserCar implements OnInit {
       } else if (list.length > 0) {
         const first = list[0];
         this.ownerId = Number(first.Ma_nguoi_dung);
+        try { this.ownerService.setOwnerId(this.ownerId); } catch (e) {}
       }
 
       // Now load cars and filter by ownerId (if available). Merge with any local extras.
@@ -60,8 +64,13 @@ export class UserCar implements OnInit {
             } else {
               this.cars = merged;
         }
-            // debug: log ownerId and number of cars loaded
-            try { console.log('[UserCar] ownerId=', this.ownerId, 'carsLoaded=', this.cars.length); } catch (e) {}
+            // debug: log ownerId and number of cars loaded and sample data
+            try {
+              console.log('[UserCar] ownerId=', this.ownerId, 'carsLoaded=', this.cars.length);
+              console.log('[UserCar] cars sample=', JSON.stringify(this.cars.slice(0, 5)));
+            } catch (e) {}
+            // Ensure pagination resets when owner changes
+            this.currentPage = 1;
       });
     });
     // load locations for resolving addresses
