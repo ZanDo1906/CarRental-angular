@@ -11,6 +11,7 @@ import { UserAccount } from './pages/user-account/user-account';
 import { LogIn } from './pages/log-in/log-in';
 import { UserCar } from './pages/user-car/user-car';
 import { UserRental } from './pages/user-rental/user-rental';
+import { Dashboard } from './pages/dashboard/dashboard';
 
 export const routes: Routes = [
     { path: '', component: Homepage },         // trang homepage
@@ -24,8 +25,9 @@ export const routes: Routes = [
     { path: 'confirm-booking/:id', component: ConfirmBooking }, // trang xác nhận đặt xe
     { path: 'guide', component: CarRentalGuide }, // trang Hướng dẫn thuê xe
     { path: 'user-account', component: UserAccount }, // trang Tài khoản người dùng
-    { path: 'user-car', component: UserCar }, // trang Phê duyệt giấy phép
+    { path: 'user-car', component: UserCar }, // trang Quản lý xe của tôi
     { path: 'user-rental', component: UserRental }, // trang Quản lý cho thuê
+    { path: 'dashboard', component: Dashboard }, // trang Dashboard
     { path: '**', redirectTo: '' },
 
 ];

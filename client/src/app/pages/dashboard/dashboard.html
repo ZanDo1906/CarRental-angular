@@ -1,0 +1,102 @@
+<div class="dashboard-container">
+    <div class="dashboard-header">
+        <h2>Dashboard</h2>
+        <div class="time-filter">
+            <select class="time-select" (change)="onPeriodChange($event)" [value]="selectedPeriod">
+                <option value="all">Tất cả thời gian</option>
+                <option value="week">Tuần này</option>
+                <option value="month">Tháng này</option>
+                <option value="year">Năm này</option>
+            </select>
+        </div>
+    </div>
+
+    <div class="stats-grid">
+        <!-- Tổng doanh thu -->
+        <div class="stat-card revenue">
+            <div class="stat-header">
+                <span class="stat-title">Tổng doanh thu</span>
+            </div>
+            <div class="stat-value">
+                {{ dataLoaded ? formatRevenue(totalRevenue) : 'Đang tải...' }}
+            </div>
+        </div>
+
+        <!-- Tổng đơn đặt xe -->
+        <div class="stat-card bookings">
+            <div class="stat-header">
+                <span class="stat-title">Tổng đơn đặt xe</span>
+            </div>
+            <div class="stat-value">
+                {{ dataLoaded ? totalBookings : '...' }} đơn
+            </div>
+        </div>
+
+        <!-- Đơn hoàn thành -->
+        <div class="stat-card completed">
+            <div class="stat-header">
+                <span class="stat-title">Đơn hoàn thành</span>
+            </div>
+            <div class="stat-value">
+                {{ dataLoaded ? totalCompletedBookings : '...' }} đơn
+            </div>
+        </div>
+
+        <!-- Tổng xe mới -->
+        <div class="stat-card new-cars">
+            <div class="stat-header">
+                <span class="stat-title">Tổng xe mới</span>
+            </div>
+            <div class="stat-value">
+                5 xe
+            </div>
+        </div>
+    </div>
+
+    <!-- Chart and Top Owners Layout -->
+    <div class="chart-top-owners-container">
+        <!-- Chart Section -->
+        <div class="chart-section">
+            <div class="chart-container">
+                <canvas #revenueChart></canvas>
+            </div>
+        </div>
+
+        <!-- Top Car Owners Section -->
+        <div class="top-owners-section">
+            <h3 class="section-title">Top 5 chủ xe có doanh thu cao nhất</h3>
+            <div class="top-owners-list">
+                @if (dataLoaded && topCarOwners.length > 0) {
+                @for (owner of topCarOwners; track owner.Ma_nguoi_dung; let i = $index) {
+                <div class="owner-item">
+                    <span class="owner-rank">Top {{ i + 1 }}:</span>
+                    <span class="owner-name">{{ owner.Ho_va_ten }}</span>
+                    <span class="owner-revenue">{{ owner.totalRevenue.toLocaleString('vi-VN') }} đ</span>
+                </div>
+                }
+                } @else {
+                <div class="owner-item loading">
+                    <span class="loading-text">Đang tải dữ liệu...</span>
+                </div>
+                }
+            </div>
+        </div>
+    </div>
+
+    <!-- Additional Charts Section -->
+    <div class="additional-charts-container">
+        <!-- Status Chart Section -->
+        <div class="status-chart-section">
+            <div class="chart-container">
+                <canvas #statusChart></canvas>
+            </div>
+        </div>
+
+        <!-- Vehicle Type Chart Section -->
+        <div class="vehicle-type-chart-section">
+            <div class="chart-container">
+                <canvas #vehicleTypeChart></canvas>
+            </div>
+        </div>
+    </div>
+</div>

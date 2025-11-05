@@ -57,15 +57,17 @@
               </div>
 
               <!-- Giá -->
-              <div class="price-row">
+              <!-- <div class="price-row">
                 <div class="price fs-5">
                   {{vnd(car.Gia_thue)}} VNĐ/Ngày
                 </div>
-              </div>
+              </div> -->
             </div>
             <div class="license-actions">
-                <button (click)="onAction('view', car)" class="btn btn-solid-primary">Cập nhật thông tin</button>
-                <button (click)="onAction('approve', car)" class="btn btn-approve">Sẵn sàng</button>
+                <p class="text-muted small m-0">Thời gian còn lại</p>
+                <p class="text-muted small m-0">Ngày trả:</p>
+                <button (click)="onAction('view', car)" class="btn btn-solid-primary">Gia hạn thuê</button>
+                <button (click)="onAction('approve', car)" class="btn btn-approve">Khiếu nại</button>
                 <button (click)="onAction('reject', car)" class="btn btn-outline-danger">Dừng cho thuê</button>
               </div>
           </div>
