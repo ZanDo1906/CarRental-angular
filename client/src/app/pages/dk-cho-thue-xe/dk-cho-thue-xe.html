@@ -33,9 +33,17 @@
                 <div class="form-section">
                     <h3 class="small-title">Biển số xe</h3>
                     <p class="note">Lưu ý: Biển số sẽ không thể thay đổi sau khi đăng kí.</p>
-                    <input type="text" class="form-input" [class.error]="errors.bienSo" [(ngModel)]="step1Data.bienSo"
-                        name="bienSo" placeholder="Nhập biển số xe">
-                    <div *ngIf="errors.bienSo" class="error-message">Vui lòng nhập biển số xe</div>
+                    <div class="license-plate-container">
+                        <input type="text" class="form-input license-plate-input" [class.error]="errors.bienSo"
+                            [class.valid]="step1Data.bienSo && isValidLicensePlate(step1Data.bienSo)"
+                            [(ngModel)]="step1Data.bienSo" name="bienSo" placeholder="" (input)="onLicensePlateChange()"
+                            maxlength="10">
+                    </div>
+                    <div *ngIf="errors.bienSo" class="error-message">Vui lòng nhập biển số xe đúng định dạng (VD:
+                        51A-123.45)</div>
+                    <div *ngIf="step1Data.bienSo && isValidLicensePlate(step1Data.bienSo)" class="success-message">
+                        ✓ Biển số hợp lệ
+                    </div>
                 </div>
 
                 <!-- Thông tin cơ bản -->
@@ -46,9 +54,20 @@
                     <div class="form-row">
                         <div class="form-group">
                             <label>Hãng xe</label>
-                            <input type="text" class="form-input" [class.error]="errors.hangXe"
-                                [(ngModel)]="step1Data.hangXe" name="hangXe" placeholder="">
-                            <div *ngIf="errors.hangXe" class="error-message">Vui lòng nhập hãng xe</div>
+                            <select class="form-input" [class.error]="errors.hangXe" [(ngModel)]="step1Data.hangXe"
+                                name="hangXe" (change)="onCarBrandChange()">
+                                <option value="">-- Chọn hãng xe --</option>
+                                <option *ngFor="let brand of availableCarBrands" [value]="brand">{{brand}}</option>
+                                <option value="Khác">Khác</option>
+                            </select>
+                            <div *ngIf="errors.hangXe" class="error-message">Vui lòng chọn hãng xe</div>
+
+                            <!-- Input cho hãng xe khác -->
+                            <div *ngIf="step1Data.hangXe === 'Khác'" class="mt-2">
+                                <input type="text" class="form-input" [class.error]="errors.hangXeKhac"
+                                    [(ngModel)]="step1Data.hangXeKhac" name="hangXeKhac" placeholder="">
+                                <div *ngIf="errors.hangXeKhac" class="error-message">Vui lòng nhập tên hãng xe</div>
+                            </div>
                         </div>
                         <div class="form-group">
                             <label>Mẫu xe</label>
@@ -88,16 +107,11 @@
                     <div class="form-row">
                         <div class="form-group">
                             <label>Năm sản xuất</label>
-                            <select class="form-input" [class.error]="errors.namSanXuat"
-                                [(ngModel)]="step1Data.namSanXuat" name="namSanXuat">
-                                <option value="">-- Chọn năm sản xuất --</option>
-                                <option value="2024">2024</option>
-                                <option value="2023">2023</option>
-                                <option value="2022">2022</option>
-                                <option value="2021">2021</option>
-                                <option value="2020">2020</option>
-                            </select>
-                            <div *ngIf="errors.namSanXuat" class="error-message">Vui lòng chọn năm sản xuất</div>
+                            <input type="number" class="form-input" [class.error]="errors.namSanXuat"
+                                [(ngModel)]="step1Data.namSanXuat" name="namSanXuat" placeholder="" min="1900"
+                                max="2026" maxlength="4" (input)="onYearChange()">
+                            <div *ngIf="errors.namSanXuat" class="error-message">Vui lòng nhập năm sản xuất hợp lệ (4
+                                chữ số từ 1900-2026)</div>
                         </div>
                         <div class="form-group">
                             <label>Truyền động</label>
@@ -115,36 +129,57 @@
                         <div class="form-group">
                             <label>Loại xe</label>
                             <select class="form-input" [class.error]="errors.loaiXe" [(ngModel)]="step1Data.loaiXe"
-                                name="loaiXe">
+                                name="loaiXe" (change)="onCarTypeChange()">
                                 <option value="">-- Chọn loại xe --</option>
                                 <option value="Sedan">Sedan</option>
                                 <option value="SUV">SUV</option>
                                 <option value="Hatchback">Hatchback</option>
                                 <option value="MPV">MPV</option>
                                 <option value="Pickup">Pickup</option>
+                                <option value="Coupe">Coupe</option>
+                                <option value="Convertible">Convertible</option>
+                                <option value="Crossover">Crossover</option>
+                                <option value="Khác">Khác</option>
                             </select>
                             <div *ngIf="errors.loaiXe" class="error-message">Vui lòng chọn loại xe</div>
+
+                            <!-- Input cho loại xe khác -->
+                            <div *ngIf="step1Data.loaiXe === 'Khác'" class="mt-2">
+                                <input type="text" class="form-input" [class.error]="errors.loaiXeKhac"
+                                    [(ngModel)]="step1Data.loaiXeKhac" name="loaiXeKhac" placeholder="">
+                                <div *ngIf="errors.loaiXeKhac" class="error-message">Vui lòng nhập loại xe</div>
+                            </div>
                         </div>
                         <div class="form-group">
                             <label>Màu sắc</label>
                             <select class="form-input" [class.error]="errors.mauSac" [(ngModel)]="step1Data.mauSac"
-                                name="mauSac">
+                                name="mauSac" (change)="onCarColorChange()">
                                 <option value="">-- Chọn màu sắc --</option>
                                 <option value="Trắng">Trắng</option>
                                 <option value="Đen">Đen</option>
                                 <option value="Xám">Xám</option>
                                 <option value="Đỏ">Đỏ</option>
                                 <option value="Xanh">Xanh</option>
+                                <option value="Bạc">Bạc</option>
+                                <option value="Nâu">Nâu</option>
+                                <option value="Vàng">Vàng</option>
+                                <option value="Khác">Khác</option>
                             </select>
                             <div *ngIf="errors.mauSac" class="error-message">Vui lòng chọn màu sắc</div>
+
+                            <!-- Input cho màu sắc khác -->
+                            <div *ngIf="step1Data.mauSac === 'Khác'" class="mt-2">
+                                <input type="text" class="form-input" [class.error]="errors.mauSacKhac"
+                                    [(ngModel)]="step1Data.mauSacKhac" name="mauSacKhac" placeholder="">
+                                <div *ngIf="errors.mauSacKhac" class="error-message">Vui lòng nhập màu sắc</div>
+                            </div>
                         </div>
                     </div>
 
                     <div class="form-group full-width">
-                        <label>Số nhiên liệu cho quĐịa chỉ cụ thể 100km</label>
+                        <label>Số nhiên liệu cho 100km</label>
                         <input type="text" class="form-input" [class.error]="errors.nhieuLieu100km"
-                            [(ngModel)]="step1Data.nhieuLieu100km" name="nhieuLieu100km"
-                            placeholder="Nhập số lít nhiên liệu">
+                            [(ngModel)]="step1Data.nhieuLieu100km" name="nhieuLieu100km" placeholder="">
                         <div *ngIf="errors.nhieuLieu100km" class="error-message">Vui lòng nhập số lít nhiên liệu</div>
                     </div>
                 </div>
@@ -152,8 +187,8 @@
                 <!-- Mô tả -->
                 <div class="form-section">
                     <h3>Mô tả</h3>
-                    <textarea class="form-textarea full-width" [(ngModel)]="step1Data.moTa" name="moTa"
-                        placeholder="Nhập mô tả chi tiết về xe..." rows="8"></textarea>
+                    <textarea class="form-textarea full-width" [(ngModel)]="step1Data.moTa" name="moTa" placeholder=""
+                        rows="8"></textarea>
                 </div>
             </div>
 
@@ -166,8 +201,9 @@
                         biệt (cuối tuần, lễ, tết...) trong mục quản lý xe sau khi đăng kí.</p>
 
                     <div class="price-input-container">
-                        <input type="number" class="form-input price-input" [class.error]="errors.giaChoThue"
-                            [(ngModel)]="step2Data.giaChoThue" name="giaChoThue" placeholder="500000" min="0">
+                        <input type="text" class="form-input price-input" [class.error]="errors.giaChoThue"
+                            [(ngModel)]="step2Data.giaChoThue" name="giaChoThue" placeholder=""
+                            (input)="onPriceInput($event)">
                         <span class="price-unit">VNĐ/ngày</span>
                     </div>
                     <div class="price-suggestions">
@@ -213,8 +249,7 @@
                     <div class="form-group">
                         <label>Địa chỉ cụ thể:</label>
                         <input type="text" class="form-input" [class.error]="errors.tenDuong"
-                            [(ngModel)]="step2Data.tenDuong" name="tenDuong"
-                            placeholder="Số nhà, tên đường, phường/xã...">
+                            [(ngModel)]="step2Data.tenDuong" name="tenDuong" placeholder="">
                         <div *ngIf="errors.tenDuong" class="error-message">Vui lòng nhập địa chỉ cụ thể</div>
                     </div>
                 </div>
@@ -231,86 +266,109 @@
             <!-- Step 3: Hình ảnh xe -->
             <div *ngIf="currentStep === 3">
                 <div class="form-section">
-                    <!-- Ảnh thumbnail chính -->
+                    <!-- Ảnh biển số xe -->
                     <div class="upload-section">
-                        <label class="upload-label">Ảnh Thumbnail (600x600)</label>
-                        <div class="upload-area thumbnail-upload" (click)="triggerFileInput('thumbnail')"
-                            [class.has-image]="thumbnailImage">
-                            <input #thumbnailInput type="file" accept="image/*"
-                                (change)="onImageSelected($event, 'thumbnail')" hidden>
-                            <div *ngIf="!thumbnailImage" class="upload-placeholder">
+                        <label class="upload-label">Ảnh chụp biển số xe rõ nét</label>
+                        <div class="upload-area license-plate-upload" (click)="triggerFileInput('licensePlate')"
+                            [class.has-image]="licensePlateImage">
+                            <input #licensePlateInput type="file" accept="image/*"
+                                (change)="onImageSelected($event, 'licensePlate')" hidden>
+                            <div *ngIf="!licensePlateImage" class="upload-placeholder">
                                 <i class="bi bi-camera"></i>
-                                <p>Click để chọn ảnh thumbnail</p>
+                                <p>Chụp ảnh biển số xe rõ nét</p>
                             </div>
-                            <img *ngIf="thumbnailImage" [src]="thumbnailImage" class="preview-image" alt="Thumbnail">
+                            <img *ngIf="licensePlateImage" [src]="licensePlateImage" class="preview-image"
+                                alt="License Plate">
                         </div>
                     </div>
 
-                    <!-- Ảnh chính ngang -->
+                    <!-- Giấy tờ xe và căn cước -->
                     <div class="upload-section">
-                        <label class="upload-label">Ảnh chính (1260x720)</label>
-                        <div class="upload-area main-upload" (click)="triggerFileInput('main')"
-                            [class.has-image]="mainImage">
-                            <input #mainInput type="file" accept="image/*" (change)="onImageSelected($event, 'main')"
-                                hidden>
-                            <div *ngIf="!mainImage" class="upload-placeholder">
-                                <i class="bi bi-image"></i>
-                                <p>Click để chọn ảnh chính</p>
+                        <label class="upload-label">Giấy tờ xe và căn cước chủ xe</label>
+                        <div class="documents-grid">
+                            <!-- Giấy tờ xe -->
+                            <div class="document-item">
+                                <label class="document-label">Giấy tờ xe</label>
+                                <div class="upload-area document-upload" (click)="triggerFileInput('vehicleDocuments')"
+                                    [class.has-image]="vehicleDocumentsImage">
+                                    <input #vehicleDocumentsInput type="file" accept="image/*,application/pdf"
+                                        (change)="onImageSelected($event, 'vehicleDocuments')" hidden>
+                                    <div *ngIf="!vehicleDocumentsImage" class="upload-placeholder">
+                                        <i class="bi bi-file-earmark-text"></i>
+                                        <p>Tải lên giấy tờ xe</p>
+                                    </div>
+                                    <img *ngIf="vehicleDocumentsImage" [src]="vehicleDocumentsImage"
+                                        class="preview-image" alt="Vehicle Documents">
+                                </div>
                             </div>
-                            <img *ngIf="mainImage" [src]="mainImage" class="preview-image" alt="Main">
+
+                            <!-- Căn cước chủ xe -->
+                            <div class="document-item">
+                                <label class="document-label">Căn cước chủ xe</label>
+                                <div class="upload-area document-upload" (click)="triggerFileInput('ownerID')"
+                                    [class.has-image]="ownerIDImage">
+                                    <input #ownerIDInput type="file" accept="image/*,application/pdf"
+                                        (change)="onImageSelected($event, 'ownerID')" hidden>
+                                    <div *ngIf="!ownerIDImage" class="upload-placeholder">
+                                        <i class="bi bi-person-badge"></i>
+                                        <p>Tải lên căn cước</p>
+                                    </div>
+                                    <img *ngIf="ownerIDImage" [src]="ownerIDImage" class="preview-image" alt="Owner ID">
+                                </div>
+                            </div>
                         </div>
                     </div>
 
-                    <!-- Grid ảnh phụ -->
+                    <!-- Grid ảnh xe để hiển thị trên web -->
                     <div class="upload-section">
-                        <label class="upload-label">Ảnh chính (1260x720)</label>
+                        <label class="upload-label">Hình ảnh xe (hiển thị trên website)</label>
                         <div class="upload-grid">
-                            <!-- Ảnh phụ 1 -->
-                            <div class="upload-area grid-upload" (click)="triggerFileInput('sub1')"
-                                [class.has-image]="subImages[0]">
-                                <input #sub1Input type="file" accept="image/*"
-                                    (change)="onImageSelected($event, 'sub1')" hidden>
-                                <div *ngIf="!subImages[0]" class="upload-placeholder">
+                            <!-- Ảnh xe 1 -->
+                            <div class="upload-area grid-upload" (click)="triggerFileInput('car1')"
+                                [class.has-image]="carImages[0]">
+                                <input #car1Input type="file" accept="image/*"
+                                    (change)="onImageSelected($event, 'car1')" hidden>
+                                <div *ngIf="!carImages[0]" class="upload-placeholder">
                                     <i class="bi bi-camera"></i>
-                                    <p>Ảnh Thumbnail (600x600)</p>
+                                    <p>Hình ảnh xe 1</p>
                                 </div>
-                                <img *ngIf="subImages[0]" [src]="subImages[0]" class="preview-image" alt="Sub 1">
+                                <img *ngIf="carImages[0]" [src]="carImages[0]" class="preview-image" alt="Car 1">
                             </div>
 
-                            <!-- Ảnh phụ 2 -->
-                            <div class="upload-area grid-upload" (click)="triggerFileInput('sub2')"
-                                [class.has-image]="subImages[1]">
-                                <input #sub2Input type="file" accept="image/*"
-                                    (change)="onImageSelected($event, 'sub2')" hidden>
-                                <div *ngIf="!subImages[1]" class="upload-placeholder">
+                            <!-- Ảnh xe 2 -->
+                            <div class="upload-area grid-upload" (click)="triggerFileInput('car2')"
+                                [class.has-image]="carImages[1]">
+                                <input #car2Input type="file" accept="image/*"
+                                    (change)="onImageSelected($event, 'car2')" hidden>
+                                <div *ngIf="!carImages[1]" class="upload-placeholder">
                                     <i class="bi bi-camera"></i>
-                                    <p>Ảnh Thumbnail (600x600)</p>
+                                    <p>Hình ảnh xe 2</p>
                                 </div>
-                                <img *ngIf="subImages[1]" [src]="subImages[1]" class="preview-image" alt="Sub 2">
+                                <img *ngIf="carImages[1]" [src]="carImages[1]" class="preview-image" alt="Car 2">
                             </div>
 
-                            <!-- Ảnh phụ 3 -->
-                            <div class="upload-area grid-upload" (click)="triggerFileInput('sub3')"
-                                [class.has-image]="subImages[2]">
-                                <input #sub3Input type="file" accept="image/*"
-                                    (change)="onImageSelected($event, 'sub3')" hidden>
-                                <div *ngIf="!subImages[2]" class="upload-placeholder">
+                            <!-- Ảnh xe 3 -->
+                            <div class="upload-area grid-upload" (click)="triggerFileInput('car3')"
+                                [class.has-image]="carImages[2]">
+                                <input #car3Input type="file" accept="image/*"
+                                    (change)="onImageSelected($event, 'car3')" hidden>
+                                <div *ngIf="!carImages[2]" class="upload-placeholder">
                                     <i class="bi bi-camera"></i>
-                                    <p>Ảnh Thumbnail (600x600)</p>
+                                    <p>Hình ảnh xe 3</p>
                                 </div>
-                                <img *ngIf="subImages[2]" [src]="subImages[2]" class="preview-image" alt="Sub 3">
+                                <img *ngIf="carImages[2]" [src]="carImages[2]" class="preview-image" alt="Car 3">
                             </div>
 
-                            <!-- Ảnh phụ 4 -->
-                            <div class="upload-area grid-upload" (click)="triggerFileInput('sub4')"
-                                [class.has-image]="subImages[3]">
-                                <input #sub4Input type="file" accept="image/*"
-                                    (change)="onImageSelected($event, 'sub4')" hidden>
-                                <div *ngIf="!subImages[3]" class="upload-placeholder">
+                            <!-- Ảnh xe 4 -->
+                            <div class="upload-area grid-upload" (click)="triggerFileInput('car4')"
+                                [class.has-image]="carImages[3]">
+                                <input #car4Input type="file" accept="image/*"
+                                    (change)="onImageSelected($event, 'car4')" hidden>
+                                <div *ngIf="!carImages[3]" class="upload-placeholder">
                                     <i class="bi bi-camera"></i>
-                                    <p>Ảnh Thumbnail (600x600)</p>
+                                    <p>Hình ảnh xe 4</p>
                                 </div>
-                                <img *ngIf="subImages[3]" [src]="subImages[3]" class="preview-image" alt="Sub 4">
+                                <img *ngIf="carImages[3]" [src]="carImages[3]" class="preview-image" alt="Car 4">
                             </div>
                         </div>
                     </div>
