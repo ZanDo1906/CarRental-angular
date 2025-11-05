@@ -45,6 +45,10 @@ export class LogIn {
           // Emit event cho header
           this.loginSuccess.emit(user);
           
+          // Dispatch custom event cho các component khác
+          console.log('Dispatching userLoggedIn event');
+          window.dispatchEvent(new CustomEvent('userLoggedIn', { detail: user }));
+          
           // Đóng modal
           const modalElement = document.getElementById('loginModal');
           if (modalElement) {

@@ -41,7 +41,7 @@
             <span class="dot">•</span>
             <span class="trips">
               <i class="bi bi-graph-up"></i>
-              {{car.So_luot_danh_gia || 0}} chuyến
+              {{car.So_luot_thue || 0}} chuyến
             </span>
             <span class="dot">•</span>
             <span class="location">
@@ -186,19 +186,20 @@
       <!-- Right Column: Booking Card -->
       <div class="booking-card">
         <div class="booking-header">
-          <h2 class="booking-price">{{vnd(car.Gia_thue)}}<span class="price-unit">/ngày</span></h2>
+          <h2 class="booking-price">{{vnd(car.Gia_thue)}} VNĐ/Ngày</h2>
         </div>
 
         <!-- Thời gian thuê/trả -->
         <div class="datetime-section">
           <div class="datetime-group">
             <label class="datetime-label">Thời gian nhận</label>
-            <input type="datetime-local" class="datetime-input">
+            <input type="datetime-local" class="datetime-input" [(ngModel)]="pickupTime" (change)="validateDates()">
           </div>
           <div class="datetime-group">
             <label class="datetime-label">Thời gian trả</label>
-            <input type="datetime-local" class="datetime-input">
+            <input type="datetime-local" class="datetime-input" [(ngModel)]="returnTime" [min]="pickupTime" (change)="validateDates()">
           </div>
+          <div *ngIf="dateError" class="date-error">{{dateError}}</div>
         </div>
 
         <!-- Điểm giao nhận xe -->
@@ -206,13 +207,16 @@
           <h4 class="section-label">Điểm giao nhận xe</h4>
           <div class="checkbox-group">
             <label class="checkbox-item">
-              <input type="checkbox" checked>
+              <input type="radio" name="pickupOption" [(ngModel)]="pickupOption" value="atLocation" checked>
               <span>Nhận xe tại vị trí xe</span>
             </label>
             <label class="checkbox-item">
-              <input type="checkbox">
+              <input type="radio" name="pickupOption" [(ngModel)]="pickupOption" value="delivery">
               <span>Giao xe tận nơi</span>
             </label>
+          </div>
+          <div *ngIf="pickupOption === 'delivery'" class="delivery-input-wrapper">
+            <input type="text" class="delivery-input" [(ngModel)]="deliveryAddress" placeholder="Nhập địa chỉ giao xe">
           </div>
         </div>
 
@@ -220,45 +224,45 @@
         <div class="cost-breakdown">
           <div class="cost-row">
             <span class="cost-label">Đơn giá thuê:</span>
-            <span class="cost-value">{{vnd(car.Gia_thue)}}/ngày</span>
+            <span class="cost-value">{{vnd(car.Gia_thue)}} VNĐ/Ngày</span>
           </div>
           <div class="cost-row">
             <span class="cost-label">Bảo hiểm thuê xe:</span>
-            <span class="cost-value">50.000 vnd/ngày</span>
+            <span class="cost-value">50.000 VNĐ/Ngày</span>
           </div>
           <div class="cost-row total-before">
             <span class="cost-label">Tổng tiền:</span>
-            <span class="cost-value">{{vnd((car.Gia_thue || 0) + 50000)}} vnd</span>
+            <span class="cost-value">{{vnd(getTotalBeforeDiscount())}} VNĐ/Ngày</span>
           </div>
           <div class="cost-row">
             <span class="cost-label">Giảm giá:</span>
-            <span class="cost-value text-muted">Nhập mã giảm giá</span>
+            <input type="text" class="discount-input" [(ngModel)]="discountCode" placeholder="Nhập mã giảm giá">
           </div>
           <div class="cost-row">
-            <span class="cost-label">Thuế VAT:</span>
-            <span class="cost-value">50.000 vnd</span>
+            <span class="cost-label">Thuế VAT (8%):</span>
+            <span class="cost-value">{{vnd(getVAT())}} VNĐ</span>
           </div>
           <div class="cost-row total">
             <span class="cost-label">THÀNH TIỀN:</span>
-            <span class="cost-value">{{vnd((car.Gia_thue || 0) + 100000)}} vnd</span>
+            <span class="cost-value fw-bold">{{vnd(getFinalTotal())}} VNĐ/Ngày</span>
           </div>
         </div>
 
         <!-- Nút thuê xe -->
-        <button class="btn-rent">Thuê xe</button>
+        <button class="btn-rent" (click)="proceedToBooking()">Thuê xe</button>
 
         <!-- Các chi phí khác -->
         <div class="other-fees">
           <h4 class="section-label">Các chi phí khác</h4>
           <div class="fee-item">
             <span class="fee-label">Phụ phí xăng:</span>
-            <span class="fee-value">30.000 vnd/lít</span>
+            <span class="fee-value">30.000 VNĐ/lít</span>
           </div>
           <p class="fee-note">Trustcar chi trả khi vạch xăng thấp hơn lúc nhận xe. Trả lại cùng vạch xăng như lúc nhận xe thì không phải trả phí này.</p>
           
           <div class="fee-item">
             <span class="fee-label">Phí vệ sinh:</span>
-            <span class="fee-value">120.000 vnd - 150.000 vnd</span>
+            <span class="fee-value">120.000 - 150.000 VNĐ</span>
           </div>
           <p class="fee-note">Vui lòng trả lại xe trong trạng thái vệ sinh như lúc nhận xe để không mất phí này.</p>
         </div>
@@ -267,64 +271,82 @@
     </div>
     <!-- End detail-layout -->
 
-  <!-- Chủ xe section -->
-  <div class="owner-section">
-    <h3 class="section-title">Chủ xe</h3>
+    <!-- Chủ xe section -->
+    <div class="owner-section" *ngIf="carOwner">
+      <h3 class="section-title">Chủ xe</h3>
     <div class="owner-card">
       <div class="owner-info">
-        <img src="assets/images/default-avatar.png" alt="Owner" class="owner-avatar">
+        <img [src]="carOwner.Anh_dai_dien || 'assets/images/default-avatar.png'" alt="Owner" class="owner-avatar">
         <div class="owner-details">
-          <h4 class="owner-name">{{getOwnerName()}}</h4>
+          <h4 class="owner-name">{{carOwner.Ho_va_ten}}</h4>
           <div class="owner-stats">
             <span class="stat-item">
-              <i class="bi bi-star-fill"></i> {{car.Diem_danh_gia || 5.0}}
+              <i class="bi bi-star-fill"></i>
+              {{car.Diem_danh_gia || 5.0}}
             </span>
-            <span class="dot">•</span>
-            <span class="stat-item">{{car.So_chuyen || 0}} chuyến</span>
+            <span class="stat-divider">•</span>
+            <span class="stat-item">
+              <i class="bi bi-graph-up"></i>
+              {{ownerTripCount}} chuyến
+            </span>
           </div>
         </div>
       </div>
-      <div class="owner-badges">
-        <span class="badge-item">Chủ xe uy tín</span>
+      
+      <!-- Reviews Stats Row - cùng card với owner info -->
+      <div class="reviews-stats-row">
+        <div class="stat-box">
+          <div class="stat-content">
+            <p class="stat-label">Tỷ lệ phản hồi</p>
+            <p class="stat-value">100%</p>
+          </div>
+        </div>
+        <div class="stat-box">
+          <div class="stat-content">
+            <p class="stat-label">Phản hồi trong</p>
+            <p class="stat-value">5 phút</p>
+          </div>
+        </div>
+        <div class="stat-box">
+          <div class="stat-content">
+            <p class="stat-label">Tỷ lệ đồng ý</p>
+            <p class="stat-value">95%</p>
+          </div>
+        </div>
       </div>
     </div>
 
-    <!-- Reviews -->
+    <!-- Đánh giá label - riêng một dòng, nằm giữa -->
+    <p class="owner-rating-label">Đánh giá: {{carReviews.length}} lượt</p>
+
+    <!-- Review Cards Grid -->
     <div class="reviews-section">
-      <h4 class="reviews-title">Đánh giá</h4>
-      <div class="review-summary">
-        <div class="rating-bars">
-          <div class="rating-bar-item">
-            <span class="stars">5 <i class="bi bi-star-fill"></i></span>
-            <div class="bar"><div class="fill" style="width: 80%"></div></div>
-            <span class="count">16</span>
+      <div class="review-cards-grid" *ngIf="carReviews.length > 0">
+        <!-- Review Card -->
+        <div class="review-card" *ngFor="let review of carReviews.slice(0, 8)">
+          <div class="review-stars">
+            <i class="bi bi-star-fill" *ngFor="let star of [1,2,3,4,5]" [class.filled]="star <= (review.Diem_danh_gia || 5)"></i>
           </div>
-          <div class="rating-bar-item">
-            <span class="stars">4 <i class="bi bi-star-fill"></i></span>
-            <div class="bar"><div class="fill" style="width: 15%"></div></div>
-            <span class="count">3</span>
-          </div>
-          <div class="rating-bar-item">
-            <span class="stars">3 <i class="bi bi-star-fill"></i></span>
-            <div class="bar"><div class="fill" style="width: 5%"></div></div>
-            <span class="count">1</span>
-          </div>
-          <div class="rating-bar-item">
-            <span class="stars">2 <i class="bi bi-star-fill"></i></span>
-            <div class="bar"><div class="fill" style="width: 0%"></div></div>
-            <span class="count">0</span>
-          </div>
-          <div class="rating-bar-item">
-            <span class="stars">1 <i class="bi bi-star-fill"></i></span>
-            <div class="bar"><div class="fill" style="width: 0%"></div></div>
-            <span class="count">0</span>
+          <p class="review-title">Chất lượng dịch vụ</p>
+          <p class="review-subtitle">{{review.Noi_dung || 'Ổn, tiện lợi'}}</p>
+          <div class="reviewer-info">
+            <img [src]="getReviewerAvatar(review)" alt="Reviewer" class="reviewer-avatar">
+            <div class="reviewer-details">
+              <p class="reviewer-name">{{getReviewerName(review)}}</p>
+              <p class="reviewer-date">{{review.Thoi_gian_gui | date:'dd/MM/yyyy'}}</p>
+            </div>
           </div>
         </div>
       </div>
+
+      <!-- View More Button -->
+      <div class="view-more-container" *ngIf="carReviews.length > 8">
+        <button class="btn-view-more">Xem thêm</button>
+      </div>
     </div>
     
-    </div>
-    <!-- End detail-layout -->
+  </div>
+  <!-- End owner-section -->
   </div>
   <!-- End Container -->
 
@@ -349,6 +371,39 @@
   <button class="lightbox-next" (click)="nextImage($event)" *ngIf="car?.Anh_xe?.length > 1">
     <i class="bi bi-chevron-right"></i>
   </button>
+</div>
+
+<!-- Error Popup -->
+<div class="popup-overlay" *ngIf="showErrorPopup" (click)="closeErrorPopup()">
+  <div class="popup-content" (click)="$event.stopPropagation()">
+    <div class="popup-header">
+      <h3>Thông báo</h3>
+      <button class="popup-close" (click)="closeErrorPopup()">×</button>
+    </div>
+    <div class="popup-body">
+      <p style="white-space: pre-line;">{{errorMessage}}</p>
+    </div>
+    <div class="popup-footer">
+      <button class="btn-ok" (click)="closeErrorPopup()">OK</button>
+    </div>
+  </div>
+</div>
+
+<!-- Login Confirm Popup -->
+<div class="popup-overlay" *ngIf="showLoginConfirm" (click)="closeLoginConfirm()">
+  <div class="popup-content" (click)="$event.stopPropagation()">
+    <div class="popup-header">
+      <h3>Thông báo</h3>
+      <button class="popup-close" (click)="closeLoginConfirm()">×</button>
+    </div>
+    <div class="popup-body">
+      <p>Vui lòng đăng nhập để thuê xe</p>
+    </div>
+    <div class="popup-footer">
+      <button class="btn-cancel" (click)="closeLoginConfirm()">Hủy</button>
+      <button class="btn-ok" (click)="goToLogin()">Đăng nhập</button>
+    </div>
+  </div>
 </div>
 
 <ng-template #loading>

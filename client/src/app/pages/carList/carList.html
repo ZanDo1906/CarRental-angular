@@ -11,7 +11,7 @@
             <select class="form-control form-control-sm field-input"
                     [(ngModel)]="filters.location"
                     (change)="applyFilter()">
-            <option [value]="null">Tất cả</option>
+            <option [ngValue]="null">Tất cả</option>
             <option value="TP. Hồ Chí Minh">TP. Hồ Chí Minh</option>
             <option value="TP. Thủ Đức">TP. Thủ Đức</option>
             <option value="Hà Nội">Hà Nội</option>
@@ -25,15 +25,17 @@
         <!-- Thời gian thuê -->
         <div class="col-auto field-wrap">
             <label class="filter-label">Thời gian thuê</label>
-            <input type="datetime-local" class="form-control form-control-sm field-input">
+            <input type="datetime-local" class="form-control form-control-sm field-input" [(ngModel)]="pickupTime" (change)="validateDates()">
         </div>
 
         <!-- Thời gian trả -->
         <div class="col-auto field-wrap">
             <label class="filter-label">Thời gian trả</label>
-            <input type="datetime-local" class="form-control form-control-sm field-input">
+            <input type="datetime-local" class="form-control form-control-sm field-input" [(ngModel)]="returnTime" [min]="pickupTime" (change)="validateDates()">
         </div>
     </div>
+    
+    <div *ngIf="dateError" class="date-error mt-2">{{dateError}}</div>
 
     <!-- Row 2: các chip (nút viền xanh, xổ xuống) -->
     <div class="chip-row">
@@ -114,9 +116,13 @@
         <div class="menu" *ngIf="openKey==='transmission'">
           <button class="dropdown-item" [class.active]="!filters.transmission"
                   (click)="selectOption('transmission', null)">Tất cả</button>
-          <button class="dropdown-item" *ngFor="let t of ['Số tự động','Số sàn']"
-                  [class.active]="filters.transmission===t"
-                  (click)="selectOption('transmission', t)">{{t}}</button>
+    <!-- Gửi value khớp với Car.json: 'Tự động' | 'Số sàn' -->
+    <button class="dropdown-item"
+      [class.active]="filters.transmission==='Tự động'"
+      (click)="selectOption('transmission', 'Tự động')">Số tự động</button>
+    <button class="dropdown-item"
+      [class.active]="filters.transmission==='Số sàn'"
+      (click)="selectOption('transmission', 'Số sàn')">Số sàn</button>
         </div>
       </div>
 
@@ -147,7 +153,7 @@
       <!-- Mức giá -->
       <div class="dropdown" (click)="$event.stopPropagation()">
         <button class="btn-chip" [class.selected]="filters.price" (click)="toggleDropdown('price')">Mức giá</button>
-        <div class="menu" *ngIf="openKey==='price'">>
+        <div class="menu" *ngIf="openKey==='price'">
           <button class="dropdown-item" [class.active]="!filters.price"
                   (click)="selectOption('price', null)">Tất cả</button>
           <button class="dropdown-item" *ngFor="let p of ['<800k','800k–1tr','>1tr']"
@@ -212,14 +218,14 @@
             </div>
             <div class="meta">
               <i class="bi bi-graph-up"></i>
-              <span>{{car.So_chuyen || car.So_luot_danh_gia || 0}} chuyến</span>
+              <span>{{car.So_chuyen || car.So_luot_thue || 0}} chuyến</span>
             </div>
           </div>
 
           <!-- Giá -->
           <div class="price-row">
             <div class="price fs-5">
-              {{vnd(car.Gia_thue)}} VND/ngày
+              {{vnd(car.Gia_thue)}} VNĐ/Ngày
             </div>
           </div>
         </div>

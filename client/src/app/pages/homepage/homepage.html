@@ -12,6 +12,119 @@
             </p>
         </div>
       </div>
+
+      <!-- ============ FILTER BOX ============ -->
+      <div class="filter-box">
+        <!-- Row 1: 3 ô form + nút Tìm -->
+        <div class="row g-3 align-items-end fields-center mb-3">
+            <!-- Địa điểm -->
+            <div class="col-auto field-wrap">
+                <label class="filter-label">Địa điểm</label>
+                <select class="form-control form-control-sm field-input"
+                        [(ngModel)]="selectedLocation">
+                <option [value]="null">Tất cả</option>
+                <option value="TP. Hồ Chí Minh">TP. Hồ Chí Minh</option>
+                <option value="TP. Thủ Đức">TP. Thủ Đức</option>
+                <option value="Hà Nội">Hà Nội</option>
+                <option value="Đà Nẵng">Đà Nẵng</option>
+                <option value="Nha Trang">Nha Trang</option>
+                <option value="Cần Thơ">Cần Thơ</option>
+                <option value="Huế">Huế</option>
+                </select>
+            </div>
+
+            <!-- Thời gian thuê -->
+            <div class="col-auto field-wrap">
+                <label class="filter-label">Thời gian thuê</label>
+                <input type="datetime-local" class="form-control form-control-sm field-input" [(ngModel)]="pickupTime" (change)="validateDates()">
+            </div>
+
+            <!-- Thời gian trả -->
+            <div class="col-auto field-wrap">
+                <label class="filter-label">Thời gian trả</label>
+                <input type="datetime-local" class="form-control form-control-sm field-input" [(ngModel)]="returnTime" [min]="pickupTime" (change)="validateDates()">
+            </div>
+
+            <!-- Nút Tìm -->
+            <div class="col-auto">
+                <button class="btn-search" (click)="searchCars()">Tìm</button>
+            </div>
+        </div>
+        
+        <div *ngIf="dateError" class="date-error mt-2">{{dateError}}</div>
+      </div>
+      <!-- ============ /FILTER BOX ============ -->
+
+      <!-- ============ DANH SÁCH XE ============ -->
+      <div class="cars-section mt-4">
+        <div class="cards-grid" *ngIf="displayedCars.length > 0">
+          <article class="car-card" *ngFor="let car of displayedCars"(click)="goToCarDetail(car.Ma_xe)" style="cursor:pointer;">
+            <!-- Ảnh -->
+            <div class="thumb">
+              <img [src]="car?.Anh_xe?.[0] || 'assets/images/placeholder.webp'" alt="">
+            </div>
+
+            <!-- Thân card -->
+            <div class="card-body">
+              <h3 class="car-name fw-bold fs-4">{{car.Hang_xe}} {{car.Dong_xe}} {{car.Nam_san_xuat}}</h3>
+
+              <!-- Hàng 3 thông số -->
+              <div class="spec-grid">
+                <div class="spec">
+                  <i class="bi bi-gear"></i>
+                  <span>{{car.Hop_so}}</span>
+                </div>
+                <div class="spec">
+                  <i class="bi bi-people"></i>
+                  <span>{{car.So_cho}} chỗ</span>
+                </div>
+                <div class="spec">
+                  <i class="bi bi-fuel-pump"></i>
+                  <span>{{car.Nhien_lieu}}</span>
+                </div>
+              </div>
+
+              <!-- Địa điểm -->
+              <div class="loc-row" *ngIf="car.Ma_vi_tri != null">
+                <i class="bi bi-geo-alt"></i>
+                <span>{{ getLocationAddress(car.Ma_vi_tri) }}</span>
+              </div>
+
+              <hr>
+
+              <!-- Điểm & số chuyến -->
+              <div class="meta-row">
+                <div class="meta">
+                  <i class="bi bi-star-fill text-warning"></i>
+                  <span>{{car.Diem_danh_gia || '5.0'}}</span>
+                </div>
+                <div class="meta">
+                  <i class="bi bi-graph-up"></i>
+                  <span>{{car.So_chuyen || car.So_luot_thue || 0}} chuyến</span>
+                </div>
+              </div>
+
+              <!-- Giá -->
+              <div class="price-row">
+                <div class="price fs-5">
+                  {{formatVND(car.Gia_thue)}} VNĐ/Ngày
+                </div>
+              </div>
+            </div>
+          </article>
+        </div>
+        
+        <p class="text-center mt-3" *ngIf="displayedCars.length === 0" style="color: orange; font-weight: bold;">
+          Không có xe nào để hiển thị
+        </p>
+
+        <!-- Nút Xem thêm -->
+        <div class="text-center mt-4">
+          <button class="btn-view-more" (click)="viewAllCars()">Xem thêm sản phẩm</button>
+        </div>
+      </div>
+      <!-- ============ /DANH SÁCH XE ============ -->
+
       <div class="second">
         <img src="assets\assets\5253f258-canh-danh-lai-vo-lang-1-tay-thumbnail.png" alt="" (click)="goToOwnerPage()" style="cursor: pointer;">
         <div class="second-content">
@@ -37,4 +150,5 @@
       </div>
   </div>
 </section>
+
 

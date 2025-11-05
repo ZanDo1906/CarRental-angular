@@ -8,15 +8,18 @@ import { Homepage } from './pages/homepage/homepage';
 import { ConfirmBooking } from './pages/confirm-booking/confirm-booking';
 import { CarRentalGuide } from './pages/car-rental-guide/car-rental-guide';
 import { UserAccount } from './pages/user-account/user-account';
+import { LogIn } from './pages/log-in/log-in';
+
 export const routes: Routes = [
     { path: '', component: Homepage },         // trang homepage
+    { path: 'log-in', component: LogIn },         // trang đăng nhập
     { path: 'danh-sach-xe', component: CarList }, // trang danh sách xe
     { path: 'xe/:id', component: CarDetail },  // trang chi tiết
     { path: 'tro-thanh-chu-xe', component: TroThanhChuXe }, // trang trở thành chủ xe
     { path: 'owner', component: TroThanhChuXe }, // alias cho header "Trở thành chủ xe"
     { path: 'dk-cho-thue-xe', component: DKChoThueXe }, // trang đăng ký cho thuê xe
     { path: 've-trust-car', component: VeTrustCar }, // trang Về Trustcar
-    { path: 'confirm-booking', component: ConfirmBooking }, // trang xác nhận đặt xe
+    { path: 'confirm-booking/:id', component: ConfirmBooking }, // trang xác nhận đặt xe
     { path: 'guide', component: CarRentalGuide }, // trang Hướng dẫn thuê xe
     { path: 'user-account', component: UserAccount }, // trang Tài khoản người dùng
     { path: '**', redirectTo: '' },

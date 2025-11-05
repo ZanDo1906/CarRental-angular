@@ -1,9 +1,10 @@
-import { Component, HostListener, OnInit } from '@angular/core';
+import { Component, HostListener, OnInit, ChangeDetectorRef } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { Router, RouterLink } from '@angular/router';
 import { CarService } from '../../services/car';
 import { LocationService } from '../../services/location';
+import { BookingDataService } from '../../services/booking-data';
 
 type FilterKey = 'location' | 'brand' | 'type' | 'seat' | 'fuel' | 'price' | 'purpose' | 'transmission' | 'consumption' | 'rating';
 
@@ -76,25 +77,63 @@ export class CarList implements OnInit {
   // Mục đích chuyến đi
   readonly PURPOSES = PURPOSES;
 
-  constructor(private carService: CarService, private _locationService: LocationService,  private router: Router,) {}
+  // Booking times
+  pickupTime: string = '';
+  returnTime: string = '';
+  dateError: string = '';
+
+  constructor(
+    private carService: CarService, 
+    private _locationService: LocationService, 
+    private router: Router,
+    private cdr: ChangeDetectorRef,
+    private bookingDataService: BookingDataService
+  ) {}
 
   goToCarDetail(id: number | string) {
+      // Lưu dữ liệu booking vào service trước khi navigate
+      this.bookingDataService.setBookingData({
+        location: this.filters.location,
+        pickupTime: this.pickupTime || '',
+        returnTime: this.returnTime || ''
+      });
       this.router.navigate(['/xe', id]);   // trỏ đúng path ở routes
     }
 
   ngOnInit() {
-    this.carService.getAllCars().subscribe((data: any) => {
-      this.cars = Array.isArray(data) ? data : [];
-      // Hiện tất cả xe ngay từ đầu
-      this.filtered = [...this.cars];
-      this.visibleCars = this.filtered.slice(0, this.pageSize);
-    });
-
-    // load locations same way as TestData component
+    // Load locations trước
     this._locationService.getAllLocations().subscribe({
       next: (data: any) => {
         this.locations = Array.isArray(data) ? data : [];
       }
+    });
+
+    // Load cars và hiển thị
+    this.carService.getAllCars().subscribe((data: any) => {
+      this.cars = Array.isArray(data) ? data : [];
+      
+      // Nhận dữ liệu booking từ homepage (nếu có)
+      const bookingData = this.bookingDataService.getBookingData();
+      if (bookingData.location) {
+        this.filters.location = bookingData.location;
+      }
+      if (bookingData.pickupTime) {
+        this.pickupTime = bookingData.pickupTime;
+      }
+      if (bookingData.returnTime) {
+        this.returnTime = bookingData.returnTime;
+      }
+      
+      // Apply filter nếu có location, nếu không thì hiện tất cả
+      if (this.filters.location) {
+        this.applyFilter();
+      } else {
+        this.filtered = [...this.cars];
+        this.visibleCars = this.filtered.slice(0, this.pageSize);
+      }
+      
+      // Force update UI
+      this.cdr.detectChanges();
     });
 
       
@@ -145,6 +184,7 @@ export class CarList implements OnInit {
     let list = [...this.cars];
 
     // Lọc theo địa điểm - dựa vào Ma_vi_tri và locations
+    // Chỉ lọc nếu location có giá trị (không phải null/undefined)
     if (this.filters.location) {
       list = list.filter(c => {
         const location = this.getLocationById(c.Ma_vi_tri);
@@ -168,8 +208,10 @@ export class CarList implements OnInit {
     }
     
     // Truyền động
-    if (this.filters.transmission)
-      list = list.filter(c => (c.Hop_so || '').includes(this.filters.transmission!));
+    if (this.filters.transmission) {
+      const wanted = String(this.filters.transmission).toLowerCase();
+      list = list.filter(c => String(c?.Hop_so || '').toLowerCase() === wanted);
+    }
     
     // Mức tiêu thụ (giả sử có field Muc_tieu_thu, đơn vị l/100km)
     if (this.filters.consumption) {
@@ -246,6 +288,20 @@ getLocationById(id: number): any {
 
   getStars(rating: number): string {
     return '⭐'.repeat(rating) + '☆'.repeat(5 - rating);
+  }
+
+  // Validate thời gian thuê/trả
+  validateDates(): void {
+    this.dateError = '';
+    if (this.pickupTime && this.returnTime) {
+      const pickup = new Date(this.pickupTime);
+      const returnDate = new Date(this.returnTime);
+      
+      if (returnDate <= pickup) {
+        this.dateError = 'Thời gian trả phải sau thời gian thuê';
+        this.returnTime = '';
+      }
+    }
   }
 
 }

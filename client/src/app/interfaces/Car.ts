@@ -1,5 +1,7 @@
 export interface iCar {
     Ma_xe: number;              // int
+    Ma_nguoi_dung?: number;     // int
+    Ma_vi_tri?: number;         // int
     Giay_to_xe: string;         // String
     Bien_so_xe: string;         // String
     Anh_xe: string[];           // ✅ Danh sách nhiều ảnh
@@ -18,4 +20,7 @@ export interface iCar {
     So_luot_danh_gia: number;   // int
     So_luot_thue: number;       // int
     Bao_hanh_gan_nhat: string | Date; // ✅ Ngày gần nhất bảo hành
+    Loai_xe?: string;           // String
+    Nam_san_xuat?: number;      // int
+    So_chuyen?: number;         // int (alias cho So_luot_thue)
 }
