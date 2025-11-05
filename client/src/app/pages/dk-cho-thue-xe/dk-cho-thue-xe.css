@@ -6,6 +6,11 @@
     min-height: 100vh;
 }
 
+.brand-text {
+  font-family: 'Montserrat', 'Inter', sans-serif;
+  color: #1D7363;
+}
+
 .form-container {
     background-color: white;
     border-radius: 20px;

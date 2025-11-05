@@ -85,7 +85,9 @@ export class CarList implements OnInit {
   ngOnInit() {
     this.carService.getAllCars().subscribe((data: any) => {
       this.cars = Array.isArray(data) ? data : [];
-      this.applyFilter();
+      // Hiện tất cả xe ngay từ đầu
+      this.filtered = [...this.cars];
+      this.visibleCars = this.filtered.slice(0, this.pageSize);
     });
 
     // load locations same way as TestData component

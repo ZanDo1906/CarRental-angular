@@ -6,6 +6,10 @@ h5 {
     font-weight: 700;
     margin: 0;
 }
+.brand-text {
+  font-family: 'Montserrat', 'Inter', sans-serif;
+  color: #1D7363;
+}
 
 .wrap-btn {
     padding-top: 10px;
@@ -40,13 +44,16 @@ h5 {
 }
 
 .m-container {
-    max-width: 1200px;
-    margin: auto;
-    padding: 40px;
-    padding-top: 70px;
-    padding-bottom: 70px;
+    /* Full-bleed like Ve Trustcar: no fixed max-width, minimal gutters */
+    max-width: none;
+    width: 100%;
+    margin: 0 auto;
     box-sizing: border-box;
     text-align: center;
+    padding-left: 0;
+    padding-right: 0;
+    padding-top: 4px;
+    padding-bottom: 24px;
 }
 .m-container h2 {
     margin-bottom: 40px;
@@ -107,9 +114,9 @@ h5 {
 .features-section .features-container {
     display: flex;
     flex-wrap: wrap;
-    width: 85%;
+    width: 100%; /* tràn 2 bên */
     gap: 32px;
-    margin: auto;
+    margin: 0 auto;
     justify-content: center;
 }
 
@@ -182,9 +189,12 @@ body {
 }
 
 .blog-container {
-    max-width: 1200px;
+    max-width: none;  /* cho phép full width */
+    width: 100%;
     margin: 0 auto;
     text-align: center;
+    padding-left: 0;
+    padding-right: 0;
 }
 
 h1 {
@@ -214,7 +224,7 @@ h1 {
 /* Định dạng chung cho mỗi bài viết */
 .post-item {
     position: relative;
-    border-radius: 8px;
+    border-radius: 15px;
     overflow: hidden;
     box-shadow: 0 6px 18px rgba(0, 0, 0, 0.08);
     transition: transform 180ms ease, box-shadow 180ms ease;
@@ -235,7 +245,7 @@ h1 {
 /* Bài viết lớn (Bên phải) */
 .large-post {
     grid-row: span 2; /* span two rows to create a large feature */
-    min-height: 420px;
+    height: 575px;
     display: block;
 }
 
@@ -276,7 +286,7 @@ h1 {
 
 .explorer-section .explorer-container .explorer-item {
     display: flex;
-    align-items: center;
+    align-items: stretch; /* cho cả 2 cột có độ cao bằng nhau */
     justify-content: space-between;
     border-radius: 20px;
     padding: 36px;
@@ -287,7 +297,9 @@ h1 {
     display: flex;
     flex-direction: column;
     align-items: center;
-    padding: 0 60px
+    justify-content: center; /* căn giữa theo chiều dọc */
+    padding: 0 60px;
+    flex: 1; /* cho phép cột nội dung co giãn */
 }
 
 .explorer-section .explorer-container .explorer-item__content .wrap-svg {
@@ -305,7 +317,9 @@ h1 {
 }
 
 .explorer-section .explorer-container .explorer-item__content .wrap-btn {
-    width: 50%
+    width: 100%;
+    display: flex;
+    justify-content: center; /* căn giữa button */
 }
 
 .explorer-section .explorer-container .explorer-item__content .wrap-btn.has-2-btn {

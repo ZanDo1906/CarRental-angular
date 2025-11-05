@@ -1,4 +1,5 @@
 import { Component, AfterViewInit, ElementRef } from '@angular/core';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-ve-trust-car',
@@ -7,7 +8,7 @@ import { Component, AfterViewInit, ElementRef } from '@angular/core';
   styleUrl: './ve-trust-car.css',
 })
 export class VeTrustCar implements AfterViewInit {
-  constructor(private el: ElementRef) { }
+  constructor(private el: ElementRef, private router: Router) {}
 
   ngAfterViewInit(): void {
     this.setupSlideAnimation();
@@ -111,6 +112,13 @@ export class VeTrustCar implements AfterViewInit {
     }, { threshold: 0.2 });
 
     observer.observe(container);
+  }
+
+  goToOwnerPage() {
+    this.router.navigate(['/owner']);
+  }
+  goToCarList() {
+    this.router.navigate(['/danh-sach-xe']);
   }
 
 }

@@ -11,6 +11,11 @@
     padding: 0 15px;
 }
 
+.brand-text {
+  font-family: 'Montserrat', 'Inter', sans-serif;
+  color: #1D7363;
+}
+
 /* Header Section */
 .header-section {
     background: white;

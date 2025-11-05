@@ -1,4 +1,5 @@
 import { Component, AfterViewInit, ElementRef } from '@angular/core';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-homepage',
@@ -10,7 +11,7 @@ export class Homepage implements AfterViewInit {
 
 
   //First
-  constructor(private el: ElementRef) {}
+  constructor(private el: ElementRef, private router: Router) {}
 
   ngAfterViewInit(): void {
     this.startCounter(); 
@@ -49,5 +50,12 @@ export class Homepage implements AfterViewInit {
     };
 
     requestAnimationFrame(step);
+  }
+
+  goToOwnerPage() {
+    this.router.navigate(['/owner']);
+  }
+  goToAboutTrustcar() {
+    this.router.navigate(['/ve-trust-car']);
   }
 }
