@@ -4,6 +4,7 @@ import { FormsModule } from '@angular/forms';
 import { RouterModule } from '@angular/router';
 import { SideBar } from '../side-bar/side-bar';
 import { UserService } from '../../services/user';
+import { CarService } from '../../services/car';
 
 @Component({
   selector: 'app-user-account',
@@ -18,7 +19,7 @@ export class UserAccount implements OnInit {
   editingProfile: boolean = false;
   editingLicense: boolean = false;
 
-  constructor(private userService: UserService) { }
+  constructor(private userService: UserService, private carService: CarService) { }
 
   ngOnInit(): void {
     // On init, just load the current user (if currentUserId is set) or the first user
@@ -143,6 +144,37 @@ export class UserAccount implements OnInit {
           } else {
             (found as any)._licenseExists = false;
             (found as any)._licenseAuthenticated = false;
+          }
+
+          // Load cars owned by this user and attach them to the user object so the template can show car info.
+          try {
+            this.carService.getAllCars().subscribe({
+              next: (cars: any) => {
+                const carList = Array.isArray(cars) ? cars : [];
+                const myCars = carList.filter((c: any) => String(c.Ma_nguoi_dung) === String(found.Ma_nguoi_dung));
+                (found as any)._cars = myCars;
+                (found as any)._carCount = myCars.length;
+                // If user has no avatar, use the first car image as avatar
+                if ((!found as any)._avatar && myCars.length > 0) {
+                  const firstImg = Array.isArray(myCars[0].Anh_xe) && myCars[0].Anh_xe.length ? myCars[0].Anh_xe[0] : myCars[0].Anh_xe;
+                  if (firstImg) (found as any)._avatar = String(firstImg).replace(/^\.?\//, '/');
+                }
+                // If user has no license image, use the first car image
+                if (!(found as any)._licenseExists && myCars.length > 0) {
+                  const firstImg = Array.isArray(myCars[0].Anh_xe) && myCars[0].Anh_xe.length ? myCars[0].Anh_xe[0] : myCars[0].Anh_xe;
+                  if (firstImg) {
+                    (found as any)._license = String(firstImg).replace(/^\.?\//, '/');
+                    (found as any)._licenseExists = true;
+                    (found as any)._licenseAuthenticated = false;
+                  }
+                }
+              },
+              error: () => {
+                // ignore car load errors in learner mode
+              }
+            });
+          } catch (e) {
+            // ignore
           }
         }
 

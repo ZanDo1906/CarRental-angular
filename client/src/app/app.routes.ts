@@ -9,7 +9,7 @@ import { ConfirmBooking } from './pages/confirm-booking/confirm-booking';
 import { CarRentalGuide } from './pages/car-rental-guide/car-rental-guide';
 import { UserAccount } from './pages/user-account/user-account';
 import { LogIn } from './pages/log-in/log-in';
-import { LicenseApproval } from './pages/license-approval/license-approval';
+import { UserCar } from './pages/user-car/user-car';
 
 export const routes: Routes = [
     { path: '', component: Homepage },         // trang homepage
@@ -23,7 +23,7 @@ export const routes: Routes = [
     { path: 'confirm-booking/:id', component: ConfirmBooking }, // trang xác nhận đặt xe
     { path: 'guide', component: CarRentalGuide }, // trang Hướng dẫn thuê xe
     { path: 'user-account', component: UserAccount }, // trang Tài khoản người dùng
-    { path: 'license-approval', component: LicenseApproval }, // trang Phê duyệt giấy phép
+    { path: 'user-car', component: UserCar }, // trang Phê duyệt giấy phép
     { path: '**', redirectTo: '' },
 
 ];
