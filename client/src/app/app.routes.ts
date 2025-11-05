@@ -5,11 +5,8 @@ import { TroThanhChuXe } from './pages/tro-thanh-chu-xe/tro-thanh-chu-xe';
 import { DKChoThueXe } from './pages/dk-cho-thue-xe/dk-cho-thue-xe';
 import { VeTrustCar } from './pages/ve-trust-car/ve-trust-car';
 import { Homepage } from './pages/homepage/homepage';
-<<<<<<< HEAD
 import { ConfirmBooking } from './pages/confirm-booking/confirm-booking';
-=======
 import { CarRentalGuide } from './pages/car-rental-guide/car-rental-guide';
->>>>>>> b210f47 (WIP: local changes before integrating remote)
 
 export const routes: Routes = [
     { path: '', component: Homepage },         // trang homepage
@@ -19,11 +16,8 @@ export const routes: Routes = [
     { path: 'owner', component: TroThanhChuXe }, // alias cho header "Trở thành chủ xe"
     { path: 'dk-cho-thue-xe', component: DKChoThueXe }, // trang đăng ký cho thuê xe
     { path: 've-trust-car', component: VeTrustCar }, // trang Về Trustcar
-<<<<<<< HEAD
     { path: 'confirm-booking', component: ConfirmBooking }, // trang xác nhận đặt xe
-=======
     { path: 'guide', component: CarRentalGuide }, // trang Hướng dẫn thuê xe
->>>>>>> b210f47 (WIP: local changes before integrating remote)
     { path: '**', redirectTo: '' },
 
 ];
