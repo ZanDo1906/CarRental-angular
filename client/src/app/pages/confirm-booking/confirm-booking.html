@@ -1,0 +1,221 @@
+<div class="booking-confirmation-container">
+    <div class="booking-card">
+
+        <!-- TRANG 1: Thông tin liên hệ & thanh toán -->
+        <div *ngIf="currentPage === 1">
+            <!-- Thông tin liên hệ -->
+            <section class="contact-section">
+                <h2 class="section-title">THÔNG TIN LIÊN HỆ</h2>
+
+                <div class="info-group">
+                    <label class="info-label">Họ và tên: <span class="required">*</span></label>
+                    <div class="info-display">{{ bookingData.contact.name }}</div>
+                </div>
+
+                <div class="info-group">
+                    <label class="info-label">Số điện thoại: <span class="required">*</span></label>
+                    <div class="info-display">{{ bookingData.contact.phone }}</div>
+                </div>
+
+                <div class="info-group">
+                    <label class="info-label">Email: <span class="required">*</span></label>
+                    <div class="info-display">{{ bookingData.contact.email }}</div>
+                </div>
+
+                <div class="info-group">
+                    <label class="info-label">Địa chỉ: <span class="required">*</span></label>
+                    <div class="info-display">{{ bookingData.contact.address }}</div>
+                </div>
+            </section>
+
+            <!-- Thông tin thanh toán -->
+            <section class="payment-section">
+                <h2 class="section-title">THÔNG TIN THANH TOÁN</h2>
+
+                <div class="payment-summary">
+                    <div class="payment-row">
+                        <span class="payment-label">Tổng tiền:</span>
+                        <span class="payment-amount">{{ formatCurrency(bookingData.payment.subtotal) }}</span>
+                    </div>
+
+                    <div class="payment-row">
+                        <span class="payment-label">Giảm giá:</span>
+                        <span class="payment-amount discount">{{ formatCurrency(bookingData.payment.discount) }}</span>
+                    </div>
+
+                    <div class="payment-row">
+                        <span class="payment-label">Thuế VAT:</span>
+                        <span class="payment-amount">{{ formatCurrency(bookingData.payment.vat) }}</span>
+                    </div>
+
+                    <div class="payment-divider"></div>
+
+                    <div class="payment-row total-row">
+                        <span class="payment-label total-label">THÀNH TIỀN:</span>
+                        <span class="payment-amount total-amount">{{ formatCurrency(bookingData.payment.total) }}</span>
+                    </div>
+                </div>
+
+                <!-- Thông báo kiểm tra -->
+                <div class="validation-reminder">
+                    <p class="reminder-text">Vui lòng kiểm tra lại các thông tin trên trước khi bấm Xác nhận</p>
+                </div>
+
+                <!-- Nút xác nhận -->
+                <button class="confirm-button" (click)="onConfirmBooking()">
+                    Xác nhận đặt xe
+                </button>
+            </section>
+        </div>
+
+        <!-- TRANG 2: Thông tin đơn thuê -->
+        <div *ngIf="currentPage === 2">
+            <!-- Tiêu đề -->
+            <h1 class="section-title">THÔNG TIN ĐƠN THUÊ</h1>
+
+            <!-- Hình ảnh xe (placeholder) -->
+            <div class="car-image-section">
+                <div class="car-image-placeholder">
+                    <div class="placeholder-icon">🚗</div>
+                </div>
+            </div>
+
+            <!-- Thông tin xe -->
+            <div class="car-info-section">
+                <div class="car-info-row">
+                    <span class="car-info-label">Tên xe:</span>
+                    <span class="car-info-value">{{ orderDetails.carInfo.name }}</span>
+                </div>
+
+                <div class="car-info-row">
+                    <span class="car-info-label">Số chỗ:</span>
+                    <span class="car-info-value">{{ orderDetails.carInfo.seats }}</span>
+                </div>
+
+                <div class="car-info-row">
+                    <span class="car-info-label">Nhiên liệu:</span>
+                    <span class="car-info-value">{{ orderDetails.carInfo.fuel }}</span>
+                </div>
+
+                <div class="car-info-row">
+                    <span class="car-info-label">Hộp số:</span>
+                    <span class="car-info-value">{{ orderDetails.carInfo.transmission }}</span>
+                </div>
+
+                <div class="car-info-row">
+                    <span class="car-info-label">Tiêu thụ:</span>
+                    <span class="car-info-value">{{ orderDetails.carInfo.fuelConsumption }}</span>
+                </div>
+            </div>
+
+            <!-- Thông tin thời gian -->
+            <div class="time-section">
+                <div class="time-inputs">
+                    <div class="time-group">
+                        <label class="time-label">Thời gian nhận</label>
+                        <input type="text" class="time-input" [(ngModel)]="orderDetails.timeInfo.startTime"
+                            placeholder="VD: 14:00, 15/11/2025">
+                    </div>
+
+                    <div class="time-group">
+                        <label class="time-label">Thời gian trả</label>
+                        <input type="text" class="time-input" [(ngModel)]="orderDetails.timeInfo.endTime"
+                            placeholder="VD: 14:00, 17/11/2025">
+                    </div>
+                </div>
+
+                <div class="location-group">
+                    <label class="location-label">Địa điểm nhận xe</label>
+                    <textarea class="location-input" [(ngModel)]="orderDetails.timeInfo.pickupLocation"
+                        placeholder="Nhập địa chỉ nhận xe" rows="3"></textarea>
+                </div>
+            </div>
+
+            <!-- Thông báo kiểm tra -->
+            <div class="validation-reminder">
+                <p class="reminder-text">Vui lòng kiểm tra lại các thông tin trên trước khi bấm Xác nhận</p>
+            </div>
+
+            <!-- Nút xác nhận thanh toán -->
+            <button class="confirm-button" (click)="onConfirmPayment()">
+                Xác nhận thanh toán
+            </button>
+        </div>
+
+        <!-- TRANG 3: QR Code thanh toán -->
+        <div *ngIf="currentPage === 3">
+            <!-- Thông tin thanh toán -->
+            <div class="payment-info-section">
+                <h2 class="payment-title">Vui lòng thanh toán phí giữ chỗ</h2>
+                <div class="payment-amount-display">{{ formatCurrency(displayAmount) }}</div>
+                <p class="payment-note">Thời gian giữ chỗ còn lại</p>
+
+                <div class="countdown-section">
+                    <input type="text" class="countdown-input" [value]="countdown + 's'" readonly>
+                </div>
+
+                <p class="order-code">Mã đơn thuê của bạn: {{ orderCode }}</p>
+            </div>
+
+            <!-- QR Code Section -->
+            <div class="qr-section">
+                <h3 class="qr-title">Thanh toán bằng QR code</h3>
+                <p class="qr-subtitle">Quét QR để chuyển khoản</p>
+
+                <div class="qr-code-container">
+                    <img [src]="generateQRUrl()" alt="QR Code thanh toán" class="qr-code-image"
+                        (error)="$any($event).target.style.display='none'">
+                </div>
+
+                <!-- Thông tin ngân hàng chi tiết -->
+                <div class="bank-info-section">
+                    <h4 class="bank-info-title">🏦 Thông tin ngân hàng:</h4>
+
+                    <div class="bank-details">
+                        <div class="bank-row">
+                            <span class="bank-label">Ngân hàng:</span>
+                            <span class="bank-value">VCB (Vietcombank)</span>
+                        </div>
+
+                        <div class="bank-row">
+                            <span class="bank-label">Số tài khoản:</span>
+                            <span class="bank-value highlight">{{ qrPayment.account }}</span>
+                        </div>
+
+                        <div class="bank-row">
+                            <span class="bank-label">Tên tài khoản:</span>
+                            <span class="bank-value">{{ qrPayment.accountName }}</span>
+                        </div>
+
+                        <div class="bank-row">
+                            <span class="bank-label">Nội dung:</span>
+                            <span class="bank-value message">{{ qrPayment.message }}</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="contact-support">
+                    <p>Liên hệ bộ phận <strong>CSKH</strong> nếu có bất kỳ thắc mắc nào!</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- TRANG 4: Đặt đơn thuê thành công -->
+        <div *ngIf="currentPage === 4">
+            <div class="success-section">
+                <h1 class="success-title">ĐẶT ĐƠN THUÊ THÀNH CÔNG</h1>
+
+                <div class="success-content">
+                    <h2 class="success-subtitle">Đặt đơn thuê xe thành công!</h2>
+                    <p class="success-message">Vui lòng theo dõi tình trạng đơn thuê</p>
+                </div>
+
+                <div class="success-actions">
+                    <button class="action-btn detail-btn">Xem chi tiết</button>
+                    <button class="action-btn back-btn" (click)="goBackToHome()">Quay lại</button>
+                </div>
+            </div>
+        </div>
+
+    </div>
+</div>

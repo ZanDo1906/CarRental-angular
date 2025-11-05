@@ -1,0 +1,913 @@
+.booking-confirmation-container {
+    background-color: #f8f9fa;
+    min-height: 100vh;
+    padding: 20px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-family: 'Inter', sans-serif;
+}
+
+.booking-card {
+    background: white;
+    border: 2px solid #1D7363;
+    border-radius: 12px;
+    padding: 40px;
+    width: 100%;
+    max-width: 480px;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+}
+
+/* Section Titles */
+.section-title {
+    color: #1D7363;
+    font-size: 20px;
+    font-weight: 700;
+    text-align: center;
+    margin-bottom: 25px;
+    margin-top: 0;
+    letter-spacing: 0.5px;
+}
+
+/* Contact Section */
+.contact-section {
+    margin-bottom: 35px;
+}
+
+.info-group {
+    margin-bottom: 18px;
+}
+
+.info-label {
+    display: block;
+    font-size: 14px;
+    font-weight: 500;
+    color: #333;
+    margin-bottom: 8px;
+}
+
+.required {
+    color: #dc3545;
+}
+
+.info-display {
+    background: #f8f9fa;
+    border: 1px solid #dee2e6;
+    border-radius: 6px;
+    padding: 12px 16px;
+    font-size: 16px;
+    color: #495057;
+    min-height: 24px;
+    word-wrap: break-word;
+}
+
+/* Payment Section */
+.payment-section {
+    border-top: 2px solid #e9ecef;
+    padding-top: 30px;
+}
+
+.payment-summary {
+    margin-bottom: 25px;
+}
+
+.payment-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 12px;
+    padding: 8px 0;
+}
+
+.payment-label {
+    font-size: 16px;
+    color: #495057;
+    font-weight: 500;
+}
+
+.payment-amount {
+    font-size: 16px;
+    color: #212529;
+    font-weight: 600;
+}
+
+.payment-amount.discount {
+    color: #28a745;
+}
+
+.payment-divider {
+    height: 1px;
+    background: #dee2e6;
+    margin: 20px 0;
+}
+
+.total-row {
+    background: #f8f9fa;
+    border-radius: 6px;
+    padding: 15px 12px;
+    margin-bottom: 0;
+    margin-top: 10px;
+}
+
+.total-label {
+    font-size: 18px;
+    font-weight: 700;
+    color: #212529;
+}
+
+.total-amount {
+    font-size: 18px;
+    font-weight: 700;
+    color: #1D7363;
+}
+
+/* Validation Reminder */
+.validation-reminder {
+    text-align: center;
+    margin-bottom: 25px;
+}
+
+.reminder-text {
+    color: #dc3545;
+    font-size: 14px;
+    font-style: italic;
+    margin: 0;
+    line-height: 1.4;
+}
+
+/* Confirm Button */
+.confirm-button {
+    width: 100%;
+    background: #1D7363;
+    color: white;
+    border: none;
+    border-radius: 8px;
+    padding: 16px;
+    font-size: 18px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    text-transform: none;
+}
+
+.confirm-button:hover {
+    background: #155a52;
+    transform: translateY(-1px);
+    box-shadow: 0 4px 12px rgba(29, 115, 99, 0.3);
+}
+
+.confirm-button:active {
+    transform: translateY(0);
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+    .booking-confirmation-container {
+        padding: 15px;
+        align-items: flex-start;
+        padding-top: 30px;
+    }
+
+    .booking-card {
+        padding: 30px 25px;
+        max-width: 100%;
+    }
+
+    .section-title {
+        font-size: 18px;
+        margin-bottom: 20px;
+    }
+
+    .payment-label,
+    .payment-amount {
+        font-size: 15px;
+    }
+
+    .total-label,
+    .total-amount {
+        font-size: 17px;
+    }
+}
+
+@media (max-width: 480px) {
+    .booking-card {
+        padding: 25px 20px;
+    }
+
+    .section-title {
+        font-size: 16px;
+        margin-bottom: 18px;
+    }
+
+    .info-label {
+        font-size: 13px;
+    }
+
+    .info-display {
+        font-size: 15px;
+        padding: 10px 14px;
+    }
+
+    .payment-label,
+    .payment-amount {
+        font-size: 14px;
+    }
+
+    .total-label,
+    .total-amount {
+        font-size: 16px;
+    }
+
+    .confirm-button {
+        font-size: 16px;
+        padding: 14px;
+    }
+
+    .reminder-text {
+        font-size: 13px;
+    }
+}
+
+/* Animation */
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.booking-card {
+    animation: fadeIn 0.4s ease-out;
+}
+
+/* TRANG 2: Thông tin đơn thuê */
+.car-image-section {
+    margin-bottom: 30px;
+    display: flex;
+    justify-content: center;
+}
+
+.car-image-placeholder {
+    width: 100%;
+    height: 180px;
+    background: #e9ecef;
+    border: 2px dashed #dee2e6;
+    border-radius: 8px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.placeholder-icon {
+    font-size: 48px;
+    opacity: 0.6;
+}
+
+.car-info-section {
+    margin-bottom: 30px;
+}
+
+.car-info-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px 0;
+    border-bottom: 1px solid #f1f3f4;
+}
+
+.car-info-row:last-child {
+    border-bottom: none;
+}
+
+.car-info-label {
+    font-size: 16px;
+    font-weight: 500;
+    color: #495057;
+}
+
+.car-info-value {
+    font-size: 16px;
+    font-weight: 600;
+    color: #212529;
+}
+
+.time-section {
+    margin-bottom: 25px;
+    padding-top: 20px;
+    border-top: 1px solid #dee2e6;
+}
+
+.time-inputs {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 15px;
+    margin-bottom: 20px;
+}
+
+.time-group,
+.location-group {
+    margin-bottom: 15px;
+}
+
+.time-label,
+.location-label {
+    display: block;
+    font-size: 14px;
+    font-weight: 500;
+    color: #495057;
+    margin-bottom: 8px;
+}
+
+.time-input,
+.location-input {
+    width: 100%;
+    border: 1px solid #dee2e6;
+    border-radius: 6px;
+    padding: 12px;
+    font-size: 14px;
+    color: #495057;
+    box-sizing: border-box;
+    outline: none;
+    transition: border-color 0.2s;
+    font-family: inherit;
+}
+
+.time-input:focus,
+.location-input:focus {
+    border-color: #1D7363;
+}
+
+.location-input {
+    resize: vertical;
+    min-height: 80px;
+}
+
+/* Responsive cho trang 2 */
+@media (max-width: 768px) {
+    .car-image-placeholder {
+        height: 150px;
+    }
+
+    .placeholder-icon {
+        font-size: 36px;
+    }
+
+    .time-inputs {
+        grid-template-columns: 1fr;
+        gap: 10px;
+    }
+
+    .car-info-label,
+    .car-info-value {
+        font-size: 15px;
+    }
+}
+
+@media (max-width: 480px) {
+    .car-image-placeholder {
+        height: 120px;
+    }
+
+    .placeholder-icon {
+        font-size: 30px;
+    }
+
+    .car-info-label,
+    .car-info-value {
+        font-size: 14px;
+    }
+
+    .time-input,
+    .location-input {
+        font-size: 14px;
+        padding: 10px;
+    }
+}
+
+/* TRANG 3: QR Code thanh toán */
+
+/* Countdown hiển thị lớn */
+.countdown-display-large {
+    text-align: center;
+    background: linear-gradient(135deg, #FF6B6B, #FF8E8E);
+    color: white;
+    padding: 20px;
+    border-radius: 15px;
+    margin-bottom: 25px;
+    box-shadow: 0 4px 15px rgba(255, 107, 107, 0.3);
+    animation: pulse 1s infinite alternate;
+}
+
+.countdown-label-large {
+    font-size: 16px;
+    font-weight: 500;
+    margin: 0 0 10px 0;
+    opacity: 0.9;
+}
+
+.countdown-number {
+    font-size: 48px;
+    font-weight: 800;
+    margin: 10px 0;
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
+    animation: countdownPulse 1s infinite;
+}
+
+.countdown-unit {
+    font-size: 14px;
+    font-weight: 500;
+    margin: 0;
+    opacity: 0.9;
+}
+
+@keyframes pulse {
+    0% {
+        transform: scale(1);
+    }
+
+    100% {
+        transform: scale(1.02);
+    }
+}
+
+@keyframes countdownPulse {
+    0% {
+        transform: scale(1);
+    }
+
+    50% {
+        transform: scale(1.1);
+    }
+
+    100% {
+        transform: scale(1);
+    }
+}
+
+.payment-info-section {
+    text-align: center;
+    margin-bottom: 30px;
+    padding-bottom: 20px;
+    border-bottom: 2px solid #e9ecef;
+}
+
+.payment-title {
+    font-size: 18px;
+    font-weight: 600;
+    color: #333;
+    margin-bottom: 15px;
+}
+
+.payment-amount-display {
+    font-size: 24px;
+    font-weight: 700;
+    color: #1D7363;
+    margin-bottom: 15px;
+}
+
+.payment-note {
+    font-size: 14px;
+    color: #666;
+    margin-bottom: 15px;
+}
+
+.countdown-section {
+    margin-bottom: 20px;
+}
+
+.countdown-input {
+    width: 200px;
+    padding: 10px;
+    border: 1px solid #dee2e6;
+    border-radius: 6px;
+    text-align: center;
+    font-size: 16px;
+    color: #495057;
+    background: #f8f9fa;
+}
+
+.order-code {
+    font-size: 14px;
+    color: #495057;
+    margin: 0;
+}
+
+.qr-section {
+    text-align: center;
+}
+
+.qr-title {
+    font-size: 20px;
+    font-weight: 700;
+    color: #333;
+    margin-bottom: 8px;
+}
+
+.qr-subtitle {
+    font-size: 14px;
+    color: #666;
+    margin-bottom: 25px;
+}
+
+.qr-code-container {
+    display: flex;
+    justify-content: center;
+    margin-bottom: 25px;
+    padding: 20px;
+    background: #f8f9fa;
+    border-radius: 8px;
+    border: 2px dashed #dee2e6;
+}
+
+.qr-code-image {
+    max-width: 250px;
+    max-height: 250px;
+    width: 100%;
+    height: auto;
+    border-radius: 8px;
+}
+
+.contact-support {
+    font-size: 14px;
+    color: #666;
+    margin: 0;
+}
+
+.contact-support strong {
+    color: #1D7363;
+}
+
+/* Thông tin ngân hàng */
+.bank-info-section {
+    background: #f8f9fa;
+    border: 1px solid #dee2e6;
+    border-radius: 8px;
+    padding: 20px;
+    margin: 20px 0;
+    text-align: left;
+}
+
+.bank-info-title {
+    font-size: 16px;
+    font-weight: 700;
+    color: #333;
+    margin-bottom: 15px;
+    text-align: center;
+}
+
+.bank-details {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+
+.bank-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 8px 0;
+    border-bottom: 1px solid #e9ecef;
+}
+
+.bank-row:last-child {
+    border-bottom: none;
+}
+
+.bank-label {
+    font-size: 14px;
+    font-weight: 500;
+    color: #495057;
+    flex: 1;
+}
+
+.bank-value {
+    font-size: 14px;
+    font-weight: 600;
+    color: #212529;
+    text-align: right;
+    flex: 1;
+    word-break: break-word;
+}
+
+.bank-value.highlight {
+    color: #1D7363;
+    font-family: 'Courier New', monospace;
+    font-size: 15px;
+}
+
+.bank-value.amount {
+    color: #dc3545;
+    font-size: 16px;
+}
+
+.bank-value.message {
+    font-style: italic;
+    color: #6c757d;
+}
+
+/* Responsive cho trang 3 */
+@media (max-width: 768px) {
+    .countdown-display-large {
+        padding: 15px;
+        margin-bottom: 20px;
+    }
+
+    .countdown-number {
+        font-size: 36px;
+    }
+
+    .countdown-label-large {
+        font-size: 14px;
+    }
+
+    .payment-title {
+        font-size: 16px;
+    }
+
+    .payment-amount-display {
+        font-size: 20px;
+    }
+
+    .qr-title {
+        font-size: 18px;
+    }
+
+    .qr-code-container {
+        padding: 15px;
+    }
+
+    .qr-code-image {
+        max-width: 200px;
+        max-height: 200px;
+    }
+
+    .bank-info-section {
+        padding: 15px;
+    }
+
+    .bank-info-title {
+        font-size: 15px;
+    }
+
+    .bank-label,
+    .bank-value {
+        font-size: 13px;
+    }
+
+    .bank-value.highlight {
+        font-size: 14px;
+    }
+
+    .bank-value.amount {
+        font-size: 15px;
+    }
+}
+
+@media (max-width: 480px) {
+    .payment-title {
+        font-size: 15px;
+    }
+
+    .payment-amount-display {
+        font-size: 18px;
+    }
+
+    .qr-title {
+        font-size: 16px;
+    }
+
+    .countdown-input {
+        width: 150px;
+        padding: 8px;
+        font-size: 14px;
+    }
+
+    .qr-code-image {
+        max-width: 180px;
+        max-height: 180px;
+    }
+
+    .contact-support {
+        font-size: 13px;
+    }
+
+    .bank-info-section {
+        padding: 12px;
+    }
+
+    .bank-info-title {
+        font-size: 14px;
+    }
+
+    .bank-row {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 5px;
+    }
+
+    .bank-label {
+        font-size: 12px;
+    }
+
+    .bank-value {
+        font-size: 12px;
+        text-align: left;
+    }
+
+    .bank-value.highlight {
+        font-size: 13px;
+    }
+
+    .bank-value.amount {
+        font-size: 14px;
+        color: #dc3545;
+        font-weight: 700;
+    }
+}
+
+/* TRANG 4: Đặt đơn thuê thành công */
+
+/* Countdown cho trang thành công */
+.countdown-display-success {
+    text-align: center;
+    background: linear-gradient(135deg, #28a745, #34ce57);
+    color: white;
+    padding: 15px;
+    border-radius: 12px;
+    margin-bottom: 25px;
+    box-shadow: 0 4px 15px rgba(40, 167, 69, 0.3);
+    animation: pulse 1s infinite alternate;
+}
+
+.countdown-label-success {
+    font-size: 14px;
+    font-weight: 500;
+    margin: 0 0 8px 0;
+    opacity: 0.9;
+}
+
+.countdown-number-success {
+    font-size: 32px;
+    font-weight: 800;
+    margin: 5px 0;
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
+    animation: countdownPulse 1s infinite;
+}
+
+.countdown-unit-success {
+    font-size: 12px;
+    font-weight: 500;
+    margin: 0;
+    opacity: 0.9;
+}
+
+.success-section {
+    text-align: center;
+    padding: 20px 0;
+}
+
+.success-title {
+    color: #1D7363;
+    font-size: 20px;
+    font-weight: 700;
+    margin-bottom: 30px;
+    margin-top: 0;
+    letter-spacing: 0.5px;
+}
+
+.success-content {
+    margin-bottom: 30px;
+}
+
+.success-subtitle {
+    font-size: 18px;
+    font-weight: 600;
+    color: #333;
+    margin-bottom: 10px;
+}
+
+.success-message {
+    font-size: 14px;
+    color: #666;
+    margin: 0;
+}
+
+.success-actions {
+    display: flex;
+    gap: 15px;
+    justify-content: center;
+    margin-bottom: 30px;
+}
+
+.action-btn {
+    padding: 12px 30px;
+    border: none;
+    border-radius: 8px;
+    font-size: 16px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    min-width: 120px;
+}
+
+.detail-btn {
+    background: #1D7363;
+    color: white;
+}
+
+.detail-btn:hover {
+    background: #155a52;
+}
+
+.back-btn {
+    background: #f8f9fa;
+    color: #333;
+    border: 2px solid #dee2e6;
+}
+
+.back-btn:hover {
+    background: #e9ecef;
+    border-color: #adb5bd;
+}
+
+.countdown-info {
+    margin-top: 20px;
+}
+
+.countdown-label {
+    font-size: 14px;
+    color: #666;
+    margin-bottom: 10px;
+}
+
+.countdown-display {
+    width: 200px;
+    padding: 10px;
+    border: 1px solid #dee2e6;
+    border-radius: 6px;
+    text-align: center;
+    font-size: 16px;
+    color: #495057;
+    background: #f8f9fa;
+}
+
+/* Responsive cho trang 4 */
+@media (max-width: 768px) {
+    .countdown-display-success {
+        padding: 12px;
+        margin-bottom: 20px;
+    }
+
+    .countdown-number-success {
+        font-size: 28px;
+    }
+
+    .success-title {
+        font-size: 18px;
+    }
+
+    .success-subtitle {
+        font-size: 16px;
+    }
+
+    .success-actions {
+        flex-direction: column;
+        align-items: center;
+    }
+
+    .action-btn {
+        width: 200px;
+    }
+}
+
+@media (max-width: 480px) {
+    .success-title {
+        font-size: 16px;
+        margin-bottom: 25px;
+    }
+
+    .success-subtitle {
+        font-size: 15px;
+    }
+
+    .success-message {
+        font-size: 13px;
+    }
+
+    .action-btn {
+        padding: 10px 25px;
+        font-size: 14px;
+        width: 180px;
+    }
+
+    .countdown-display {
+        width: 150px;
+        padding: 8px;
+        font-size: 14px;
+    }
+}
