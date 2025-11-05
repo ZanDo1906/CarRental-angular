@@ -1,0 +1,66 @@
+
+:root {
+  --sidebar-bg: #FFFFFF;
+  --content-bg: #F9FAFB;
+  --active-bg: #F3F4F6;
+  --border-color: #E5E7EB;
+  --text-color: #000000;
+  --active-text: #1D7363;
+  --main-color: #1D7363;
+}
+
+.sidebar {
+  background-color: var(--sidebar-bg);
+  height: 100%; 
+  width: 240px; 
+  flex-shrink: 0;
+  overflow-y: auto;
+  margin-right: 20px;
+}
+
+.sidebar > h2 {
+  font-size: 32px;
+  margin-top: 20px;
+}
+
+.nav-link {
+  color: var(--text-color); 
+  font-weight: normal;
+  padding: 0.75rem 1rem;
+  display: flex;
+  align-items: center;
+  font-size: 16px;
+}
+
+.nav-link.active {
+  background-color: #1D7363; 
+  color: #ffffff;
+  border-radius: 8px;
+}
+
+.nav-link:hover:not(.active) {
+  background-color: #eef6f4 ;
+  color:#1D7363;
+  border-radius: 8px;
+}
+
+.logout-nav {
+  padding-bottom: 1rem;
+  margin-top: 2rem; 
+  color:red;
+}
+
+.sidebar::-webkit-scrollbar,
+.main-content::-webkit-scrollbar {
+  display: none;
+}
+
+.sidebar,
+.main-content {
+  scrollbar-width: none;
+}
+
+.sidebar,
+.main-content {
+  -ms-overflow-style: none; 
+}
