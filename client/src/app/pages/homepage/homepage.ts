@@ -14,7 +14,7 @@ import { iCar } from '../../interfaces/Car';
   templateUrl: './homepage.html',
   styleUrl: './homepage.css',
 })
-export class Homepage implements AfterViewInit, OnInit { 
+export class Homepage implements AfterViewInit, OnInit {
 
   // Filter data
   selectedLocation: string | null = null;
@@ -27,15 +27,24 @@ export class Homepage implements AfterViewInit, OnInit {
   displayedCars: iCar[] = [];
   locations: any[] = [];
 
+  faq1Open: boolean = false;
+  faq2Open: boolean = false;
+  faq3Open: boolean = false;
+  faq4Open: boolean = false;
+  faq5Open: boolean = false;
+  faq6Open: boolean = false;
+  faq7Open: boolean = false;
+  faq8Open: boolean = false;
+  faq9Open: boolean = false;
   //First
   constructor(
-    private el: ElementRef, 
+    private el: ElementRef,
     private router: Router,
     private bookingDataService: BookingDataService,
     private carService: CarService,
     private locationService: LocationService,
     private cdr: ChangeDetectorRef
-  ) {}
+  ) { }
 
   ngOnInit(): void {
     // Load locations trước
@@ -45,7 +54,10 @@ export class Homepage implements AfterViewInit, OnInit {
   }
 
   ngAfterViewInit(): void {
-    this.startCounter(); 
+    this.startCounter();
+    this.setupSecondAnimation();
+    this.setupThirthAnimation();
+    this.setupQuestionsAnimation();
   }
 
   private startCounter(): void {
@@ -58,7 +70,7 @@ export class Homepage implements AfterViewInit, OnInit {
 
     const start = 5000;
     const end = 10000;
-    const duration = 2000; 
+    const duration = 2000;
     let startTime: number | null = null;
 
     const step = (timestamp: number) => {
@@ -68,10 +80,10 @@ export class Homepage implements AfterViewInit, OnInit {
 
       const progress = timestamp - startTime;
       const percentage = Math.min(progress / duration, 1);
-      
+
       const currentValue = Math.floor(start + (end - start) * percentage);
 
-      countElement.innerText = currentValue.toLocaleString('vi-VN'); 
+      countElement.innerText = currentValue.toLocaleString('vi-VN');
 
       if (progress < duration) {
         requestAnimationFrame(step);
@@ -83,10 +95,89 @@ export class Homepage implements AfterViewInit, OnInit {
     requestAnimationFrame(step);
   }
 
+  // Hàm  xử lý animation .second
+  private setupSecondAnimation(): void {
+    const img = this.el.nativeElement.querySelector('.second img');
+    const content = this.el.nativeElement.querySelector('.second-content');
+    const container = this.el.nativeElement.querySelector('.second');
+
+    if (!img || !content || !container) {
+      console.error('Không tìm thấy phần tử .second, img, hoặc .second-content');
+      return;
+    }
+
+    const slideObserver = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          img.classList.add('animate-left');
+          content.classList.add('animate-right');
+        } else {
+          img.classList.remove('animate-left');
+          content.classList.remove('animate-right');
+        }
+      });
+    }, {
+      threshold: 0.2
+    });
+
+    slideObserver.observe(container);
+  }
+
+  // Hàm  xử lý animation .thirth
+  private setupThirthAnimation(): void {
+    const img = this.el.nativeElement.querySelector('.thirth img');
+    const content = this.el.nativeElement.querySelector('.thirth-content');
+    const container = this.el.nativeElement.querySelector('.thirth');
+
+    if (!img || !content || !container) {
+      console.error('Không tìm thấy phần tử .thirth, img, hoặc .thirth-content');
+      return;
+    }
+
+    const slideObserver = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          img.classList.add('animate-left');
+          content.classList.add('animate-right');
+        } else {
+          img.classList.remove('animate-left');
+          content.classList.remove('animate-right');
+        }
+      });
+    }, {
+      threshold: 0.2
+    });
+
+    slideObserver.observe(container);
+  }
+  // Hàm  xử lý animation .questions
+  private setupQuestionsAnimation(): void {
+    const container = this.el.nativeElement.querySelector('.questions');
+
+    if (!container) { 
+      console.error('Không tìm thấy phần tử .questions để "animate"');
+      return; 
+    }
+
+    const observer = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+            if (entry.isIntersecting) {
+                container.classList.add('animate-fade-up');
+            } else {
+                container.classList.remove('animate-fade-up');
+            }
+        });
+    }, { threshold: 0.2 });
+
+    observer.observe(container);
+  }
+
+
+
   goToOwnerPage() {
     this.router.navigate(['/owner']);
   }
-  
+
   goToAboutTrustcar() {
     this.router.navigate(['/ve-trust-car']);
   }
@@ -97,7 +188,7 @@ export class Homepage implements AfterViewInit, OnInit {
     if (this.pickupTime && this.returnTime) {
       const pickup = new Date(this.pickupTime);
       const returnDate = new Date(this.returnTime);
-      
+
       if (returnDate <= pickup) {
         this.dateError = 'Thời gian trả phải sau thời gian thuê';
         this.returnTime = '';
@@ -113,7 +204,7 @@ export class Homepage implements AfterViewInit, OnInit {
       pickupTime: this.pickupTime || '',
       returnTime: this.returnTime || ''
     });
-    
+
     // Navigate đến trang danh sách xe
     this.router.navigate(['/danh-sach-xe']);
   }
@@ -155,14 +246,14 @@ export class Homepage implements AfterViewInit, OnInit {
 
   // Navigate đến car detail
   goToCarDetail(id: number | string) {
-      // Lưu dữ liệu booking vào service trước khi navigate
-      this.bookingDataService.setBookingData({
-        location: this.selectedLocation,
-        pickupTime: this.pickupTime || '',
-        returnTime: this.returnTime || ''
-      });
-      this.router.navigate(['/xe', id]);   // trỏ đúng path ở routes
-    }
+    // Lưu dữ liệu booking vào service trước khi navigate
+    this.bookingDataService.setBookingData({
+      location: this.selectedLocation,
+      pickupTime: this.pickupTime || '',
+      returnTime: this.returnTime || ''
+    });
+    this.router.navigate(['/xe', id]);   // trỏ đúng path ở routes
+  }
 
   // Format VND
   formatVND(n: number | string | undefined): string {
@@ -171,7 +262,7 @@ export class Homepage implements AfterViewInit, OnInit {
     return x.toLocaleString('vi-VN');
   }
 
-  
+
   getLocationById(id: number): any {
     return this.locations?.find((loc: any) => loc.Ma_vi_tri == id);
   }

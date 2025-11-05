@@ -1,154 +1,264 @@
 <section class="tc-container py-4">
   <div class="container">
-      <div class="first">
-        <img src="assets/assets/homepage-2.jpg" alt="Banner xe ô tô" class="first-background-image">
-        <div class="first-overlay"></div>
+    <div class="first">
+      <img src="assets/assets/homepage-2.jpg" alt="Banner xe ô tô" class="first-background-image">
+      <div class="first-overlay"></div>
 
-        <div class="first-content">
-            <h1>TRUSTCAR - KHỞI HÀNH TỪ SỰ TIN CẬY</h1>
-            <div class="divider"></div>
-            <p>
-                Hơn <span id="customer-count">5000</span> khách hàng đã chọn TRUSTCAR - còn bạn thì sao?
-            </p>
-        </div>
-      </div>
-
-      <!-- ============ FILTER BOX ============ -->
-      <div class="filter-box">
-        <!-- Row 1: 3 ô form + nút Tìm -->
-        <div class="row g-3 align-items-end fields-center mb-3">
-            <!-- Địa điểm -->
-            <div class="col-auto field-wrap">
-                <label class="filter-label">Địa điểm</label>
-                <select class="form-control form-control-sm field-input"
-                        [(ngModel)]="selectedLocation">
-                <option [value]="null">Tất cả</option>
-                <option value="TP. Hồ Chí Minh">TP. Hồ Chí Minh</option>
-                <option value="TP. Thủ Đức">TP. Thủ Đức</option>
-                <option value="Hà Nội">Hà Nội</option>
-                <option value="Đà Nẵng">Đà Nẵng</option>
-                <option value="Nha Trang">Nha Trang</option>
-                <option value="Cần Thơ">Cần Thơ</option>
-                <option value="Huế">Huế</option>
-                </select>
-            </div>
-
-            <!-- Thời gian thuê -->
-            <div class="col-auto field-wrap">
-                <label class="filter-label">Thời gian thuê</label>
-                <input type="datetime-local" class="form-control form-control-sm field-input" [(ngModel)]="pickupTime" (change)="validateDates()">
-            </div>
-
-            <!-- Thời gian trả -->
-            <div class="col-auto field-wrap">
-                <label class="filter-label">Thời gian trả</label>
-                <input type="datetime-local" class="form-control form-control-sm field-input" [(ngModel)]="returnTime" [min]="pickupTime" (change)="validateDates()">
-            </div>
-
-            <!-- Nút Tìm -->
-            <div class="col-auto">
-                <button class="btn-search" (click)="searchCars()">Tìm</button>
-            </div>
-        </div>
-        
-        <div *ngIf="dateError" class="date-error mt-2">{{dateError}}</div>
-      </div>
-      <!-- ============ /FILTER BOX ============ -->
-
-      <!-- ============ DANH SÁCH XE ============ -->
-      <div class="cars-section mt-4">
-        <div class="cards-grid" *ngIf="displayedCars.length > 0">
-          <article class="car-card" *ngFor="let car of displayedCars"(click)="goToCarDetail(car.Ma_xe)" style="cursor:pointer;">
-            <!-- Ảnh -->
-            <div class="thumb">
-              <img [src]="car?.Anh_xe?.[0] || 'assets/images/placeholder.webp'" alt="">
-            </div>
-
-            <!-- Thân card -->
-            <div class="card-body">
-              <h3 class="car-name fw-bold fs-4">{{car.Hang_xe}} {{car.Dong_xe}} {{car.Nam_san_xuat}}</h3>
-
-              <!-- Hàng 3 thông số -->
-              <div class="spec-grid">
-                <div class="spec">
-                  <i class="bi bi-gear"></i>
-                  <span>{{car.Hop_so}}</span>
-                </div>
-                <div class="spec">
-                  <i class="bi bi-people"></i>
-                  <span>{{car.So_cho}} chỗ</span>
-                </div>
-                <div class="spec">
-                  <i class="bi bi-fuel-pump"></i>
-                  <span>{{car.Nhien_lieu}}</span>
-                </div>
-              </div>
-
-              <!-- Địa điểm -->
-              <div class="loc-row" *ngIf="car.Ma_vi_tri != null">
-                <i class="bi bi-geo-alt"></i>
-                <span>{{ getLocationAddress(car.Ma_vi_tri) }}</span>
-              </div>
-
-              <hr>
-
-              <!-- Điểm & số chuyến -->
-              <div class="meta-row">
-                <div class="meta">
-                  <i class="bi bi-star-fill text-warning"></i>
-                  <span>{{car.Diem_danh_gia || '5.0'}}</span>
-                </div>
-                <div class="meta">
-                  <i class="bi bi-graph-up"></i>
-                  <span>{{car.So_chuyen || car.So_luot_thue || 0}} chuyến</span>
-                </div>
-              </div>
-
-              <!-- Giá -->
-              <div class="price-row">
-                <div class="price fs-5">
-                  {{formatVND(car.Gia_thue)}} VNĐ/Ngày
-                </div>
-              </div>
-            </div>
-          </article>
-        </div>
-        
-        <p class="text-center mt-3" *ngIf="displayedCars.length === 0" style="color: orange; font-weight: bold;">
-          Không có xe nào để hiển thị
+      <div class="first-content">
+        <h1>TRUSTCAR - KHỞI HÀNH TỪ SỰ TIN CẬY</h1>
+        <div class="divider"></div>
+        <p>
+          Hơn <span id="customer-count">5000</span> khách hàng đã chọn TRUSTCAR - còn bạn thì sao?
         </p>
+      </div>
+    </div>
 
-        <!-- Nút Xem thêm -->
-        <div class="text-center mt-4">
-          <button class="btn-view-more" (click)="viewAllCars()">Xem thêm sản phẩm</button>
+    <!-- ============ FILTER BOX ============ -->
+    <div class="filter-box">
+      <!-- Row 1: 3 ô form + nút Tìm -->
+      <div class="row g-3 align-items-end fields-center mb-3">
+        <!-- Địa điểm -->
+        <div class="col-auto field-wrap">
+          <label class="filter-label">Địa điểm</label>
+          <select class="form-control form-control-sm field-input" [(ngModel)]="selectedLocation">
+            <option [value]="null">Tất cả</option>
+            <option value="TP. Hồ Chí Minh">TP. Hồ Chí Minh</option>
+            <option value="TP. Thủ Đức">TP. Thủ Đức</option>
+            <option value="Hà Nội">Hà Nội</option>
+            <option value="Đà Nẵng">Đà Nẵng</option>
+            <option value="Nha Trang">Nha Trang</option>
+            <option value="Cần Thơ">Cần Thơ</option>
+            <option value="Huế">Huế</option>
+          </select>
         </div>
-      </div>
-      <!-- ============ /DANH SÁCH XE ============ -->
 
-      <div class="second">
-        <img src="assets\assets\5253f258-canh-danh-lai-vo-lang-1-tay-thumbnail.png" alt="" (click)="goToOwnerPage()" style="cursor: pointer;">
-        <div class="second-content">
-            <h3>Trở thành chủ xe cùng
-                <br>TRUSTCAR</h3>
-            <p>TRUSTCAR mang đến cơ hội giúp bạn tối ưu giá trị chiếc xe của mình bằng cách tham gia hệ thống cho thuê xe tự lái an toàn và minh bạch.
-                <br>Chúng tôi cung cấp nền tảng quản lý thông minh, hỗ trợ đăng xe, theo dõi đơn thuê, đối soát thanh toán và chăm sóc khách hàng một cách dễ dàng.
-                <br>Với quy trình kiểm duyệt rõ ràng, chính sách bảo vệ chủ xe và hệ thống đánh giá minh bạch, TRUSTCAR cam kết giúp bạn tăng doanh thu, giảm rủi ro và vận hành hiệu quả hơn.
-                <br>Hãy trở thành đối tác chủ xe của TRUSTCAR để cùng phát triển cộng đồng thuê xe chuyên nghiệp và bền vững tại Việt Nam.
-            </p>
-            <button class="btn btn-primary" (click)="goToOwnerPage()" style="background-color: #1D7363; border: #1D7363; width: 100%; padding: 10px;">Đăng ký ngay</button>
+        <!-- Thời gian thuê -->
+        <div class="col-auto field-wrap">
+          <label class="filter-label">Thời gian thuê</label>
+          <input type="datetime-local" class="form-control form-control-sm field-input" [(ngModel)]="pickupTime"
+            (change)="validateDates()">
+        </div>
+
+        <!-- Thời gian trả -->
+        <div class="col-auto field-wrap">
+          <label class="filter-label">Thời gian trả</label>
+          <input type="datetime-local" class="form-control form-control-sm field-input" [(ngModel)]="returnTime"
+            [min]="pickupTime" (change)="validateDates()">
+        </div>
+
+        <!-- Nút Tìm -->
+        <div class="col-auto">
+          <button class="btn-search" (click)="searchCars()">Tìm</button>
         </div>
       </div>
-      <div class="thirth">
-        <div class="thirth-content">
-            <h3>Bạn muốn biết thêm về TRUSTCAR?</h3>
-            <p>TRUSTCAR kết nối người có nhu cầu thuê xe tự lái với hàng trăm chủ xe uy tín tại TP.HCM, Hà Nội và nhiều tỉnh thành khác.
-                <br>Chúng tôi hướng đến mục tiêu xây dựng một cộng đồng thuê xe an toàn, minh bạch và chuyên nghiệp, nơi mọi hành trình đều bắt đầu bằng niềm tin và sự thuận tiện.
-            </p>
-            <button class="btn btn-primary" (click)="goToAboutTrustcar()" style="background-color: #1D7363; border: #1D7363; width: 100%; padding: 10px;">Tìm hiểu thêm</button>
-        </div>
-        <img src="assets\assets\image-car.jpg" alt="">
+
+      <div *ngIf="dateError" class="date-error mt-2">{{dateError}}</div>
+    </div>
+    <!-- ============ /FILTER BOX ============ -->
+
+    <!-- ============ DANH SÁCH XE ============ -->
+    <div class="cars-section mt-4">
+      <div class="cards-grid" *ngIf="displayedCars.length > 0">
+        <article class="car-card" *ngFor="let car of displayedCars" (click)="goToCarDetail(car.Ma_xe)"
+          style="cursor:pointer;">
+          <!-- Ảnh -->
+          <div class="thumb">
+            <img [src]="car?.Anh_xe?.[0] || 'assets/images/placeholder.webp'" alt="">
+          </div>
+
+          <!-- Thân card -->
+          <div class="card-body">
+            <h3 class="car-name fw-bold fs-4">{{car.Hang_xe}} {{car.Dong_xe}} {{car.Nam_san_xuat}}</h3>
+
+            <!-- Hàng 3 thông số -->
+            <div class="spec-grid">
+              <div class="spec">
+                <i class="bi bi-gear"></i>
+                <span>{{car.Hop_so}}</span>
+              </div>
+              <div class="spec">
+                <i class="bi bi-people"></i>
+                <span>{{car.So_cho}} chỗ</span>
+              </div>
+              <div class="spec">
+                <i class="bi bi-fuel-pump"></i>
+                <span>{{car.Nhien_lieu}}</span>
+              </div>
+            </div>
+
+            <!-- Địa điểm -->
+            <div class="loc-row" *ngIf="car.Ma_vi_tri != null">
+              <i class="bi bi-geo-alt"></i>
+              <span>{{ getLocationAddress(car.Ma_vi_tri) }}</span>
+            </div>
+
+            <hr>
+
+            <!-- Điểm & số chuyến -->
+            <div class="meta-row">
+              <div class="meta">
+                <i class="bi bi-star-fill text-warning"></i>
+                <span>{{car.Diem_danh_gia || '5.0'}}</span>
+              </div>
+              <div class="meta">
+                <i class="bi bi-graph-up"></i>
+                <span>{{car.So_chuyen || car.So_luot_thue || 0}} chuyến</span>
+              </div>
+            </div>
+
+            <!-- Giá -->
+            <div class="price-row">
+              <div class="price fs-5">
+                {{formatVND(car.Gia_thue)}} VNĐ/Ngày
+              </div>
+            </div>
+          </div>
+        </article>
       </div>
+
+      <p class="text-center mt-3" *ngIf="displayedCars.length === 0" style="color: orange; font-weight: bold;">
+        Không có xe nào để hiển thị
+      </p>
+
+      <!-- Nút Xem thêm -->
+      <div class="text-center mt-4">
+        <button class="btn-view-more" (click)="viewAllCars()">Xem thêm sản phẩm</button>
+      </div>
+    </div>
+    <!-- ============ /DANH SÁCH XE ============ -->
+
+    <div class="second">
+      <img src="assets\assets\5253f258-canh-danh-lai-vo-lang-1-tay-thumbnail.png" alt="" (click)="goToOwnerPage()"
+        style="cursor: pointer;">
+      <div class="second-content">
+        <h3>Trở thành chủ xe cùng
+          <br>TRUSTCAR
+        </h3>
+        <p>TRUSTCAR mang đến cơ hội giúp bạn tối ưu giá trị chiếc xe của mình bằng cách tham gia hệ thống cho thuê xe tự
+          lái an toàn và minh bạch.
+          <br>Chúng tôi cung cấp nền tảng quản lý thông minh, hỗ trợ đăng xe, theo dõi đơn thuê, đối soát thanh toán và
+          chăm sóc khách hàng một cách dễ dàng.
+          <br>Với quy trình kiểm duyệt rõ ràng, chính sách bảo vệ chủ xe và hệ thống đánh giá minh bạch, TRUSTCAR cam
+          kết giúp bạn tăng doanh thu, giảm rủi ro và vận hành hiệu quả hơn.
+          <br>Hãy trở thành đối tác chủ xe của TRUSTCAR để cùng phát triển cộng đồng thuê xe chuyên nghiệp và bền vững
+          tại Việt Nam.
+        </p>
+        <button class="btn btn-primary" (click)="goToOwnerPage()"
+          style="background-color: #1D7363; border: #1D7363; width: 100%; padding: 10px;">Đăng ký ngay</button>
+      </div>
+    </div>
+    <div class="thirth">
+      <div class="thirth-content">
+        <h3>Bạn muốn biết thêm về TRUSTCAR?</h3>
+        <p>TRUSTCAR kết nối người có nhu cầu thuê xe tự lái với hàng trăm chủ xe uy tín tại TP.HCM, Hà Nội và nhiều tỉnh
+          thành khác.
+          <br>Chúng tôi hướng đến mục tiêu xây dựng một cộng đồng thuê xe an toàn, minh bạch và chuyên nghiệp, nơi mọi
+          hành trình đều bắt đầu bằng niềm tin và sự thuận tiện.
+        </p>
+        <button class="btn btn-primary" (click)="goToAboutTrustcar()"
+          style="background-color: #1D7363; border: #1D7363; width: 100%; padding: 10px;">Tìm hiểu thêm</button>
+      </div>
+      <img src="assets\assets\image-car.jpg" alt="">
+    </div>
+
+    <div class="questions">
+      <h3>CÂU HỎI THƯỜNG GẶP</h3>
+      <div class="faq-list">
+
+        <div class="faq-item">
+          <div class="faq-question" (click)="faq1Open = !faq1Open">
+            <span>Tại sao tôi nên chọn thuê xe tự lái tại TRUSTCAR?</span>
+            <i class="bi" [ngClass]="faq1Open ? 'bi-dash-circle-fill' : 'bi-plus-circle-fill'"></i>
+          </div>
+          <div class="faq-answer" [class.open]="faq1Open">
+            <div class="faq-answer-content">
+              <p>Tại TrustCar, chúng tôi:
+                <br>(1) áp dụng gói thuê xe tự lái linh hoạt 4h, 8h, 12h, 24h giúp bạn tiết kiệm nhất khi thuê. Bạn có
+                thể lấy xe 24/24 và thời gian bắt đầu tính tiền từ lúc lấy xe. Bạn được hưởng trọn vẹn số giờ đặt thuê.
+                <br>(2) thủ tục thuê xe & nhận xe cực kì nhanh gọn 24/24, bạn chỉ cần chuẩn bị các giấy tờ xác minh định
+                danh cá nhân (CCCD / Hộ chiếu) và Bằng lái xe (ít nhất 1 năm),
+                <br>(3) bảo hiểm hai chiều, chính sách xử lý sự cố minh bạch nếu có vấn đề xảy ra.
+                <br>Ngoài ra, đội ngũ chăm sóc khách hàng của BonbonCar luôn sẵn sàng hỗ trợ 24/7 để đảm bảo bạn có một
+                trải nghiệm tốt nhất.
+              </p>
+            </div>
+          </div>
+        </div>
+
+        <div class="faq-item">
+          <div class="faq-question" (click)="faq2Open = !faq2Open">
+            <span>Thủ tục cho thuê xe tự lái gồm những gì?</span>
+            <i class="bi" [ngClass]="faq2Open ? 'bi-dash-circle-fill' : 'bi-plus-circle-fill'"></i>
+          </div>
+          <div class="faq-answer" [class.open]="faq2Open">
+            <div class="faq-answer-content">
+              <p>Thủ Tục Thuê Xe TrustCar:
+                <br>Chuẩn bị giấy tờ: CCCD / Hộ chiếu + Bằng lái xe (ít nhất 1 năm).
+                <br>Đặt cọc tiền thuê xe + tiền giữ chỗ.
+                <br>Kiểm tra xe & ký hợp đồng thuê xe.
+                <br>Nhận xe và bắt đầu hành trình của bạn!
+              </p>
+            </div>
+          </div>
+        </div>
+
+        <div class="faq-item">
+          <div class="faq-question" (click)="faq6Open = !faq6Open">
+            <span>Trường hợp xe xảy ra sự cố tôi cần phải làm gì?</span>
+            <i class="bi" [ngClass]="faq6Open ? 'bi-dash-circle-fill' : 'bi-plus-circle-fill'"></i>
+          </div>
+          <div class="faq-answer" [class.open]="faq6Open">
+            <div class="faq-answer-content">
+              <p><b>Bình tĩnh!</b> Điều đầu tiên là đảm bảo an toàn cho bản thân. Sau đó, hãy gọi ngay cho chủ xe và
+                tổng đài TrustCar. Chúng tôi sẽ hướng dẫn bạn các bước xử lý sự cố và làm việc với bảo hiểm (nếu có) một
+                cách nhanh chóng nhất.</p>
+            </div>
+          </div>
+        </div>
+
+        <div class="faq-item">
+          <div class="faq-question" (click)="faq7Open = !faq7Open">
+            <span>Tôi có thể hủy chuyến đã đặt không?</span>
+            <i class="bi" [ngClass]="faq7Open ? 'bi-dash-circle-fill' : 'bi-plus-circle-fill'"></i>
+          </div>
+          <div class="faq-answer" [class.open]="faq7Open">
+            <div class="faq-answer-content">
+              <p>Bạn có thể hủy chuyến. Tuy nhiên, tùy vào thời điểm hủy (ví dụ: hủy quá sát giờ nhận xe), bạn có thể
+                chịu một khoản phí nhỏ theo chính sách hủy chuyến của TrustCar. Vui lòng đọc kỹ điều khoản khi đặt xe.
+              </p>
+            </div>
+          </div>
+        </div>
+
+        <div class="faq-item">
+          <div class="faq-question" (click)="faq8Open = !faq8Open">
+            <span>Xe cho thuê có bảo hiểm không?</span>
+            <i class="bi" [ngClass]="faq8Open ? 'bi-dash-circle-fill' : 'bi-plus-circle-fill'"></i>
+          </div>
+          <div class="faq-answer" [class.open]="faq8Open">
+            <div class="faq-answer-content">
+              <p>Có. Hầu hết các xe trên nền tảng TrustCar đều được trang bị bảo hiểm thân vỏ (bảo hiểm 2 chiều). Bạn sẽ
+                an tâm hơn khi di chuyển trên mọi nẻo đường.</p>
+            </div>
+          </div>
+        </div>
+
+        <div class="faq-item">
+          <div class="faq-question" (click)="faq9Open = !faq9Open">
+            <span>Tôi có thể lái xe đi tỉnh khác không?</span>
+            <i class="bi" [ngClass]="faq9Open ? 'bi-dash-circle-fill' : 'bi-plus-circle-fill'"></i>
+          </div>
+          <div class="faq-answer" [class.open]="faq9Open">
+            <div class="faq-answer-content">
+              <p>Bạn hoàn toàn có thể lái xe đi tỉnh, miễn là bạn trả xe đúng hạn. Một số chủ xe có thể có
+                giới hạn số km/ngày, bạn nên kiểm tra kỹ thông tin này ở phần chi tiết xe trước khi đặt.</p>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+
+
   </div>
 </section>
-
-
