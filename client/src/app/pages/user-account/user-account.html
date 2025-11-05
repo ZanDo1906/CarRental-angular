@@ -6,16 +6,25 @@
                     <app-side-bar></app-side-bar>
                 </div>
                 <div class="content-account col-md-9 m-4">
+                    <!-- Helpful hint when no user is loaded -->
+                    <div *ngIf="!user" class="alert alert-info">
+                        Không tìm thấy thông tin người dùng. Hãy chắc chắn dev server đang chạy và `assets/data/User.json` trả về dữ liệu.
+                        <button class="btn btn-sm btn-secondary ms-2" (click)="loadUser()">Tải lại</button>
+                    </div>
                     <div class="content-item user-profile">
                         <div class="title">
                             <div class="title-edit">
                                 <h5>Thông tin tài khoản</h5>
-                                <div class="wrap-svg">
+                                <div class="wrap-svg" (click)="onEdit('profile')" style="cursor:pointer">
                                     <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
                                         class="bi bi-pencil" viewBox="0 0 16 16">
                                         <path
                                             d="M12.146.146a.5.5 0 0 1 .708 0l3 3a.5.5 0 0 1 0 .708l-10 10a.5.5 0 0 1-.168.11l-5 2a.5.5 0 0 1-.65-.65l2-5a.5.5 0 0 1 .11-.168zM11.207 2.5 13.5 4.793 14.793 3.5 12.5 1.207zm1.586 3L10.5 3.207 4 9.707V10h.5a.5.5 0 0 1 .5.5v.5h.5a.5.5 0 0 1 .5.5v.5h.293zm-9.761 5.175-.106.106-1.528 3.821 3.821-1.528.106-.106A.5.5 0 0 1 5 12.5V12h-.5a.5.5 0 0 1-.5-.5V11h-.5a.5.5 0 0 1-.468-.325" />
                                     </svg>
+                                </div>
+                                <div class="ms-2 d-inline-block">
+                                    <button *ngIf="editingProfile" class="btn1 btn--s btn-save" (click)="saveUser()">Lưu</button>
+                                    <button *ngIf="editingProfile" class="btn1 btn--s btn-cancel" (click)="cancelEdit()">Hủy</button>
                                 </div>
                             </div>
                             <div class="total-trips" style="align-items: center;">
@@ -33,37 +42,27 @@
                         <div class="content">
                             <div class="avatar-box">
                                 <div class="avatar avatar--xl has-edit">
-                                    <img src="" alt="">
-                                </div>
-                                <h6>Nhi Nguyễn Thị Yến</h6>
-                                <p class="note">Tham gia </p>
-                                <!-- <div class="trip-class">
-                                    <div class="user-class">
-                                        <div class="wrap-svg"></div>
-                                        <div class="desc">
-                                            <p></p>
-                                        </div>
+                                        <img [src]="user?._avatar || user?.Anh_dai_dien || '/assets/images/user_avt.jpg'" [alt]="user?.Ho_va_ten || 'avatar'">
                                     </div>
-                                </div> -->
+                                    <h6>{{ user?.Ho_va_ten || 'Tên người dùng' }}</h6>
+                                    <p class="note">Tham gia {{ user?.Ngay_tao || '' }}</p>
+                                
                             </div>
                             <div class="info-user">
-                                <!-- <div class="info-box">
-                                    <div class="info-box__item">
-                                        <p>Ngày sinh</p>
-                                        <p class="main"></p>
-                                    </div>
-                                    <div class="info-box__item">
-                                        <p>Giới tính</p>
-                                        <p class="main"></p>
-                                    </div>
-                                </div> -->
+                                
                                 <div class="info-desc">
                                     <div class="info-desc__item">
                                         <div class="title-item">
                                             Ngày sinh
                                         </div>
                                         <div class="name pointer">
-                                            <p></p>
+                                            <!-- show formatted date when not editing; show date input when editing -->
+                                            <ng-container *ngIf="!editingProfile">
+                                                <p>{{ user?.Ngay_sinh ? (user.Ngay_sinh | date:'yyyy-MM-dd') : 'Chưa cập nhật' }}</p>
+                                            </ng-container>
+                                            <ng-container *ngIf="editingProfile">
+                                                <input type="date" [(ngModel)]="user.Ngay_sinh">
+                                            </ng-container>
                                             <div class="wrap-svg"></div>
                                         </div>
                                     </div>
@@ -72,20 +71,26 @@
                                             Giới tính
                                         </div>
                                         <div class="name pointer">
-                                            <p></p>
+                                            <ng-container *ngIf="!editingProfile">
+                                                <p>{{ user?.Gioi_tinh || 'Nữ' }}</p>
+                                            </ng-container>
+                                            <ng-container *ngIf="editingProfile">
+                                                <select [(ngModel)]="user.Gioi_tinh">
+                                                    <option value="Nữ">Nữ</option>
+                                                    <option value="Nam">Nam</option>
+                                                    <option value="Khác">Khác</option>
+                                                </select>
+                                            </ng-container>
                                             <div class="wrap-svg"></div>
                                         </div>
                                     </div>
                                     <div class="info-desc__item">
                                         <div class="title-item">
                                             Số điện thoại
-                                            <!-- <div class="note warning">
-                                                <div class="wrap-svg"></div>
-                                                <span>Chưa xác thực</span>
-                                            </div> -->
+
                                         </div>
                                         <div class="name pointer">
-                                            Thêm số điện thoại
+                                            {{ user?.So_dien_thoai || 'Chưa có số điện thoại' }}
                                             <div class="wrap-svg"></div>
                                         </div>
                                     </div>
@@ -95,32 +100,15 @@
                                             
                                         </div>
                                         <div class="name pointer">
-                                            Thêm email
+                                            {{ user?.Email || 'Chưa có email' }}
                                             <div class="wrap-svg"></div>
                                         </div>
                                     </div>
-                                    <!-- <div class="info-desc__item">
-                                        <div class="title-item">
-                                            Facebook
-                                        </div>
-                                        <div class="name">
-                                            Thêm liên kết
-                                            <div class="wrap-svg"></div>
-                                        </div>
-                                    </div>
-                                    <div class="info-desc__item">
-                                        <div class="title-item">
-                                            Google
-                                        </div>
-                                        <div class="name">
-                                            Thêm liên kết
-                                            <div class="wrap-svg"></div>
-                                        </div>
-                                    </div> -->
                                 </div>
                             </div>
-                        </div>
 
+                    </div>
+                    
                     </div>
                     <div class="content-item driver-license">
                         <div class="title">
@@ -137,17 +125,25 @@
                                     </div>
                                     Chưa xác thực
                                 </div>
+                                
                             </div>
-                            <a class="btn1 btn--s" href="">
-                                Chỉnh sửa
-                                <div class="wrap-svg">
+                            <div >
+                                <!-- License controls: edit license fields or upload image separately -->
+                                 
+                                <button *ngIf="!editingLicense" class="btn1 btn--s" (click)="onEdit('license')">Chỉnh sửa
+                                    <div class="wrap-svg" (click)="onEdit('profile')" style="cursor:pointer">
                                     <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
                                         class="bi bi-pencil" viewBox="0 0 16 16">
                                         <path
                                             d="M12.146.146a.5.5 0 0 1 .708 0l3 3a.5.5 0 0 1 0 .708l-10 10a.5.5 0 0 1-.168.11l-5 2a.5.5 0 0 1-.65-.65l2-5a.5.5 0 0 1 .11-.168zM11.207 2.5 13.5 4.793 14.793 3.5 12.5 1.207zm1.586 3L10.5 3.207 4 9.707V10h.5a.5.5 0 0 1 .5.5v.5h.5a.5.5 0 0 1 .5.5v.5h.293zm-9.761 5.175-.106.106-1.528 3.821 3.821-1.528.106-.106A.5.5 0 0 1 5 12.5V12h-.5a.5.5 0 0 1-.5-.5V11h-.5a.5.5 0 0 1-.468-.325" />
                                     </svg>
                                 </div>
-                            </a>
+                                </button>
+                                <button *ngIf="editingLicense" class="btn1 btn--s btn-save" (click)="saveLicense()">Lưu</button>
+                                <button *ngIf="editingLicense" class="btn1 btn--s btn-cancel" (click)="cancelLicenseEdit()">Hủy</button>
+                                <!-- <button class="btn1 btn--s ms-2" (click)="onEdit('uploadGPLX')" [disabled]="user?._licenseAuthenticated">Tải lên ảnh GPLX</button> -->
+                            </div>
+                            
                         </div>
                         <div class="note-license">
                             <p>
@@ -167,11 +163,13 @@
                                 <div class="info-license__title">
                                     <p>Hình ảnh</p>
                                 </div>
-                                <label class="info-license__img" for="">
+                                <label class="info-license__img" for="licenseInput">
                                     <div class="fix-img">
-                                        <img src="" alt="">
+                                        <img [src]="user?._license || user?.Giay_phep_lai_xe || '/assets/assets/nopicture.jpg'" alt="GPLX">
                                     </div>
                                 </label>
+                                <!-- hidden file input for uploading license image -->
+                                <input id="licenseInput" type="file" accept="image/*" style="display:none" (change)="onLicenseSelected($event)">
                             </div>
                             <div class="info-license">
                                 <div class="info-license__title">
@@ -184,10 +182,9 @@
                                         </div>
                                         <div class="desc text-success"></div>
                                     </div>
-                                    <div class="wrap-input disabled">
+                                    <div class="wrap-input" [ngClass]="{ 'disabled': !editingLicense }">
                                         <div class="wrap-text">
-                                            <input disabled type="text" name="licenseNumber"
-                                                placeholder="Nhập số GPLX đã cấp ">
+                                            <input [disabled]="!editingLicense" type="text" name="licenseNumber" [(ngModel)]="user.Can_cuoc_cong_dan" placeholder="Nhập số GPLX đã cấp ">
                                         </div>
                                     </div>
                                 </div>
@@ -198,10 +195,9 @@
                                         </div>
                                         <div class="desc text-success"></div>
                                     </div>
-                                    <div class="wrap-input disabled">
+                                    <div class="wrap-input" [ngClass]="{ 'disabled': !editingLicense }">
                                         <div class="wrap-text">
-                                            <input disabled type="text" name="licenseName"
-                                                placeholder="Nhập đầy đủ họ tên ">
+                                            <input [disabled]="!editingLicense" type="text" name="licenseName" [(ngModel)]="user.Ho_va_ten" placeholder="Nhập đầy đủ họ tên ">
                                         </div>
                                     </div>
                                 </div>
@@ -212,120 +208,18 @@
                                         </div>
                                         <div class="desc text-success"></div>
                                     </div>
-                                    <div class="wrap-input disabled">
+                                    <div class="wrap-input" [ngClass]="{ 'disabled': !editingLicense }">
                                         <div class="wrap-text">
-                                            <input disabled type="text" name="licenseBirth"
-                                                placeholder="Nhập ngày sinh ">
+                                            <input [disabled]="!editingLicense" type="text" name="licenseBirth" [(ngModel)]="user.Ngay_sinh" placeholder="Nhập ngày sinh ">
                                         </div>
                                     </div>
                                 </div>
                             </div>
+                            
                         </div>
                         <div class="learn-more"></div>
-                    </div>
                 </div>
             </div>
-
-
-            <!-- Main content -->
-            <div class="col-md-9">
-                <!-- Thông tin tài khoản -->
-                <!-- <div class="card shadow-sm mb-3">
-                    <div class="card-body">
-                        <div class="d-flex justify-content-between align-items-center mb-3">
-                            <div>
-                                <h5>Thông tin tài khoản</h5>
-                                <div><img src="" alt=""></div>
-                            </div>
-
-                        </div>
-
-                        <div class="d-flex align-items-center mb-4">
-                            <div class="rounded-circle bg-warning text-white d-flex align-items-center justify-content-center me-3"
-                                style="width:90px; height:90px; font-size:36px;">
-                                {{ user.initials }}
-                            </div>
-                            <div>
-                                <h5 class="fw-bold mb-1">{{ user.fullName }}</h5>
-                                <span class="badge bg-light text-dark me-2">Tham gia: {{ user.joinedAt }}</span>
-                                <span class="badge bg-secondary text-white"><i class="bi bi-award me-1"></i>0
-                                    điểm</span>
-                            </div>
-                        </div> -->
-
-                <!-- Info rows -->
-                <!-- <div class="row mb-2">
-                            <div class="col-4 text-muted">Ngày sinh</div>
-                            <div class="col-8">{{ user.dob }}</div>
-                        </div>
-                        <div class="row mb-2">
-                            <div class="col-4 text-muted">Giới tính</div>
-                            <div class="col-8">{{ user.gender }}</div>
-                        </div>
-                        <div class="row mb-2 align-items-center">
-                            <div class="col-4 text-muted">Số điện thoại</div>
-                            <div class="col-6">
-                                <span class="badge"
-                                    [ngClass]="user.phoneVerified ? 'bg-success' : 'bg-warning text-dark'">
-                                    {{ user.phoneVerified ? 'Đã xác thực' : 'Chưa xác thực' }}
-                                </span>
-                            </div>
-                            <div class="col-2 text-end">
-                                <button class="btn btn-sm btn-outline-primary"
-                                    (click)="onEdit('Số điện thoại')">Sửa</button>
-                            </div>
-                        </div>
-                        <div class="row mb-2 align-items-center">
-                            <div class="col-4 text-muted">Email</div>
-                            <div class="col-6">
-                                {{ user.email }}
-                                <span class="badge"
-                                    [ngClass]="user.emailVerified ? 'bg-success' : 'bg-warning text-dark'">
-                                    {{ user.emailVerified ? 'Đã xác thực' : 'Chưa xác thực' }}
-                                </span>
-                            </div>
-                            <div class="col-2 text-end">
-                                <button class="btn btn-sm btn-outline-primary" (click)="onEdit('Email')">Sửa</button>
-                            </div>
-                        </div>
-                        <div class="row mb-2 align-items-center">
-                            <div class="col-4 text-muted">Facebook</div>
-                            <div class="col-6">{{ user.facebook || 'Chưa liên kết' }}</div>
-                            <div class="col-2 text-end">
-                                <button class="btn btn-sm btn-outline-primary" (click)="onEdit('Facebook')">Liên
-                                    kết</button>
-                            </div>
-                        </div>
-                        <div class="row align-items-center">
-                            <div class="col-4 text-muted">Google</div>
-                            <div class="col-6">{{ user.google }}</div>
-                            <div class="col-2 text-end">
-                                <button class="btn btn-sm btn-outline-primary" (click)="onEdit('Google')">Liên
-                                    kết</button>
-                            </div>
-                        </div>
-                    </div>
-                </div> -->
-
-                <!-- Giấy phép lái xe -->
-                <!-- <div class="card shadow-sm">
-                    <div class="card-body">
-                        <div class="d-flex justify-content-between align-items-center mb-3">
-                            <h5 class="fw-bold mb-0">Giấy phép lái xe</h5>
-                            <div>
-                                <span class="badge" [ngClass]="licenseVerified ? 'bg-success' : 'bg-warning text-dark'">
-                                    {{ licenseVerified ? 'Đã xác thực' : 'Chưa xác thực' }}
-                                </span>
-                                <button class="btn btn-sm btn-outline-primary ms-2" (click)="onEdit('GPLX')">Chỉnh
-                                    sửa</button>
-                            </div>
-                        </div>
-                        <div class="alert alert-danger small mb-0">
-                            <strong>Lưu ý:</strong> để tránh phát sinh vấn đề trong quá trình thuê xe,
-                            người đặt xe trên hệ thống (đã xác thực GPLX) đồng thời phải là người nhận xe.
-                        </div>
-                    </div>
-                </div> -->
             </div>
         </div>
     </div>
