@@ -7,7 +7,7 @@ import { VeTrustCar } from './pages/ve-trust-car/ve-trust-car';
 import { Homepage } from './pages/homepage/homepage';
 import { ConfirmBooking } from './pages/confirm-booking/confirm-booking';
 import { CarRentalGuide } from './pages/car-rental-guide/car-rental-guide';
-
+import { UserAccount } from './pages/user-account/user-account';
 export const routes: Routes = [
     { path: '', component: Homepage },         // trang homepage
     { path: 'danh-sach-xe', component: CarList }, // trang danh sách xe
@@ -18,6 +18,7 @@ export const routes: Routes = [
     { path: 've-trust-car', component: VeTrustCar }, // trang Về Trustcar
     { path: 'confirm-booking', component: ConfirmBooking }, // trang xác nhận đặt xe
     { path: 'guide', component: CarRentalGuide }, // trang Hướng dẫn thuê xe
+    { path: 'user-account', component: UserAccount }, // trang Tài khoản người dùng
     { path: '**', redirectTo: '' },
 
 ];
