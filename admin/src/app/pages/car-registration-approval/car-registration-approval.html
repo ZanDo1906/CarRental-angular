@@ -1,4 +1,4 @@
-<main class="main-content">
+<div class="main-content">
   
   <h2>Duyệt đơn đăng ký xe ({{ cars().length }})</h2>
 
@@ -29,7 +29,10 @@
 
     </div>
 
-    <nav aria-label="Page navigation" class="d-flex justify-content-end mt-3" *ngIf="totalPages() > 1">
+    
+  </div>
+
+  <nav aria-label="Page navigation" class="d-flex justify-content-end mt-3" *ngIf="totalPages() > 1">
       <ul class="pagination">
         
         <li class="page-item" [class.disabled]="currentPage() === 1">
@@ -54,6 +57,4 @@
 
       </ul>
     </nav>
-  </div>
-
-</main>
+</div>

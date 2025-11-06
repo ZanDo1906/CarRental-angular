@@ -46,7 +46,8 @@ h2 {
   border: 1px solid var(--color-border);
   margin-bottom: 1.5rem;
   transition: all 0.3s ease;
-  height: 300px;
+  width: 100%;
+  box-sizing: border-box;
 }
 
 .approval-card:hover {

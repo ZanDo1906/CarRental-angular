@@ -32,7 +32,7 @@
               </tr>
             </thead>
             <tbody>
-              <tr *ngFor="let user of users">
+              <tr *ngFor="let user of users" (click)="viewUserDetail(user)" style="cursor: pointer;">
                 <td>{{ user.Ma_nguoi_dung }}</td>
                 <td>{{ user.Ho_va_ten }}</td>
                 <td class="text-primary">{{ user.Email }}</td>

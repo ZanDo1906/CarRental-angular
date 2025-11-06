@@ -4,12 +4,13 @@ import { CarRegistrationApproval } from './pages/car-registration-approval/car-r
 import { Dashboard } from './pages/dashboard/dashboard';
 import { CarDetail } from './pages/car-detail-approval/car-detail-approval';
 import { LicenseApproval } from './pages/license-approval/license-approval';
+import { AccountDetail } from './pages/account-detail/account-detail';
 
 export const routes: Routes = [
-  { path: '', component: AccountManagement }, // trang mặc định
   { path: 'account', component: AccountManagement },
   { path: 'car-registration-approval', component: CarRegistrationApproval },
   { path: 'dashboard', component: Dashboard },
   { path: 'car-detail-approval/:id', component: CarDetail },
   { path: 'license-approval', component: LicenseApproval},
+  { path: 'account-detail', component: AccountDetail},
 ];

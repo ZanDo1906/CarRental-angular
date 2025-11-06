@@ -6,11 +6,13 @@ import { Footer } from './pages/footer/footer';
 import { RouterModule } from '@angular/router';
 import { SideBar } from './pages/side-bar/side-bar';
 import { Dashboard } from './pages/dashboard/dashboard';
+import { LicenseApproval } from './pages/license-approval/license-approval';
+import { AccountDetail } from './pages/account-detail/account-detail';
 
 @Component({
   selector: 'app-root',
   standalone: true,
-  imports: [AccountManagement, Header, Footer, RouterModule, CarRegistrationApproval, SideBar, Dashboard],
+  imports: [AccountManagement, Header, Footer, RouterModule, CarRegistrationApproval, SideBar, Dashboard, LicenseApproval, AccountDetail],
   templateUrl: './app.html',
   styleUrl: './app.css'
 })
