@@ -2,6 +2,23 @@
   color: #f04438 !important
 }
 
+.m-container, .s-container {
+    position: relative;
+    margin: 0 auto;
+}
+
+.m-container {
+    max-width: 1280px;
+}
+.space.sec {
+    padding-top: 80px;
+    padding-bottom: 80px;
+}
+
+.space {
+    padding-top: 5px;
+    padding-bottom: 5px;
+}
 
 input:disabled {
   background-color: #f6f6f6;
@@ -160,7 +177,7 @@ p {
   font-weight: 700;
   padding: 8px 16px;
   border-radius: 8px;
-  border: 1px solid #e0e0e0 ;
+  border: 1px solid #e0e0e0;
 }
 
 .avatar,
@@ -177,14 +194,16 @@ p {
 
 /* Ensure avatar images are contained inside the circular frame */
 .avatar {
-  overflow: hidden; /* clip overflowing image */
+  overflow: hidden;
+  /* clip overflowing image */
   display: inline-block;
 }
 
 .avatar img {
   width: 100%;
   height: 100%;
-  object-fit: cover; /* fill the frame while preserving aspect ratio */
+  object-fit: cover;
+  /* fill the frame while preserving aspect ratio */
   display: block;
   border-radius: 50%;
 }
@@ -293,11 +312,13 @@ p {
   background: #effaf3;
   border-radius: 8px
 }
+
 .user-profile .content {
   display: flex;
   grid-gap: 36px;
   gap: 36px
 }
+
 .user-profile .content .avatar-box {
   display: flex;
   flex-direction: column;
@@ -305,8 +326,8 @@ p {
   grid-gap: 16px;
   gap: 16px;
   width: 30%
-
 }
+
 .user-profile .content .avatar-box h6 {
   text-align: center
 }
@@ -343,6 +364,7 @@ p {
   grid-gap: 24px;
   gap: 24px
 }
+
 .user-profile .content .info-user.center {
   height: 146px;
   justify-content: center
@@ -521,6 +543,7 @@ p {
 .driver-license .title .title-item__info.error {
   background: #ffd0cd
 }
+
 .driver-license .title .blah {
   margin: -36px 0 20px auto
 }
@@ -592,6 +615,7 @@ p {
 .driver-license .content .info-license .support a {
   font-weight: 600
 }
+
 .driver-license .content .info-license .custom-input .wrap-info {
   align-items: center
 }
@@ -667,7 +691,8 @@ p {
   background-position: 50%;
   border-radius: 16px
 }
- .driver-license .content .info-license__img .fix-img {
+
+.driver-license .content .info-license__img .fix-img {
   padding-bottom: 65%;
   border-radius: 16px
 }
@@ -716,6 +741,43 @@ p {
   border-bottom: 1px solid #5fcf86
 }
 
+@media (max-width: 576px) {
+    .m-container, .s-container {
+        max-width: none;
+        margin: 0 16px;
+    }
+
+    .space.sec {
+        padding-top: 32px;
+        padding-bottom: 32px;
+    }
+}
+
+@media (max-width: 767px) {
+    .m-container, .s-container {
+        max-width: 540px;
+    }
+    .space.sec {
+        padding-top: 45px;
+        padding-bottom: 45px;
+    }
+}
+
+@media (max-width: 991px) {
+    .m-container, .s-container {
+        max-width: 720px;
+    }
+
+        .space.sec {
+        padding-top: 60px;
+        padding-bottom: 60px;
+    }
+
+      .account-section .account-container {
+    flex-direction: column;
+  }
+}
+
 @media (max-width: 1199px) {
   h1 {
     font-size: 3.5rem
@@ -724,18 +786,27 @@ p {
   h2 {
     font-size: 2.75rem
   }
+.space.sec {
+        padding-top: 80px;
+        padding-bottom: 80px;
+    }
 
-  .space.sec {
-    padding-top: 80px;
-    padding-bottom: 80px
-  }
+      .m-container {
+        max-width: 960px;
+    }
 
-  .m-container {
-    max-width: 960px
-  }
+
+
+
 
   .s-container {
     max-width: 840px
+  }
+
+  .account-section .account-container .content-account,
+  .account-section .account-container .sidebar-account {
+    width: 100%;
+    padding: 40px;
   }
 
   .content-account .content-item {
@@ -767,4 +838,28 @@ p {
     flex-wrap: wrap
   }
 
+  .user-profile .content {
+    flex-direction: column;
+    grid-gap: 24px;
+    gap: 24px;
+  }
+
+
+  .user-profile .content .avatar-box {
+    width: 100%;
+    align-items: center;
+    grid-gap: 8px;
+    gap: 8px;
+  }
+
+  .user-profile .content .info-user {
+    width: 100%;
+    grid-gap: 20px;
+    gap: 20px;
+  }
+
+
+  .account-section .account-container .content-account .content-item {
+    padding: 24px 16px;
+  }
 }

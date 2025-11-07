@@ -1,135 +1,142 @@
-<div class="container mt-4">
-  <div class="row">
-    <div class="sidebar col-md-3 mb-3">
-      <app-side-bar></app-side-bar>
-    </div>
-    <div class="content col-md-9">
-      <main class="main-content">
-
-        <h2>Xe của tôi ({{ users().length }})</h2>
-        <div *ngIf="ownerId" class="text-muted small">Chủ sở hữu hiển thị: {{ ownerId }}</div>
-
-        <div class="card-list">
-
-          <div *ngFor="let car of displayedCars()" class="license-card">
-
-            <div class="license-avatar">
-              <div class="thumb">
-                <img [src]="(car && car.Anh_xe && car.Anh_xe.length) ? car.Anh_xe[0] : 'assets/images/placeholder.webp'"
-                  alt="">
-              </div>
-            </div>
-
-            <div class="license-details">
-              <div class="spec-grid">
-                <div class="spec">
-                  <i class="bi bi-gear"></i>
-                  <span>{{car.Hop_so}}</span>
-                </div>
-                <div class="spec">
-                  <i class="bi bi-people"></i>
-                  <span>{{car.So_cho}} chỗ</span>
-                </div>
-                <div class="spec">
-                  <i class="bi bi-fuel-pump"></i>
-                  <span>{{car.Nhien_lieu}}</span>
-                </div>
-              </div>
-
-              <!-- Địa điểm (resolve Ma_vi_tri → địa chỉ từ location.json) -->
-              <div class="loc-row" *ngIf="car.Ma_vi_tri != null">
-                <i class="bi bi-geo-alt"></i>
-                <span>{{ getLocationAddress(car.Ma_vi_tri) }}</span>
-              </div>
-
-              <hr>
-
-              <!-- Điểm & số chuyến -->
-              <div class="meta-row">
-                <div class="meta">
-                  <i class="bi bi-star-fill text-warning"></i>
-                  <span>{{car.Diem_danh_gia || '5.0'}}</span>
-                </div>
-                <div class="meta">
-                  <i class="bi bi-graph-up"></i>
-                  <span>{{car.So_chuyen || car.So_luot_thue || 0}} chuyến</span>
-                </div>
-              </div>
-
-              <!-- Giá -->
-              <!-- <div class="price-row">
-                <div class="price fs-5">
-                  {{vnd(car.Gia_thue)}} VNĐ/Ngày
-                </div>
-              </div> -->
-            </div>
-            <div class="license-actions">
-                <p class="text-muted small m-0">Thời gian còn lại</p>
-                <p class="text-muted small m-0">Ngày trả:</p>
-                <button (click)="onAction('view', car)" class="btn btn-solid-primary">Gia hạn thuê</button>
-                <button (click)="onAction('approve', car)" class="btn btn-approve">Khiếu nại</button>
-                <button (click)="onAction('reject', car)" class="btn btn-outline-danger">Dừng cho thuê</button>
-              </div>
+<div class="rental-section sec space">
+  <div class="m-container">
+    <div class="rental-container">
+      <div class="sidebar col-md-3 mb-3">
+        <app-side-bar></app-side-bar>
+      </div>
+      <div class="content col-md-9">
+        <main class="main-content">
+          <h2>Chuyến của tôi ({{ rentals.length }})</h2>
+          
+          <div class="alert alert-info" *ngIf="loading">
+            Đang tải dữ liệu...
           </div>
-          <!-- Thân card -->
-          <!-- <div class="card-body">
+
+          <div class="alert alert-warning" *ngIf="!loading && rentals.length === 0">
+            Bạn chưa có chuyến đi nào.
+          </div>
+          
+          <div class="cards-list" *ngIf="!loading && rentals.length > 0">
+            <div *ngFor="let rental of paginatedRentals" class="car-card">
+              <div class="car-avatar">
+                <div class="thumb">
+                  <ng-container *ngIf="rental.car_details.Anh_xe && rental.car_details.Anh_xe.length > 0">
+                    <img [src]="rental.car_details.Anh_xe[0]" 
+                         [alt]="rental.car_details.Dong_xe"
+                         onerror="this.src='assets/images/placeholder.webp'">
+                  </ng-container>
+                  <img *ngIf="!rental.car_details.Anh_xe || rental.car_details.Anh_xe.length === 0"
+                       src="assets/images/placeholder.webp"
+                       alt="No car image">
+                </div>
+              </div>
+
+              <div class="car-details">
+                <h3 class="car-title">
+                  {{ rental.car_details.Hang_xe }} {{ rental.car_details.Dong_xe }} {{ rental.car_details.Nam_san_xuat }}
+                </h3>
+                
+                <div class="rental-info">
+                  <div class="info-row">
+                    <i class="bi bi-calendar-check"></i>
+                    <span>Ngày nhận: {{rental.Ngay_nhan_xe}} {{rental.Gio_nhan_xe}}</span>
+                  </div>
+                  <div class="info-row">
+                    <i class="bi bi-calendar-x"></i>
+                    <span>Ngày trả: {{rental.Ngay_tra_xe}} {{rental.Gio_tra_xe}}</span>
+                  </div>
+                  
+                  <!-- Địa điểm nhận xe -->
+                  <div class="info-row">
+                    <i class="bi bi-geo-alt-fill"></i>
+                    <span>Địa điểm nhận: {{ getLocationAddress(rental.Ma_vi_tri_nhan) }}</span>
+                  </div>
+                  
+                  <!-- Địa điểm trả xe -->
+                  <div class="info-row">
+                    <i class="bi bi-geo-alt"></i>
+                    <span>Địa điểm trả: {{ getLocationAddress(rental.Ma_vi_tri_tra) }}</span>
+                  </div>
+
+                  <div class="info-row">
+                    <i class="bi bi-currency-dollar"></i>
+                    <span>Tổng chi phí: {{rental.Tong_chi_phi | number}} VND</span>
+                  </div>
+
+                  <div class="status-badge" [ngClass]="getRentalStatusClass(rental.Trang_thai)">
+                    {{ getRentalStatusText(rental.Trang_thai) }}
+                  </div>
+                </div>
+                </div>
+
+                <hr>
+
+                <!-- Điểm & số chuyến -->
+                <div class="meta-row">
+                  <div class="meta">
+                    <i class="bi bi-star-fill text-warning"></i>
+                    <span>{{rental.car_details.Diem_danh_gia || '5.0'}}</span>
+                  </div>
+                  <div class="meta">
+                    <i class="bi bi-graph-up"></i>
+                    <span>{{rental.car_details.So_luot_thue || 0}} chuyến</span>
+                  </div>
+                </div>
+
+                <!-- Giá -->
+                <div class="price-row">
+                  <div class="price fs-5">
+                    {{vnd(rental.car_details.Gia_thue)}} VNĐ/Ngày
+                  </div>
+                </div>
+              </div>
+              <div class="car-actions">
+                <button  class="btn btn-solid-primary">Cập nhật thông tin</button>
+                <button  class="btn btn-approve">Sẵn sàng</button>
+                <button  class="btn btn-outline-danger">Dừng cho thuê</button>
+              </div>
+            </div>
+            <!-- Thân card -->
+            <!-- <div class="card-body">
               <h3 class="car-name fw-bold fs-4">{{car.Hang_xe}} {{car.Dong_xe}} {{car.Nam_san_xuat}}</h3> -->
 
-          <!-- Hàng 3 thông số -->
-          <!-- <div class="spec-grid">
-                <div class="spec">
-                  <i class="bi bi-gear"></i>
-                  <span>{{car.Hop_so}}</span>
-                </div>
-                <div class="spec">
-                  <i class="bi bi-people"></i>
-                  <span>{{car.So_cho}} chỗ</span>
-                </div>
-                <div class="spec">
-                  <i class="bi bi-fuel-pump"></i>
-                  <span>{{car.Nhien_lieu}}</span>
-                </div>
-              </div> -->
-
-          <!-- Địa điểm (resolve Ma_vi_tri → địa chỉ từ location.json) -->
-          <!-- <div class="loc-row" *ngIf="car.Ma_vi_tri != null">
-                <i class="bi bi-geo-alt"></i>
-                <span>{{ getLocationAddress(car.Ma_vi_tri) }}</span>
-              </div> -->
+            <!-- Hàng 3 thông số -->
+            <!-- <div class="spec-grid">
+              </div>
+              </div>
 
 
 
-        </div>
+          </div>
 
-        <nav aria-label="Page navigation" class="d-flex justify-content-end mt-3" *ngIf="totalPages() > 1">
-          <ul class="pagination">
+            <!Pagination -->
+          <nav aria-label="Page navigation" class="d-flex justify-content-end mt-3" *ngIf="totalPages > 1">
+            <ul class="pagination">
+              <li class="page-item" [class.disabled]="currentPage === 1">
+                <a class="page-link" (click)="goToPage(currentPage - 1)" href="javascript:void(0)" aria-label="Previous">
+                  <i class="bi bi-chevron-left"></i>
+                </a>
+              </li>
+              <li *ngFor="let page of [].constructor(totalPages); let i = index" 
+                  class="page-item" 
+                  [class.active]="(i + 1) === currentPage">
+                <a class="page-link" (click)="goToPage(i + 1)" href="javascript:void(0)">
+                  {{ i + 1 }}
+                </a>
+              </li>
+              <li class="page-item" [class.disabled]="currentPage === totalPages">
+                <a class="page-link" (click)="goToPage(currentPage + 1)" href="javascript:void(0)" aria-label="Next">
+                  <i class="bi bi-chevron-right"></i>
+                </a>
+              </li>
+            </ul>
+          </nav>
+        </main>
+      </div>
+    </div>
 
-            <li class="page-item" [class.disabled]="currentPage === 1">
-              <a class="page-link" (click)="prevPage()" href="javascript:void(0)" aria-label="Previous">
-                <i class="bi bi-chevron-left"></i>
-              </a>
-            </li>
-
-            <li *ngFor="let page of totalPagesArray()" class="page-item" [class.active]="page === currentPage">
-              <a class="page-link" (click)="goToPage(page)" href="javascript:void(0)">
-                {{ page }}
-              </a>
-            </li>
-
-            <li class="page-item" [class.disabled]="currentPage === totalPages()">
-              <a class="page-link" (click)="nextPage()" href="javascript:void(0)" aria-label="Next">
-                <i class="bi bi-chevron-right"></i>
-              </a>
-            </li>
-
-          </ul>
-        </nav>
-      </main>
     </div>
   </div>
 
-  <div *ngIf="users().length === 0" class="alert alert-info mt-3">Không có xe nào để hiển thị cho người dùng này.</div>
 
-  
-</div>
 
