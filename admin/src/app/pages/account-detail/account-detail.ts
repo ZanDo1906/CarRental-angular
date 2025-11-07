@@ -16,24 +16,21 @@ import { OwnerService } from '../../services/owner.service';
 export class AccountDetail  implements OnInit {
 
   user: any = null;
-  // separate flags so profile edits and license edits are independent
   editingProfile: boolean = false;
   editingLicense: boolean = false;
 
   constructor(private userService: UserService, @Inject(OwnerService) private ownerService: OwnerService, private router: Router ) { }
 
   ngOnInit(): void {
-    // On init, just load the current user (if currentUserId is set) or the first user
     this.loadUser();
   }
 
   goBack(): void {
     this.router.navigate(['/account']);
   }
-  // Keep the edit trigger simple for learners
+
   onEdit(field: string) {
     if (field === 'uploadGPLX') {
-      // open file picker for license image upload
       const el = document.getElementById('licenseInput') as HTMLInputElement | null;
       if (el) el.click();
       return;
@@ -48,7 +45,6 @@ export class AccountDetail  implements OnInit {
     }
   }
 
-  // Save profile edits
   saveUser() {
     if (!this.user) return;
     this.localSaveUser(this.user);
@@ -56,7 +52,6 @@ export class AccountDetail  implements OnInit {
     try { alert('Thông tin người dùng đã được lưu.'); } catch {}
   }
 
-  // Save license-specific edits (number / name / birth)
   saveLicense() {
     if (!this.user) return;
     this.localSaveUser(this.user);
@@ -96,8 +91,6 @@ export class AccountDetail  implements OnInit {
     });
   }
 
-  // Very small helper for learners: save or replace the user object in localStorage under 'extraUsers'.
-  // This avoids the need to understand a separate updateUser() service method.
   private localSaveUser(user: any): void {
     if (!user) return;
     const key = 'extraUsers';
@@ -113,12 +106,11 @@ export class AccountDetail  implements OnInit {
   localStorage.setItem(key, JSON.stringify(extras));
   try { this.ownerService.setOwnerId(Number(user.Ma_nguoi_dung)); } catch (e) { }
     } catch (e) {
-      // tslint:disable-next-line:no-console
+
       console.error('localSaveUser failed', e);
     }
   }
 
-  // Load a single user from the JSON (or merged extras) by id. If no id provided, uses currentUserId or first user.
   loadUser(userId?: string | number): void {
   const idToFind = userId || this.ownerService.getOwnerId();
     this.userService.getAllUsers().subscribe({
@@ -137,7 +129,6 @@ export class AccountDetail  implements OnInit {
             found.Gioi_tinh = 'Nữ';
           }
           if (!found.Ngay_sinh) {
-            // keep empty string so <input type="date"> can bind safely
             found.Ngay_sinh = '';
           }
           if (found.Giay_phep_lai_xe) {
@@ -159,8 +150,6 @@ export class AccountDetail  implements OnInit {
     });
   }
 
-  // Simple helper to "send" the user data to other parts of the app by emitting a custom event.
-  // Usage: call sendUserData(id) and listeners can receive the user object via window.addEventListener('userDataReady', ...)
   sendUserData(userId?: string | number): void {
     this.userService.getAllUsers().subscribe({
       next: (users: any) => {

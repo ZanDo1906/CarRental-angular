@@ -1,14 +1,14 @@
 import { Component, OnInit, ChangeDetectorRef } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
-import { ActivatedRoute, Router } from '@angular/router';
+import { ActivatedRoute, Router, RouterModule } from '@angular/router';
 import { CarService } from '../../services/car';
 import { LocationService } from '../../services/location';
 
 @Component({
   selector: 'app-car-detail-approval',
   standalone: true,
-  imports: [CommonModule, FormsModule],
+  imports: [CommonModule, FormsModule, RouterModule],
   templateUrl: './car-detail-approval.html',
   styleUrl: './car-detail-approval.css',
 })
@@ -48,6 +48,7 @@ export class CarDetail implements OnInit {
         }
       });
     }
+
 
     this.locationService.getAllLocations().subscribe({ 
       next: (data: any) => {
@@ -108,7 +109,7 @@ export class CarDetail implements OnInit {
     return this.car?.Ten_chu_xe || 'Chủ xe';
   }
 
-  goBack() { this.router.navigate(['/']); }
+  goBack() { this.router.navigate(['/car-registration-approval']); }
 
   contactOwner() {
     alert('Liên hệ chủ xe (chức năng chưa triển khai)');

@@ -1,8 +1,8 @@
 <nav class="navbar navbar-expand-lg bg-white border-bottom sticky-top">
   <div class="container">
     <a class="navbar-brand d-flex align-items-center gap-2 text-decoration-none" routerLink="/">
-      <img src="assets/images/logo.png" alt="TRUSTCAR" class="tc-logo">
-      <span class="fw-bold fs-4 text-teal brand-text">TRUSTCAR</span>
+      <img src="assets/assets/logo.png" alt="TRUSTCAR" class="tc-logo">
+      <span class="fw-bold fs-4 brand-text">TRUSTCAR</span>
     </a>
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#tcNavbar"
@@ -11,10 +11,10 @@
     </button>
 
     <div class="collapse navbar-collapse" id="tcNavbar">
-      <!-- Menu khi chưa đăng nhập -->
-      <ul class="navbar-nav ms-auto align-items-lg-center gap-lg-3" *ngIf="!isLoggedIn">
+      
+      <ul class="navbar-nav ms-auto align-items-lg-center gap-lg-3">
         <li class="nav-item">
-          <a class="nav-link" routerLink="/about" routerLinkActive="active">Về Trustcar</a>
+          <a class="nav-link" routerLink="/ve-trust-car" routerLinkActive="active">Về Trustcar</a>
         </li>
         <li class="nav-item">
           <a class="nav-link" routerLink="/guide" routerLinkActive="active">Hướng dẫn thuê xe</a>
@@ -22,44 +22,19 @@
         <li class="nav-item">
           <a class="nav-link" routerLink="/owner" routerLinkActive="active">Trở thành chủ xe</a>
         </li>
+
         <li class="nav-item d-lg-block">
-          <a class="btn btn-outline-success px-3" routerLink="/signup">Đăng ký</a>
+          <button class="btn btn-outline-success px-3" type="button">Đăng ký</button>
         </li>
         <li class="nav-item d-lg-block">
-          <a class="btn btn-outline-success px-3" routerLink="/login">Đăng nhập</a>
+          <button class="btn btn-outline-success px-3" type="button">Đăng nhập</button>
         </li>
       </ul>
 
-      <!-- Menu khi đã đăng nhập -->
-      <ul class="navbar-nav ms-auto align-items-lg-center gap-lg-3" *ngIf="isLoggedIn">
-        <li class="nav-item">
-          <a class="nav-link" routerLink="/about" routerLinkActive="active">Về Trustcar</a>
-        </li>
-        <li class="nav-item">
-          <a class="nav-link" routerLink="/guide" routerLinkActive="active">Hướng dẫn thuê xe</a>
-        </li>
-        <li class="nav-item">
-          <a class="nav-link" routerLink="/owner" routerLinkActive="active">Trở thành chủ xe</a>
-        </li>
-        <li class="nav-item">
-          <a class="nav-link position-relative" routerLink="/notifications">
-            <i class="bi bi-bell-fill"></i>
-          </a>
-        </li>
-        <li class="nav-item">
-          <a class="nav-link" routerLink="/messages">
-            <i class="bi bi-chat-dots-fill"></i>
-          </a>
-        </li>
-        <li class="nav-item dropdown user-menu-container">
-          <div class="d-flex align-items-center gap-2 cursor-pointer" (click)="toggleUserMenu()">
-            <img [src]="currentUser?.Anh_dai_dien || 'assets/images/default-avatar.png'" 
-                 [alt]="currentUser?.Ho_va_ten"
-                 class="rounded-circle user-avatar">
-            <span class="user-name">{{ currentUser?.Ho_va_ten }}</span>
-          </div>
-        </li>
-      </ul>
-    </div>
+      </div>
+      
   </div>
+
+  
 </nav>
+

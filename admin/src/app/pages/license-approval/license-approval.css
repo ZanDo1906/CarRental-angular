@@ -5,20 +5,23 @@
   --color-primary-text: #212121;
   --color-secondary-text: #212121;
   --color-border: #e0e0e0;
-  --color-error: #d32f2f;
-  --shadow: 0 2px 8px rgba(0, 0, 0, 0.06);
-  --shadow-hover: 0 2px 10px rgba(29, 115, 99, 0.08); 
-}
+  --color-background: #f8f9fa; 
+  --color-card-bg: #ffffff;
+  --color-image-bg: #eeeeee;
+  --color-error: #d32f2f;;
+  --shadow: 0 2px 6px rgba(0, 0, 0, 0.06); 
+  --shadow-hover: 0 2px 10px rgba(29, 115, 99, 0.06); 
+    font-family: 'Inter', sans-serif;
 
+}
 
 .main-content {
   height: 100%;
   flex-grow: 1;
   overflow-y: auto;
   font-size: 16px;
-  /* background-color: #ffffff;  */
+  background-color: var(--color-card-bg); 
   font-family: 'Inter', sans-serif;
-  background-color: #f8f9fa;
 }
 
 
@@ -35,23 +38,31 @@ h2 {
   flex-direction: column; 
   width: 100%;
 }
+
+.card-content-wrapper {
+  display: flex;
+  flex-wrap: wrap;
+  flex: 1;
+  min-width: 420px;
+  gap: 1.5rem;
+  align-items: center;
+}
+
 .license-card {
   display: flex;
-  flex-wrap: wrap; 
+  flex-wrap: wrap;
   align-items: center;
-  gap: 1.5rem; 
-  justify-content: space-between;
-  background: #ffffff;
-  border-radius: 20px; 
+  gap: 1.5rem;
+  background: var(--color-card-bg);
+  border-radius: 20px;
   padding: 1.5rem;
   box-shadow: var(--shadow);
   border: 1px solid var(--color-border);
   margin-bottom: 1.5rem;
   transition: all 0.3s ease;
   width: 100%;
-  box-sizing: border-box; 
+  box-sizing: border-box;
 }
-
 
 .license-card:hover {
   transform: translateY(-5px);
@@ -59,9 +70,10 @@ h2 {
   box-shadow: var(--shadow-hover);
 }
 
+
 .license-avatar {
   flex-shrink: 0;
-  width: 200px;
+  width: 210px;
   height: 200px;
   border-radius: 50%; 
   overflow: hidden;
@@ -78,7 +90,7 @@ h2 {
 
 .license-details {
   flex-grow: 1; 
-  min-width: 300px; 
+  min-width: 310px; 
 }
 
 .license-details h3 {
@@ -113,7 +125,7 @@ h2 {
   flex-direction: column;
   gap: 0.75rem;
   flex-shrink: 0;
-  min-width: 150px;
+  min-width: 160px;
 }
 
 .btn {
@@ -137,10 +149,11 @@ h2 {
   border-color: var(--color-primary);
   color: #ffffff;
   background: var(--color-primary);
-  box-shadow: 0 4px 12px rgba(29, 115, 99, 0.15); 
+
 }
 .btn-solid-primary:hover {
   background: #166051; 
+  box-shadow: 0 4px 12px rgba(29, 115, 99, 0.15); 
 }
 
 .btn-approve {
@@ -148,22 +161,52 @@ h2 {
   color: var(--color-primary);
   background: #fff;
 }
-.btn-approve:hover {
-  background: var(--color-primary);
-  color: #ffffff;
-  box-shadow: 0 4px 12px rgba(29, 115, 99, 0.15); 
-}
 
 .btn-outline-danger {
   border-color: var(--color-error);
   color: var(--color-error);
   background: #fff;
 }
+
+.btn-solid-primary:focus,
+.btn-solid-primary:active {
+  background-color: #1D7363;
+  border-color: #1D7363;
+  color: #fff;
+  box-shadow: 0 0 0 0.2rem rgba(29, 115, 99, 0.25);
+}
+
+.btn-approve:hover {
+  background: var(--color-primary);
+  color: #ffffff;
+  box-shadow: 0 4px 12px rgba(29, 115, 99, 0.3); 
+}
+
+.btn-approve:focus,
+.btn-approve:active {
+  background-color: #1D7363;
+  border-color: #1D7363;
+  color: #fff;
+  box-shadow: 0 0 0 0.2rem rgba(29, 115, 99, 0.25);
+}
+
 .btn-outline-danger:hover {
   background: var(--color-error);
   color: #ffffff;
-  box-shadow: 0 4px 12px rgba(211, 47, 47, 0.15); 
+  box-shadow: 0 4px 12px rgba(211, 47, 47, 0.3); 
 }
+
+
+
+.btn-outline-danger:focus,
+.btn-outline-danger:active {
+  background-color: #d32f2f;
+  border-color:  #d32f2f;
+  color: #fff;
+  box-shadow: 0 0 0 0.2rem rgba(159, 52, 40, 0.25);
+}
+
+
 
 .pagination {
   margin-right: 10px;
@@ -204,4 +247,51 @@ h2 {
 .pagination .page-item.disabled .page-link {
   opacity: 0.5;
   pointer-events: none;
+}
+@media (max-width: 992px) {
+
+  .license-card {
+    justify-content: center;
+    padding: 1.2rem;
+  }
+
+  .license-avatar {
+    width: 110px;
+    height: 100px;
+    margin-right: 20px;
+  }
+
+  .license-details {
+    margin-left: 10px;
+  }
+
+  .license-actions {
+    flex-direction: row;
+    width: 100%;
+    justify-content: space-between;
+  }
+
+  .license-actions .btn {
+    flex: 1;
+    font-size: 14px;
+    padding: 0.6rem;
+  }
+
+  .main-content {
+    font-size: 14px;
+  }
+  h2 {
+    font-size: 28px;
+    margin-top: 0;
+    margin-bottom: 25px;
+  }
+
+  .license-details h3 {
+    font-size: 16px;
+  }
+
+  .license-details p,
+  .license-details .label {
+    font-size: 14px;
+  }
 }

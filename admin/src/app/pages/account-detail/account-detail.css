@@ -13,6 +13,7 @@
   justify-content: center;
   transition: all 0.2s ease;
   margin-bottom: 20px;
+  margin-top: 0px;
 }
 
 .btn-icon-round i {
@@ -92,7 +93,7 @@ p {
   overflow: hidden;
 }
 
-.container{
+.main-container{
     margin-top: 40px;
 }
 .custom-input {
@@ -245,7 +246,7 @@ p {
   flex-direction: column;
   grid-gap: 24px;
   gap: 24px;
-  width: calc(70% - 20px)
+  width: 100%;
 }
 
 .content-title {
@@ -755,7 +756,7 @@ p {
   border-bottom: 1px solid #5fcf86
 }
 
-@media (max-width: 1199px) {
+@media (max-width: 768px) {
   h1 {
     font-size: 3.5rem
   }
@@ -765,7 +766,7 @@ p {
   }
 
   .space.sec {
-    padding-top: 80px;
+    padding-top: 0px;
     padding-bottom: 80px
   }
 
@@ -773,6 +774,10 @@ p {
     max-width: 960px
   }
 
+  
+  .main-container{
+      margin-top: 0;
+  }
   .s-container {
     max-width: 840px
   }

@@ -1,6 +1,16 @@
-<nav class="sidebar">
-  <h2 class="h3 pt-3 mb-3 text-center">Xin chào bạn!</h2>
 
+<div class="mobile-nav-header">
+  <button class="mobile-nav-toggle" (click)="toggleSidebar()">
+    <span class="toggle-content">
+      <i class="bi bi-list"></i> <span>Menu</span>
+    </span>
+  </button>
+</div>
+
+<nav class="sidebar" [class.open]="isSidebarOpen">
+  
+  <h2 class="h3 pt-3 mb-3 text-center d-none d-lg-block">Xin chào bạn!</h2>
+  
   <div class="position-sticky pt-3" style="top: 0;">
     <ul class="nav flex-column">
       <li class="nav-item">
@@ -67,3 +77,5 @@
     </ul>
   </div>
 </nav>
+
+<div class="sidebar-overlay" [class.open]="isSidebarOpen" (click)="toggleSidebar()"></div>

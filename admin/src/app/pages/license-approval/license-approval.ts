@@ -38,12 +38,10 @@ export class LicenseApproval implements OnInit {
     return this.users().slice(startIndex, endIndex);
   });
 
-  // Tính tổng số trang
   totalPages = computed(() => {
     return Math.ceil(this.users().length / this.itemsPerPage);
   });
 
-  // Tạo mảng số trang để *ngFor lặp qua
   totalPagesArray = computed(() => {
     return Array.from({ length: this.totalPages() }, (_, i) => i + 1);
   });

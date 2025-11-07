@@ -1,8 +1,9 @@
-<div class="tc-container py-4" *ngIf="car; else loading">
-  
-  <div class="container">
-    
-    <!-- Gallery Section - Full Width -->
+<div class="tc-container" *ngIf="car; else loading">
+              <button (click)="goBack()" class="btn-icon-round btn-outline">
+                <i class="bi bi-chevron-left"></i>
+            </button>
+  <div class="main-container">
+
     <div class="gallery-section">
       <div class="main-image" (click)="openLightbox(0)">
         <img [src]="car?.Anh_xe?.[0] || 'assets/images/placeholder.webp'" 
@@ -92,7 +93,7 @@
       <!-- Mô tả -->
       <div class="description-section">
         <h3 class="section-title">Mô tả</h3>
-        <p class="description-text">{{car.Mo_ta || 'Xe trong tình trạng tốt, bảo dưỡng định kỳ.'}}</p>
+        <p class="description-text" >{{car.Mo_ta || 'Xe trong tình trạng tốt, bảo dưỡng định kỳ.'}}</p>
       </div>
 
       <!-- Các tiện nghi khác -->
@@ -137,103 +138,13 @@
           </div>
         </div>
       </div>
-
-      <!-- Điều khoản -->
-      <div class="terms-section">
-        <h3 class="section-title">Điều khoản</h3>
-        <ul class="terms-list">
-          <li>Sử dụng xe đúng mục đích.</li>
-          <li>Không sử dụng xe thuê vào mục đích phi pháp, trái pháp luật.</li>
-          <li>Không sử dụng xe thuê để cầm cố, thế chấp.</li>
-          <li>Không hút thuốc, nhả kẹo cao su, xả rác trong xe.</li>
-          <li>Trả xe đúng hạn. Trường hợp trả muộn, khách hàng sẽ chịu phụ phí.</li>
-        </ul>
-      </div>
-
-      <!-- Chính sách huỷ chuyến -->
-      <div class="policy-section">
-        <h3 class="section-title">Chính sách huỷ chuyến</h3>
-        <div class="policy-table">
-          <div class="policy-row">
-            <div class="policy-time">Trong vòng 1h</div>
-            <div class="policy-fee">Hoàn tiền 100%</div>
-          </div>
-          <div class="policy-row">
-            <div class="policy-time">Trước chuyến đi 7 ngày</div>
-            <div class="policy-fee">Hoàn tiền 70%</div>
-          </div>
-          <div class="policy-row">
-            <div class="policy-time">Trong vòng 7 ngày</div>
-            <div class="policy-fee">Không hoàn tiền</div>
-          </div>
-        </div>
-      </div>
-      </div>
-      
+         </div>
       <!-- Right Column: Booking Card -->
       <div class="booking-card">
         <div class="booking-header">
           <h2 class="booking-price">{{vnd(car.Gia_thue)}}<span class="price-unit">/ngày</span></h2>
         </div>
-
-        <!-- Thời gian thuê/trả -->
-        <div class="datetime-section">
-          <div class="datetime-group">
-            <label class="datetime-label">Thời gian nhận</label>
-            <input type="datetime-local" class="datetime-input">
-          </div>
-          <div class="datetime-group">
-            <label class="datetime-label">Thời gian trả</label>
-            <input type="datetime-local" class="datetime-input">
-          </div>
-        </div>
-
-        <!-- Điểm giao nhận xe -->
-        <div class="pickup-section">
-          <h4 class="section-label">Điểm giao nhận xe</h4>
-          <div class="checkbox-group">
-            <label class="checkbox-item">
-              <input type="checkbox" checked>
-              <span>Nhận xe tại vị trí xe</span>
-            </label>
-            <label class="checkbox-item">
-              <input type="checkbox">
-              <span>Giao xe tận nơi</span>
-            </label>
-          </div>
-        </div>
-
-        <!-- Chi phí thuê xe -->
-        <div class="cost-breakdown">
-          <div class="cost-row">
-            <span class="cost-label">Đơn giá thuê:</span>
-            <span class="cost-value">{{vnd(car.Gia_thue)}}/ngày</span>
-          </div>
-          <div class="cost-row">
-            <span class="cost-label">Bảo hiểm thuê xe:</span>
-            <span class="cost-value">50.000 vnd/ngày</span>
-          </div>
-          <div class="cost-row total-before">
-            <span class="cost-label">Tổng tiền:</span>
-            <span class="cost-value">{{vnd((car.Gia_thue || 0) + 50000)}} vnd</span>
-          </div>
-          <div class="cost-row">
-            <span class="cost-label">Giảm giá:</span>
-            <span class="cost-value text-muted">Nhập mã giảm giá</span>
-          </div>
-          <div class="cost-row">
-            <span class="cost-label">Thuế VAT:</span>
-            <span class="cost-value">50.000 vnd</span>
-          </div>
-          <div class="cost-row total">
-            <span class="cost-label">THÀNH TIỀN:</span>
-            <span class="cost-value">{{vnd((car.Gia_thue || 0) + 100000)}} vnd</span>
-          </div>
-        </div>
-
-        <!-- Nút thuê xe -->
-        <button class="btn-rent">Thuê xe</button>
-
+        
         <!-- Các chi phí khác -->
         <div class="other-fees">
           <h4 class="section-label">Các chi phí khác</h4>
@@ -242,73 +153,20 @@
             <span class="fee-value">30.000 vnd/lít</span>
           </div>
           <p class="fee-note">Trustcar chi trả khi vạch xăng thấp hơn lúc nhận xe. Trả lại cùng vạch xăng như lúc nhận xe thì không phải trả phí này.</p>
-          
           <div class="fee-item">
             <span class="fee-label">Phí vệ sinh:</span>
             <span class="fee-value">120.000 vnd - 150.000 vnd</span>
           </div>
           <p class="fee-note">Vui lòng trả lại xe trong trạng thái vệ sinh như lúc nhận xe để không mất phí này.</p>
         </div>
+         <div class="button">
+            <button class="btn btn-solid-approve">Duyệt</button>
+            <button class="btn btn-danger">Từ chối</button>
+         </div>
       </div>
 
-    </div>
+ 
     <!-- End detail-layout -->
-
-  <!-- Chủ xe section -->
-  <div class="owner-section">
-    <h3 class="section-title">Chủ xe</h3>
-    <div class="owner-card">
-      <div class="owner-info">
-        <img src="assets/images/default-avatar.png" alt="Owner" class="owner-avatar">
-        <div class="owner-details">
-          <h4 class="owner-name">{{getOwnerName()}}</h4>
-          <div class="owner-stats">
-            <span class="stat-item">
-              <i class="bi bi-star-fill"></i> {{car.Diem_danh_gia || 5.0}}
-            </span>
-            <span class="dot">•</span>
-            <span class="stat-item">{{car.So_chuyen || 0}} chuyến</span>
-          </div>
-        </div>
-      </div>
-      <div class="owner-badges">
-        <span class="badge-item">Chủ xe uy tín</span>
-      </div>
-    </div>
-
-    <!-- Reviews -->
-    <div class="reviews-section">
-      <h4 class="reviews-title">Đánh giá</h4>
-      <div class="review-summary">
-        <div class="rating-bars">
-          <div class="rating-bar-item">
-            <span class="stars">5 <i class="bi bi-star-fill"></i></span>
-            <div class="bar"><div class="fill" style="width: 80%"></div></div>
-            <span class="count">16</span>
-          </div>
-          <div class="rating-bar-item">
-            <span class="stars">4 <i class="bi bi-star-fill"></i></span>
-            <div class="bar"><div class="fill" style="width: 15%"></div></div>
-            <span class="count">3</span>
-          </div>
-          <div class="rating-bar-item">
-            <span class="stars">3 <i class="bi bi-star-fill"></i></span>
-            <div class="bar"><div class="fill" style="width: 5%"></div></div>
-            <span class="count">1</span>
-          </div>
-          <div class="rating-bar-item">
-            <span class="stars">2 <i class="bi bi-star-fill"></i></span>
-            <div class="bar"><div class="fill" style="width: 0%"></div></div>
-            <span class="count">0</span>
-          </div>
-          <div class="rating-bar-item">
-            <span class="stars">1 <i class="bi bi-star-fill"></i></span>
-            <div class="bar"><div class="fill" style="width: 0%"></div></div>
-            <span class="count">0</span>
-          </div>
-        </div>
-      </div>
-    </div>
     
     </div>
 

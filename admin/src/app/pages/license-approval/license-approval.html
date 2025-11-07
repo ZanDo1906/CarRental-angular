@@ -5,19 +5,20 @@
   <div class="card-list">
     
     <div *ngFor="let user of displayedUsers()" class="license-card">
+      <div class="card-content-wrapper">
+        <div class="license-avatar">
+          <img [src]="user.Anh_dai_dien" [alt]="user.Ho_va_ten" (error)="onImageError($event)">
+        </div>
 
-      <div class="license-avatar">
-        <img [src]="user.Anh_dai_dien" [alt]="user.Ho_va_ten" (error)="onImageError($event)">
-      </div>
-
-      <div class="license-details">
-        <h3>{{ user.Ho_va_ten | uppercase }}</h3>
-        <p><span class="label">Email:</span> {{ user.Email }}</p>
-        <p><span class="label">Số điện thoại:</span> {{ user.So_dien_thoai }}</p>
-        <p><span class="label">Ngày tạo:</span> {{ user.Ngay_tao | date: 'dd/MM/yyyy' }}</p>
-        <p class="status-pending">
-          <span class="label">Trạng thái:</span> {{ user.Trang_thai }}
-        </p>
+        <div class="license-details">
+          <h3>{{ user.Ho_va_ten | uppercase }}</h3>
+          <p><span class="label">Email:</span> {{ user.Email }}</p>
+          <p><span class="label">Số điện thoại:</span> {{ user.So_dien_thoai }}</p>
+          <p><span class="label">Ngày tạo:</span> {{ user.Ngay_tao | date: 'dd/MM/yyyy' }}</p>
+          <p class="status-pending">
+            <span class="label">Trạng thái:</span> {{ user.Trang_thai }}
+          </p>
+        </div>
       </div>
       
       <div class="license-actions">
