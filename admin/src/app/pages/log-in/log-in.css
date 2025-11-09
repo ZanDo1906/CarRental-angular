@@ -1,0 +1,250 @@
+/* Login Page Styles */
+.login-page {
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: #ffffff;
+    font-family: 'Inter', system-ui, -apple-system, 'Segoe UI', Roboto, Arial, sans-serif;
+}
+
+.login-container {
+    width: 100%;
+    max-width: 420px;
+    padding: 20px;
+}
+
+.login-card {
+    background: #fff;
+    border: 1px solid #1D7363;
+    border-radius: 20px;
+    box-shadow: 0 16px 48px rgba(0, 0, 0, 0.15);
+    overflow: hidden;
+    animation: slideUp 0.6s ease-out;
+}
+
+@keyframes slideUp {
+    from {
+        opacity: 0;
+        transform: translateY(30px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.login-header {
+    padding: 30px 30px 20px 30px;
+    text-align: center;
+    background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+}
+
+.login-title {
+    color: #1D7363;
+    font-weight: 700;
+    font-size: 28px;
+    margin: 0 0 8px 0;
+    letter-spacing: 0.2px;
+}
+
+.login-subtitle {
+    color: #666;
+    font-size: 14px;
+    margin: 0;
+    font-weight: 400;
+}
+
+.login-body {
+    padding: 30px;
+}
+
+.form-group {
+    margin-bottom: 20px;
+}
+
+.form-label {
+    display: block;
+    font-weight: 600;
+    color: #27313A;
+    margin-bottom: 6px;
+    font-size: 14px;
+}
+
+.form-control {
+    width: 100%;
+    padding: 12px 14px;
+    border: 1px solid #E3E6EA;
+    border-radius: 10px;
+    box-sizing: border-box;
+    font-family: inherit;
+    transition: border-color 0.2s ease, box-shadow 0.2s ease;
+}
+
+.form-control:focus {
+    border-color: #1D7363;
+    outline: none;
+    box-shadow: 0 0 0 4px rgba(29, 115, 99, 0.12);
+}
+
+.forget-password {
+    font-family: 'Inter', sans-serif;
+    text-align: right;
+    font-size: 15px;
+    margin-top: 6px;
+    margin-bottom: 22px;
+}
+
+.forget-password a {
+    color: #1D7363;
+    text-decoration: none;
+    font-weight: 600;
+}
+
+.forget-password a:hover {
+    text-decoration: underline;
+}
+
+.password-container {
+    position: relative;
+    width: 100%;
+}
+
+.password-container input {
+    padding-right: 44px;
+}
+
+.password-container i {
+    position: absolute;
+    right: 14px;
+    top: 50%;
+    transform: translateY(-50%);
+    cursor: pointer;
+    color: #6B7280;
+    z-index: 10;
+    font-size: 18px;
+    user-select: none;
+}
+
+.password-container i:hover {
+    color: #1D7363;
+}
+
+.btn-login {
+    font-size: 16px;
+    font-family: 'Montserrat', sans-serif;
+    font-weight: 700;
+    width: 100%;
+    padding: 12px;
+    border-radius: 10px;
+    background-color: #1D7363;
+    border: 1px solid #1D7363;
+    color: white;
+    box-shadow: 0 6px 12px rgba(29, 115, 99, 0.25);
+    transition: all 0.2s ease;
+    cursor: pointer;
+}
+
+.btn-login:hover:not(:disabled) {
+    background-color: #176557;
+    border-color: #176557;
+    box-shadow: 0 8px 16px rgba(29, 115, 99, 0.32);
+    transform: translateY(-1px);
+}
+
+.btn-login:active {
+    transform: translateY(0px);
+    box-shadow: 0 4px 8px rgba(29, 115, 99, 0.2);
+}
+
+.btn-login:disabled {
+    background-color: #ccc;
+    border-color: #ccc;
+    cursor: not-allowed;
+    box-shadow: none;
+}
+
+.log-in {
+    font-family: 'Inter', sans-serif;
+    display: flex;
+    justify-content: center;
+    font-size: 15px;
+    margin-top: 18px;
+}
+
+.log-in a {
+    color: #1D7363;
+    font-weight: 700;
+    text-decoration: none;
+    margin-left: 6px;
+}
+
+.log-in a:hover {
+    text-decoration: underline;
+}
+
+.log-in p {
+    margin: 0;
+}
+
+/* Alert lỗi mượt mà, tinh tế */
+.alert.alert-danger {
+    border-radius: 10px;
+    padding: 12px 15px;
+    font-size: 14px;
+    border: 1px solid #F8D7DA;
+    background-color: #FFF5F6;
+    color: #B42318;
+    font-weight: 500;
+    text-align: center;
+    margin: 15px 0;
+    animation: slideDown 0.3s ease-out;
+}
+
+.alert.alert-danger i {
+    color: #DC3545;
+    font-size: 16px;
+}
+
+@keyframes slideDown {
+    from {
+        opacity: 0;
+        transform: translateY(-10px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* Form validation styles */
+.form-control.is-invalid {
+    border-color: #dc3545;
+    box-shadow: 0 0 0 4px rgba(220, 53, 69, 0.12);
+}
+
+/* Responsive */
+@media (max-width: 576px) {
+    .login-container {
+        padding: 15px;
+    }
+
+    .login-header {
+        padding: 25px 20px 15px 20px;
+    }
+
+    .login-body {
+        padding: 20px;
+    }
+
+    .login-title {
+        font-size: 24px;
+    }
+
+    .login-page {
+        background: #ffffff;
+        padding: 20px 0;
+    }
+}

@@ -6,35 +6,37 @@
     </a>
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#tcNavbar"
-            aria-controls="tcNavbar" aria-expanded="false" aria-label="Toggle navigation">
+      aria-controls="tcNavbar" aria-expanded="false" aria-label="Toggle navigation">
       <span class="navbar-toggler-icon"></span>
     </button>
 
     <div class="collapse navbar-collapse" id="tcNavbar">
-      
-      <ul class="navbar-nav ms-auto align-items-lg-center gap-lg-3">
-        <li class="nav-item">
-          <a class="nav-link" routerLink="/ve-trust-car" routerLinkActive="active">Về Trustcar</a>
-        </li>
-        <li class="nav-item">
-          <a class="nav-link" routerLink="/guide" routerLinkActive="active">Hướng dẫn thuê xe</a>
-        </li>
-        <li class="nav-item">
-          <a class="nav-link" routerLink="/owner" routerLinkActive="active">Trở thành chủ xe</a>
-        </li>
 
-        <li class="nav-item d-lg-block">
-          <button class="btn btn-outline-success px-3" type="button">Đăng ký</button>
+      <ul class="navbar-nav ms-auto align-items-lg-center gap-lg-3">
+        @if (currentAdmin) {
+        <li class="nav-item dropdown">
+          <a class="nav-link dropdown-toggle d-flex align-items-center" href="#" role="button" data-bs-toggle="dropdown"
+            aria-expanded="false">
+            <i class="bi bi-person-circle me-2"></i>
+            <span>{{ currentAdmin.Ho_va_ten }}</span>
+          </a>
+          <ul class="dropdown-menu">
+            <li><a class="dropdown-item" routerLink="/admin-account">
+                <i class="bi bi-person me-2"></i>Thông tin tài khoản
+              </a></li>
+            <li>
+              <hr class="dropdown-divider">
+            </li>
+            <li><a class="dropdown-item text-danger" href="#" (click)="logout()">
+                <i class="bi bi-box-arrow-right me-2"></i>Đăng xuất
+              </a></li>
+          </ul>
         </li>
-        <li class="nav-item d-lg-block">
-          <button class="btn btn-outline-success px-3" type="button">Đăng nhập</button>
-        </li>
+        }
       </ul>
 
-      </div>
-      
+    </div>
+
   </div>
 
-  
 </nav>
-

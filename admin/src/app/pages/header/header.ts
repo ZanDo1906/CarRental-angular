@@ -1,6 +1,10 @@
 import { Component, AfterViewInit, HostListener, Renderer2 } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { RouterModule } from '@angular/router';
+import { RouterModule, Router } from '@angular/router';
+import { AuthService } from '../../services/auth.service';
+import { iAdmin } from '../../interfaces/Admin';
+
+declare var bootstrap: any;
 
 @Component({
   selector: 'app-header',
@@ -9,10 +13,26 @@ import { RouterModule } from '@angular/router';
   styleUrl: './header.css',
   standalone: true
 })
-export class Header implements AfterViewInit { 
+export class Header implements AfterViewInit {
+  currentAdmin: iAdmin | null = null;
 
+  constructor(
+    private renderer: Renderer2,
+    private authService: AuthService,
+    private router: Router
+  ) {
+    // Subscribe to current admin
+    this.authService.currentAdmin$.subscribe(admin => {
+      this.currentAdmin = admin;
+    });
+  }
 
-  constructor(private renderer: Renderer2) {}
+  logout() {
+    if (confirm('Bạn có chắc chắn muốn đăng xuất?')) {
+      this.authService.logout();
+      this.router.navigate(['/login']);
+    }
+  }
 
 
   ngAfterViewInit(): void {

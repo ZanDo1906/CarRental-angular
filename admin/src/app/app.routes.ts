@@ -5,12 +5,19 @@ import { Dashboard } from './pages/dashboard/dashboard';
 import { CarDetail } from './pages/car-detail-approval/car-detail-approval';
 import { LicenseApproval } from './pages/license-approval/license-approval';
 import { AccountDetail } from './pages/account-detail/account-detail';
+import { AdminAccount } from './pages/admin-account/admin-account';
+import { LogIn } from './pages/log-in/log-in';
+import { AuthGuard } from './guards/auth.guard';
 
 export const routes: Routes = [
-  { path: 'account', component: AccountManagement },
-  { path: 'car-registration-approval', component: CarRegistrationApproval },
-  { path: 'dashboard', component: Dashboard },
-  { path: 'car-detail-approval/:id', component: CarDetail },
-  { path: 'license-approval', component: LicenseApproval},
-  { path: 'account-detail', component: AccountDetail},
+  { path: 'login', component: LogIn },
+  { path: 'account', component: AccountManagement, canActivate: [AuthGuard] },
+  { path: 'car-registration-approval', component: CarRegistrationApproval, canActivate: [AuthGuard] },
+  { path: 'dashboard', component: Dashboard, canActivate: [AuthGuard] },
+  { path: 'car-detail-approval/:id', component: CarDetail, canActivate: [AuthGuard] },
+  { path: 'license-approval', component: LicenseApproval, canActivate: [AuthGuard] },
+  { path: 'account-detail', component: AccountDetail, canActivate: [AuthGuard] },
+  { path: 'admin-account', component: AdminAccount, canActivate: [AuthGuard] },
+  { path: '', redirectTo: '/dashboard', pathMatch: 'full' },
+  { path: '**', redirectTo: '/login' }
 ];

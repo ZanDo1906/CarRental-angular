@@ -1,0 +1,38 @@
+<!-- Login Page -->
+<div class="login-page">
+  <div class="login-container">
+    <div class="login-card">
+      <div class="login-header">
+        <h2 class="login-title">Đăng nhập Admin</h2>
+        <p class="login-subtitle">Vui lòng đăng nhập để tiếp tục</p>
+      </div>
+
+      <div class="login-body">
+        <div class="form-group">
+          <label for="sdt" class="form-label">Số điện thoại:</label>
+          <input type="text" id="sdt" class="form-control" placeholder="Nhập số điện thoại" [(ngModel)]="phoneNumber"
+            [class.is-invalid]="errorMessage">
+        </div>
+
+        <div class="form-group">
+          <label for="matkhau" class="form-label">Mật khẩu:</label>
+          <div class="password-container">
+            <input type="password" id="matkhau" class="form-control" placeholder="Nhập mật khẩu" [(ngModel)]="password"
+              (keyup.enter)="onLogin()" [class.is-invalid]="errorMessage">
+            <i class="bi bi-eye" id="togglePassword" (click)="An_Hien_Password()"></i>
+          </div>
+        </div>
+
+        <!-- Thông báo lỗi -->
+        <div *ngIf="errorMessage" class="alert alert-danger" role="alert">
+          <i class="bi bi-exclamation-triangle-fill me-2"></i>
+          {{ errorMessage }}
+        </div>
+
+        <button class="btn btn-login" (click)="onLogin()" [disabled]="!phoneNumber || !password">
+          Đăng nhập
+        </button>
+      </div>
+    </div>
+  </div>
+</div>

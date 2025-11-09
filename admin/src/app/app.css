@@ -1,4 +1,5 @@
-html, body {
+html,
+body {
   height: 100%;
   margin: 0;
   padding: 0;
@@ -8,39 +9,58 @@ html, body {
 .app-container {
   display: flex;
   flex-direction: column;
-  min-height: 100%; 
+  min-height: 100%;
   min-width: 0;
 
 }
 
 .app-side-bar {
-  flex-shrink: 0; 
+  flex-shrink: 0;
 }
 
 .app-content {
-  flex-grow: 1; 
-  display: flex; 
+  flex-grow: 1;
+  display: flex;
 }
 
 .main-layout {
   display: flex;
-  flex-grow: 1; 
+  flex-grow: 1;
   margin-left: 60px;
   margin-right: 60px;
   margin-bottom: 40px;
 }
 
 @media (max-width: 768px) {
-  
+
   .main-layout {
-    flex-direction: column; 
-    margin-left: 0; 
+    flex-direction: column;
+    margin-left: 0;
     margin-right: 0;
     margin-bottom: 0;
-    gap: 0; 
+    gap: 0;
   }
 
   .app-content {
     padding: 1rem;
   }
+}
+
+/* Loading screen */
+.loading-screen {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh;
+  background-color: #F9FAFB;
+  color: #374151;
+}
+
+.loading-screen h3 {
+  color: #1D7363;
+  margin-bottom: 10px;
+}
+
+.loading-screen p {
+  color: #6B7280;
 }
