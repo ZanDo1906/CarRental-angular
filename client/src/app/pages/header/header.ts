@@ -4,12 +4,13 @@ import { RouterModule } from '@angular/router';
 import { iUser } from '../../interfaces/User';
 import { LogIn } from '../log-in/log-in';
 import { SignIn } from '../sign-in/sign-in';
+import { ForgetPassword } from '../forget-password/forget-password';
 import { AuthService } from '../../services/auth';
 import { Subscription } from 'rxjs';
 
 @Component({
   selector: 'app-header',
-  imports: [RouterModule, CommonModule, LogIn, SignIn],
+  imports: [RouterModule, CommonModule, LogIn, SignIn, ForgetPassword],
   templateUrl: './header.html',
   styleUrl: './header.css',
   standalone: true
