@@ -383,36 +383,10 @@
                 <button type="button" class="btn-primary" (click)="nextStep()" *ngIf="currentStep < 3">
                     Chuyển tiếp
                 </button>
-                <button type="button" class="btn-primary" (click)="onSubmit()" *ngIf="currentStep === 3">
+                <button type="submit" class="btn-primary" *ngIf="currentStep === 3">
                     Hoàn thành
                 </button>
             </div>
         </form>
-
-        <!-- Success Message -->
-        <div *ngIf="showSuccessMessage" class="success-notification">
-            <div class="success-content">
-                <div class="success-icon">
-                    <i class="bi bi-check-circle-fill"></i>
-                </div>
-                <div class="success-text">
-                    <h3>Đăng ký thành công!</h3>
-                    <p>Đơn đăng ký cho thuê xe của bạn đã được gửi thành công. Chúng tôi sẽ xem xét và phản hồi trong thời gian sớm nhất.</p>
-                    <div class="success-details">
-                        <span class="status-badge">Đang chờ duyệt</span>
-                    </div>
-                </div>
-                <div class="success-actions">
-                    <button type="button" class="btn-secondary" (click)="viewDetails()">
-                        <i class="bi bi-eye"></i>
-                        Xem chi tiết
-                    </button>
-                    <button type="button" class="btn-primary" (click)="goToHomepage()">
-                        <i class="bi bi-house"></i>
-                        Quay về trang chủ
-                    </button>
-                </div>
-            </div>
-        </div>
     </div>
 </div>
