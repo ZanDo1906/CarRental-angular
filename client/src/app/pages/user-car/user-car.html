@@ -1,28 +1,21 @@
 <div class="car-section sec space">
   <div class="m-container">
     <div class="car-container">
-      <div class="sidebar col-md-3 mb-3">
+      <div class="sidebar ">
         <app-side-bar></app-side-bar>
       </div>
       <div class="content col-md-9">
         <main class="main-content">
 
           <h2>Xe của tôi ({{ users().length }})</h2>
-          <div *ngIf="ownerId" class="text-muted small">Chủ sở hữu hiển thị: {{ ownerId }}</div>
-
-          <!-- DEBUG: show raw cars data to help trace missing UI issues -->
-          <div class="debug-box mt-2 mb-2" style="background:#f8f9fa;padding:8px;border-radius:6px;">
-            <div class="small text-muted">DEBUG: ownerId={{ownerId}} cars.length={{cars.length}}</div>
-            <pre style="max-height:160px;overflow:auto;margin:6px 0 0 0">{{ cars | json }}</pre>
-          </div>
-
-    <div class="cards-grid">
+    <div class="cards-list">
 
             <div *ngFor="let car of displayedCars()" class="car-card">
 
               <div class="car-avatar">
                 <div class="thumb">
                   <img
+                  
                     [src]="(car && car.Anh_xe && car.Anh_xe.length) ? car.Anh_xe[0] : 'assets/images/placeholder.webp'"
                     alt="">
                 </div>

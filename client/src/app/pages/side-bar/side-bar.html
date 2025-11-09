@@ -1,13 +1,10 @@
 <nav class="sidebar">
   <h2 class="h3 pt-3 pb-2 mb-3 px-3 text-center">Xin chào bạn!</h2>
-  <div class="px-3 mb-3 text-center small text-muted">
-    Tài khoản đang đăng nhập sẽ được sử dụng
-  </div>
 
-  <div class="position-sticky pt-3" style="top: 0;">
+  <div class="position-sticky pt-3" id="sidebar1" style="top: 0;">
     <ul class="nav flex-column">
       <li class="nav-item">
-  <a class="nav-link" routerLink="/user-account" routerLinkActive="active">
+        <a class="nav-link" routerLink="/user-account" routerLinkActive="active">
           <i class="bi bi-person me-2"></i>
           Tài khoản của tôi
         </a>
@@ -27,13 +24,13 @@
       <li class="nav-item">
         <a class="nav-link" routerLink="/user-rental" routerLinkActive="active">
           <i class="bi bi-card-list me-2"></i>
-          Chuyến của tôi 
+          Chuyến của tôi
         </a>
       </li>
       <li class="nav-item">
         <a class="nav-link" routerLink="/car-registration-approval" routerLinkActive="active">
           <i class="bi bi-clipboard2-check me-2"></i>
-          Quà tặng 
+          Quà tặng
         </a>
       </li>
       <li class="nav-item">
@@ -72,4 +69,19 @@
       </li>
     </ul>
   </div>
+
+<div class="dropdown-sidebar">
+  <div class="dropdown-selected" (click)="toggleDropdown()">
+    <div><i class="bi bi-person-circle me-2"></i></div>
+    <p>Tài khoản của tôi</p>
+    <i class="bi" [class.bi-chevron-up]="isDropdownOpen" [class.bi-chevron-down]="!isDropdownOpen"></i>
+  </div>
+  
+  <div class="dropdown-backdrop" [class.show]="isDropdownOpen" (click)="toggleDropdown()"></div>
+  <div class="dropdown-option" [class.show]="isDropdownOpen">
+    <a class="dropdown-option__item" routerLink="/account" routerLinkActive="active">
+      <i class="bi bi-people me-2"></i>
+      <span>Quản lý tài khoản</span>
+    </a>
+
 </nav>

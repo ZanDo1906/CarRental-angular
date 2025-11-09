@@ -61,7 +61,8 @@ h2 {
 
 /* Cards */
 .cards-list {
-  display: flex
+  display: flex;
+  flex-direction: column;
 }
 
 .car-card {
@@ -402,6 +403,14 @@ h2 {
         padding-top: 45px;
         padding-bottom: 45px;
     }
+
+    .car-section .car-container {
+    flex-direction: column;
+    align-items: center;
+  }
+
+    
+
 }
 
 @media (max-width: 1199px) {
@@ -427,25 +436,7 @@ h2 {
 }
 
 @media (max-width: 991px) {
-  .car-card {
-    flex-direction: column;
-    align-items: center;
-    text-align: center;
-  }
   
-  .car-avatar {
-    width: 100%;
-    height: auto;
-    margin-right: 0;
-    margin-bottom: 12px;
-  }
-  
-  .car-actions {
-    flex-direction: row;
-    justify-content: center;
-    min-width: auto;
-  }
-
   .m-container, .s-container {
         max-width: 720px;
     }
@@ -458,5 +449,38 @@ h2 {
       .car-section .car-container {
     flex-direction: column;
     align-items: center;
+  }
+
+  .cards-list {
+      flex-direction: column;
+      padding: 20px;
+    }
+
+    .car-card {
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    padding: 40px;
+  }
+  
+  /* .car-avatar {
+    width: 100%;
+    height: auto;
+    margin-right: 0;
+    margin-bottom: 12px;
+
+  } */
+
+  .thumb img {
+  width: 100%;
+  height: 180px;
+  object-fit: cover;
+  transition: transform .3s;
+}
+  
+  .car-actions {
+    flex-direction: row;
+    justify-content: center;
+    min-width: auto;
   }
 }
