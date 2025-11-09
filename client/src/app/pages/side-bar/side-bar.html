@@ -78,10 +78,12 @@
   </div>
   
   <div class="dropdown-backdrop" [class.show]="isDropdownOpen" (click)="toggleDropdown()"></div>
-  <div class="dropdown-option" [class.show]="isDropdownOpen">
-    <a class="dropdown-option__item" routerLink="/account" routerLinkActive="active">
-      <i class="bi bi-people me-2"></i>
-      <span>Quản lý tài khoản</span>
-    </a>
+    <div class="dropdown-option" [class.show]="isDropdownOpen">
+      <a class="dropdown-option__item" routerLink="/account" routerLinkActive="active">
+        <i class="bi bi-people me-2"></i>
+        <span>Quản lý tài khoản</span>
+      </a>
+    </div>
+</div>
 
 </nav>
