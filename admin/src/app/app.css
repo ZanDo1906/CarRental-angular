@@ -30,7 +30,7 @@ html, body {
   margin-bottom: 40px;
 }
 
-@media (max-width: 768px) {
+@media (max-width: 992px) {
   
   .main-layout {
     flex-direction: column; 
