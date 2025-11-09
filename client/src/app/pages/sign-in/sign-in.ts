@@ -23,6 +23,12 @@ export class SignIn {
   agreed: boolean = true;
   errorMessage: string = '';
 
+  // OTP verification
+  showVerification: boolean = false;
+  otp: string[] = ['', '', '', '', '', ''];
+  maskedIdentifier: string = '';
+  pendingUser: iUser | null = null;
+
   constructor(private userService: UserService) {}
 
   onRegister(): void {
@@ -63,22 +69,14 @@ export class SignIn {
           So_lan_vi_pham: 0
         };
 
-        this.userService.addUser(newUser).subscribe(() => {
-          // Chỉ lưu user mới, KHÔNG tự động đăng nhập
-          
-          // Hiển thị thông báo thành công
-          alert('Đăng ký thành công! Vui lòng đăng nhập để tiếp tục.');
-
-          const modalEl = document.getElementById('signUpModal');
-          if (modalEl) {
-            const modal = bootstrap.Modal.getInstance(modalEl) || new bootstrap.Modal(modalEl);
-            modal.hide();
-          }
-
-          // Reset form
-          this.email = this.hoTen = this.phoneNumber = this.password = this.confirmPassword = '';
-          this.agreed = true;
-        });
+        // Store user temporarily and show OTP verification
+        this.pendingUser = newUser;
+        this.maskedIdentifier = this.maskIdentifier(this.phoneNumber);
+        this.showVerification = true;
+        this.errorMessage = '';
+        
+        // Simulate sending OTP
+        console.log('Sending OTP to:', this.phoneNumber);
       },
       error: () => {
         this.errorMessage = 'Không thể đăng ký lúc này. Vui lòng thử lại.';
@@ -98,6 +96,89 @@ export class SignIn {
       passwordInput.type = 'password';
       toggleIcon.classList.remove('bi-eye-slash');
       toggleIcon.classList.add('bi-eye');
+    }
+  }
+
+  // OTP methods
+  onOtpInput(event: any, index: number): void {
+    const input = event.target;
+    const value = input.value;
+
+    if (value && /^\d$/.test(value)) {
+      this.otp[index] = value;
+      
+      // Auto focus next input
+      if (index < 5) {
+        const nextInput = document.getElementById(`otp${index + 1}`) as HTMLInputElement;
+        if (nextInput) {
+          nextInput.focus();
+        }
+      }
+    } else {
+      input.value = '';
+      this.otp[index] = '';
+    }
+  }
+
+  onVerify(): void {
+    const otpCode = this.otp.join('');
+    if (otpCode.length !== 6) {
+      alert('Vui lòng nhập đầy đủ 6 số');
+      return;
+    }
+
+    // Simulate OTP verification (always success for demo)
+    if (this.pendingUser) {
+      this.userService.addUser(this.pendingUser).subscribe(() => {
+        // Lưu thông tin user vào localStorage để nhớ (SĐT + mật khẩu)
+        localStorage.setItem('rememberedUser', JSON.stringify({
+          phone: this.pendingUser!.So_dien_thoai,
+          password: this.pendingUser!.Mat_khau,
+          email: this.pendingUser!.Email,
+          name: this.pendingUser!.Ho_va_ten
+        }));
+
+        // Hiển thị thông báo thành công
+        alert('Đăng ký thành công! Vui lòng đăng nhập để tiếp tục.');
+
+        const modalEl = document.getElementById('signUpModal');
+        if (modalEl) {
+          const modal = bootstrap.Modal.getInstance(modalEl) || new bootstrap.Modal(modalEl);
+          modal.hide();
+        }
+
+        // Reset form
+        this.resetForm();
+      });
+    }
+  }
+
+  onResend(event: Event): void {
+    event.preventDefault();
+    // Simulate resend OTP
+    alert('Mã xác thực đã được gửi lại!');
+    this.otp = ['', '', '', '', '', ''];
+  }
+
+  private resetForm(): void {
+    this.email = this.hoTen = this.phoneNumber = this.password = this.confirmPassword = '';
+    this.agreed = true;
+    this.showVerification = false;
+    this.otp = ['', '', '', '', '', ''];
+    this.maskedIdentifier = '';
+    this.pendingUser = null;
+    this.errorMessage = '';
+  }
+
+  private maskIdentifier(identifier: string): string {
+    if (identifier.includes('@')) {
+      // Email
+      const [name, domain] = identifier.split('@');
+      const maskedName = name.charAt(0) + '*'.repeat(name.length - 2) + name.charAt(name.length - 1);
+      return `${maskedName}@${domain}`;
+    } else {
+      // Phone number
+      return identifier.replace(/(\d{3})\d{4}(\d{3})/, '$1****$2');
     }
   }
 }

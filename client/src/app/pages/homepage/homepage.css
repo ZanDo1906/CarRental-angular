@@ -78,7 +78,7 @@
 }
 
 .second img {
-    max-width: 100%;
+    max-width: 650px;
     height: 450px;
     opacity: 0; 
     
@@ -227,13 +227,16 @@
 
 .animate-left {
     animation: slideInFromLeft 0.8s ease-out forwards;
+    opacity: 1;
 }
 
 .animate-right {
     animation: slideInFromRight 0.8s ease-out forwards;
+    opacity: 1;
 }
 .animate-fade-up {
   animation: slideUpFadeIn 0.8s ease-out forwards;
+  opacity: 1;
 }
 
 @keyframes slideUpFadeIn {

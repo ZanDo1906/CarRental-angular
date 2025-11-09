@@ -13,6 +13,7 @@ import { UserCar } from './pages/user-car/user-car';
 import { UserRental } from './pages/user-rental/user-rental';
 import { Dashboard } from './pages/dashboard/dashboard';
 import { VehicleManagement } from '../../../admin/src/app/pages/vehicle-management/vehicle-management';
+import { LienHe } from './pages/lien-he/lien-he';
 
 export const routes: Routes = [
     { path: '', component: Homepage },         // trang homepage
@@ -30,6 +31,7 @@ export const routes: Routes = [
     { path: 'user-rental', component: UserRental }, // trang Quản lý cho thuê
     { path: 'dashboard', component: Dashboard }, // trang Dashboard
     { path: 'vehicle-management', component: VehicleManagement }, // trang Quản lý xe (Admin)
+    { path: 'lien-he', component: LienHe }, // trang Liên hệ
     { path: '**', redirectTo: '' },
 
 ];
