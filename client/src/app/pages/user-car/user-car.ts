@@ -1,12 +1,15 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, OnDestroy, AfterViewInit, ChangeDetectorRef } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { RouterModule } from '@angular/router';
+import { RouterModule, Router, NavigationEnd } from '@angular/router';
 import { SideBar } from '../side-bar/side-bar';
 import { CarService } from '../../services/car';
 import { LocationService } from '../../services/location';
 import { UserService } from '../../services/user';
+import { AuthService } from '../../services/auth';
 import { Inject } from '@angular/core';
 import { OwnerService } from '../../services/owner.service';
+import { Subscription } from 'rxjs';
+import { filter } from 'rxjs/operators';
 
 // User car list for the first user
 @Component({
@@ -16,19 +19,24 @@ import { OwnerService } from '../../services/owner.service';
   templateUrl: './user-car.html',
   styleUrls: ['./user-car.css'],
 })
-export class UserCar implements OnInit {
+export class UserCar implements OnInit, OnDestroy, AfterViewInit {
   cars: any[] = [];
   locations: any[] = [];
+  loading = true;
   // pagination
   pageSize = 6;
   currentPage = 1;
 
   ownerId: number | null = null;
+  private subscriptions: Subscription[] = [];
 
   constructor(
     private carService: CarService,
     private locationService: LocationService,
     private userService: UserService,
+    private authService: AuthService,
+    private router: Router,
+    private cdr: ChangeDetectorRef,
     @Inject(OwnerService) private ownerService: OwnerService
   ) {}
    vnd(n: number | string | undefined) {
@@ -38,7 +46,108 @@ export class UserCar implements OnInit {
   }
 
   ngOnInit(): void {
-    // prefer ownerService stored owner id, otherwise fall back to first user
+    // Subscribe để lắng nghe navigation events
+    this.subscriptions.push(
+      this.router.events.pipe(
+        filter(event => event instanceof NavigationEnd)
+      ).subscribe((event: NavigationEnd) => {
+        if (event.url === '/user-car') {
+          // Force reload data khi navigate đến trang này
+          this.initializeData();
+        }
+      })
+    );
+
+    // Load data lần đầu
+    this.initializeData();
+  }
+
+  ngAfterViewInit() {
+    // Force load data sau khi view init
+    setTimeout(() => {
+      if (!this.cars.length && !this.loading) {
+        this.initializeData();
+      }
+      // Force change detection
+      this.cdr.detectChanges();
+    }, 100);
+    
+    // Thêm một trigger sau để đảm bảo UI update
+    setTimeout(() => {
+      this.cdr.detectChanges();
+    }, 200);
+  }
+
+  ngOnDestroy() {
+    // Cleanup subscriptions
+    this.subscriptions.forEach(sub => sub.unsubscribe());
+  }
+
+  private initializeData() {
+    // Lấy user hiện tại từ AuthService
+    const currentUser = this.authService.getCurrentUser();
+    
+    if (currentUser) {
+      this.ownerId = currentUser.Ma_nguoi_dung;
+      this.loadUserData();
+    } else {
+      // Fallback cho testing
+      this.loadUserDataFallback();
+    }
+  }
+
+  private loadUserData() {
+    if (!this.ownerId) {
+      this.loading = false;
+      this.cdr.detectChanges();
+      return;
+    }
+
+    this.loading = true;
+    this.cdr.detectChanges(); // Update loading state immediately
+
+    // Load cars và locations cùng lúc
+    this.carService.getAllCars().subscribe((data: any) => {
+      const all = Array.isArray(data) ? data : [];
+      const merged = this.mergeExtras(all);
+      
+      if (this.ownerId != null) {
+        this.cars = merged.filter((c: any) => Number(c.Ma_nguoi_dung) === this.ownerId);
+        
+        // fallback: if the chosen user has no cars, pick the owner from the first car in Car.json
+        if ((!this.cars || this.cars.length === 0) && all.length > 0) {
+          this.ownerId = Number(all[0].Ma_nguoi_dung);
+          this.cars = merged.filter((c: any) => Number(c.Ma_nguoi_dung) === this.ownerId);
+        }
+      } else {
+        this.cars = merged;
+      }
+
+      // Ensure pagination resets when owner changes
+      this.currentPage = 1;
+      this.loading = false;
+
+      // Force change detection để ensure UI update
+      this.cdr.detectChanges();
+      
+      // Thêm một chút delay để đảm bảo layout render
+      setTimeout(() => {
+        this.cdr.detectChanges();
+      }, 50);
+    });
+
+    // Load locations
+    try {
+      this.locationService.getAllLocations().subscribe((data: any) => {
+        this.locations = Array.isArray(data) ? data : [];
+      });
+    } catch (e) {
+      // ignore if LocationService is not available
+    }
+  }
+
+  private loadUserDataFallback() {
+    // Fallback logic khi không có user từ AuthService
     const currentUserId = this.ownerService.getOwnerId();
     this.userService.getAllUsers().subscribe((users: any[]) => {
       const list = Array.isArray(users) ? users : [];
@@ -50,37 +159,8 @@ export class UserCar implements OnInit {
         try { this.ownerService.setOwnerId(this.ownerId); } catch (e) {}
       }
 
-      // Now load cars and filter by ownerId (if available). Merge with any local extras.
-      this.carService.getAllCars().subscribe((data: any) => {
-        const all = Array.isArray(data) ? data : [];
-            const merged = this.mergeExtras(all);
-            if (this.ownerId != null) {
-              this.cars = merged.filter((c: any) => Number(c.Ma_nguoi_dung) === this.ownerId);
-              // fallback: if the chosen user has no cars, pick the owner from the first car in Car.json
-              if ((!this.cars || this.cars.length === 0) && all.length > 0) {
-                this.ownerId = Number(all[0].Ma_nguoi_dung);
-                this.cars = merged.filter((c: any) => Number(c.Ma_nguoi_dung) === this.ownerId);
-              }
-            } else {
-              this.cars = merged;
-        }
-            // debug: log ownerId and number of cars loaded and sample data
-            try {
-              console.log('[UserCar] ownerId=', this.ownerId, 'carsLoaded=', this.cars.length);
-              console.log('[UserCar] cars sample=', JSON.stringify(this.cars.slice(0, 5)));
-            } catch (e) {}
-            // Ensure pagination resets when owner changes
-            this.currentPage = 1;
-      });
+      this.loadUserData();
     });
-    // load locations for resolving addresses
-    try {
-      (this.locationService as any).getAllLocations().subscribe((data: any) => {
-        this.locations = Array.isArray(data) ? data : [];
-      });
-    } catch (e) {
-      // ignore if LocationService is not available
-    }
   }
 
   // Pagination helpers used by the template
@@ -144,5 +224,18 @@ export class UserCar implements OnInit {
     } catch (e) {
       return all;
     }
+  }
+
+  // Method để force reload data (có thể gọi từ bên ngoài)
+  refreshData(): void {
+    this.initializeData();
+  }
+
+  // Method để force refresh UI
+  forceUIUpdate(): void {
+    this.cdr.detectChanges();
+    setTimeout(() => {
+      this.cdr.detectChanges();
+    }, 50);
   }
 }

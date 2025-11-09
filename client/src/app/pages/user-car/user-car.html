@@ -8,7 +8,16 @@
         <main class="main-content">
 
           <h2>Xe của tôi ({{ users().length }})</h2>
-    <div class="cards-list">
+          
+          <div class="alert alert-info" *ngIf="loading">
+            Đang tải dữ liệu...
+          </div>
+
+          <div class="alert alert-warning" *ngIf="!loading && cars.length === 0">
+            Bạn chưa có xe nào.
+          </div>
+          
+    <div class="cards-list" *ngIf="!loading && cars.length > 0">
 
             <div *ngFor="let car of displayedCars()" class="car-card">
 
@@ -100,7 +109,7 @@
 
           </div>
 
-          <nav aria-label="Page navigation" class="d-flex justify-content-end mt-3" *ngIf="totalPages() > 1">
+          <nav aria-label="Page navigation" class="d-flex justify-content-end mt-3" *ngIf="!loading && cars.length > 0 && totalPages() > 1">
             <ul class="pagination">
 
               <li class="page-item" [class.disabled]="currentPage === 1">

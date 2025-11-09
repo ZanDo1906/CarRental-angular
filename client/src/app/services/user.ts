@@ -44,17 +44,30 @@ export class UserService {
   }
 
   getCurrentUserId(): number | null {
-    const userId = localStorage.getItem('userId');
-    return userId ? Number(userId) : null;
+    // Đọc từ AuthService thay vì localStorage riêng biệt
+    const storedUser = localStorage.getItem('currentUser');
+    if (storedUser) {
+      try {
+        const user = JSON.parse(storedUser);
+        return user.Ma_nguoi_dung || null;
+      } catch {
+        return null;
+      }
+    }
+    return null;
   }
 
   getCurrentUser(): Observable<iUser | null> {
-    const userId = this.getCurrentUserId();
-    if (!userId) {
-      return of(null);
+    // Đọc trực tiếp từ localStorage currentUser
+    const storedUser = localStorage.getItem('currentUser');
+    if (storedUser) {
+      try {
+        const user = JSON.parse(storedUser);
+        return of(user);
+      } catch {
+        return of(null);
+      }
     }
-    return this.getAllUsers().pipe(
-      map(users => users.find(user => user.Ma_nguoi_dung === userId) || null)
-    );
+    return of(null);
   }
 }

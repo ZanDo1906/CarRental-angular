@@ -16,97 +16,67 @@
             Bạn chưa có chuyến đi nào.
           </div>
           
-          <div class="cards-list" *ngIf="!loading && rentals.length > 0">
-            <div *ngFor="let rental of paginatedRentals" class="car-card">
-              <div class="car-avatar">
-                <div class="thumb">
-                  <ng-container *ngIf="rental.car_details.Anh_xe && rental.car_details.Anh_xe.length > 0">
-                    <img [src]="rental.car_details.Anh_xe[0]" 
-                         [alt]="rental.car_details.Dong_xe"
-                         onerror="this.src='assets/images/placeholder.webp'">
-                  </ng-container>
-                  <img *ngIf="!rental.car_details.Anh_xe || rental.car_details.Anh_xe.length === 0"
-                       src="assets/images/placeholder.webp"
-                       alt="No car image">
-                </div>
+          <div class="rental-cards-container" *ngIf="!loading && rentals.length > 0">
+            <div *ngFor="let rental of paginatedRentals" class="rental-item" style="display: flex !important; flex-direction: row !important; align-items: center !important; gap: 1.5rem !important; background: white !important; border-radius: 12px !important; padding: 1.25rem !important; margin-bottom: 1.25rem !important; border: 1px solid #e0e0e0 !important;">
+              <!-- Hình ảnh xe -->
+              <div class="rental-avatar" style="flex-shrink: 0 !important; width: 180px !important; height: 120px !important; border-radius: 10px !important; overflow: hidden !important; background-color: #f8faf7 !important;">
+                <ng-container *ngIf="rental.car_details.Anh_xe && rental.car_details.Anh_xe.length > 0">
+                  <img [src]="rental.car_details.Anh_xe[0]" 
+                       [alt]="rental.car_details.Dong_xe"
+                       onerror="this.src='assets/images/placeholder.webp'">
+                </ng-container>
+                <img *ngIf="!rental.car_details.Anh_xe || rental.car_details.Anh_xe.length === 0"
+                     src="assets/images/placeholder.webp"
+                     alt="No car image">
               </div>
 
-              <div class="car-details">
-                <h3 class="car-title">
-                  {{ rental.car_details.Hang_xe }} {{ rental.car_details.Dong_xe }} {{ rental.car_details.Nam_san_xuat }}
-                </h3>
+              <!-- Thông tin chuyến đi -->
+              <div class="rental-details" style="flex: 1 !important; min-width: 0 !important; display: flex !important; flex-direction: column !important; gap: 0.75rem !important;">
+                <h3>{{ rental.car_details.Hang_xe }} {{ rental.car_details.Dong_xe }} {{ rental.car_details.Nam_san_xuat }}</h3>
                 
-                <div class="rental-info">
-                  <div class="info-row">
-                    <i class="bi bi-calendar-check"></i>
-                    <span>Ngày nhận: {{rental.Ngay_nhan_xe}} {{rental.Gio_nhan_xe}}</span>
-                  </div>
-                  <div class="info-row">
-                    <i class="bi bi-calendar-x"></i>
-                    <span>Ngày trả: {{rental.Ngay_tra_xe}} {{rental.Gio_tra_xe}}</span>
+                <div class="rental-info-grid" style="display: grid !important; grid-template-columns: repeat(2, 1fr) !important; gap: 0.5rem !important; margin-bottom: 0.5rem !important;">
+                  <div class="info-row" style="display: flex !important; align-items: center !important; gap: 0.5rem !important; font-size: 13px !important;">
+                    <i class="bi bi-calendar-check" style="color: #1D7363 !important; font-size: 14px !important;"></i>
+                    <span>{{formatDate(rental.Ngay_nhan_xe)}} {{rental.Gio_nhan_xe}}</span>
                   </div>
                   
-                  <!-- Địa điểm nhận xe -->
-                  <div class="info-row">
-                    <i class="bi bi-geo-alt-fill"></i>
-                    <span>Địa điểm nhận: {{ getLocationAddress(rental.Ma_vi_tri_nhan) }}</span>
+                  <div class="info-row" style="display: flex !important; align-items: center !important; gap: 0.5rem !important; font-size: 13px !important;">
+                    <i class="bi bi-calendar-x" style="color: #1D7363 !important; font-size: 14px !important;"></i>
+                    <span>{{formatDate(rental.Ngay_tra_xe)}} {{rental.Gio_tra_xe}}</span>
                   </div>
                   
-                  <!-- Địa điểm trả xe -->
-                  <div class="info-row">
-                    <i class="bi bi-geo-alt"></i>
-                    <span>Địa điểm trả: {{ getLocationAddress(rental.Ma_vi_tri_tra) }}</span>
+                  <div class="info-row" style="display: flex !important; align-items: center !important; gap: 0.5rem !important; font-size: 13px !important;">
+                    <i class="bi bi-geo-alt-fill" style="color: #1D7363 !important; font-size: 14px !important;"></i>
+                    <span>{{ getLocationAddress(rental.Ma_vi_tri_nhan) }}</span>
                   </div>
-
-                  <div class="info-row">
-                    <i class="bi bi-currency-dollar"></i>
-                    <span>Tổng chi phí: {{rental.Tong_chi_phi | number}} VND</span>
-                  </div>
-
-                  <div class="status-badge" [ngClass]="getRentalStatusClass(rental.Trang_thai)">
-                    {{ getRentalStatusText(rental.Trang_thai) }}
-                  </div>
-                </div>
-                </div>
-
-                <hr>
-
-                <!-- Điểm & số chuyến -->
-                <div class="meta-row">
-                  <div class="meta">
-                    <i class="bi bi-star-fill text-warning"></i>
-                    <span>{{rental.car_details.Diem_danh_gia || '5.0'}}</span>
-                  </div>
-                  <div class="meta">
-                    <i class="bi bi-graph-up"></i>
-                    <span>{{rental.car_details.So_luot_thue || 0}} chuyến</span>
+                  
+                  <div class="info-row" style="display: flex !important; align-items: center !important; gap: 0.5rem !important; font-size: 13px !important;">
+                    <i class="bi bi-currency-dollar" style="color: #1D7363 !important; font-size: 14px !important;"></i>
+                    <span>{{vnd(rental.Tong_chi_phi)}} VND</span>
                   </div>
                 </div>
 
-                <!-- Giá -->
-                <div class="price-row">
-                  <div class="price fs-5">
-                    {{vnd(rental.car_details.Gia_thue)}} VNĐ/Ngày
-                  </div>
+                <div class="status-badge" [ngClass]="getRentalStatusClass(rental.Trang_thai)">
+                  {{ getRentalStatusText(rental.Trang_thai) }}
                 </div>
               </div>
-              <div class="car-actions">
-                <button  class="btn btn-solid-primary">Cập nhật thông tin</button>
-                <button  class="btn btn-approve">Sẵn sàng</button>
-                <button  class="btn btn-outline-danger">Dừng cho thuê</button>
+
+              <!-- Actions -->
+              <div class="rental-actions" style="display: flex !important; flex-direction: column !important; gap: 0.5rem !important; flex-shrink: 0 !important; min-width: 140px !important; align-items: stretch !important;">
+                <button class="btn btn-solid-primary">
+                  <i class="bi bi-eye"></i>
+                  Xem chi tiết
+                </button>
+                <button class="btn btn-approve" *ngIf="rental.Trang_thai === 2">
+                  <i class="bi bi-telephone"></i>
+                  Liên hệ
+                </button>
+                <button class="btn btn-outline-danger" *ngIf="rental.Trang_thai === 1">
+                  <i class="bi bi-x-circle"></i>
+                  Hủy chuyến
+                </button>
               </div>
             </div>
-            <!-- Thân card -->
-            <!-- <div class="card-body">
-              <h3 class="car-name fw-bold fs-4">{{car.Hang_xe}} {{car.Dong_xe}} {{car.Nam_san_xuat}}</h3> -->
-
-            <!-- Hàng 3 thông số -->
-            <!-- <div class="spec-grid">
-              </div>
-              </div>
-
-
-
           </div>
 
             <!Pagination -->
@@ -134,9 +104,5 @@
         </main>
       </div>
     </div>
-
-    </div>
   </div>
-
-
-
+</div>

@@ -1,15 +1,16 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, OnDestroy, AfterViewInit, ChangeDetectorRef } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { RouterModule } from '@angular/router';
+import { RouterModule, Router, NavigationEnd, ActivatedRoute } from '@angular/router';
 import { SideBar } from '../side-bar/side-bar';
 import { CarService } from '../../services/car';
 import { LocationService } from '../../services/location';
-import { UserService } from '../../services/user';
+import { AuthService } from '../../services/auth';
 import { CarRental } from '../../services/car-rental';
 import { iCar_rental } from '../../interfaces/Car_rental';
 import { iCar } from '../../interfaces/Car';
 import { iLocation } from '../../interfaces/location';
-import { forkJoin } from 'rxjs';
+import { forkJoin, Subscription } from 'rxjs';
+import { filter } from 'rxjs/operators';
 
 type RentalWithCar = iCar_rental & { car_details: iCar };
 
@@ -20,13 +21,14 @@ type RentalWithCar = iCar_rental & { car_details: iCar };
   templateUrl: './user-rental.html',
   styleUrls: ['./user-rental.css']
 })
-export class UserRental implements OnInit {
+export class UserRental implements OnInit, OnDestroy, AfterViewInit {
   rentals: RentalWithCar[] = [];
   locations: iLocation[] = [];
   loading = true;
   userId: number | null = null;
   pageSize = 6;
   currentPage = 1;
+  private subscriptions: Subscription[] = [];
 
   get paginatedRentals(): RentalWithCar[] {
     const startIndex = (this.currentPage - 1) * this.pageSize;
@@ -47,65 +49,122 @@ export class UserRental implements OnInit {
     private carRentalService: CarRental,
     private carService: CarService,
     private locationService: LocationService,
-    private userService: UserService
+    private authService: AuthService,
+    private router: Router,
+    private activatedRoute: ActivatedRoute,
+    private cdr: ChangeDetectorRef
   ) {
-    this.userId = this.userService.getCurrentUserId();
-    console.log('Current user ID:', this.userId);
+    // Constructor không cần lấy user, sẽ làm trong ngOnInit
   }
 
   ngOnInit() {
-    this.userService.getCurrentUser().subscribe(user => {
-      if (!user) {
-        console.error('No user logged in');
-        return;
+    // Subscribe để lắng nghe navigation events
+    this.subscriptions.push(
+      this.router.events.pipe(
+        filter(event => event instanceof NavigationEnd)
+      ).subscribe((event: NavigationEnd) => {
+        if (event.url === '/user-rental') {
+          // Force reload data khi navigate đến trang này
+          this.initializeData();
+        }
+      })
+    );
+
+    // Load data lần đầu
+    this.initializeData();
+  }
+
+  ngAfterViewInit() {
+    // Force load data sau khi view init
+    setTimeout(() => {
+      if (!this.rentals.length && !this.loading) {
+        this.initializeData();
       }
-      this.userId = user.Ma_nguoi_dung;
-      console.log('Loading data for user:', user.Ho_va_ten, '(ID:', this.userId, ')');
+      // Force change detection
+      this.cdr.detectChanges();
+    }, 100);
+    
+    // Thêm một trigger sau để đảm bảo UI update
+    setTimeout(() => {
+      this.cdr.detectChanges();
+    }, 200);
+  }
+
+  ngOnDestroy() {
+    // Cleanup subscriptions
+    this.subscriptions.forEach(sub => sub.unsubscribe());
+  }
+
+  private initializeData() {
+    // Lấy user hiện tại ngay lập tức từ AuthService
+    const currentUser = this.authService.getCurrentUser();
+    
+    if (currentUser) {
+      this.userId = currentUser.Ma_nguoi_dung;
       this.loadUserData();
-    });
+    } else {
+      // Fallback cho testing - có thể bỏ trong production
+      this.userId = 1;
+      this.loadUserData();
+    }
+
+    // Chỉ subscribe một lần để tránh duplicate
+    if (this.subscriptions.length <= 1) { // Chỉ có router subscription
+      const userSub = this.authService.currentUser$.subscribe(user => {
+        if (user && (!this.userId || user.Ma_nguoi_dung !== this.userId)) {
+          this.userId = user.Ma_nguoi_dung;
+          this.loadUserData();
+        }
+      });
+      this.subscriptions.push(userSub);
+    }
   }
 
   private loadUserData() {
     if (!this.userId) {
-      console.error('No user ID available');
+      this.loading = false;
+      this.cdr.detectChanges();
       return;
     }
-
-    // Load locations for address display
-    this.locationService.getAllLocations().subscribe(locations => {
-      this.locations = locations;
-    });
-
-    // Load user rentals with car details
+    
+    // Load tất cả data cùng lúc để tăng tốc độ
     this.loading = true;
+    this.cdr.detectChanges(); // Update loading state immediately
+    
     forkJoin({
       rentals: this.carRentalService.getAllCars(),
-      cars: this.carService.getAllCars()
+      cars: this.carService.getAllCars(),
+      locations: this.locationService.getAllLocations()
     }).subscribe({
-      next: ({ rentals, cars }: { rentals: iCar_rental[], cars: iCar[] }) => {
-        console.log('All rentals:', rentals);
-        console.log('All cars:', cars);
-        console.log('Current user ID:', this.userId);
+      next: ({ rentals, cars, locations }: { rentals: iCar_rental[], cars: iCar[], locations: iLocation[] }) => {
+        // Set locations
+        this.locations = locations;
         
+        // Filter user rentals
         const userRentals = rentals.filter((rental: iCar_rental) => {
-          console.log('Checking rental:', rental, 'matches user:', rental.Ma_nguoi_thue === this.userId);
           return rental.Ma_nguoi_thue === this.userId;
         });
         
-        console.log('Filtered user rentals:', userRentals);
-        
+        // Map with car details
         this.rentals = userRentals.map((rental: iCar_rental) => {
           const car = cars.find((c: iCar) => c.Ma_xe === rental.Ma_xe);
-          console.log('Found car for rental:', car);
           return { ...rental, car_details: car! };
         });
         
-        console.log('Final rentals with car details:', this.rentals);
         this.loading = false;
+        
+        // Force change detection để ensure UI update
+        this.cdr.detectChanges();
+        
+        // Thêm một chút delay để đảm bảo layout render
+        setTimeout(() => {
+          this.cdr.detectChanges();
+        }, 50);
       },
       error: (error: any) => {
         console.error('Error loading rentals:', error);
         this.loading = false;
+        this.cdr.detectChanges();
       }
     });
   }
@@ -151,5 +210,31 @@ export class UserRental implements OnInit {
     if (n == null) return '';
     const x = typeof n === 'number' ? n : Number(n);
     return x.toLocaleString('vi-VN');   // chỉ số, KHÔNG kèm đơn vị
+  }
+
+  formatDate(dateString: string): string {
+    try {
+      const date = new Date(dateString);
+      return date.toLocaleDateString('vi-VN', {
+        day: '2-digit',
+        month: '2-digit',
+        year: 'numeric'
+      });
+    } catch {
+      return dateString;
+    }
+  }
+
+  // Method để force reload data (có thể gọi từ bên ngoài)
+  refreshData(): void {
+    this.initializeData();
+  }
+
+  // Method để force refresh UI
+  forceUIUpdate(): void {
+    this.cdr.detectChanges();
+    setTimeout(() => {
+      this.cdr.detectChanges();
+    }, 50);
   }
 }
