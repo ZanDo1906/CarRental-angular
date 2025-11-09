@@ -18,6 +18,6 @@ export const routes: Routes = [
   { path: 'license-approval', component: LicenseApproval, canActivate: [AuthGuard] },
   { path: 'account-detail', component: AccountDetail, canActivate: [AuthGuard] },
   { path: 'admin-account', component: AdminAccount, canActivate: [AuthGuard] },
-  { path: '', redirectTo: '/dashboard', pathMatch: 'full' },
+  { path: '', redirectTo: '/login', pathMatch: 'full' },
   { path: '**', redirectTo: '/login' }
 ];

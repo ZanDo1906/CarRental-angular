@@ -1,6 +1,6 @@
 <nav class="navbar navbar-expand-lg bg-white border-bottom sticky-top">
   <div class="container">
-    <a class="navbar-brand d-flex align-items-center gap-2 text-decoration-none" routerLink="/">
+    <a class="navbar-brand d-flex align-items-center gap-2 text-decoration-none" routerLink="/dashboard">
       <img src="assets/assets/logo.png" alt="TRUSTCAR" class="tc-logo">
       <span class="fw-bold fs-4 brand-text">TRUSTCAR</span>
     </a>
@@ -17,7 +17,8 @@
         <li class="nav-item dropdown">
           <a class="nav-link dropdown-toggle d-flex align-items-center" href="#" role="button" data-bs-toggle="dropdown"
             aria-expanded="false">
-            <i class="bi bi-person-circle me-2"></i>
+            <img [src]="currentAdmin.Anh_dai_dien || 'assets/images/admin_avt.png'" [alt]="currentAdmin.Ho_va_ten"
+              class="rounded-circle user-avatar me-2">
             <span>{{ currentAdmin.Ho_va_ten }}</span>
           </a>
           <ul class="dropdown-menu">
