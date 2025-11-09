@@ -1,21 +1,22 @@
 <div class="car-section sec space">
   <div class="m-container">
     <div class="car-container">
-      <div class="sidebar ">
+      <div class="sidebar-wrapper">
         <app-side-bar></app-side-bar>
       </div>
-      <div class="content col-md-9">
+      <div class="content-wrapper content">
         <main class="main-content">
 
-          <h2>Xe của tôi ({{ users().length }})</h2>
+          <!-- Header với tiêu đề và nút đăng ký xe mới -->
+          <div class="page-header">
+            <h2>Xe của tôi ({{ users().length }})</h2>
+            <button class="btn btn-register-car" (click)="openRegisterCarModal()">
+              <i class="bi bi-plus-circle"></i>
+              Đăng ký xe mới
+            </button>
+          </div>
+        
           
-          <div class="alert alert-info" *ngIf="loading">
-            Đang tải dữ liệu...
-          </div>
-
-          <div class="alert alert-warning" *ngIf="!loading && cars.length === 0">
-            Bạn chưa có xe nào.
-          </div>
           
     <div class="cards-list" *ngIf="!loading && cars.length > 0">
 
@@ -24,13 +25,15 @@
               <div class="car-avatar">
                 <div class="thumb">
                   <img
-                  
                     [src]="(car && car.Anh_xe && car.Anh_xe.length) ? car.Anh_xe[0] : 'assets/images/placeholder.webp'"
                     alt="">
                 </div>
               </div>
 
               <div class="car-details">
+                <div>
+                  <h3 class="car-name">{{car.Hang_xe}} {{car.Dong_xe}} {{car.Nam_san_xuat}}</h3>
+                </div>
                 <div class="spec-grid">
                   <div class="spec">
                     <i class="bi bi-gear"></i>
@@ -47,10 +50,10 @@
                 </div>
 
                 <!-- Địa điểm (resolve Ma_vi_tri → địa chỉ từ location.json) -->
-                <div class="loc-row" *ngIf="car.Ma_vi_tri != null">
+                <!-- <div class="loc-row" *ngIf="car.Ma_vi_tri != null">
                   <i class="bi bi-geo-alt"></i>
                   <span>{{ getLocationAddress(car.Ma_vi_tri) }}</span>
-                </div>
+                </div> -->
 
                 <hr>
 
@@ -68,14 +71,16 @@
 
                 <!-- Giá -->
                 <div class="price-row">
-                  <div class="price fs-5">
+                  <div class="price fs-3">
                     {{vnd(car.Gia_thue)}} VNĐ/Ngày
                   </div>
                 </div>
+                <div class="car-status">Đang cho thuê</div>
               </div>
               <div class="car-actions">
+                <p class="car-status">Đang cho thuê</p>
                 <button (click)="onAction('view', car)" class="btn btn-solid-primary">Cập nhật thông tin</button>
-                <button (click)="onAction('approve', car)" class="btn btn-approve">Sẵn sàng</button>
+                <button (click)="onAction('approve', car)" class="btn btn-approve">Lịch cho thuê</button>
                 <button (click)="onAction('reject', car)" class="btn btn-outline-danger">Dừng cho thuê</button>
               </div>
             </div>
@@ -109,7 +114,7 @@
 
           </div>
 
-          <nav aria-label="Page navigation" class="d-flex justify-content-end mt-3" *ngIf="!loading && cars.length > 0 && totalPages() > 1">
+          <nav aria-label="Page navigation" class="d-flex justify-content-end mt-3" *ngIf="totalPages() > 1">
             <ul class="pagination">
 
               <li class="page-item" [class.disabled]="currentPage === 1">
@@ -139,8 +144,264 @@
     <div *ngIf="users().length === 0" class="alert alert-info mt-3">Không có xe nào để hiển thị cho người dùng này.
     </div>
 
-
   </div>
 
+</div>
 
+<!-- Modal cập nhật thông tin xe -->
+<div class="modal-overlay" *ngIf="showModal" (click)="closeModal()">
+  <div class="modal-content" (click)="$event.stopPropagation()">
+    <div class="modal-header">
+      <h3>Cập nhật thông tin xe</h3>
+      <button type="button" class="close-btn" (click)="closeModal()">
+        <i class="bi bi-x-lg"></i>
+      </button>
+    </div>
+    
+    <div class="modal-body" *ngIf="editingCar">
+      <form>
+        <!-- Hình ảnh xe -->
+        <div class="row mb-4">
+          <div class="col-12">
+            <h5><i class="bi bi-camera"></i> Hình ảnh xe</h5>
+            <div class="car-images-section">
+              <div class="current-images" *ngIf="editingCar.Anh_xe && editingCar.Anh_xe.length > 0">
+                <div class="image-grid">
+                  <div *ngFor="let image of editingCar.Anh_xe; let i = index" class="image-item">
+                    <img [src]="image" [alt]="'Ảnh xe ' + (i + 1)" class="car-image-preview">
+                    <button type="button" class="btn-remove-image" (click)="removeImage(i)" title="Xóa ảnh">
+                      <i class="bi bi-x-circle-fill"></i>
+                    </button>
+                  </div>
+                </div>
+              </div>
+              
+              <div class="upload-section mt-3">
+                <input type="file" #fileInput (change)="onImageSelected($event)" accept="image/*" multiple style="display: none;">
+                <button type="button" class="btn btn-outline-primary" (click)="fileInput.click()">
+                  <i class="bi bi-plus-circle"></i> Thêm hình ảnh
+                </button>
+                <small class="form-text text-muted d-block mt-1">
+                  Chọn nhiều ảnh (JPG, PNG). Ảnh đầu tiên sẽ là ảnh đại diện.
+                </small>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="row">
+          <!-- Cột trái - Thông tin cơ bản (KHÔNG CHỈNH SỬA ĐƯỢC) -->
+          <div class="col-md-6">
+            <h5><i class="bi bi-info-circle"></i> Thông tin cơ bản (Không thể chỉnh sửa)</h5>
+            
+            <div class="form-group">
+              <label>Hãng xe</label>
+              <input type="text" class="form-control" [value]="editingCar.Hang_xe" readonly disabled>
+            </div>
+            
+            <div class="form-group">
+              <label>Dòng xe</label>
+              <input type="text" class="form-control" [value]="editingCar.Dong_xe" readonly disabled>
+            </div>
+            
+            <div class="form-group">
+              <label>Năm sản xuất</label>
+              <input type="number" class="form-control" [value]="editingCar.Nam_san_xuat" readonly disabled>
+            </div>
+            
+            <div class="form-group">
+              <label>Biển số xe</label>
+              <input type="text" class="form-control" [value]="editingCar.Bien_so_xe" readonly disabled>
+            </div>
+            
+            <div class="form-group">
+              <label>Màu sắc</label>
+              <input type="text" class="form-control" [value]="editingCar.Mau_sac" readonly disabled>
+            </div>
+
+            <div class="form-group">
+              <label>Số chỗ ngồi</label>
+              <input type="text" class="form-control" [value]="editingCar.So_cho + ' chỗ'" readonly disabled>
+            </div>
+            
+            <div class="form-group">
+              <label>Nhiên liệu</label>
+              <input type="text" class="form-control" [value]="editingCar.Nhien_lieu" readonly disabled>
+            </div>
+            
+            <div class="form-group">
+              <label>Hộp số</label>
+              <input type="text" class="form-control" [value]="editingCar.Hop_so" readonly disabled>
+            </div>
+
+            <div class="form-group">
+              <label>Điểm đánh giá (Hệ thống tự động tính)</label>
+              <input type="text" class="form-control" [value]="(editingCar.Diem_danh_gia || 5.0) + '/5.0'" readonly disabled>
+            </div>
+          </div>
+          
+          <!-- Cột phải - Thông tin có thể chỉnh sửa -->
+          <div class="col-md-6">
+            <h5><i class="bi bi-pencil-square"></i> Thông tin có thể chỉnh sửa</h5>
+            
+            <div class="form-group">
+              <label>Giá thuê (VNĐ/ngày) *</label>
+              <input type="number" class="form-control editable-field" [(ngModel)]="editingCar.Gia_thue" name="gia_thue" min="50000" max="10000000" required
+                placeholder="Ví dụ: 500000">
+              <small class="form-text text-muted">Hiện tại: {{ vnd(editingCar.Gia_thue) }} VNĐ</small>
+            </div>
+
+            <div class="form-group">
+              <label>Số km đã đi</label>
+              <input type="number" class="form-control editable-field" [(ngModel)]="editingCar.So_km" name="so_km" min="0" max="999999"
+                placeholder="Nhập số km hiện tại">
+              <small class="form-text text-muted">Km hiện tại của xe</small>
+            </div>
+
+            <div class="form-group">
+              <label>Mức tiêu thụ (L/100km)</label>
+              <input type="number" class="form-control editable-field" [(ngModel)]="editingCar.Muc_tieu_thu" name="muc_tieu_thu" 
+                min="0" max="50" step="0.1" placeholder="Ví dụ: 7.5">
+              <small class="form-text text-muted">Mức tiêu thụ nhiên liệu trung bình</small>
+            </div>
+
+            <div class="form-group">
+              <label>Mô tả chi tiết</label>
+              <textarea class="form-control editable-field" [(ngModel)]="editingCar.Mo_ta" name="mo_ta" rows="8" 
+                placeholder="Mô tả chi tiết về xe: tình trạng, tính năng đặc biệt, lưu ý sử dụng..."></textarea>
+              <small class="form-text text-muted">Mô tả để khách hàng hiểu rõ hơn về xe</small>
+            </div>
+          </div>
+        </div>
+        
+        <!-- Mô tả -->
+        <div class="row mt-3">
+          <div class="col-12">
+            <div class="form-group">
+              <label>Mô tả chi tiết</label>
+              <textarea class="form-control" [(ngModel)]="editingCar.Mo_ta" name="mo_ta" rows="4" 
+                placeholder="Nhập mô tả chi tiết về xe..."></textarea>
+            </div>
+          </div>
+        </div>
+      </form>
+    </div>
+    
+    <div class="modal-footer">
+      <button type="button" class="btn btn-secondary" (click)="cancelEdit()">Hủy</button>
+      <button type="button" class="btn btn-primary" (click)="saveCar()">Lưu thay đổi</button>
+    </div>
+  </div>
+</div>
+
+<!-- Modal lịch cho thuê -->
+<div class="modal-overlay" *ngIf="showCalendarModal" (click)="closeCalendarModal()">
+  <div class="calendar-modal-content" (click)="$event.stopPropagation()">
+    <div class="modal-header">
+      <h3><i class="bi bi-calendar-check"></i> Lịch cho thuê xe</h3>
+      <button type="button" class="close-btn" (click)="closeCalendarModal()">
+        <i class="bi bi-x-lg"></i>
+      </button>
+    </div>
+    
+    <div class="modal-body" *ngIf="selectedCar">
+      <!-- Thông tin xe -->
+      <div class="car-info-header">
+        <div class="car-thumb">
+          <img [src]="selectedCar.Anh_xe && selectedCar.Anh_xe.length ? selectedCar.Anh_xe[0] : 'assets/images/placeholder.webp'" 
+               [alt]="selectedCar.Hang_xe + ' ' + selectedCar.Dong_xe">
+        </div>
+        <div class="car-details">
+          <h4>{{selectedCar.Hang_xe}} {{selectedCar.Dong_xe}} {{selectedCar.Nam_san_xuat}}</h4>
+          <p class="car-license">Biển số: {{selectedCar.Bien_so_xe}}</p>
+          <p class="car-price">{{vnd(selectedCar.Gia_thue)}} VNĐ/Ngày</p>
+        </div>
+      </div>
+
+      <!-- Điều hướng tháng -->
+      <div class="calendar-nav">
+        <button class="btn-nav" (click)="previousMonth()">
+          <i class="bi bi-chevron-left"></i>
+        </button>
+        <h4 class="month-year">{{getMonthName()}} {{currentYear}}</h4>
+        <button class="btn-nav" (click)="nextMonth()">
+          <i class="bi bi-chevron-right"></i>
+        </button>
+      </div>
+
+      <!-- Lịch -->
+      <div class="calendar-container">
+        <!-- Tiêu đề các ngày trong tuần -->
+        <div class="calendar-weekdays">
+          <div class="weekday">T2</div>
+          <div class="weekday">T3</div>
+          <div class="weekday">T4</div>
+          <div class="weekday">T5</div>
+          <div class="weekday">T6</div>
+          <div class="weekday">T7</div>
+          <div class="weekday">CN</div>
+        </div>
+
+        <!-- Các ngày trong tháng -->
+        <div class="calendar-days">
+          <div *ngFor="let day of calendarDays" 
+               class="calendar-day"
+               [class.current-month]="day.isCurrentMonth"
+               [class.other-month]="!day.isCurrentMonth"
+               [class.today]="day.isToday"
+               [class.occupied]="day.isOccupied"
+               [class.past]="day.isPast && !day.isOccupied"
+               [class.future-available]="day.isFutureAvailable"
+               [title]="getTooltipText(day)">
+            <span class="day-number">{{day.day}}</span>
+            <div class="day-status" *ngIf="day.isCurrentMonth">
+              <i *ngIf="day.isOccupied" class="bi bi-calendar-x text-danger" title="Đã được thuê"></i>
+              <i *ngIf="day.isFutureAvailable" class="bi bi-calendar-check text-success" title="Ngày rảnh"></i>
+              <i *ngIf="day.isToday && !day.isOccupied" class="bi bi-calendar-event text-primary" title="Hôm nay"></i>
+              <i *ngIf="day.isPast && !day.isOccupied" class="bi bi-calendar text-muted" title="Ngày đã qua"></i>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Chú thích -->
+      <div class="calendar-legend">
+        <div class="legend-item">
+          <div class="legend-color occupied"></div>
+          <span>Đã được thuê</span>
+        </div>
+        <div class="legend-item">
+          <div class="legend-color available"></div>
+          <span>Ngày rảnh (có thể thuê)</span>
+        </div>
+        <div class="legend-item">
+          <div class="legend-color today"></div>
+          <span>Hôm nay</span>
+        </div>
+        <div class="legend-item">
+          <div class="legend-color past"></div>
+          <span>Ngày đã qua</span>
+        </div>
+      </div>
+
+      <!-- Thống kê -->
+      <div class="calendar-stats" *ngIf="rentals.length > 0">
+        <h5><i class="bi bi-graph-up"></i> Thống kê thuê xe</h5>
+        <div class="stats-grid">
+          <div class="stat-item">
+            <span class="stat-number">{{rentals.length}}</span>
+            <span class="stat-label">Tổng đơn thuê</span>
+          </div>
+          <div class="stat-item">
+            <span class="stat-number">{{occupiedDates.size}}</span>
+            <span class="stat-label">Ngày đã thuê</span>
+          </div>
+          <div class="stat-item">
+            <span class="stat-number">{{getTotalRevenue()}}</span>
+            <span class="stat-label">Tổng doanh thu</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
 </div>

@@ -1,11 +1,13 @@
 import { Component, OnInit, OnDestroy, AfterViewInit, ChangeDetectorRef } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { FormsModule } from '@angular/forms';
 import { RouterModule, Router, NavigationEnd } from '@angular/router';
 import { SideBar } from '../side-bar/side-bar';
 import { CarService } from '../../services/car';
 import { LocationService } from '../../services/location';
 import { UserService } from '../../services/user';
 import { AuthService } from '../../services/auth';
+import { CarRental } from '../../services/car-rental';
 import { Inject } from '@angular/core';
 import { OwnerService } from '../../services/owner.service';
 import { Subscription } from 'rxjs';
@@ -15,7 +17,7 @@ import { filter } from 'rxjs/operators';
 @Component({
   selector: 'app-user-car',
   standalone: true,
-  imports: [CommonModule, RouterModule, SideBar],
+  imports: [CommonModule, FormsModule, RouterModule, SideBar],
   templateUrl: './user-car.html',
   styleUrls: ['./user-car.css'],
 })
@@ -27,6 +29,20 @@ export class UserCar implements OnInit, OnDestroy, AfterViewInit {
   pageSize = 6;
   currentPage = 1;
 
+  // Modal variables
+  showModal = false;
+  editingCar: any = null;
+  originalCar: any = null;
+
+  // Calendar modal variables
+  showCalendarModal = false;
+  selectedCar: any = null;
+  currentMonth: number = new Date().getMonth();
+  currentYear: number = new Date().getFullYear();
+  calendarDays: any[] = [];
+  rentals: any[] = [];
+  occupiedDates: Set<string> = new Set();
+
   ownerId: number | null = null;
   private subscriptions: Subscription[] = [];
 
@@ -35,6 +51,7 @@ export class UserCar implements OnInit, OnDestroy, AfterViewInit {
     private locationService: LocationService,
     private userService: UserService,
     private authService: AuthService,
+    private carRentalService: CarRental,
     private router: Router,
     private cdr: ChangeDetectorRef,
     @Inject(OwnerService) private ownerService: OwnerService
@@ -43,6 +60,12 @@ export class UserCar implements OnInit, OnDestroy, AfterViewInit {
   if (n == null) return '';
   const x = typeof n === 'number' ? n : Number(n);
   return x.toLocaleString('vi-VN');   // chỉ số, KHÔNG kèm đơn vị
+  }
+
+  // Format price with thousand separators
+  formatPrice(event: any) {
+    const value = event.target.value.replace(/[^\d]/g, '');
+    this.editingCar.Gia_thue = Number(value);
   }
 
   ngOnInit(): void {
@@ -60,6 +83,9 @@ export class UserCar implements OnInit, OnDestroy, AfterViewInit {
 
     // Load data lần đầu
     this.initializeData();
+    
+    // Initialize calendar for current month
+    this.generateCalendar();
   }
 
   ngAfterViewInit() {
@@ -200,11 +226,99 @@ export class UserCar implements OnInit, OnDestroy, AfterViewInit {
 
   onAction(action: string, car: any) {
     if (action === 'view') {
-      alert(`Xem chi tiết xe: ${car.Hang_xe} ${car.Dong_xe} - biển số: ${car.Bien_so || 'N/A'}`);
+      this.openEditModal(car);
     } else if (action === 'approve') {
-      alert(`Đã duyệt xe: ${car.Hang_xe} ${car.Dong_xe}`);
+      this.openCalendarModal(car);
     } else if (action === 'reject') {
       alert(`Đã từ chối duyệt xe: ${car.Hang_xe} ${car.Dong_xe}`);
+    }
+  }
+
+  // Modal methods
+  openEditModal(car: any) {
+    this.originalCar = { ...car };
+    this.editingCar = { ...car };
+    this.showModal = true;
+  }
+
+  closeModal() {
+    this.showModal = false;
+    this.editingCar = null;
+    this.originalCar = null;
+  }
+
+  saveCar() {
+    if (!this.editingCar) return;
+
+    // Validation chỉ cho các trường có thể chỉnh sửa
+    if (!this.editingCar.Gia_thue || this.editingCar.Gia_thue < 50000) {
+      alert('Giá thuê phải từ 50,000 VNĐ trở lên');
+      return;
+    }
+
+    if (this.editingCar.Gia_thue > 10000000) {
+      alert('Giá thuê không được vượt quá 10,000,000 VNĐ');
+      return;
+    }
+
+    if (this.editingCar.So_km && (this.editingCar.So_km < 0 || this.editingCar.So_km > 999999)) {
+      alert('Số km không hợp lệ (0 - 999,999 km)');
+      return;
+    }
+
+    if (this.editingCar.Muc_tieu_thu && (this.editingCar.Muc_tieu_thu < 0 || this.editingCar.Muc_tieu_thu > 50)) {
+      alert('Mức tiêu thụ không hợp lệ (0 - 50 L/100km)');
+      return;
+    }
+
+    // Validate hình ảnh (ít nhất 1 ảnh)
+    if (!this.editingCar.Anh_xe || this.editingCar.Anh_xe.length === 0) {
+      alert('Xe phải có ít nhất 1 hình ảnh');
+      return;
+    }
+
+    // Cập nhật trong danh sách cars
+    const index = this.cars.findIndex(c => c.Ma_xe === this.editingCar.Ma_xe);
+    if (index !== -1) {
+      this.cars[index] = { ...this.editingCar };
+    }
+
+    // Lưu vào localStorage (extraCars)
+    this.saveCarToStorage(this.editingCar);
+    
+    // Đóng modal
+    this.closeModal();
+    
+    // Refresh UI
+    this.cdr.detectChanges();
+    
+    alert('Thông tin xe đã được cập nhật thành công!');
+  }
+
+  cancelEdit() {
+    if (this.originalCar) {
+      this.editingCar = { ...this.originalCar };
+    }
+    this.closeModal();
+  }
+
+  private saveCarToStorage(car: any) {
+    const key = 'extraCars';
+    try {
+      const raw = localStorage.getItem(key);
+      const extras = raw ? JSON.parse(raw) : [];
+      
+      const existingIndex = extras.findIndex((x: any) => Number(x.Ma_xe) === Number(car.Ma_xe));
+      
+      if (existingIndex >= 0) {
+        extras[existingIndex] = car;
+      } else {
+        extras.push(car);
+      }
+      
+      localStorage.setItem(key, JSON.stringify(extras));
+    } catch (e) {
+      console.error('Error saving car to storage:', e);
     }
   }
 
@@ -237,5 +351,261 @@ export class UserCar implements OnInit, OnDestroy, AfterViewInit {
     setTimeout(() => {
       this.cdr.detectChanges();
     }, 50);
+  }
+
+  // Xử lý chọn hình ảnh mới
+  onImageSelected(event: any) {
+    const files = event.target.files;
+    if (!files || files.length === 0) return;
+
+    // Kiểm tra số lượng ảnh hiện tại + ảnh mới
+    const currentImageCount = this.editingCar.Anh_xe ? this.editingCar.Anh_xe.length : 0;
+    const maxImages = 10; // Giới hạn tối đa 10 ảnh
+
+    if (currentImageCount + files.length > maxImages) {
+      alert(`Chỉ có thể tải lên tối đa ${maxImages} hình ảnh. Hiện tại có ${currentImageCount} ảnh.`);
+      return;
+    }
+
+    // Xử lý từng file
+    Array.from(files).forEach((file: any) => {
+      // Kiểm tra định dạng file
+      if (!file.type.startsWith('image/')) {
+        alert(`File ${file.name} không phải là hình ảnh hợp lệ.`);
+        return;
+      }
+
+      // Kiểm tra kích thước file (tối đa 5MB)
+      if (file.size > 5 * 1024 * 1024) {
+        alert(`File ${file.name} quá lớn. Kích thước tối đa là 5MB.`);
+        return;
+      }
+
+      const reader = new FileReader();
+      reader.onload = (e: any) => {
+        if (!this.editingCar.Anh_xe) {
+          this.editingCar.Anh_xe = [];
+        }
+        this.editingCar.Anh_xe.push(e.target.result);
+        this.cdr.detectChanges();
+      };
+      reader.readAsDataURL(file);
+    });
+
+    // Reset input file để có thể chọn lại cùng file nếu cần
+    event.target.value = '';
+  }
+
+  // Xóa hình ảnh
+  removeImage(index: number) {
+    if (!this.editingCar.Anh_xe || index < 0 || index >= this.editingCar.Anh_xe.length) return;
+
+    const confirmDelete = confirm('Bạn có chắc chắn muốn xóa hình ảnh này?');
+    if (confirmDelete) {
+      this.editingCar.Anh_xe.splice(index, 1);
+      this.cdr.detectChanges();
+    }
+  }
+
+  // ========== CALENDAR METHODS ==========
+
+  // Mở modal lịch cho thuê
+  openCalendarModal(car: any) {
+    this.selectedCar = car;
+    this.showCalendarModal = true;
+    this.loadRentalData();
+  }
+
+  // Đóng modal lịch
+  closeCalendarModal() {
+    this.showCalendarModal = false;
+    this.selectedCar = null;
+    this.occupiedDates.clear();
+  }
+
+  // Mở trang đăng ký xe mới
+  openRegisterCarModal() {
+    // Điều hướng đến trang "Đăng ký cho thuê xe"
+    this.router.navigate(['/dk-cho-thue-xe']).then(success => {
+      if (!success) {
+        console.error('Không thể điều hướng đến trang đăng ký xe');
+      }
+    });
+  }
+
+  // Load dữ liệu thuê xe
+  loadRentalData() {
+    if (!this.selectedCar) return;
+
+    this.carRentalService.getAllCars().subscribe((rentals: any[]) => {
+      // Lọc các đơn thuê cho xe hiện tại
+      const carRentals = rentals.filter(r => 
+        Number(r.Ma_xe) === Number(this.selectedCar.Ma_xe) &&
+        r.Trang_thai !== 0 && r.Trang_thai !== 5 // Loại bỏ đơn đã hủy/từ chối
+      );
+
+      this.rentals = carRentals;
+      this.calculateOccupiedDates();
+      this.generateCalendar();
+    });
+  }
+
+  // Tính toán các ngày đã được thuê
+  calculateOccupiedDates() {
+    this.occupiedDates.clear();
+
+    this.rentals.forEach(rental => {
+      const startDate = new Date(rental.Ngay_nhan_xe);
+      const endDate = new Date(rental.Ngay_tra_xe);
+
+      // Thêm tất cả các ngày từ ngày nhận đến ngày trả
+      for (let d = new Date(startDate); d <= endDate; d.setDate(d.getDate() + 1)) {
+        const dateStr = this.formatDate(d);
+        this.occupiedDates.add(dateStr);
+      }
+    });
+  }
+
+  // Format ngày theo định dạng YYYY-MM-DD
+  formatDate(date: Date): string {
+    return date.getFullYear() + '-' + 
+           String(date.getMonth() + 1).padStart(2, '0') + '-' + 
+           String(date.getDate()).padStart(2, '0');
+  }
+
+  // Tạo lịch cho tháng hiện tại
+  generateCalendar() {
+    this.calendarDays = [];
+    
+    const firstDay = new Date(this.currentYear, this.currentMonth, 1);
+    const lastDay = new Date(this.currentYear, this.currentMonth + 1, 0);
+    const startDate = new Date(firstDay);
+    
+    // Tìm ngày thứ hai đầu tuần
+    startDate.setDate(startDate.getDate() - (firstDay.getDay() === 0 ? 6 : firstDay.getDay() - 1));
+
+    // Ngày hôm nay (chỉ ngày, không tính giờ)
+    const today = new Date();
+    today.setHours(0, 0, 0, 0);
+
+    // Tạo 6 tuần (42 ngày) để đảm bảo hiển thị đủ lịch
+    for (let i = 0; i < 42; i++) {
+      const currentDate = new Date(startDate);
+      currentDate.setDate(startDate.getDate() + i);
+      
+      const dateStr = this.formatDate(currentDate);
+      const isCurrentMonth = currentDate.getMonth() === this.currentMonth;
+      const isOccupied = this.occupiedDates.has(dateStr);
+      const isToday = this.formatDate(today) === dateStr;
+      
+      // Kiểm tra ngày đã qua: chỉ những ngày TRƯỚC hôm nay
+      const isPast = currentDate < today;
+      
+      // Ngày rảnh trong tương lai: không bị thuê, không phải ngày quá khứ, trong tháng hiện tại
+      const isFutureAvailable = isCurrentMonth && !isPast && !isOccupied && !isToday;
+      
+      // Ngày có thể tương tác: hôm nay hoặc tương lai
+      const isInteractable = !isPast || isOccupied;
+
+      this.calendarDays.push({
+        date: currentDate,
+        dateStr: dateStr,
+        day: currentDate.getDate(),
+        isCurrentMonth: isCurrentMonth,
+        isOccupied: isOccupied,
+        isToday: isToday,
+        isPast: isPast,
+        isFutureAvailable: isFutureAvailable,
+        isInteractable: isInteractable
+      });
+    }
+  }
+
+  // Chuyển tháng trước
+  previousMonth() {
+    if (this.currentMonth === 0) {
+      this.currentMonth = 11;
+      this.currentYear--;
+    } else {
+      this.currentMonth--;
+    }
+    this.generateCalendar();
+  }
+
+  // Chuyển tháng sau
+  nextMonth() {
+    if (this.currentMonth === 11) {
+      this.currentMonth = 0;
+      this.currentYear++;
+    } else {
+      this.currentMonth++;
+    }
+    this.generateCalendar();
+  }
+
+  // Lấy tên tháng
+  getMonthName(): string {
+    const months = [
+      'Tháng 1', 'Tháng 2', 'Tháng 3', 'Tháng 4', 'Tháng 5', 'Tháng 6',
+      'Tháng 7', 'Tháng 8', 'Tháng 9', 'Tháng 10', 'Tháng 11', 'Tháng 12'
+    ];
+    return months[this.currentMonth];
+  }
+
+  // Lấy thông tin đơn thuê cho ngày cụ thể
+  getRentalInfo(dateStr: string): string {
+    const rentalsForDate = this.rentals.filter(rental => {
+      const startDate = new Date(rental.Ngay_nhan_xe);
+      const endDate = new Date(rental.Ngay_tra_xe);
+      const checkDate = new Date(dateStr);
+      return checkDate >= startDate && checkDate <= endDate;
+    });
+
+    if (rentalsForDate.length > 0) {
+      const rental = rentalsForDate[0];
+      return `Thuê từ ${rental.Ngay_nhan_xe} đến ${rental.Ngay_tra_xe}`;
+    }
+    return '';
+  }
+
+  // Lấy trạng thái text
+  getStatusText(status: number): string {
+    const statusMap: { [key: number]: string } = {
+      1: 'Chờ duyệt',
+      2: 'Đã duyệt', 
+      3: 'Đang thuê',
+      4: 'Hoàn thành',
+      5: 'Bị từ chối'
+    };
+    return statusMap[status] || 'Không xác định';
+  }
+
+  // Tính tổng doanh thu
+  getTotalRevenue(): string {
+    const total = this.rentals.reduce((sum, rental) => sum + (rental.Tong_chi_phi || 0), 0);
+    return this.vnd(total);
+  }
+
+  // Lấy tooltip text cho ngày
+  getTooltipText(day: any): string {
+    if (!day.isCurrentMonth) return '';
+    
+    if (day.isOccupied) {
+      return this.getRentalInfo(day.dateStr);
+    }
+    
+    if (day.isToday) {
+      return 'Hôm nay' + (day.isOccupied ? '' : ' - Có thể thuê');
+    }
+    
+    if (day.isPast) {
+      return 'Ngày đã qua';
+    }
+    
+    if (day.isFutureAvailable) {
+      return 'Ngày rảnh - Có thể thuê';
+    }
+    
+    return '';
   }
 }

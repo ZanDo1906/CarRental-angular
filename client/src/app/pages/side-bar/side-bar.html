@@ -73,15 +73,44 @@
 <div class="dropdown-sidebar">
   <div class="dropdown-selected" (click)="toggleDropdown()">
     <div><i class="bi bi-person-circle me-2"></i></div>
-    <p>Tài khoản của tôi</p>
+    <p>{{currentPageTitle}}</p>
     <i class="bi" [class.bi-chevron-up]="isDropdownOpen" [class.bi-chevron-down]="!isDropdownOpen"></i>
   </div>
   
   <div class="dropdown-backdrop" [class.show]="isDropdownOpen" (click)="toggleDropdown()"></div>
     <div class="dropdown-option" [class.show]="isDropdownOpen">
-      <a class="dropdown-option__item" routerLink="/account" routerLinkActive="active">
-        <i class="bi bi-people me-2"></i>
-        <span>Quản lý tài khoản</span>
+      <a class="dropdown-option__item" routerLink="/user-account" routerLinkActive="active" (click)="closeDropdown()">
+        <i class="bi bi-person me-2"></i>
+        <span>Tài khoản của tôi</span>
+      </a>
+      <a class="dropdown-option__item" routerLink="/user-car" routerLinkActive="active" (click)="closeDropdown()">
+        <i class="bi bi-car-front me-2"></i>
+        <span>Xe của tôi</span>
+      </a>
+      <a class="dropdown-option__item" routerLink="/user-rental" routerLinkActive="active" (click)="closeDropdown()">
+        <i class="bi bi-card-list me-2"></i>
+        <span>Chuyến của tôi</span>
+      </a>
+      <a class="dropdown-option__item" routerLink="/car-registration-approval" routerLinkActive="active" (click)="closeDropdown()">
+        <i class="bi bi-clipboard2-check me-2"></i>
+        <span>Quà tặng</span>
+      </a>
+      <a class="dropdown-option__item" href="#" >
+        <i class="bi bi-person-vcard me-2"></i>
+        <span>Vị trí của tôi</span>
+      </a>
+      <a class="dropdown-option__item" href="#">
+        <i class="bi bi-exclamation-triangle me-2"></i>
+        <span>Xử lý khiếu nại</span>
+      </a>
+      <a class="dropdown-option__item" routerLink="/dashboard" routerLinkActive="active" (click)="closeDropdown()">
+        <i class="bi bi-grid me-2"></i>
+        <span>Dashboard</span>
+      </a>
+      <div class="dropdown-divider"></div>
+      <a class="dropdown-option__item logout-item" href="#" (click)="logout(); closeDropdown(); $event.preventDefault()">
+        <i class="bi bi-box-arrow-right me-2"></i>
+        <span>Đăng xuất</span>
       </a>
     </div>
 </div>
