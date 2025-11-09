@@ -187,6 +187,26 @@ body {
     position: relative;
 }
 
+/* Style for required asterisk (*) */
+.contact-form label {
+    color: #222;
+}
+
+.contact-form label::after {
+    content: "";
+}
+
+/* Target labels that contain asterisk and make asterisk red */
+.contact-form label:contains("*") {
+    color: #222;
+}
+
+/* Alternative approach - using a class for required fields */
+.required-asterisk {
+    color: #dc3545 !important;
+    font-weight: bold;
+}
+
 /* Animation */
 @keyframes slideDown {
     from {

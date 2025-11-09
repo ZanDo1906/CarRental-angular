@@ -8,26 +8,26 @@
             <span>Cảm ơn bạn! Chúng tôi đã nhận được thông tin và sẽ liên hệ lại sớm nhất.</span>
         </div>
 
-        <label for="name">Họ & Tên *</label>
+        <label for="name">Họ & Tên <span class="required-asterisk">*</span></label>
         <input type="text" id="name" name="name" [(ngModel)]="formData.name" required #name="ngModel">
         <div class="error-message" *ngIf="name.invalid && name.touched">
             Vui lòng nhập họ và tên
         </div>
 
-        <label for="phone">Số điện thoại *</label>
+        <label for="phone">Số điện thoại <span class="required-asterisk">*</span></label>
         <input type="text" id="phone" name="phone" [(ngModel)]="formData.phone" required #phone="ngModel">
         <div class="error-message" *ngIf="phone.invalid && phone.touched">
             Vui lòng nhập số điện thoại
         </div>
 
-        <label for="email">Email *</label>
+        <label for="email">Email <span class="required-asterisk">*</span></label>
         <input type="email" id="email" name="email" [(ngModel)]="formData.email" required email #email="ngModel">
         <div class="error-message" *ngIf="email.invalid && email.touched">
             <span *ngIf="email.errors?.['required']">Vui lòng nhập email</span>
             <span *ngIf="email.errors?.['email']">Email không hợp lệ</span>
         </div>
 
-        <label for="message">Nội dung liên hệ *</label>
+        <label for="message">Nội dung liên hệ <span class="required-asterisk">*</span></label>
         <textarea id="message" name="message" rows="4" [(ngModel)]="formData.message" required
             #message="ngModel"></textarea>
         <div class="error-message" *ngIf="message.invalid && message.touched">

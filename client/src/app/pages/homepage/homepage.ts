@@ -97,30 +97,38 @@ export class Homepage implements AfterViewInit, OnInit {
 
   // Hàm  xử lý animation .second
   private setupSecondAnimation(): void {
-    const img = this.el.nativeElement.querySelector('.second img');
-    const content = this.el.nativeElement.querySelector('.second-content');
-    const container = this.el.nativeElement.querySelector('.second');
+    const containers = this.el.nativeElement.querySelectorAll('.second');
 
-    if (!img || !content || !container) {
-      console.error('Không tìm thấy phần tử .second, img, hoặc .second-content');
+    if (containers.length === 0) {
+      console.error('Không tìm thấy phần tử .second');
       return;
     }
 
-    const slideObserver = new IntersectionObserver((entries) => {
-      entries.forEach(entry => {
-        if (entry.isIntersecting) {
-          img.classList.add('animate-left');
-          content.classList.add('animate-right');
-        } else {
-          img.classList.remove('animate-left');
-          content.classList.remove('animate-right');
-        }
-      });
-    }, {
-      threshold: 0.2
-    });
+    containers.forEach((container: HTMLElement) => {
+      const img = container.querySelector('img');
+      const content = container.querySelector('.second-content');
 
-    slideObserver.observe(container);
+      if (!img || !content) {
+        console.error('Không tìm thấy img hoặc .second-content trong container');
+        return;
+      }
+
+      const slideObserver = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+          if (entry.isIntersecting) {
+            img.classList.add('animate-left');
+            content.classList.add('animate-right');
+          } else {
+            img.classList.remove('animate-left');
+            content.classList.remove('animate-right');
+          }
+        });
+      }, {
+        threshold: 0.2
+      });
+
+      slideObserver.observe(container);
+    });
   }
 
   // Hàm  xử lý animation .thirth
@@ -180,6 +188,10 @@ export class Homepage implements AfterViewInit, OnInit {
 
   goToAboutTrustcar() {
     this.router.navigate(['/ve-trust-car']);
+  }
+
+  goToLienHe() {
+    this.router.navigate(['/lien-he']);
   }
 
   // Validate thời gian thuê/trả

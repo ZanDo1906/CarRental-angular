@@ -12,6 +12,7 @@ import { LogIn } from './pages/log-in/log-in';
 import { UserCar } from './pages/user-car/user-car';
 import { UserRental } from './pages/user-rental/user-rental';
 import { Dashboard } from './pages/dashboard/dashboard';
+import { LienHe } from './pages/lien-he/lien-he';
 
 export const routes: Routes = [
     { path: '', component: Homepage },         // trang homepage
@@ -28,6 +29,7 @@ export const routes: Routes = [
     { path: 'user-car', component: UserCar }, // trang Quản lý xe của tôi
     { path: 'user-rental', component: UserRental }, // trang Quản lý cho thuê
     { path: 'dashboard', component: Dashboard }, // trang Dashboard
+    { path: 'lien-he', component: LienHe }, // trang Liên hệ
     { path: '**', redirectTo: '' },
 
 ];
