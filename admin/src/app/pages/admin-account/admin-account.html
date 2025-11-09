@@ -1,0 +1,47 @@
+<div class="admin-account-container">
+    <div class="admin-info-card">
+        <h2>
+            Thông tin tài khoản
+        </h2>
+
+        <div class="admin-content-wrapper">
+            <!-- Cột trái: Avatar và thông tin cơ bản -->
+            <div class="left-column">
+                <div class="admin-profile">
+                    <div class="admin-avatar">
+                        <img [src]="avatarUrl" [alt]="admin?.Ho_va_ten || 'Avatar'" />
+                    </div>
+                    <div class="admin-basic-info">
+                        <h3>{{ admin?.Ho_va_ten || 'Chưa cập nhật' }}</h3>
+                        <p class="admin-join-date">Tham gia {{ admin?.Ngay_tao || 'Chưa cập nhật' }}</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Cột phải: Chi tiết thông tin -->
+            <div class="right-column">
+                <div class="info-section">
+                    <div class="info-item">
+                        <label>Ngày sinh</label>
+                        <span>{{ ngaySinh }}</span>
+                    </div>
+
+                    <div class="info-item">
+                        <label>Giới tính</label>
+                        <span>{{ gioiTinh }}</span>
+                    </div>
+
+                    <div class="info-item">
+                        <label>Số điện thoại</label>
+                        <span>{{ admin?.So_dien_thoai || 'Chưa cập nhật' }}</span>
+                    </div>
+
+                    <div class="info-item">
+                        <label>Email</label>
+                        <span>{{ admin?.Email || 'Chưa cập nhật' }}</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

@@ -1,4 +1,8 @@
-.tc-logo{ width:100px; height:auto; object-fit:contain; }
+.tc-logo {
+  width: 100px;
+  height: auto;
+  object-fit: contain;
+}
 
 .brand-text {
   font-family: 'Montserrat', 'Inter', sans-serif;
@@ -34,11 +38,17 @@ body {
   width: 40px;
   height: 40px;
   object-fit: cover;
+  transition: all 0.3s ease;
+}
+
+.user-avatar:hover {
+  transform: scale(1.05);
 }
 
 .user-name {
   font-weight: 500;
-  color: black;
+  color: #333;
+  transition: color 0.3s ease;
 }
 
 .cursor-pointer {
@@ -79,4 +89,38 @@ body {
   box-shadow: 0 0 0 0.2rem rgba(29, 115, 99, 0.25);
 }
 
+/* Hiệu ứng hover cho tên người dùng */
+.nav-link:hover .user-name {
+  color: #1D7363;
+}
 
+/* Style cho dropdown menu */
+.dropdown-menu {
+  border: none;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+  border-radius: 8px;
+  margin-top: 5px;
+}
+
+.dropdown-item {
+  padding: 10px 20px;
+  transition: all 0.3s ease;
+}
+
+.dropdown-item:hover {
+  background-color: #f8f9fa;
+  color: #1D7363;
+}
+
+.dropdown-item i {
+  color: #1D7363;
+}
+
+.text-danger {
+  color: #dc3545 !important;
+}
+
+.text-danger:hover {
+  background-color: #f8d7da !important;
+  color: #721c24 !important;
+}

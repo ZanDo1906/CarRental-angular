@@ -14,24 +14,17 @@
 
       <ul class="navbar-nav ms-auto align-items-lg-center gap-lg-3">
         @if (currentAdmin) {
-        <li class="nav-item dropdown">
-          <a class="nav-link dropdown-toggle d-flex align-items-center" href="#" role="button" data-bs-toggle="dropdown"
-            aria-expanded="false">
-            <img [src]="currentAdmin.Anh_dai_dien || 'assets/images/admin_avt.png'" [alt]="currentAdmin.Ho_va_ten"
-              class="rounded-circle user-avatar me-2">
-            <span>{{ currentAdmin.Ho_va_ten }}</span>
+        <li class="nav-item">
+          <a class="nav-link position-relative" href="#">
+            <i class="bi bi-bell-fill"></i>
           </a>
-          <ul class="dropdown-menu">
-            <li><a class="dropdown-item" routerLink="/admin-account">
-                <i class="bi bi-person me-2"></i>Thông tin tài khoản
-              </a></li>
-            <li>
-              <hr class="dropdown-divider">
-            </li>
-            <li><a class="dropdown-item text-danger" href="#" (click)="logout()">
-                <i class="bi bi-box-arrow-right me-2"></i>Đăng xuất
-              </a></li>
-          </ul>
+        </li>
+        <li class="nav-item dropdown user-menu-container">
+          <a class="nav-link d-flex align-items-center gap-2 text-decoration-none" href="#">
+            <img [src]="currentAdmin.Anh_dai_dien || 'assets/images/admin_avt.png'" [alt]="currentAdmin.Ho_va_ten"
+              class="rounded-circle user-avatar">
+            <span class="user-name">{{ currentAdmin.Ho_va_ten }}</span>
+          </a>
         </li>
         }
       </ul>

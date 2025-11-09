@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import { BehaviorSubject, Observable } from 'rxjs';
 import { iAdmin } from '../interfaces/Admin';
+import { Router } from '@angular/router';
 
 @Injectable({
     providedIn: 'root'
@@ -9,7 +10,7 @@ export class AuthService {
     private currentAdminSubject = new BehaviorSubject<iAdmin | null>(null);
     public currentAdmin$ = this.currentAdminSubject.asObservable();
 
-    constructor() {
+    constructor(private router: Router) {
         // Khôi phục trạng thái đăng nhập từ localStorage
         const savedAdmin = localStorage.getItem('currentAdmin');
         if (savedAdmin) {
@@ -26,6 +27,7 @@ export class AuthService {
     login(admin: iAdmin): void {
         localStorage.setItem('currentAdmin', JSON.stringify(admin));
         this.currentAdminSubject.next(admin);
+        this.router.navigate(['/dashboard']); // Điều hướng đến trang dashboard sau khi đăng nhập
     }
 
     logout(): void {

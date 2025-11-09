@@ -1,0 +1,27 @@
+<div class="container">
+    <h3>Danh sách xe trong hệ thống</h3>
+    <div *ngIf="cars.length === 0">Không có xe nào trong hệ thống.</div>
+    <div class="list-group" *ngFor="let c of cars">
+        <div class="list-group-item">
+            <div class="car-info">
+                <div class="car-images">
+                    <ng-container *ngIf="Array.isArray(c.Anh_xe); else singleImage">
+                        <img *ngFor="let img of c.Anh_xe" [src]="img" [alt]="c.Hang_xe + ' ' + c.Dong_xe"
+                            class="car-image" />
+                    </ng-container>
+                    <ng-template #singleImage>
+                        <img [src]="c.Anh_xe" [alt]="c.Hang_xe + ' ' + c.Dong_xe" class="car-image" />
+                    </ng-template>
+                </div>
+                <div class="car-details">
+                    <h4>{{c.Hang_xe}} {{c.Dong_xe}} ({{c.Nam_san_xuat}})</h4>
+                    <p>Biển số: {{c.Bien_so_xe}}</p>
+                    <p>Màu sắc: {{c.Mau_sac}}</p>
+                    <p>Số chỗ: {{c.So_cho}}</p>
+                    <p>Mô tả: {{c.Mo_ta}}</p>
+                    <p class="price">Giá thuê: {{c.Gia_thue | currency:'VND':'symbol':'1.0-0'}}</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
