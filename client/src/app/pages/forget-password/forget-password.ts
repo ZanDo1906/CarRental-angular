@@ -142,7 +142,7 @@ export class ForgetPassword {
 
     // TODO: gọi API verify code với this.forgotIdentifier
     console.log('Verify', code, 'for', this.forgotIdentifier);
-    alert('Mã xác thực đã được gửi (demo).');
+    alert('Mã xác thực đã được gửi!');
     // Sau verify có thể chuyển sang đổi mật khẩu hoặc đóng modal
   }
   onResend(e?: Event) {
@@ -153,5 +153,6 @@ export class ForgetPassword {
       const first = this.otpInputs?.toArray()[0];
       first?.nativeElement?.focus();
     }, 120);
+    alert('Mã xác thực đã được gửi lại!');
   }
 }
