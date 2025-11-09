@@ -253,9 +253,72 @@ export class CarDetail implements OnInit, OnDestroy {
     alert('Liên hệ chủ xe (chức năng chưa triển khai)');
   }
 
+  // Tính số ngày và giờ thuê
+  calculateRentalDuration(): { days: number; hours: number; totalDays: number } {
+    if (!this.pickupTime || !this.returnTime) {
+      return { days: 1, hours: 0, totalDays: 1 }; // Default 1 ngày
+    }
+
+    const pickup = new Date(this.pickupTime);
+    const returnDate = new Date(this.returnTime);
+    const diffMs = returnDate.getTime() - pickup.getTime();
+    const diffHours = Math.ceil(diffMs / (1000 * 60 * 60)); // Làm tròn lên
+
+    const fullDays = Math.floor(diffHours / 24);
+    const extraHours = diffHours % 24;
+
+    let totalDays = fullDays;
+    
+    // Áp dụng quy tắc tính giờ lẻ
+    if (extraHours > 0) {
+      if (extraHours <= 4) {
+        // ≤ 4 tiếng: giữ nguyên số ngày, tính thêm giờ lẻ
+        totalDays = fullDays;
+      } else {
+        // > 4 tiếng: tự động tính thành thêm 1 ngày
+        totalDays = fullDays + 1;
+      }
+    }
+
+    // Tối thiểu 1 ngày
+    if (totalDays < 1) totalDays = 1;
+
+    return { 
+      days: fullDays, 
+      hours: extraHours, 
+      totalDays: totalDays 
+    };
+  }
+
   // Tính tổng tiền trước giảm giá
   getTotalBeforeDiscount(): number {
-    return (this.car?.Gia_thue || 0) + 50000;
+    const dailyRate = this.car?.Gia_thue || 0;
+    const dailyInsuranceRate = 50000; // Bảo hiểm thuê xe hàng ngày
+    const duration = this.calculateRentalDuration();
+
+    let rentalCost = 0;
+    let insuranceCost = 0;
+
+    // Nếu thuê dưới 1 ngày (chỉ có giờ lẻ), tính tối thiểu 1 ngày
+    if (duration.days === 0 && duration.hours > 0) {
+      rentalCost = dailyRate * 1; // Tối thiểu 1 ngày
+      insuranceCost = dailyInsuranceRate * 1; // Tối thiểu 1 ngày
+    } else if (duration.hours > 0 && duration.hours <= 4 && duration.days > 0) {
+      // Có giờ lẻ ≤ 4 tiếng và đã có ngày đầy đủ: tính theo tỷ lệ
+      const dailyRentalCost = dailyRate * duration.days;
+      const hourlyRentalCost = (dailyRate / 24) * duration.hours;
+      rentalCost = dailyRentalCost + hourlyRentalCost;
+
+      const dailyInsuranceCost = dailyInsuranceRate * duration.days;
+      const hourlyInsuranceCost = (dailyInsuranceRate / 24) * duration.hours;
+      insuranceCost = dailyInsuranceCost + hourlyInsuranceCost;
+    } else {
+      // Không có giờ lẻ hoặc > 4 tiếng: tính theo totalDays
+      rentalCost = dailyRate * duration.totalDays;
+      insuranceCost = dailyInsuranceRate * duration.totalDays;
+    }
+
+    return Math.round(rentalCost + insuranceCost);
   }
 
   // Tính thuế VAT (8% của Tổng tiền - Giảm giá)
@@ -267,6 +330,25 @@ export class CarDetail implements OnInit, OnDestroy {
   // Tính thành tiền cuối cùng
   getFinalTotal(): number {
     return this.getTotalBeforeDiscount() - this.discountAmount + this.getVAT();
+  }
+
+  // Lấy mô tả thời gian thuê
+  getRentalDurationDescription(): string {
+    const duration = this.calculateRentalDuration();
+    
+    if (duration.days === 0 && duration.hours > 0) {
+      return `${duration.hours} giờ (tính 1 ngày)`;
+    } else if (duration.days > 0 && duration.hours === 0) {
+      return `${duration.days} ngày`;
+    } else if (duration.days > 0 && duration.hours > 0) {
+      if (duration.hours <= 4) {
+        return `${duration.days} ngày ${duration.hours} giờ`;
+      } else {
+        return `${duration.days} ngày ${duration.hours} giờ (tính ${duration.totalDays} ngày)`;
+      }
+    }
+    
+    return '1 ngày';
   }
 
   // Validate thời gian thuê/trả
@@ -334,11 +416,29 @@ export class CarDetail implements OnInit, OnDestroy {
     }
 
     console.log('All validations passed, navigating to confirm-booking');
-    // Lưu dữ liệu booking và chuyển sang confirm-booking
+    // Lưu dữ liệu booking và chuyển sang confirm-booking  
     this.bookingDataService.setBookingData({
       location: this.getLocationCity(),
       pickupTime: this.pickupTime,
-      returnTime: this.returnTime
+      returnTime: this.returnTime,
+      pickupOption: this.pickupOption,
+      deliveryAddress: this.deliveryAddress,
+      carInfo: {
+        id: this.car.Ma_xe,
+        name: (this.car.Hang_xe || '') + ' ' + (this.car.Dong_xe || '') + ' ' + (this.car.Nam_san_xuat || ''),
+        price: this.car.Gia_thue,
+        seats: (this.car.So_cho || 0) + ' chỗ',
+        fuel: this.car.Nhien_lieu,
+        transmission: this.car.Hop_so,
+        fuelConsumption: (this.car.Muc_tieu_thu || 0) + 'L/100km',
+        images: this.car.Anh_xe
+      },
+      paymentInfo: {
+        subtotal: this.getTotalBeforeDiscount(),
+        discount: this.discountAmount,
+        vat: this.getVAT(),
+        total: this.getFinalTotal()
+      }
     });
     this.router.navigate(['/confirm-booking', this.car.Ma_xe]);
   }

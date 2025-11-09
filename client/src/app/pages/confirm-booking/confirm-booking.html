@@ -9,22 +9,28 @@
 
                 <div class="info-group">
                     <label class="info-label">Họ và tên: <span class="required">*</span></label>
-                    <div class="info-display">{{ bookingData.contact.name }}</div>
+                    <div class="info-display">{{ currentUser?.Ho_va_ten || 'Chưa đăng nhập' }}</div>
                 </div>
 
                 <div class="info-group">
                     <label class="info-label">Số điện thoại: <span class="required">*</span></label>
-                    <div class="info-display">{{ bookingData.contact.phone }}</div>
+                    <div class="info-display">{{ currentUser?.So_dien_thoai || 'Chưa đăng nhập' }}</div>
                 </div>
 
                 <div class="info-group">
                     <label class="info-label">Email: <span class="required">*</span></label>
-                    <div class="info-display">{{ bookingData.contact.email }}</div>
+                    <div class="info-display">{{ currentUser?.Email || 'Chưa đăng nhập' }}</div>
                 </div>
 
                 <div class="info-group">
                     <label class="info-label">Địa chỉ: <span class="required">*</span></label>
-                    <div class="info-display">{{ bookingData.contact.address }}</div>
+                    <input 
+                        type="text" 
+                        class="info-input" 
+                        [(ngModel)]="userAddress" 
+                        (input)="onAddressInput()"
+                        placeholder="Nhập địa chỉ của bạn"
+                        required>
                 </div>
             </section>
 
@@ -61,10 +67,22 @@
                     <p class="reminder-text">Vui lòng kiểm tra lại các thông tin trên trước khi bấm Xác nhận</p>
                 </div>
 
+                <!-- Thông báo lỗi validation -->
+                <div *ngIf="showAddressError" class="validation-error">
+                    <p class="error-text">Vui lòng điền đầy đủ thông tin địa chỉ</p>
+                </div>
+
                 <!-- Nút xác nhận -->
-                <button class="confirm-button" (click)="onConfirmBooking()">
-                    Xác nhận đặt xe
-                </button>
+                <div class="button-group">
+                    <button class="back-button" (click)="goBackToPreviousPage()">
+                        Quay lại
+                    </button>
+                    <button 
+                        class="confirm-button" 
+                        (click)="onConfirmBooking()">
+                        Xác nhận đặt xe
+                    </button>
+                </div>
             </section>
         </div>
 
@@ -73,11 +91,17 @@
             <!-- Tiêu đề -->
             <h1 class="section-title">THÔNG TIN ĐƠN THUÊ</h1>
 
-            <!-- Hình ảnh xe (placeholder) -->
+            <!-- Hình ảnh xe -->
             <div class="car-image-section">
-                <div class="car-image-placeholder">
-                    <div class="placeholder-icon">🚗</div>
+                <div *ngIf="carImages && carImages.length > 0; else placeholderTemplate" class="car-image-container">
+                    <img [src]="carImages[0]" [alt]="orderDetails.carInfo.name" class="car-image" 
+                         (error)="$any($event).target.style.display='none'">
                 </div>
+                <ng-template #placeholderTemplate>
+                    <div class="car-image-placeholder">
+                        <div class="placeholder-icon">🚗</div>
+                    </div>
+                </ng-template>
             </div>
 
             <!-- Thông tin xe -->
@@ -113,21 +137,20 @@
                 <div class="time-inputs">
                     <div class="time-group">
                         <label class="time-label">Thời gian nhận</label>
-                        <input type="text" class="time-input" [(ngModel)]="orderDetails.timeInfo.startTime"
-                            placeholder="VD: 14:00, 15/11/2025">
+                        <input type="text" class="time-input" [value]="formatDateTime(orderDetails.timeInfo.startTime)"
+                            placeholder="VD: 14:00, 15/11/2025" readonly disabled>
                     </div>
 
                     <div class="time-group">
                         <label class="time-label">Thời gian trả</label>
-                        <input type="text" class="time-input" [(ngModel)]="orderDetails.timeInfo.endTime"
-                            placeholder="VD: 14:00, 17/11/2025">
+                        <input type="text" class="time-input" [value]="formatDateTime(orderDetails.timeInfo.endTime)"
+                            placeholder="VD: 14:00, 17/11/2025" readonly disabled>
                     </div>
                 </div>
 
                 <div class="location-group">
                     <label class="location-label">Địa điểm nhận xe</label>
-                    <textarea class="location-input" [(ngModel)]="orderDetails.timeInfo.pickupLocation"
-                        placeholder="Nhập địa chỉ nhận xe" rows="3"></textarea>
+                    <div class="location-display">{{ orderDetails.timeInfo.pickupLocation || 'Chưa có thông tin' }}</div>
                 </div>
             </div>
 
@@ -136,10 +159,15 @@
                 <p class="reminder-text">Vui lòng kiểm tra lại các thông tin trên trước khi bấm Xác nhận</p>
             </div>
 
-            <!-- Nút xác nhận thanh toán -->
-            <button class="confirm-button" (click)="onConfirmPayment()">
-                Xác nhận thanh toán
-            </button>
+            <!-- Nút hành động -->
+            <div class="button-group">
+                <button class="back-button" (click)="goToPreviousPage()">
+                    Quay lại
+                </button>
+                <button class="confirm-button" (click)="onConfirmPayment()">
+                    Xác nhận thanh toán
+                </button>
+            </div>
         </div>
 
         <!-- TRANG 3: QR Code thanh toán -->
@@ -195,7 +223,14 @@
                 </div>
 
                 <div class="contact-support">
-                    <p>Liên hệ bộ phận <strong>CSKH</strong> nếu có bất kỳ thắc mắc nào!</p>
+                    <p>Liên hệ bộ phận <a href="tel:0123456789" class="cskh-link"><strong>CSKH</strong></a> nếu có bất kỳ thắc mắc nào!</p>
+                </div>
+
+                <!-- Nút quay lại cho trang 3 -->
+                <div class="button-group">
+                    <button class="back-button" (click)="goToPreviousPage()">
+                        Quay lại
+                    </button>
                 </div>
             </div>
         </div>
