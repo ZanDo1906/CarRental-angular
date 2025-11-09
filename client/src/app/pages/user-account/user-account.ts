@@ -6,6 +6,7 @@ import { SideBar } from '../side-bar/side-bar';
 import { UserService } from '../../services/user';
 import { Inject } from '@angular/core';
 import { OwnerService } from '../../services/owner.service';
+import { AuthService } from '../../services/auth';
 
 @Component({
   selector: 'app-user-account',
@@ -20,11 +21,21 @@ export class UserAccount implements OnInit {
   editingProfile: boolean = false;
   editingLicense: boolean = false;
 
-  constructor(private userService: UserService, @Inject(OwnerService) private ownerService: OwnerService) { }
+  constructor(
+    private userService: UserService,
+    @Inject(OwnerService) private ownerService: OwnerService,
+    private authService: AuthService
+  ) { }
 
   ngOnInit(): void {
-    // On init, just load the current user (if currentUserId is set) or the first user
-    this.loadUser();
+    // Subscribe to auth service to get current user
+    this.authService.currentUser$.subscribe(user => {
+      if (user) {
+        this.user = user;
+      } else {
+        console.log('No user logged in');
+      }
+    });
   }
 
   // Keep the edit trigger simple for learners

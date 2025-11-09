@@ -5,6 +5,24 @@ export interface BookingData {
   location?: string | null;
   pickupTime: string;
   returnTime: string;
+  pickupOption?: string; // 'atLocation' hoặc 'delivery'
+  deliveryAddress?: string; // Địa chỉ giao xe nếu chọn delivery
+  carInfo?: {
+    id: number;
+    name: string;
+    price: number;
+    seats: string;
+    fuel: string;
+    transmission: string;
+    fuelConsumption: string;
+    images?: string[];
+  };
+  paymentInfo?: {
+    subtotal: number;
+    discount: number;
+    vat: number;
+    total: number;
+  };
 }
 
 @Injectable({
@@ -31,7 +49,9 @@ export class BookingDataService {
     this.bookingDataSubject.next({
       location: null,
       pickupTime: '',
-      returnTime: ''
+      returnTime: '',
+      carInfo: undefined,
+      paymentInfo: undefined
     });
   }
 }

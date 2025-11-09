@@ -21,7 +21,7 @@
           </div>
         </div>
 
-        <p class="forget-password"><a href="#">Quên mật khẩu?</a></p>
+        <p class="forget-password"><a href="#" data-bs-dismiss="modal" data-bs-toggle="modal" data-bs-target="#forgetPasswordModal">Quên mật khẩu?</a></p>
 
         <div *ngIf="errorMessage" class="alert alert-danger" role="alert">
           {{ errorMessage }}
@@ -32,6 +32,17 @@
         <div class="log-in">
           <p>Bạn chưa có tài khoản?</p>
           <a href="#" data-bs-dismiss="modal" data-bs-toggle="modal" data-bs-target="#signUpModal">Đăng ký ngay</a>
+        </div>
+
+        <div class="other-login">
+          <div class="Facebook">
+            
+            <button class="btn btn-primary" style="background-color: #ffffff; width: 100%; padding: 10px;"><i class="bi bi-facebook"></i> Facebook</button>
+          </div>
+          <div class="Google">
+            <button class="btn btn-primary" style="background-color: #ffffff;  width: 100%; padding: 10px;" ><i class="bi bi-google"></i> Google</button>
+            
+            </div>
         </div>
       </div>
     </div>

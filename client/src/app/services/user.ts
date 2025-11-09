@@ -42,4 +42,19 @@ export class UserService {
     this.writeExtras(extras);
     return of(user);
   }
+
+  getCurrentUserId(): number | null {
+    const userId = localStorage.getItem('userId');
+    return userId ? Number(userId) : null;
+  }
+
+  getCurrentUser(): Observable<iUser | null> {
+    const userId = this.getCurrentUserId();
+    if (!userId) {
+      return of(null);
+    }
+    return this.getAllUsers().pipe(
+      map(users => users.find(user => user.Ma_nguoi_dung === userId) || null)
+    );
+  }
 }

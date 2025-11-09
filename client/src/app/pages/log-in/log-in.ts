@@ -3,6 +3,7 @@ import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { UserService } from '../../services/user';
 import { iUser } from '../../interfaces/User';
+import { AuthService } from '../../services/auth';
 
 declare var bootstrap: any;
 
@@ -19,7 +20,10 @@ export class LogIn {
   
   @Output() loginSuccess = new EventEmitter<iUser>();
 
-  constructor(private userService: UserService) {}
+  constructor(
+    private userService: UserService,
+    private authService: AuthService
+  ) {}
 
   onLogin(): void {
     // Reset error message
@@ -39,15 +43,11 @@ export class LogIn {
         );
 
         if (user) {
-          // Login successful - lưu vào localStorage
-          localStorage.setItem('currentUser', JSON.stringify(user));
+          // Login successful - use AuthService
+          this.authService.login(user);
           
           // Emit event cho header
           this.loginSuccess.emit(user);
-          
-          // Dispatch custom event cho các component khác
-          console.log('Dispatching userLoggedIn event');
-          window.dispatchEvent(new CustomEvent('userLoggedIn', { detail: user }));
           
           // Đóng modal
           const modalElement = document.getElementById('loginModal');

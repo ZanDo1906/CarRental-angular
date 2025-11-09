@@ -29,12 +29,16 @@ export class CarRental {
   }
 
   getUserRentals(userId: number): Observable<(iCar_rental & { car_details: iCar })[]> {
+    console.log('Getting rentals for user:', userId);
     return forkJoin({
       rentals: this.getAllCars(),
       cars: this.carService.getAllCars()
     }).pipe(
       map(({ rentals, cars }) => {
+        console.log('All rentals:', rentals);
+        console.log('All cars:', cars);
         const userRentals = rentals.filter(rental => rental.Ma_nguoi_thue === userId);
+        console.log('Filtered rentals for user:', userRentals);
         return userRentals.map(rental => this.getRentalWithCarDetails(rental, cars));
       })
     );
