@@ -41,14 +41,80 @@
         <li class="nav-item">
           <a class="nav-link" routerLink="/owner" routerLinkActive="active">Trở thành chủ xe</a>
         </li>
-        <li class="nav-item">
-          <a class="nav-link position-relative" routerLink="/notifications">
+        <li class="nav-item dropdown">
+          <a class="nav-link position-relative" href="#" id="notificationDropdown" role="button" 
+             data-bs-toggle="dropdown" aria-expanded="false">
             <i class="bi bi-bell-fill"></i>
+            <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger" 
+                  style="font-size: 10px;">3</span>
           </a>
+          <ul class="dropdown-menu dropdown-menu-end notification-dropdown" aria-labelledby="notificationDropdown">
+            <li class="dropdown-header d-flex justify-content-between align-items-center">
+              <h6 class="mb-0 notification-header-title">Thông báo</h6>
+              <small class="text-muted">3 mới</small>
+            </li>
+            <li><hr class="dropdown-divider"></li>
+            
+            <!-- Notification items - Sắp xếp theo thời gian từ mới nhất -->
+            <li>
+              <a class="dropdown-item notification-item unread" href="#">
+                <div class="d-flex">
+                  <div class="notification-icon bg-primary rounded-circle me-3">
+                    <i class="bi bi-car-front text-white"></i>
+                  </div>
+                  <div class="notification-content">
+                    <h6 class="notification-title">Đặt xe thành công</h6>
+                    <p class="notification-text mb-1">Bạn đã đặt xe Honda City thành công. Vui lòng liên hệ chủ xe để xác nhận.</p>
+                    <small class="notification-time text-muted">2 giờ trước</small>
+                  </div>
+                </div>
+              </a>
+            </li>
+            
+            <li>
+              <a class="dropdown-item notification-item unread" href="#">
+                <div class="d-flex">
+                  <div class="notification-icon bg-warning rounded-circle me-3">
+                    <i class="bi bi-exclamation-triangle text-white"></i>
+                  </div>
+                  <div class="notification-content">
+                    <h6 class="notification-title">Nhắc nhở trả xe</h6>
+                    <p class="notification-text mb-1">Xe Honda City sẽ đến hạn trả vào ngày mai. Vui lòng chuẩn bị trả xe đúng giờ.</p>
+                    <small class="notification-time text-muted">1 ngày trước</small>
+                  </div>
+                </div>
+              </a>
+            </li>
+            
+            <li>
+              <a class="dropdown-item notification-item" href="#">
+                <div class="d-flex">
+                  <div class="notification-icon bg-success rounded-circle me-3">
+                    <i class="bi bi-bell text-white"></i>
+                  </div>
+                  <div class="notification-content">
+                    <h6 class="notification-title">Welcome to TRUSTCAR</h6>
+                    <p class="notification-text mb-1">Chào mừng bạn tham gia cộng đồng TRUSTCAR, bấm vào đây để xem những kinh nghiệm thuê xe hữu ích.</p>
+                    <small class="notification-time text-muted">5 tháng trước</small>
+                  </div>
+                </div>
+              </a>
+            </li>
+            
+            <li><hr class="dropdown-divider"></li>
+            <li>
+              <a class="dropdown-item text-center view-all-notifications" href="#" routerLink="/notifications">
+                Xem tất cả thông báo
+              </a>
+            </li>
+          </ul>
         </li>
+
         <li class="nav-item">
-          <a class="nav-link" routerLink="/messages">
+          <a class="nav-link position-relative" href="#" (click)="toggleChatBox()">
             <i class="bi bi-chat-dots-fill"></i>
+            <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-success" 
+                  style="font-size: 10px;" *ngIf="hasNewMessage">1</span>
           </a>
         </li>
         <li class="nav-item dropdown user-menu-container">
@@ -62,18 +128,71 @@
             </a>
             
           </div>
-          <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="userDropdown">
+          <!-- <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="userDropdown">
             <li><a class="dropdown-item" routerLink="/profile">Tài khoản của tôi</a></li>
             <li><a class="dropdown-item" routerLink="/my-trips">Chuyến đi</a></li>
             <li><a class="dropdown-item" routerLink="/my-cars">Xe của tôi</a></li>
             <li><hr class="dropdown-divider"></li>
             <li><a class="dropdown-item" href="#" (click)="logout()">Đăng xuất</a></li>
-          </ul>
+          </ul> -->
         </li>
       </ul>
     </div>
   </div>
 </nav>
+
+<!-- Chat Floating Button -->
+<div class="chat-float-button" *ngIf="!isChatOpen" (click)="toggleChatBox()">
+  <i class="bi bi-chat-dots-fill"></i>
+</div>
+
+<!-- Chat Box Widget -->
+<div class="chat-widget" [class.open]="isChatOpen">
+  <div class="chat-header">
+    <div class="d-flex align-items-center">
+      <div class="chat-avatar bg-gradient rounded-circle me-2">
+        <i class="bi bi-robot text-white"></i>
+      </div>
+      <div>
+        <h6 class="mb-0">Trợ lý TRUSTCAR</h6>
+        <small class="text-white">Đang hoạt động</small>
+      </div>
+    </div>
+    <button class="btn btn-sm text-white" (click)="toggleChatBox()">
+      <i class="bi bi-x-lg"></i>
+    </button>
+  </div>
+  
+  <div class="chat-messages" #chatMessagesDiv>
+    <div *ngFor="let message of chatMessages" 
+         class="message" 
+         [class.user-message]="message.sender === 'user'">
+      
+      <!-- Bot Avatar - Only for bot messages -->
+      <div class="message-avatar" *ngIf="message.sender === 'bot'">
+        <i class="bi bi-robot"></i>
+      </div>
+      
+      <div class="message-content" [class.user-content]="message.sender === 'user'">
+        <p class="mb-1">{{message.text}}</p>
+        <small class="message-timestamp">{{message.time}}</small>
+      </div>
+    </div>
+  </div>
+  
+  <div class="chat-input">
+    <div class="input-group">
+      <input type="text" class="form-control" 
+             placeholder="Nhập tin nhắn..." 
+             [(ngModel)]="newMessage"
+             (keyup.enter)="sendMessage()"
+             #messageInput>
+      <button class="btn btn-primary" (click)="sendMessage()" [disabled]="!newMessage.trim()">
+        <i class="bi bi-send"></i>
+      </button>
+    </div>
+  </div>
+</div>
 
 <!-- Login Modal -->
 <app-log-in (loginSuccess)="onLoginSuccess($event)"></app-log-in>

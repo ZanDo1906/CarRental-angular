@@ -6,9 +6,11 @@
         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
       </div>
       <div class="modal-body px-4 pb-4">
-        <h3 class="topic">Đăng ký</h3>
+        <!-- Step 1: Form đăng ký -->
+        <ng-container *ngIf="!showVerification">
+          <h3 class="topic">Đăng ký</h3>
 
-        <div class="form-row">
+          <div class="form-row">
           <label for="email" class="form-label">Email</label>
           <input type="email" id="email" class="form-control" placeholder="Nhập email" [(ngModel)]="email" autocomplete="email">
         </div>
@@ -50,7 +52,37 @@
           {{ errorMessage }}
         </div>
 
-        <button class="btn btn-primary" (click)="onRegister()">Đăng ký</button>
+          <button class="btn btn-primary" (click)="onRegister()">Đăng ký</button>
+        </ng-container>
+
+        <!-- Step 2: Nhập mã xác thực -->
+        <ng-container *ngIf="showVerification">
+          <h3 class="topic">XÁC THỰC TÀI KHOẢN</h3>
+          <p class="vuilong" style="margin-bottom: 18px; font-weight:500;">
+            Chúng tôi đã gửi mã xác thực đến
+            <strong *ngIf="maskedIdentifier"> {{ maskedIdentifier }} </strong>
+          </p>
+
+          <div class="d-flex justify-content-center mb-3" style="gap:10px;">
+            <input #otpInput *ngFor="let _ of otp; let i = index"
+                   type="text" maxlength="1"
+                   class="form-control text-center"
+                   [attr.name]="'otp' + i"
+                   [attr.id]="'otp' + i"
+                   [value]="otp[i]"
+                   inputmode="numeric" pattern="[0-9]*"
+                   autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false"
+                   style="width:48px;height:48px;border-radius:8px; background:#e9ecef; font-size:20px;"
+                   (input)="onOtpInput($event, i)">
+          </div>
+
+          <button class="btn btn-primary w-100 mb-3" (click)="onVerify()">Xác thực</button>
+
+          <div class="text-center">
+            <span>Bạn chưa nhận được mã?</span>
+            <a href="#" (click)="onResend($event)" style="margin-left:6px; color:#1D7363; font-weight:600;">Gửi lại mã</a>
+          </div>
+        </ng-container>
       </div>
     </div>
   </div>
