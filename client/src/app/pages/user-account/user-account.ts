@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ChangeDetectorRef, NgZone } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { RouterModule } from '@angular/router';
@@ -7,6 +7,7 @@ import { UserService } from '../../services/user';
 import { Inject } from '@angular/core';
 import { OwnerService } from '../../services/owner.service';
 import { AuthService } from '../../services/auth';
+import { CarRental } from '../../services/car-rental';
 
 @Component({
   selector: 'app-user-account',
@@ -20,11 +21,15 @@ export class UserAccount implements OnInit {
   // separate flags so profile edits and license edits are independent
   editingProfile: boolean = false;
   editingLicense: boolean = false;
+  totalTrips: number = 0;
 
   constructor(
     private userService: UserService,
     @Inject(OwnerService) private ownerService: OwnerService,
-    private authService: AuthService
+    private authService: AuthService,
+    private cdr: ChangeDetectorRef,
+    private carRentalService: CarRental,
+    private ngZone: NgZone
   ) { }
 
   ngOnInit(): void {
@@ -32,10 +37,69 @@ export class UserAccount implements OnInit {
     this.authService.currentUser$.subscribe(user => {
       if (user) {
         this.user = user;
+        // Use Ma_nguoi_dung from user data
+        const userId = user.Ma_nguoi_dung;
+        if (userId) {
+          this.loadUserTrips(userId);
+        }
       } else {
         console.log('No user logged in');
+        this.totalTrips = 0;
       }
     });
+  }
+
+  // Load user's total trips count
+  private loadUserTrips(userId: number): void {
+    console.log('Loading trips for user ID:', userId);
+    
+    // Set initial value to ensure UI shows something
+    this.totalTrips = 0;
+    this.cdr.detectChanges();
+    
+    this.carRentalService.getUserRentals(userId).subscribe({
+      next: (rentals) => {
+        this.ngZone.run(() => {
+          this.totalTrips = rentals.length;
+          console.log(`User has ${this.totalTrips} trips`, rentals);
+          // Save to localStorage for backup
+          localStorage.setItem(`userTrips_${userId}`, this.totalTrips.toString());
+          
+          // Use setTimeout to ensure change detection happens after current execution
+          setTimeout(() => {
+            this.cdr.detectChanges();
+          }, 0);
+        });
+      },
+      error: (error) => {
+        this.ngZone.run(() => {
+          console.error('Error loading user trips:', error);
+          // Try to get from localStorage as backup
+          const cachedTrips = localStorage.getItem(`userTrips_${userId}`);
+          this.totalTrips = cachedTrips ? parseInt(cachedTrips, 10) : 0;
+          console.log(`Using cached trips count: ${this.totalTrips}`);
+          // Force change detection even for cached data
+          this.cdr.detectChanges();
+        });
+      }
+    });
+  }
+
+  // Getter for avatar URL to ensure proper binding
+  get avatarUrl(): string {
+    return this.user?._avatar || this.user?.Anh_dai_dien || '/assets/images/user_avt.jpg';
+  }
+
+  // Getter for total trips to ensure proper binding
+  get totalTripsCount(): number {
+    return this.totalTrips;
+  }
+
+  // Method to manually refresh trips count
+  refreshTripsCount(): void {
+    if (this.user?.Ma_nguoi_dung) {
+      this.loadUserTrips(this.user.Ma_nguoi_dung);
+    }
   }
 
   // Keep the edit trigger simple for learners
@@ -93,6 +157,40 @@ export class UserAccount implements OnInit {
     (this.user as any)._licenseExists = true;
     (this.user as any)._licenseAuthenticated = false;
     this.localSaveUser(this.user);
+  }
+
+  // Handle avatar image file selection and save it into the user's Anh_dai_dien field
+  async onAvatarSelected(ev: Event) {
+    console.log('Avatar selection started');
+    const input = ev.target as HTMLInputElement;
+    if (!input.files || input.files.length === 0 || !this.user) {
+      console.log('No files selected or no user');
+      return;
+    }
+    const file = input.files[0];
+    console.log('Selected file:', file.name, file.size);
+    
+    try {
+      const dataUrl = await this.readFileAsDataURL(file);
+      console.log('Data URL generated:', dataUrl.substring(0, 100) + '...');
+      
+      // Update both fields to ensure compatibility
+      this.user.Anh_dai_dien = dataUrl;
+      (this.user as any)._avatar = dataUrl;
+      
+      console.log('User updated:', this.user);
+      this.localSaveUser(this.user);
+      
+      // Force change detection
+      this.cdr.detectChanges();
+      
+      // Reset file input to allow selecting the same file again
+      input.value = '';
+      
+      console.log('Avatar saved successfully and change detected');
+    } catch (error) {
+      console.error('Error processing avatar file:', error);
+    }
   }
 
   private readFileAsDataURL(file: File): Promise<string> {

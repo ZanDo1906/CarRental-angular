@@ -333,21 +333,32 @@ p {
 }
 
 .user-profile .content .avatar-box .has-edit {
-  cursor: pointer
+  cursor: pointer;
+  position: relative;
+  display: block;
 }
 
-.user-profile .content .avatar-box .has-edit:hover:after {
-  content: "";
+.user-profile .content .avatar-box .avatar-edit-overlay {
   position: absolute;
   top: 0;
+  left: 0;
   width: 100%;
   height: 100%;
+  background: rgba(0, 0, 0, 0.6);
   border-radius: 100px;
-  background: rgba(0, 0, 0, .5);
-  background-image: url(/static/media/camera.0ef15ed5.svg);
-  background-repeat: no-repeat;
-  background-size: 36px 36px;
-  background-position: 50%
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  opacity: 0;
+  transition: opacity 0.3s ease;
+}
+
+.user-profile .content .avatar-box .has-edit:hover .avatar-edit-overlay {
+  opacity: 1;
+}
+
+.user-profile .content .avatar-box .avatar-edit-overlay .wrap-svg svg {
+  color: white;
 }
 
 .user-profile .content .avatar-box p.note {
