@@ -109,7 +109,7 @@
     border: 1px solid var(--border-color);
     border-radius: 8px;
     box-shadow: 0 4px 16px rgba(0, 0, 0, 0.15);
-    z-index: 1050;
+    z-index: 999;
     padding: 8px 0;
     max-height: calc(100vh - 180px);
     overflow-y: auto;
@@ -157,7 +157,7 @@
     right: 0;
     bottom: 0;
     background: rgba(0, 0, 0, 0.3);
-    z-index: 1040;
+    z-index: 998;
 }
 
 .dropdown-backdrop.show {
@@ -186,7 +186,7 @@
 }
 
 /* Desktop - Show full sidebar, hide dropdown */
-@media (min-width: 992px) {
+@media (min-width: 1024px) {
   .sidebar {
     position: sticky;
     top: 20px;
@@ -207,12 +207,12 @@
 }
 
 /* Mobile - Show dropdown, hide full sidebar */
-@media (max-width: 991px) {
+@media (max-width: 1023px) {
   .sidebar {
     width: 100%;
     position: sticky;
     top: 0;
-    z-index: 1000;
+    z-index: 900;
     background: #fff;
     border-bottom: 1px solid var(--border-color);
     padding: 1rem;

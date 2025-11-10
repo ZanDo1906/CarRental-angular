@@ -42,6 +42,8 @@ export class UserRental implements OnInit, OnDestroy, AfterViewInit {
   changePage(page: number): void {
     if (page >= 1 && page <= this.totalPages) {
       this.currentPage = page;
+      // Scroll lên đầu trang khi chuyển trang
+      window.scrollTo({ top: 0, behavior: 'smooth' });
     }
   }
 

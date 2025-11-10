@@ -741,42 +741,7 @@ p {
   border-bottom: 1px solid #5fcf86
 }
 
-@media (max-width: 576px) {
-    .m-container, .s-container {
-        max-width: none;
-        margin: 0 16px;
-    }
-
-    .space.sec {
-        padding-top: 32px;
-        padding-bottom: 32px;
-    }
-}
-
-@media (max-width: 767px) {
-    .m-container, .s-container {
-        max-width: 540px;
-    }
-    .space.sec {
-        padding-top: 45px;
-        padding-bottom: 45px;
-    }
-}
-
-@media (max-width: 991px) {
-    .m-container, .s-container {
-        max-width: 720px;
-    }
-
-        .space.sec {
-        padding-top: 60px;
-        padding-bottom: 60px;
-    }
-
-      .account-section .account-container {
-    flex-direction: column;
-  }
-}
+/* Desktop first approach - từ lớn xuống nhỏ */
 
 @media (max-width: 1199px) {
   h1 {
@@ -786,18 +751,15 @@ p {
   h2 {
     font-size: 2.75rem
   }
-.space.sec {
-        padding-top: 80px;
-        padding-bottom: 80px;
-    }
 
-      .m-container {
-        max-width: 960px;
-    }
+  .space.sec {
+    padding-top: 80px;
+    padding-bottom: 80px;
+  }
 
-
-
-
+  .m-container {
+    max-width: 960px;
+  }
 
   .s-container {
     max-width: 840px
@@ -844,7 +806,6 @@ p {
     gap: 24px;
   }
 
-
   .user-profile .content .avatar-box {
     width: 100%;
     align-items: center;
@@ -858,8 +819,75 @@ p {
     gap: 20px;
   }
 
-
   .account-section .account-container .content-account .content-item {
     padding: 24px 16px;
+  }
+}
+
+@media (max-width: 1024px) {
+  /* Tablet - account container full width */
+  .account-section .account-container {
+    flex-direction: column;
+    align-items: center;
+  }
+
+  /* Sidebar wrapper - full width on tablet */
+  .sidebar-wrapper {
+    flex: none;
+    max-width: 100%;
+    width: 100%;
+  }
+
+  /* Content wrapper - full width on tablet */
+  .content-wrapper {
+    flex: none;
+    max-width: 100%;
+    width: 100%;
+  }
+}
+
+@media (max-width: 991px) {
+  .m-container, .s-container {
+    max-width: 720px;
+  }
+
+  .space.sec {
+    padding-top: 60px;
+    padding-bottom: 60px;
+  }
+
+  .account-section .account-container {
+    flex-direction: column;
+  }
+
+  /* Mobile responsive - full width */
+  .sidebar-wrapper,
+  .content-wrapper {
+    flex: none;
+    max-width: 100%;
+    width: 100%;
+  }
+}
+
+@media (max-width: 767px) {
+  .m-container, .s-container {
+    max-width: 540px;
+  }
+
+  .space.sec {
+    padding-top: 45px;
+    padding-bottom: 45px;
+  }
+}
+
+@media (max-width: 576px) {
+  .m-container, .s-container {
+    max-width: none;
+    margin: 0 16px;
+  }
+
+  .space.sec {
+    padding-top: 32px;
+    padding-bottom: 32px;
   }
 }

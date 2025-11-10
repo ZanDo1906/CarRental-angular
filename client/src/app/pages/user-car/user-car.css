@@ -20,23 +20,25 @@
   font-family: 'Inter', sans-serif;
 }
 
-.m-container, .s-container {
-    position: relative;
-    margin: 0 auto;
+.m-container,
+.s-container {
+  position: relative;
+  margin: 0 auto;
 }
 
 .m-container {
-    max-width: 1280px;
+  max-width: 1280px;
+  padding-right: 20px;
 }
 
 .space.sec {
-    padding-top: 80px;
-    padding-bottom: 80px;
+  padding-top: 80px;
+  padding-bottom: 80px;
 }
 
 .space {
-    padding-top: 5px;
-    padding-bottom: 5px;
+  padding-top: 5px;
+  padding-bottom: 5px;
 }
 
 .car-section .car-container {
@@ -279,6 +281,7 @@ h2 {
   border-radius: 20px;
   box-shadow: var(--shadow-hover);
 }
+
 .car-avatar {
   flex-shrink: 0;
   width: 220px;
@@ -288,16 +291,19 @@ h2 {
   margin-right: 12px;
   background-color: #f8faf7;
 }
+
 .car-avatar img {
   width: 100%;
   height: 100%;
   object-fit: cover;
 }
+
 .car-details {
   flex: 1 1 auto;
   min-width: 0;
   /* allow content to shrink inside flexbox */
 }
+
 .car-details h3 {
   margin: 0 0 0.75rem 0;
   font-size: 20px;
@@ -305,11 +311,13 @@ h2 {
   color: var(--color-primary-text);
   font-family: 'Montserrat', sans-serif;
 }
+
 .car-details p {
   margin: 0.5rem 0;
   font-size: 16px;
   color: var(--color-secondary-text);
 }
+
 .car-details .label {
   font-weight: 600;
   color: var(--color-primary-text);
@@ -317,6 +325,7 @@ h2 {
   flex-shrink: 0;
   height: auto;
 }
+
 .car-details .status-pending {
   font-weight: 600;
   color: var(--color-error);
@@ -342,7 +351,7 @@ h2 {
 
 .car-actions .car-status {
   font-size: 1.5rem;
-    font-weight: 800;
+  font-weight: 800;
   color: #1D7363;
   text-align: center;
   margin: 8px 0;
@@ -454,51 +463,9 @@ h2 {
   pointer-events: none;
 }
 
-/* debug helper used in template during development */
-.debug-box {
-  border: 1px dashed #e6eceb;
-  background: #fff;
-  padding: 8px;
-  border-radius: 6px;
-}
 
-@media (max-width: 576px) {
-    .m-container, .s-container {
-        max-width: none;
-        margin: 0 16px;
-    }
 
-    .space.sec {
-        padding-top: 32px;
-        padding-bottom: 32px;
-    }
-}
-
-@media (max-width: 767px) {
-    .m-container, .s-container {
-        max-width: 540px;
-    }
-    .space.sec {
-        padding-top: 45px;
-        padding-bottom: 45px;
-    }
-
-    .car-section .car-container {
-      flex-direction: column;
-      align-items: center;
-    }
-
-    /* Mobile responsive - full width */
-    .sidebar-wrapper,
-    .content-wrapper {
-      flex: none;
-      max-width: 100%;
-      width: 100%;
-    }
-
-    
-
-}
+/* Desktop first approach - từ lớn xuống nhỏ */
 
 @media (max-width: 1199px) {
   h1 {
@@ -508,42 +475,74 @@ h2 {
   h2 {
     font-size: 2.75rem
   }
-.space.sec {
-        padding-top: 80px;
-        padding-bottom: 80px;
-    }
 
-      .m-container {
-        max-width: 960px;
-    }
+  .space.sec {
+    padding-top: 80px;
+    padding-bottom: 80px;
+    padding-right: 20px;
+  }
 
-
-
-
+  .m-container {
+    max-width: none;
+  }
 }
 
 @media (max-width: 1024px) {
   /* Tablet - sidebar narrower */
   .sidebar-wrapper {
-    flex: 0 0 30%;
-    max-width: 30%;
+    flex: none;
+    max-width: 100%;
+    width: 100%;
   }
-  
+
   .content-wrapper {
-    flex: 1;
+    flex: none;
+    max-width: 100%;
+    width: 100%;
+  }
+
+  .car-section .car-container {
+    flex-direction: column;
+    align-items: center;
   }
 }
 
 @media (max-width: 991px) {
-  
-  .m-container, .s-container {
-        max-width: 720px;
-    }
+  .m-container,
+  .s-container {
+    max-width: 720px;
+  }
 
-        .space.sec {
-        padding-top: 60px;
-        padding-bottom: 60px;
-    }
+  .space.sec {
+    padding-top: 60px;
+    padding-bottom: 60px;
+    padding-right: 20px;
+  }
+
+  .car-section .car-container {
+    flex-direction: column;
+    align-items: center;
+  }
+
+  /* Mobile responsive - full width */
+  .sidebar-wrapper,
+  .content-wrapper {
+    flex: none;
+    max-width: 100%;
+    width: 100%;
+  }
+}
+
+@media (max-width: 767px) {
+  .m-container,
+  .s-container {
+    max-width: 540px;
+  }
+
+  .space.sec {
+    padding-top: 45px;
+    padding-bottom: 45px;
+  }
 
   .car-section .car-container {
     flex-direction: column;
@@ -558,33 +557,13 @@ h2 {
     width: 100%;
   }
 
-  .cards-list {
-      flex-direction: column;
-      padding: 20px;
-    }
-
-    .car-card {
+  .car-card {
     flex-direction: column;
     align-items: center;
     text-align: center;
     padding: 40px;
   }
-  
-  /* .car-avatar {
-    width: 100%;
-    height: auto;
-    margin-right: 0;
-    margin-bottom: 12px;
 
-  } */
-
-  .thumb img {
-  width: 100%;
-  height: 180px;
-  object-fit: cover;
-  transition: transform .3s;
-}
-  
   .car-actions {
     flex-direction: row;
     justify-content: center;
@@ -603,7 +582,20 @@ h2 {
     margin-top: 10px;
     display: block !important;
   }
-} 
+}
+
+@media (max-width: 576px) {
+  .m-container,
+  .s-container {
+    max-width: none;
+    margin: 0 16px;
+  }
+
+  .space.sec {
+    padding-top: 32px;
+    padding-bottom: 32px;
+  }
+}
 
 /* Bootstrap Grid Helper */
 .row {
@@ -662,6 +654,7 @@ h2 {
     opacity: 0;
     transform: translateY(-30px) scale(0.95);
   }
+
   to {
     opacity: 1;
     transform: translateY(0) scale(1);
@@ -803,7 +796,7 @@ h2 {
   .page-header {
     align-items: center;
     gap: 1rem;
-    padding:15px
+    padding: 15px
   }
 
   h2 {
@@ -841,22 +834,22 @@ h2 {
     max-height: 90vh;
     margin: 0 10px;
   }
-  
+
   .modal-header,
   .modal-body {
     padding: 1rem 1.5rem;
   }
-  
+
   .modal-footer {
     padding: 0.75rem 1.5rem 1rem;
     flex-direction: column;
   }
-  
+
   .modal-footer .btn {
     width: 100%;
     margin-bottom: 0.5rem;
   }
-  
+
   .modal-footer .btn:last-child {
     margin-bottom: 0;
   }
@@ -864,7 +857,7 @@ h2 {
   .modal-body .row {
     margin: 0;
   }
-  
+
   .modal-body .col-md-6 {
     padding: 0 0 1rem 0;
   }
@@ -896,7 +889,7 @@ h2 {
   border-radius: 8px;
   overflow: hidden;
   background: white;
-  box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
   transition: transform 0.2s;
 }
 
@@ -1011,15 +1004,15 @@ h2 {
     grid-template-columns: repeat(auto-fill, minmax(100px, 1fr));
     gap: 0.75rem;
   }
-  
+
   .car-image-preview {
     height: 100px;
   }
-  
+
   .car-images-section {
     padding: 1rem;
   }
-  
+
   .upload-section .btn-outline-primary {
     width: 100%;
     font-size: 0.9rem;
@@ -1058,7 +1051,7 @@ h2 {
   height: 80px;
   object-fit: cover;
   border-radius: 10px;
-  box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
 }
 
 .car-details h4 {

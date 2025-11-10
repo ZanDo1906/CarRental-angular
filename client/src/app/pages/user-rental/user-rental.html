@@ -4,7 +4,7 @@
       <div class="sidebar-wrapper">
         <app-side-bar></app-side-bar>
       </div>
-      <div class="content-wrapper content">
+      <div class="content-wrapper">
         <main class="main-content">
           <h2>Chuyến của tôi ({{ rentals.length }})</h2>
 
@@ -98,14 +98,19 @@
                 </div>
 
                 <div class="rental-status">Đang cho thuê</div>
+                <div class="rental-date text-muted">
+                  Ngày trả: 
+                    <span class="">{{formatDate(rental.Ngay_tra_xe)}} {{rental.Gio_tra_xe}}</span>
+                </div>
               </div>
 
               <div class="rental-actions">
                 <p class="rental-status">Đang cho thuê</p>
-                <div class="text-muted" style="display: flex !important; align-items: center !important; gap: 0.5rem !important;">
+                <div class="rental-date text-muted">
                   Ngày trả: 
                     <span class="">{{formatDate(rental.Ngay_tra_xe)}} {{rental.Gio_tra_xe}}</span>
                 </div>
+                
                 <button  class="btn btn-solid-primary">Trả xe</button>
                 <button  class="btn btn-approve">Gia hạn thuê</button>
                 <button  class="btn btn-outline-danger">Khiếu nại</button>
