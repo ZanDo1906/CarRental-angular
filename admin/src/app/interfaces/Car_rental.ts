@@ -10,5 +10,5 @@ export interface iCar_rental {
     Gio_tra_xe: string;            // Giờ trả xe (HH:mm)
     Tong_ngay_thue: number;        // Tổng số ngày thuê
     Tong_chi_phi: number;          // Tổng chi phí thuê = Gia_thue * Tong_ngay_thue
-    Trang_thai: number;            // 1=Đang xử lý | 2=Đã xác nhận | 3=Đã huỷ | 4=Đã hoàn tất
+    Trang_thai: number;            //   3=Đã huỷ | 4=Đã hoàn tất
 }

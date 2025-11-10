@@ -165,7 +165,7 @@
         "Gio_tra_xe": "10:00",
         "Tong_ngay_thue": 2,
         "Tong_chi_phi": 1500000,
-        "Trang_thai": 2
+        "Trang_thai": 4
     },
     {
         "Ma_don_thue": 13,
@@ -179,7 +179,7 @@
         "Gio_tra_xe": "08:30",
         "Tong_ngay_thue": 4,
         "Tong_chi_phi": 3400000,
-        "Trang_thai": 2
+        "Trang_thai": 4
     },
     {
         "Ma_don_thue": 14,
@@ -193,7 +193,7 @@
         "Gio_tra_xe": "09:00",
         "Tong_ngay_thue": 2,
         "Tong_chi_phi": 1200000,
-        "Trang_thai": 1
+        "Trang_thai": 4
     },
     {
         "Ma_don_thue": 15,
@@ -207,7 +207,7 @@
         "Gio_tra_xe": "09:00",
         "Tong_ngay_thue": 3,
         "Tong_chi_phi": 2550000,
-        "Trang_thai": 2
+        "Trang_thai": 4
     },
     {
         "Ma_don_thue": 16,
@@ -235,7 +235,7 @@
         "Gio_tra_xe": "09:15",
         "Tong_ngay_thue": 4,
         "Tong_chi_phi": 4400000,
-        "Trang_thai": 2
+        "Trang_thai": 4
     },
     {
         "Ma_don_thue": 18,
@@ -305,7 +305,7 @@
         "Gio_tra_xe": "09:00",
         "Tong_ngay_thue": 2,
         "Tong_chi_phi": 1500000,
-        "Trang_thai": 2
+        "Trang_thai": 4
     },
     {
         "Ma_don_thue": 23,
@@ -361,7 +361,7 @@
         "Gio_tra_xe": "09:00",
         "Tong_ngay_thue": 3,
         "Tong_chi_phi": 2850000,
-        "Trang_thai": 2
+        "Trang_thai": 4
     },
     {
         "Ma_don_thue": 27,
@@ -459,7 +459,7 @@
         "Gio_tra_xe": "10:15",
         "Tong_ngay_thue": 2,
         "Tong_chi_phi": 1200000,
-        "Trang_thai": 2
+        "Trang_thai": 4
     },
     {
         "Ma_don_thue": 34,
@@ -795,7 +795,7 @@
         "Gio_tra_xe": "09:30",
         "Tong_ngay_thue": 2,
         "Tong_chi_phi": 2000000,
-        "Trang_thai": 2
+        "Trang_thai": 4
     },
     {
         "Ma_don_thue": 58,
@@ -809,7 +809,7 @@
         "Gio_tra_xe": "10:00",
         "Tong_ngay_thue": 3,
         "Tong_chi_phi": 3450000,
-        "Trang_thai": 2
+        "Trang_thai": 4
     },
     {
         "Ma_don_thue": 59,
@@ -823,7 +823,7 @@
         "Gio_tra_xe": "09:00",
         "Tong_ngay_thue": 2,
         "Tong_chi_phi": 1900000,
-        "Trang_thai": 2
+        "Trang_thai": 4
     },
     {
         "Ma_don_thue": 60,
@@ -837,7 +837,7 @@
         "Gio_tra_xe": "09:45",
         "Tong_ngay_thue": 2,
         "Tong_chi_phi": 2200000,
-        "Trang_thai": 2
+        "Trang_thai": 4
     },
     {
         "Ma_don_thue": 61,
@@ -851,7 +851,7 @@
         "Gio_tra_xe": "09:30",
         "Tong_ngay_thue": 3,
         "Tong_chi_phi": 2700000,
-        "Trang_thai": 1
+        "Trang_thai": 4
     },
     {
         "Ma_don_thue": 62,
@@ -865,7 +865,7 @@
         "Gio_tra_xe": "09:30",
         "Tong_ngay_thue": 3,
         "Tong_chi_phi": 3000000,
-        "Trang_thai": 1
+        "Trang_thai": 4
     },
     {
         "Ma_don_thue": 63,
@@ -879,7 +879,7 @@
         "Gio_tra_xe": "09:45",
         "Tong_ngay_thue": 3,
         "Tong_chi_phi": 3450000,
-        "Trang_thai": 1
+        "Trang_thai": 4
     },
     {
         "Ma_don_thue": 64,
@@ -893,7 +893,7 @@
         "Gio_tra_xe": "09:30",
         "Tong_ngay_thue": 2,
         "Tong_chi_phi": 1900000,
-        "Trang_thai": 1
+        "Trang_thai": 4
     },
     {
         "Ma_don_thue": 65,
@@ -907,7 +907,7 @@
         "Gio_tra_xe": "09:45",
         "Tong_ngay_thue": 3,
         "Tong_chi_phi": 3300000,
-        "Trang_thai": 1
+        "Trang_thai": 4
     },
     {
         "Ma_don_thue": 66,
@@ -921,7 +921,7 @@
         "Gio_tra_xe": "09:00",
         "Tong_ngay_thue": 3,
         "Tong_chi_phi": 2700000,
-        "Trang_thai": 1
+        "Trang_thai": 4
     },
     {
         "Ma_don_thue": 67,
@@ -935,7 +935,7 @@
         "Gio_tra_xe": "09:30",
         "Tong_ngay_thue": 3,
         "Tong_chi_phi": 3000000,
-        "Trang_thai": 1
+        "Trang_thai": 4
     },
     {
         "Ma_don_thue": 68,
@@ -949,7 +949,7 @@
         "Gio_tra_xe": "10:00",
         "Tong_ngay_thue": 3,
         "Tong_chi_phi": 3450000,
-        "Trang_thai": 1
+        "Trang_thai": 4
     },
     {
         "Ma_don_thue": 69,
@@ -963,7 +963,7 @@
         "Gio_tra_xe": "09:30",
         "Tong_ngay_thue": 3,
         "Tong_chi_phi": 2850000,
-        "Trang_thai": 1
+        "Trang_thai": 4
     },
     {
         "Ma_don_thue": 70,
@@ -977,7 +977,7 @@
         "Gio_tra_xe": "09:45",
         "Tong_ngay_thue": 3,
         "Tong_chi_phi": 3300000,
-        "Trang_thai": 1
+        "Trang_thai": 4
     },
     {
         "Ma_don_thue": 71,
@@ -991,7 +991,7 @@
         "Gio_tra_xe": "09:30",
         "Tong_ngay_thue": 3,
         "Tong_chi_phi": 2700000,
-        "Trang_thai": 1
+        "Trang_thai": 4
     },
     {
         "Ma_don_thue": 72,
@@ -1005,7 +1005,7 @@
         "Gio_tra_xe": "09:30",
         "Tong_ngay_thue": 3,
         "Tong_chi_phi": 3000000,
-        "Trang_thai": 1
+        "Trang_thai": 4
     },
     {
         "Ma_don_thue": 73,
@@ -1019,7 +1019,7 @@
         "Gio_tra_xe": "09:45",
         "Tong_ngay_thue": 3,
         "Tong_chi_phi": 3450000,
-        "Trang_thai": 1
+        "Trang_thai": 4
     },
     {
         "Ma_don_thue": 74,
@@ -1033,7 +1033,7 @@
         "Gio_tra_xe": "09:30",
         "Tong_ngay_thue": 3,
         "Tong_chi_phi": 2850000,
-        "Trang_thai": 1
+        "Trang_thai": 4
     },
     {
         "Ma_don_thue": 75,
@@ -1047,6 +1047,6 @@
         "Gio_tra_xe": "09:45",
         "Tong_ngay_thue": 3,
         "Tong_chi_phi": 3300000,
-        "Trang_thai": 1
+        "Trang_thai": 4
     }
 ]
