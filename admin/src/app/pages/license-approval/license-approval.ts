@@ -1,7 +1,8 @@
 import { Component, OnInit, signal, computed } from '@angular/core';
-import { CommonModule, DatePipe } from '@angular/common'; 
+import { CommonModule, DatePipe } from '@angular/common';
 import { RouterModule, Router } from '@angular/router';
 import { HttpClient } from '@angular/common/http';
+
 
 interface iUser {
   Ma_nguoi_dung: number;
@@ -29,7 +30,11 @@ export class LicenseApproval implements OnInit {
 
   users = signal<iUserWithStatus[]>([]);
   currentPage = signal<number>(1);
-  itemsPerPage: number = 5; 
+  itemsPerPage: number = 5;
+
+  modalType = signal<'view' | 'reject' | null>(null);
+  selectedUser = signal<iUserWithStatus | null>(null);
+  rejectionReason = signal<string>('');
 
   displayedUsers = computed(() => {
     const page = this.currentPage();
@@ -51,12 +56,10 @@ export class LicenseApproval implements OnInit {
   ngOnInit(): void {
     this.http.get<iUser[]>('assets/data/User.json').subscribe({
       next: (loadedUsers) => {
-        
-        const usersWithStatus: iUserWithStatus[] = loadedUsers.map(user => ({
+        const usersWithStatus: iUserWithStatus[] = loadedUsers.map((user) => ({
           ...user,
-          Trang_thai: 'Chưa xét duyệt'
+          Trang_thai: 'Chưa xét duyệt',
         }));
-
         this.users.set(usersWithStatus);
       },
       error: (err) => console.error('Lỗi khi tải dữ liệu user:', err),
@@ -65,24 +68,53 @@ export class LicenseApproval implements OnInit {
 
   onAction(action: string, user: iUserWithStatus) {
     if (action === 'view') {
-      alert(`Xem bằng lái của ${user.Ho_va_ten}. Số GPLX: ${user.Giay_phep_lai_xe}`);
-
-    } else if (action === 'approve' || action === 'reject') {
-      
-      if (action === 'approve') {
-        alert(`Đã duyệt bằng lái cho: ${user.Ho_va_ten}`);
-      } else {
-        alert(`Đã từ chối bằng lái của: ${user.Ho_va_ten}`);
-      }
-
-      this.users.update(currentUsers => 
-        currentUsers.filter(u => u.Ma_nguoi_dung !== user.Ma_nguoi_dung)
-      );
-
-      if (this.displayedUsers().length === 0 && this.currentPage() > 1) {
-        this.currentPage.set(this.currentPage() - 1);
-      }
+      this.selectedUser.set(user);
+      this.modalType.set('view'); 
+    } else if (action === 'reject') {
+      this.selectedUser.set(user);
+      this.rejectionReason.set('');
+      this.modalType.set('reject'); 
+    } else if (action === 'approve') {
+      alert(`Đã duyệt bằng lái cho: ${user.Ho_va_ten}`);
+      this.removeUser(user); 
     }
+  }
+
+  private removeUser(user: iUserWithStatus) {
+    this.users.update((currentUsers) =>
+      currentUsers.filter((u) => u.Ma_nguoi_dung !== user.Ma_nguoi_dung)
+    );
+
+    if (this.displayedUsers().length === 0 && this.currentPage() > 1) {
+      this.currentPage.set(this.currentPage() - 1);
+    }
+  }
+
+  closeModal() {
+    this.modalType.set(null);
+    this.selectedUser.set(null);
+  }
+
+  onReasonChange(event: Event) {
+    const reason = (event.target as HTMLTextAreaElement).value;
+    this.rejectionReason.set(reason);
+  }
+
+  submitRejection() {
+    const user = this.selectedUser();
+    const reason = this.rejectionReason();
+    if (!user) return;
+
+    if (reason.trim().length === 0) {
+      alert('Vui lòng nhập lý do từ chối.');
+      return;
+    }
+
+    alert(`Đã từ chối ${user.Ho_va_ten} với lý do: ${reason}`);
+    console.log(`UserID: ${user.Ma_nguoi_dung}, Reason: ${reason}`);
+
+    this.removeUser(user); 
+    this.closeModal(); 
   }
 
   goToPage(page: number): void {
@@ -98,8 +130,8 @@ export class LicenseApproval implements OnInit {
   prevPage(): void {
     this.goToPage(this.currentPage() - 1);
   }
- 
+
   onImageError(event: Event) {
-    (event.target as HTMLImageElement).src = 'assets/img/default-avatar.png'; 
+    (event.target as HTMLImageElement).src = 'assets/img/default-avatar.png';
   }
 }

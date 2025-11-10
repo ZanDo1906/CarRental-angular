@@ -1,4 +1,4 @@
-import { Component, OnInit, signal, computed } from '@angular/core'; // 1. Thêm 'computed'
+import { Component, OnInit, signal, computed } from '@angular/core'; 
 import { CommonModule } from '@angular/common';
 import { RouterModule, Router } from '@angular/router';
 import { HttpClient } from '@angular/common/http';
@@ -22,7 +22,11 @@ export class CarRegistrationApproval implements OnInit {
   cars = signal<iCarWithLocation[]>([]);
 
   currentPage = signal<number>(1);
-  itemsPerPage: number = 5; // Giới hạn 5 xe/trang
+  itemsPerPage: number = 5; 
+
+  modalType = signal<'reject' | null>(null);
+  selectedCar = signal<iCarWithLocation | null>(null);
+  rejectionReason = signal<string>('');
 
   displayedCars = computed(() => {
     const page = this.currentPage();
@@ -64,7 +68,6 @@ export class CarRegistrationApproval implements OnInit {
           return { ...car, Vi_tri: vi_tri_day_du };
         });
 
-        // Gán dữ liệu vào signal NGUỒN
         this.cars.set(carsWithLocation);
       },
       error: (err) => console.error('Lỗi khi tải dữ liệu:', err),
@@ -74,23 +77,51 @@ export class CarRegistrationApproval implements OnInit {
   onAction(action: string, car: iCarWithLocation) {
     if (action === 'detail') {
       this.router.navigate(['/car-detail-approval', car.Ma_xe]);
-
-    } else if (action === 'approve' || action === 'reject') {
-      
-      if (action === 'approve') {
-        alert(`Đã duyệt xe: ${car.Hang_xe} ${car.Dong_xe}`);
-      } else {
-        alert(`Đã từ chối xe: ${car.Hang_xe} ${car.Dong_xe}`);
-      }
-      
-      this.cars.update(currentCars => 
-        currentCars.filter(c => c.Ma_xe !== car.Ma_xe)
-      );
-
-      if (this.displayedCars().length === 0 && this.currentPage() > 1) {
-        this.currentPage.set(this.currentPage() - 1);
-      }
+    } else if (action === 'approve') {
+      alert(`Đã duyệt xe: ID ${car.Ma_xe}_${car.Hang_xe} ${car.Dong_xe} ${car.Nam_san_xuat}`);
+      this.removeCar(car); 
+    } else if (action === 'reject') {
+      this.selectedCar.set(car);
+      this.rejectionReason.set('');
+      this.modalType.set('reject');
     }
+  }
+
+  private removeCar(car: iCarWithLocation) {
+    this.cars.update((currentCars) =>
+      currentCars.filter((c) => c.Ma_xe !== car.Ma_xe)
+    );
+
+    if (this.displayedCars().length === 0 && this.currentPage() > 1) {
+      this.currentPage.set(this.currentPage() - 1);
+    }
+  }
+
+  closeModal() {
+    this.modalType.set(null);
+    this.selectedCar.set(null);
+  }
+
+  onReasonChange(event: Event) {
+    const reason = (event.target as HTMLTextAreaElement).value;
+    this.rejectionReason.set(reason);
+  }
+
+  submitRejection() {
+    const car = this.selectedCar();
+    const reason = this.rejectionReason();
+    if (!car) return;
+
+    if (reason.trim().length === 0) {
+      alert('Vui lòng nhập lý do từ chối.');
+      return;
+    }
+
+    alert(
+      `Đã từ chối xe ${car.Hang_xe} ${car.Dong_xe} với lý do: ${reason}`
+    );
+    this.removeCar(car);
+    this.closeModal(); 
   }
 
   goToPage(page: number): void {
