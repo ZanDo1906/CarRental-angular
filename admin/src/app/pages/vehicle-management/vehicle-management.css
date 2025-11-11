@@ -1,0 +1,263 @@
+@import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700;800&family=Inter:wght@400;500;600;700&display=swap');
+
+:host {
+    --color-primary: #1D7363;
+    --color-primary-text: #212121;
+    --color-secondary-text: #555555;
+    --color-label-text: #333333;
+    --color-border: #e0e0e0;
+    --color-background: #f8f9fa;
+    --color-card-bg: #ffffff;
+    --color-image-bg: #eeeeee;
+    --color-error: #d32f2f;
+    ;
+    --shadow: 0 2px 8px rgba(0, 0, 0, 0.06);
+    --shadow-hover: 0 6px 20px rgba(29, 115, 99, 0.1);
+    display: flex;
+    flex-grow: 1;
+    width: 100%;
+    font-family: 'Inter', sans-serif;
+}
+
+.btn-primary-custom {
+    background-color: #1d7363;
+    border-color: #1d7363;
+    border-radius: 8px;
+    color: #FFFFFF;
+}
+
+
+.main-content {
+    height: 100%;
+    flex-grow: 1;
+    overflow-y: auto;
+    /* padding-top: 1rem; */
+    font-size: 16px;
+}
+
+.main-content>h2 {
+    font-size: 32px;
+    font-weight: 700;
+    color: var(--color-primary);
+    margin-top: 30px;
+    margin-bottom: 25px;
+    font-family: 'Montserrat', sans-serif;
+
+}
+
+.search-wrapper {
+    position: relative;
+    margin-top: 5px;
+}
+
+.search-wrapper .search-icon {
+    position: absolute;
+    left: 1rem;
+    top: 50%;
+    transform: translateY(-50%);
+    color: #6B7280;
+}
+
+
+.search-wrapper .search-input {
+    border-radius: 20px;
+    margin-left: 50px;
+    margin-bottom: 20px;
+    padding-left: 1.5rem;
+    padding-right: 2.5rem;
+    border: 1px solid #6B7280 !important;
+    width: 250px;
+}
+
+.search-input:focus {
+    border-color: #166051;
+    box-shadow: 0 0 0 0.25rem rgba(29, 115, 99, 0.25);
+    outline: none;
+}
+
+
+.table-responsive-wrapper {
+    background-color: #FFFFFF;
+    border-radius: 20px;
+    font-size: 16px;
+    padding: 2rem;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.06);
+    border: 1px solid #1D7363;
+    max-width: 100%;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.table {
+    margin-bottom: 10px;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.table thead th {
+    background-color: #fcfcfc;
+    font-size: 16px;
+}
+
+.table tbody td {
+    vertical-align: middle;
+    color: var(--text-color);
+    font-size: 16px;
+    text-align: left;
+}
+
+.table tbody tr:hover {
+    background-color: #eef6f4;
+    color: #1D7363;
+    cursor: pointer;
+}
+
+/* Pagination styles removed (pagination was removed from template) */
+
+/* Responsive text size */
+@media (max-width: 768px) {
+    .main-content {
+        font-size: 14px;
+    }
+
+    .main-content>h2 {
+        font-size: 28px;
+        margin-top: 0px;
+    }
+
+    .table {
+        font-size: 14px;
+    }
+
+    .table thead th,
+    .table tbody td {
+        font-size: 14px;
+    }
+
+    .search-wrapper {
+        position: relative;
+        margin-top: 5px;
+    }
+
+    .search-wrapper .search-icon {
+        position: absolute;
+        left: 1rem;
+        top: 50%;
+        transform: translateY(-50%);
+        color: #6B7280;
+    }
+
+
+    .search-wrapper .search-input {
+        border-radius: 20px;
+        margin-left: 50px;
+        margin-bottom: 20px;
+        padding-left: 1.5rem;
+        padding-right: 2.5rem;
+        border: 1px solid #6B7280 !important;
+        width: 250px;
+    }
+
+    .search-input:focus {
+        border-color: #166051;
+        box-shadow: 0 0 0 0.25rem rgba(29, 115, 99, 0.25);
+        outline: none;
+    }
+
+}
+
+/* Adjust column widths for 5-column layout */
+.table {
+    width: 100%;
+    table-layout: fixed;
+    /* stable column widths */
+}
+
+.table thead th:nth-child(1),
+.table tbody td:nth-child(1) {
+    width: 80px;
+    /* ID column */
+    max-width: 80px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+.table thead th:nth-child(2),
+.table tbody td:nth-child(2) {
+    width: 200px;
+    /* Biển số */
+    max-width: 200px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+.table thead th:nth-child(3),
+.table tbody td:nth-child(3) {
+    width: 160px;
+    /* Hãng xe */
+    max-width: 160px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+.table thead th:nth-child(4),
+.table tbody td:nth-child(4) {
+    width: 180px;
+    /* Chủ xe */
+    max-width: 180px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+.table thead th:nth-child(5),
+.table tbody td:nth-child(5) {
+    width: 120px;
+    /* Ảnh xe */
+    max-width: 120px;
+}
+
+/* On small screens, revert to auto layout to avoid truncation */
+@media (max-width: 768px) {
+    .table {
+        table-layout: auto;
+    }
+
+    .table thead th,
+    .table tbody td {
+        width: auto !important;
+        max-width: none !important;
+        white-space: normal !important;
+    }
+}
+
+/* Styles for car image cell and owner column */
+.car-thumb {
+    width: 100px;
+    height: 70px;
+    object-fit: cover;
+    border-radius: 8px;
+    background-color: var(--color-image-bg);
+    box-shadow: var(--shadow);
+    display: block;
+}
+
+.owner-col {
+    font-weight: 600;
+    color: var(--color-primary-text);
+    font-size: 14px;
+}
+
+@media (max-width: 768px) {
+    .car-thumb {
+        width: 80px;
+        height: 56px;
+    }
+
+    .owner-col {
+        font-size: 13px;
+    }
+}

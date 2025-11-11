@@ -8,6 +8,7 @@ import { AccountDetail } from './pages/account-detail/account-detail';
 import { AdminAccount } from './pages/admin-account/admin-account';
 import { LogIn } from './pages/log-in/log-in';
 import { AuthGuard } from './guards/auth.guard';
+import { VehicleManagement } from './pages/vehicle-management/vehicle-management';
 
 export const routes: Routes = [
   { path: 'login', component: LogIn },
@@ -18,6 +19,7 @@ export const routes: Routes = [
   { path: 'license-approval', component: LicenseApproval, canActivate: [AuthGuard] },
   { path: 'account-detail', component: AccountDetail, canActivate: [AuthGuard] },
   { path: 'admin-account', component: AdminAccount, canActivate: [AuthGuard] },
+  { path: 'vehicle-management', component: VehicleManagement, canActivate: [AuthGuard] },
   { path: '', redirectTo: '/login', pathMatch: 'full' },
   { path: '**', redirectTo: '/login' }
 ];

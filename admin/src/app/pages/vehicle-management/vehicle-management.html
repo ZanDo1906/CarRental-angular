@@ -1,0 +1,52 @@
+<main class="main-content">
+    <h2>Quản lý xe</h2>
+
+    <div class="content-header d-flex justify-content-between align-items-center flex-wrap pb-2 mb-3">
+        <div class="btn-toolbar mb-2 mb-md-0">
+            <div class="btn-group me-2">
+                <button type="button" class="btn btn-primary-custom">
+                    <i class="bi bi-check-lg"></i> A-Z
+                </button>
+                <button type="button" class="btn btn-sm btn-outline-secondary">Mới nhất</button>
+                <button type="button" class="btn btn-sm btn-outline-secondary">Cũ nhất</button>
+            </div>
+        </div>
+        <div class="d-flex align-items-center">
+            <span class="me-3 user-count">Số lượng xe: <strong>{{ cars.length }}</strong></span>
+        </div>
+    </div>
+
+    <div class="table-responsive-wrapper">
+        <div class="table-responsive">
+            <div class="search-wrapper">
+                <i class="bi bi-search search-icon"></i>
+                <input type="text" class="form-control search-input" placeholder="Search">
+            </div>
+            <table class="table table-hover align-middle">
+                <thead>
+                    <tr>
+                        <th scope="col">ID</th>
+                        <th scope="col">Biển số</th>
+                        <th scope="col">Hãng xe</th>
+                        <th scope="col">Chủ xe</th>
+                        <th scope="col">Ảnh</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr *ngFor="let car of cars" (click)="viewCarDetail(car)" style="cursor: pointer;">
+                        <td>{{ car.Ma_xe }}</td>
+                        <td class="text-primary">{{ car.Bien_so_xe }}</td>
+                        <td>{{ car.Hang_xe }}</td>
+                        <td class="owner-col">{{ getOwnerName(car) }}</td>
+                        <td>
+                            <img [src]="car.Anh_xe && car.Anh_xe.length ? car.Anh_xe[0] : '/assets/images/placeholder-car.png'"
+                                alt="Ảnh xe" class="car-thumb" />
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+    <!-- Pagination removed -->
+</main>
