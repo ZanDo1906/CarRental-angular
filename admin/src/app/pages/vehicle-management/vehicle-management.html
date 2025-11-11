@@ -26,14 +26,13 @@
                 <thead>
                     <tr>
                         <th scope="col">ID</th>
-                        <th scope="col">Biển số</th>
                         <th scope="col">Hãng xe</th>
                         <th scope="col">Chủ xe</th>
                         <th scope="col">Ảnh</th>
                     </tr>
                 </thead>
                 <tbody>
-                    <tr *ngFor="let car of cars" (click)="viewCarDetail(car)" style="cursor: pointer;">
+                    <tr *ngFor="let car of pagedCars" (click)="viewCarDetail(car)" style="cursor: pointer;">
                         <td>{{ car.Ma_xe }}</td>
                         <td class="text-primary">{{ car.Bien_so_xe }}</td>
                         <td>{{ car.Hang_xe }}</td>
@@ -45,8 +44,30 @@
                     </tr>
                 </tbody>
             </table>
+            <nav aria-label="Page navigation" class="d-flex justify-content-end mt-3">
+                <ul class="pagination">
+                    <li class="page-item" [class.disabled]="currentPage === 1">
+                        <a class="page-link" href="#" aria-label="Previous"
+                            (click)="$event.preventDefault(); setPage(currentPage - 1)"
+                            [attr.aria-disabled]="currentPage === 1">
+                            <i class="bi bi-chevron-left"></i>
+                        </a>
+                    </li>
+                    <li class="page-item" [class.active]="currentPage === 1"><a class="page-link" href="#"
+                            (click)="$event.preventDefault(); setPage(1)">1</a></li>
+                    <li class="page-item" [class.active]="currentPage === 2"><a class="page-link" href="#"
+                            (click)="$event.preventDefault(); setPage(2)">2</a></li>
+                    <li class="page-item" [class.disabled]="currentPage === totalPages">
+                        <a class="page-link" href="#" aria-label="Next"
+                            (click)="$event.preventDefault(); setPage(currentPage + 1)"
+                            [attr.aria-disabled]="currentPage === totalPages">
+                            <i class="bi bi-chevron-right"></i>
+                        </a>
+                    </li>
+                </ul>
+            </nav>
         </div>
     </div>
 
-    <!-- Pagination removed -->
+
 </main>

@@ -1,3 +1,43 @@
+/* Phân trang */
+.pagination {
+    margin-right: 10px;
+    list-style: none;
+    gap: 0.5rem;
+}
+
+.pagination .page-link {
+    border: none;
+    background-color: #ffffff;
+    color: var(--color-primary);
+    border-radius: 50%;
+    transition: all 0.2s ease;
+    text-decoration: none;
+    width: 36px;
+    height: 36px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
+}
+
+.pagination .page-link:hover {
+    background-color: var(--color-primary);
+    color: #ffffff;
+    transform: translateY(-2px);
+    box-shadow: 0 4px 10px rgba(29, 115, 99, 0.3);
+}
+
+.pagination .page-link i {
+    font-size: 16px;
+}
+
+.pagination .page-item.active .page-link {
+    background-color: var(--color-primary);
+    color: #ffffff;
+    font-weight: 700;
+    box-shadow: 0 2px 8px rgba(29, 115, 99, 0.4);
+}
+
 @import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700;800&family=Inter:wght@400;500;600;700&display=swap');
 
 :host {

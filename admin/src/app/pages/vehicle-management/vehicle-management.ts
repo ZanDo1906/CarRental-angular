@@ -13,6 +13,17 @@ import usersData from '../../../assets/data/User.json';
 })
 export class VehicleManagement {
   cars = carsData;
+  currentPage = 1;
+  pageSize = 10;
+
+  get pagedCars() {
+    const start = (this.currentPage - 1) * this.pageSize;
+    return this.cars.slice(start, start + this.pageSize);
+  }
+
+  setPage(page: number) {
+    this.currentPage = page;
+  }
   users = usersData;
   constructor(
     private router: Router,
@@ -31,5 +42,9 @@ export class VehicleManagement {
       this.ownerService.setOwnerId(car.Ma_xe);
       this.router.navigate(['/vehicle-detail', car.Ma_xe]);
     }
+  }
+
+  get totalPages() {
+    return Math.ceil(this.cars.length / this.pageSize);
   }
 }
