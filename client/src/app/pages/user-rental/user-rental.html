@@ -1,20 +1,15 @@
-<div class="rental-section sec space">
-  <div class="m-container">
-    <div class="rental-container">
-      <div class="sidebar-wrapper">
-        <app-side-bar></app-side-bar>
-      </div>
-      <div class="content-wrapper">
-        <main class="main-content">
-          <h2>Chuyến của tôi ({{ rentals.length }})</h2>
+<main class="main-content">
+  <div class="page-header">
+    <h2>Chuyến của tôi ({{ rentals.length }})</h2>
+  </div>
 
-          <div class="alert alert-info" *ngIf="loading">
-            Đang tải dữ liệu...
-          </div>
+  <div class="alert alert-info" *ngIf="loading">
+    Đang tải dữ liệu...
+  </div>
 
-          <div class="alert alert-warning" *ngIf="!loading && rentals.length === 0">
-            Bạn chưa có chuyến đi nào.
-          </div>
+  <div class="alert alert-warning" *ngIf="!loading && rentals.length === 0">
+    Bạn chưa có chuyến đi nào.
+  </div>
 
           <div class="cards-list" *ngIf="!loading && rentals.length > 0">
 
@@ -238,11 +233,7 @@
                     aria-label="Next">
                     <i class="bi bi-chevron-right"></i>
                   </a>
-                </li>
-              </ul>
-            </nav>
-        </main>
-      </div>
-    </div>
-  </div>
-</div>
+              </li>
+            </ul>
+          </nav>
+</main>

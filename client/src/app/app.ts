@@ -7,12 +7,13 @@ import { Footer } from './pages/footer/footer';
 import { TroThanhChuXe } from "./pages/tro-thanh-chu-xe/tro-thanh-chu-xe";
 import { CarList } from './pages/carList/carList';
 import { SideBar } from './pages/side-bar/side-bar';
+import { UserLayoutComponent } from './pages/user-layout/user-layout.component';
 
 
 @Component({
   selector: 'app-root',
   standalone: true,
-  imports: [TestData, JsonPipe, RouterOutlet, Header, Footer, CarList, SideBar],
+  imports: [TestData, JsonPipe, RouterOutlet, Header, Footer, CarList, SideBar, UserLayoutComponent],
   templateUrl: './app.html',
   styleUrl: './app.css'
 })

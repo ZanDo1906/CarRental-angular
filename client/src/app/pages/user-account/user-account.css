@@ -9,15 +9,51 @@
 
 .m-container {
     max-width: 1280px;
+    padding-left: 20px;
+    padding-right: 20px;
 }
 .space.sec {
-    padding-top: 10px;
-    padding-bottom: 20px;
+    padding-top: 60px;
+    padding-bottom: 60px;
 }
 
 .space {
     padding-top: 5px;
     padding-bottom: 5px;
+}
+
+.account-section .account-container {
+  display: flex;
+  grid-gap: 20px;
+  gap: 20px;
+  align-items: flex-start;
+}
+
+.account-section .account-container .main-content {
+  width: 100%;
+  padding: 40px;
+}
+
+/* Sidebar wrapper - equivalent to col-md-3 (25%) */
+.sidebar-wrapper {
+  flex: 0 0 25%;
+  max-width: 25%;
+}
+
+/* Content wrapper - equivalent to col-md-9 (75%) */
+.content-wrapper {
+  flex: 1;
+  min-width: 0;
+}
+
+.main-content {
+  height: 100%;
+  flex-grow: 1;
+  overflow-y: auto;
+  font-size: 16px;
+  background-color: #ffffff;
+  font-family: 'Inter', sans-serif;
+  gap: 10px;
 }
 
 input:disabled {
@@ -228,10 +264,9 @@ p {
 }
 
 /* Content wrapper - equivalent to col-md-9 (75%) */
-.content-account {
+.main-content {
   flex: 1;
   min-width: 0;
-  padding-left: 20px;
 }
 
 .content-user {
@@ -254,6 +289,7 @@ p {
   border-radius: 12px;
   padding: 24px 32px;
   border: 1px solid #1D7363;
+  margin-bottom: 20px;
 }
 
 .user-profile {
@@ -778,50 +814,45 @@ p {
     font-size: 2.75rem
   }
 
-  .space.sec {
-    padding-top: 80px;
-    padding-bottom: 80px;
-  }
-
   .m-container {
-    max-width: 960px;
+    max-width: none;
   }
 
   .s-container {
     max-width: 840px
   }
 
-  .account-section .account-container .content-account,
+  .account-section .account-container .main-content,
   .account-section .account-container .sidebar-account {
     width: 100%;
     padding: 40px;
   }
 
-  .content-account .content-item {
+  .main-content .content-item {
     padding: 24px
   }
 
-  .content-account .user-profile .content .info-user .info-note .note-five-star {
+  .main-content .user-profile .content .info-user .info-note .note-five-star {
     align-items: center
   }
 
-  .content-account .driver-license .content {
+  .main-content .driver-license .content {
     flex-direction: column
   }
 
-  .content-account .driver-license .content .info-license {
+  .main-content .driver-license .content .info-license {
     width: 100%
   }
 
-  .content-account .driver-license .content .info-license__upload {
+  .main-content .driver-license .content .info-license__upload {
     padding: 20% 0
   }
 
-  .content-account .driver-license .content .info-license .support {
+  .main-content .driver-license .content .info-license .support {
     padding: 12px
   }
 
-  .content-account .fav-car {
+  .main-content .fav-car {
     flex-direction: row;
     flex-wrap: wrap
   }
@@ -845,7 +876,7 @@ p {
     gap: 20px;
   }
 
-  .account-section .account-container .content-account .content-item {
+  .account-section .account-container .main-content .content-item {
     padding: 24px 16px;
   }
 }
@@ -886,8 +917,14 @@ p {
     flex-direction: column;
   }
 
-  /* Mobile responsive - full width */
-  .sidebar-wrapper,
+  /* Mobile responsive */
+  .sidebar-wrapper {
+    flex: none;
+    max-width: 100%;
+    width: 100%;
+    margin-bottom: 20px;
+  }
+  
   .content-wrapper {
     flex: none;
     max-width: 100%;
@@ -901,8 +938,8 @@ p {
   }
 
   .space.sec {
-    padding-top: 45px;
-    padding-bottom: 45px;
+    padding-top: 50px;
+    padding-bottom: 50px;
   }
 }
 
@@ -913,7 +950,7 @@ p {
   }
 
   .space.sec {
-    padding-top: 32px;
-    padding-bottom: 32px;
+    padding-top: 40px;
+    padding-bottom: 40px;
   }
 }

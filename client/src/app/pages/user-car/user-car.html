@@ -1,20 +1,13 @@
-<div class="car-section sec space">
-  <div class="m-container">
-    <div class="car-container">
-      <div class="sidebar-wrapper">
-        <app-side-bar></app-side-bar>
-      </div>
-      <div class="content-wrapper">
-        <main class="main-content">
+<main class="main-content">
 
-          <!-- Header với tiêu đề và nút đăng ký xe mới -->
-          <div class="page-header">
-            <h2>Xe của tôi ({{ users().length }})</h2>
-            <button class="btn btn-register-car" (click)="openRegisterCarModal()">
-              <i class="bi bi-plus-circle"></i>
-              Đăng ký xe mới
-            </button>
-          </div>
+  <!-- Header với tiêu đề và nút đăng ký xe mới -->
+  <div class="page-header">
+    <h2>Xe của tôi ({{ users().length }})</h2>
+    <button class="btn btn-register-car" (click)="openRegisterCarModal()">
+      <i class="bi bi-plus-circle"></i>
+      Đăng ký xe mới
+    </button>
+  </div>
         
           
           
@@ -135,18 +128,13 @@
                 </a>
               </li>
 
-            </ul>
-          </nav>
-        </main>
-      </div>
-    </div>
+          </ul>
+        </nav>
 
-    <div *ngIf="users().length === 0" class="alert alert-info mt-3">Không có xe nào để hiển thị cho người dùng này.
-    </div>
-
+  <div *ngIf="users().length === 0" class="alert alert-info mt-3">Không có xe nào để hiển thị cho người dùng này.
   </div>
 
-</div>
+</main>
 
 <!-- Modal cập nhật thông tin xe -->
 <div class="modal-overlay" *ngIf="showModal" (click)="closeModal()">

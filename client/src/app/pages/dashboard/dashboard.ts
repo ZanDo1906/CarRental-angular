@@ -2,7 +2,6 @@ import { Component, OnInit, ViewChild, ElementRef, AfterViewInit, ChangeDetector
 import { CommonModule } from '@angular/common';
 import { HttpClient } from '@angular/common/http';
 import { Chart, registerables } from 'chart.js';
-import { SideBar } from '../side-bar/side-bar';
 import { OwnerService } from '../../services/owner.service';
 
 interface CarRental {
@@ -45,7 +44,7 @@ interface CarOwnerRevenue {
 @Component({
   selector: 'app-dashboard',
   standalone: true,
-  imports: [CommonModule, SideBar],
+  imports: [CommonModule],
   templateUrl: './dashboard.html',
   styleUrl: './dashboard.css',
 })
@@ -844,7 +843,7 @@ export class Dashboard implements OnInit, AfterViewInit {
         };
       case 'year':
         return {
-          labels: ['T1-T2', 'T3-T4', 'T5-T6', 'T7-T8', 'T9-T10', 'T11-T12', 'Khác'],
+          labels: ['T1', 'T2', 'T3', 'T4', 'T5', 'T6', 'T7', 'T8', 'T9', 'T10', 'T11', 'T12'],
           currentLabel: 'Năm hiện tại',
           previousLabel: 'Năm trước'
         };
@@ -864,6 +863,11 @@ export class Dashboard implements OnInit, AfterViewInit {
       return this.calculateAllTimeChartData();
     }
 
+    // If period is "year", use monthly revenue calculation
+    if (this.selectedPeriod === 'year') {
+      return this.processMonthlyRevenue();
+    }
+
     const { startDate, endDate } = this.getDateRangeForPeriod();
 
     // Get current period data
@@ -878,6 +882,37 @@ export class Dashboard implements OnInit, AfterViewInit {
     return {
       currentWeek: currentPeriodData,
       lastWeek: previousPeriodData
+    };
+  }
+
+  processMonthlyRevenue() {
+    const now = new Date();
+    const currentYear = now.getFullYear();
+    const previousYear = currentYear - 1;
+
+    // Get filtered rentals based on owner
+    const baseRentals = this.getFilteredRentals();
+
+    // Initialize arrays for 12 months
+    const currentYearRevenue = new Array(12).fill(0);
+    const previousYearRevenue = new Array(12).fill(0);
+
+    // Calculate revenue for each month
+    baseRentals.forEach(rental => {
+      const returnDate = new Date(rental.Ngay_tra_xe);
+      const year = returnDate.getFullYear();
+      const month = returnDate.getMonth(); // 0-11
+
+      if (year === currentYear) {
+        currentYearRevenue[month] += rental.Tong_chi_phi;
+      } else if (year === previousYear) {
+        previousYearRevenue[month] += rental.Tong_chi_phi;
+      }
+    });
+
+    return {
+      currentWeek: currentYearRevenue,
+      lastWeek: previousYearRevenue
     };
   }
 

@@ -1,0 +1,122 @@
+.m-container, .s-container {
+  position: relative;
+  margin: 0 auto;
+}
+
+.m-container {
+  max-width: 1140px;
+  padding-left: 20px;
+  padding-right: 20px;
+}
+
+.space.sec {
+  padding-top: 60px;
+  padding-bottom: 60px;
+}
+
+.space {
+  padding-top: 5px;
+  padding-bottom: 5px;
+}
+
+.user-container {
+  display: flex;
+  grid-gap: 20px;
+  gap: 20px;
+  align-items: flex-start;
+}
+
+/* Sidebar wrapper - 25% width */
+.sidebar-wrapper {
+  flex: 0 0 25%;
+  max-width: 25%;
+}
+
+/* Content wrapper - 75% width */
+.content-wrapper {
+  flex: 1;
+  min-width: 0;
+}
+
+@media ((min-width: 1400px)) {
+  .m-container {
+    max-width: 1140px;
+  }
+
+}
+
+/* Desktop first approach - từ lớn xuống nhỏ */
+@media (max-width: 1200px) {
+  .m-container {
+    max-width: 960px;
+  }
+
+  .s-container {
+    max-width: 840px;
+  }
+}
+
+@media (max-width: 1024px) {
+  .m-container {
+    max-width: 720px;
+  }
+
+  .user-container {
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .sidebar-wrapper {
+    flex: none;
+    max-width: 100%;
+    width: 100%;
+  }
+
+  .content-wrapper {
+    flex: none;
+    max-width: 100%;
+    width: 100%;
+  }
+}
+
+@media (max-width: 991px) {
+  .m-container, .s-container {
+    max-width: 720px;
+  }
+
+  .space.sec {
+    padding-top: 60px;
+    padding-bottom: 60px;
+  }
+
+  .sidebar-wrapper {
+    margin-bottom: 20px;
+  }
+}
+
+@media (max-width: 767px) {
+  .m-container, .s-container {
+    max-width: 540px;
+  }
+
+  .space.sec {
+    padding-top: 50px;
+    padding-bottom: 50px;
+  }
+
+  .sidebar-wrapper {
+    margin-bottom: 15px;
+  }
+}
+
+@media (max-width: 576px) {
+  .m-container, .s-container {
+    max-width: none;
+    margin: 0 16px;
+  }
+
+  .space.sec {
+    padding-top: 40px;
+    padding-bottom: 40px;
+  }
+}
