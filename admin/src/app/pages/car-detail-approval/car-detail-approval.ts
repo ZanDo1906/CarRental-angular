@@ -4,6 +4,8 @@ import { FormsModule } from '@angular/forms';
 import { ActivatedRoute, Router, RouterModule } from '@angular/router';
 import { CarService } from '../../services/car';
 import { LocationService } from '../../services/location';
+import { UserService } from '../../services/user';
+import { OwnerService } from '../../services/owner.service';
 
 @Component({
   selector: 'app-car-detail-approval',
@@ -15,6 +17,7 @@ import { LocationService } from '../../services/location';
 export class CarDetail implements OnInit {
   id!: string | null;
   car: any;
+  owner: any = null;
   locations: any[] = [];
 
   showLightbox = false;
@@ -25,7 +28,9 @@ export class CarDetail implements OnInit {
     private carService: CarService,
     private locationService: LocationService,
     private router: Router,
-    private cdr: ChangeDetectorRef
+    private cdr: ChangeDetectorRef,
+    private userService: UserService,
+    private ownerService: OwnerService
   ) { }
 
   ngOnInit(): void {
@@ -41,7 +46,25 @@ export class CarDetail implements OnInit {
             ? list.find((x: any) => String(x.Ma_xe) === String(this.id))
             : null;
           console.log('Found car:', this.car);
-          this.cdr.detectChanges();
+          
+          // Load owner data based on car's Ma_nguoi_dung
+          if (this.car && this.car.Ma_nguoi_dung) {
+            this.userService.getAllUsers().subscribe({
+              next: (users) => {
+                this.owner = Array.isArray(users) 
+                  ? users.find((u: any) => u.Ma_nguoi_dung === this.car.Ma_nguoi_dung)
+                  : null;
+                console.log('Found owner:', this.owner);
+                this.cdr.detectChanges();
+              },
+              error: (err) => {
+                console.error('Error loading users:', err);
+                this.cdr.detectChanges();
+              }
+            });
+          } else {
+            this.cdr.detectChanges();
+          }
         },
         error: (err) => {
           console.error('Error loading cars:', err);
@@ -113,6 +136,17 @@ export class CarDetail implements OnInit {
 
   contactOwner() {
     alert('Liên hệ chủ xe (chức năng chưa triển khai)');
+  }
+
+  openOwnerDetail(ownerId: number | string): void {
+    const id = Number(ownerId);
+    if (isNaN(id)) return;
+    try {
+      this.ownerService.setOwnerId(id);
+    } catch (e) {
+      // ignore
+    }
+    this.router.navigate(['/account-detail', id]);
   }
 }
 

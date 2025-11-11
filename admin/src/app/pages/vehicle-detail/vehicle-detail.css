@@ -113,7 +113,7 @@
 .thumbnail-grid img:hover,
 .thumbnail-grid img.active {
     opacity: 1;
-    outline: 2px solid var(--brand);
+    outline: 2px solid #1D7363;
 }
 
 .info-section {
@@ -137,7 +137,7 @@
 .car-title {
     font-size: 20px;
     font-weight: 800;
-    color: var(--ink);
+    color: #1D7363;
     margin: 0;
 }
 
@@ -151,7 +151,7 @@
 }
 
 .actions-icons .icon-btn i {
-    color: var(--brand);
+    color: #1D7363;
 }
 
 .rating-row {
@@ -173,7 +173,7 @@
 .section-title {
     margin: 0 0;
     font-weight: 800;
-    color: var(--brand);
+    color: #1D7363;
     font-size: 16px;
     padding-bottom: 8px;
 }
@@ -195,7 +195,7 @@
 }
 
 .feature-item i {
-    color: var(--brand);
+    color: #1D7363;
     font-size: 18px;
 }
 
@@ -238,7 +238,7 @@
 }
 
 .amenity-item i {
-    color: var(--brand);
+    color: #1D7363;
 }
 
 .booking-card {
@@ -579,9 +579,7 @@
         margin: 0;
     }
 
-    .car-title {
-        font-size: 18px;
-    }
+
 
     .section-title {
         font-size: 14px;

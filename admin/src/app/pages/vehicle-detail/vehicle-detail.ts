@@ -44,6 +44,12 @@ export class VehicleDetail implements OnInit {
     this.router.navigate(['/vehicle-management']);
   }
 
+  vnd(n: number | string | undefined) {
+    if (n == null) return '';
+    const x = typeof n === 'number' ? n : Number(n);
+    return x.toLocaleString('vi-VN');
+  }
+
   deleteCar(): void {
     if (!this.car) return;
     const confirmed = confirm('Bạn có chắc muốn xóa xe này? Hành động không thể hoàn tác.');

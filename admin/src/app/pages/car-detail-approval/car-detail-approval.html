@@ -34,9 +34,24 @@
               {{car.Diem_danh_gia || 5.0}}
             </span>
             <span class="dot">•</span>
-            <span class="trips">{{car.So_chuyen || car.So_luot_danh_gia || 0}} chuyến</span>
+            <span class="trips">
+              <i class="bi bi-graph-up"></i>
+              {{car.So_luot_thue || 0}} chuyến
+            </span>
           </div>
         </div>
+
+        <!-- Owner card (clickable -> account detail) -->
+                <div class="owner-card" *ngIf="owner">
+                    <a class="owner-link" (click)="openOwnerDetail(owner.Ma_nguoi_dung)">
+                        <img [src]="owner?.Anh_dai_dien || 'assets/images/user_avt.jpg'" alt="avatar"
+                            class="owner-avatar" />
+                        <div class="owner-meta">
+                            <div class="owner-name">{{ owner?.Ho_va_ten }}</div>
+                            <div class="owner-contact">{{ owner?.So_dien_thoai }} • {{ owner?.Email }}</div>
+                        </div>
+                    </a>
+                </div>
 
         <!-- Đặc điểm -->
         <div class="features-section">

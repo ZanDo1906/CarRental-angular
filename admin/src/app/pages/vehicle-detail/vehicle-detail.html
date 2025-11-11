@@ -34,7 +34,10 @@
                             {{ car?.Diem_danh_gia || 5.0 }}
                         </span>
                         <span class="dot">•</span>
-                        <span class="trips">{{ car?.So_chuyen || car?.So_luot_danh_gia || 0 }} chuyến</span>
+                        <span class="trips">
+              <i class="bi bi-graph-up"></i>
+              {{car.So_luot_thue || 0}} chuyến
+            </span>
                     </div>
                 </div>
 
@@ -154,9 +157,7 @@
             <!-- Right Column: Booking Card -->
             <div class="booking-card">
                 <div class="booking-header">
-                    <h2 class="booking-price">
-                        {{ car?.Gia_thue | number:'1.0-0' }}<span class="price-unit"> vnđ/Ngày</span>
-                    </h2>
+                    <h2 class="booking-price">{{vnd(car.Gia_thue)}}<span> vnđ/Ngày</span></h2>
                 </div>
 
                 <!-- Các chi phí khác -->
