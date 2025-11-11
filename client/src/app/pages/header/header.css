@@ -103,6 +103,7 @@ body {
   text-decoration: none;
   transition: background-color 0.15s ease-in-out;
   font-family: 'Inter', sans-serif;
+  white-space: normal;
 }
 
 .notification-item:hover {
@@ -140,12 +141,11 @@ body {
   font-family: 'Inter', sans-serif;
   font-size: 0.8rem;
   color: #6c757d;
-  line-height: 1.3;
+  line-height: 1.4;
   margin-bottom: 0.25rem;
-  display: -webkit-box;
-  -webkit-line-clamp: 2;
-  -webkit-box-orient: vertical;
-  overflow: hidden;
+  white-space: normal;
+  word-wrap: break-word;
+  overflow-wrap: break-word;
 }
 
 .notification-time {
