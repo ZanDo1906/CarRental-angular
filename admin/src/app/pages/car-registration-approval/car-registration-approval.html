@@ -1,9 +1,9 @@
 <div class="main-content">
-  
+
   <h2>Duyệt đơn đăng ký xe ({{ cars().length }})</h2>
 
   <div class="card-list">
-    
+
     <div *ngFor="let car of displayedCars()" class="approval-card">
 
       <div class="card-content-wrapper">
@@ -16,11 +16,12 @@
           <p><span class="label">Số xe:</span> <span class="value"> {{ car.Bien_so_xe }}</span></p>
           <p><span class="label">Loại xe:</span> <span class="value"> {{ car.Dong_xe }}</span></p>
           <p><span class="label">Số km đã đi:</span> <span class="value"> {{ formatNumber(car.So_km) }} km</span></p>
-          <p><span class="label">Đơn giá thuê:</span> <span class="value price" style="color: #1D7363"> {{ formatCurrencyShort(car.Gia_thue) }}đ/ngày</span></p>
+          <p><span class="label">Đơn giá thuê:</span> <span class="value price" style="color: #1D7363"> {{
+              formatNumber(car.Gia_thue) }} vnđ/Ngày</span></p>
           <p><span class="label">Màu sắc:</span> <span class="value"> {{ car.Mau_sac }}</span></p>
         </div>
       </div>
-      
+
       <div class="card-actions">
         <button (click)="onAction('detail', car)" class="btn btn-solid-primary">Xem chi tiết</button>
         <button (click)="onAction('approve', car)" class="btn btn-approve">Duyệt xe</button>
@@ -29,39 +30,37 @@
 
     </div>
 
-    
+
   </div>
 
   <nav aria-label="Page navigation" class="d-flex justify-content-end mt-3" *ngIf="totalPages() > 1">
-      <ul class="pagination">
-        
-        <li class="page-item" [class.disabled]="currentPage() === 1">
-          <a class="page-link" (click)="prevPage()" href="javascript:void(0)" aria-label="Previous">
-            <i class="bi bi-chevron-left"></i>
-          </a>
-        </li>
-        
-        <li *ngFor="let page of totalPagesArray()" 
-            class="page-item" 
-            [class.active]="page === currentPage()">
-          <a class="page-link" (click)="goToPage(page)" href="javascript:void(0)">
-            {{ page }}
-          </a>
-        </li>
-        
-        <li class="page-item" [class.disabled]="currentPage() === totalPages()">
-          <a class="page-link" (click)="nextPage()" href="javascript:void(0)" aria-label="Next">
-            <i class="bi bi-chevron-right"></i>
-          </a>
-        </li>
+    <ul class="pagination">
 
-      </ul>
-    </nav>
+      <li class="page-item" [class.disabled]="currentPage() === 1">
+        <a class="page-link" (click)="prevPage()" href="javascript:void(0)" aria-label="Previous">
+          <i class="bi bi-chevron-left"></i>
+        </a>
+      </li>
+
+      <li *ngFor="let page of totalPagesArray()" class="page-item" [class.active]="page === currentPage()">
+        <a class="page-link" (click)="goToPage(page)" href="javascript:void(0)">
+          {{ page }}
+        </a>
+      </li>
+
+      <li class="page-item" [class.disabled]="currentPage() === totalPages()">
+        <a class="page-link" (click)="nextPage()" href="javascript:void(0)" aria-label="Next">
+          <i class="bi bi-chevron-right"></i>
+        </a>
+      </li>
+
+    </ul>
+  </nav>
 </div>
 
 <div class="modal-overlay" *ngIf="modalType()">
   <div class="modal-content">
-    
+
     <button class="modal-close" (click)="closeModal()">
       <i class="bi bi-x"></i> </button>
 
@@ -69,21 +68,19 @@
 
       <div *ngSwitchCase="'reject'">
         <div class="modal-header">
-          <h3>Lý do từ chối xe: {{ selectedCar()?.Hang_xe }} {{ selectedCar()?.Dong_xe }} {{ selectedCar()?.Nam_san_xuat }}</h3>
+          <h3>Lý do từ chối xe: {{ selectedCar()?.Hang_xe }} {{ selectedCar()?.Dong_xe }} {{ selectedCar()?.Nam_san_xuat
+            }}</h3>
         </div>
         <div class="modal-body">
           <p>Vui lòng nhập lý do từ chối. Người dùng sẽ thấy thông báo này.</p>
-          <textarea 
-            class="form-control" 
-            rows="5" 
-            placeholder="Nhập lý do..."
-            [value]="rejectionReason()"
-            (input)="onReasonChange($event)"
-          ></textarea>
+          <textarea class="form-control" rows="5" placeholder="Nhập lý do..." [value]="rejectionReason()"
+            (input)="onReasonChange($event)"></textarea>
         </div>
         <div class="modal-footer">
           <button (click)="submitRejection()" class="btn btn-outline-danger">Xác nhận từ chối</button>
         </div>
       </div>
 
-    </div> </div> </div> 
+    </div>
+  </div>
+</div>

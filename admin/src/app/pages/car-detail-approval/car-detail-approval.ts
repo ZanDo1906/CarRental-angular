@@ -16,7 +16,7 @@ export class CarDetail implements OnInit {
   id!: string | null;
   car: any;
   locations: any[] = [];
-  
+
   showLightbox = false;
   currentImageIndex = 0;
 
@@ -26,7 +26,7 @@ export class CarDetail implements OnInit {
     private locationService: LocationService,
     private router: Router,
     private cdr: ChangeDetectorRef
-  ) {}
+  ) { }
 
   ngOnInit(): void {
     this.id = this.route.snapshot.paramMap.get('id');
@@ -50,7 +50,7 @@ export class CarDetail implements OnInit {
     }
 
 
-    this.locationService.getAllLocations().subscribe({ 
+    this.locationService.getAllLocations().subscribe({
       next: (data: any) => {
         this.locations = Array.isArray(data) ? data : [];
         console.log('Loaded locations:', this.locations.length);
@@ -90,7 +90,7 @@ export class CarDetail implements OnInit {
   vnd(n: number | string | undefined) {
     if (n == null) return '';
     const x = typeof n === 'number' ? n : Number(n);
-    return x.toLocaleString('vi-VN') + ' ₫';
+    return x.toLocaleString('vi-VN');
   }
 
   getLocationById(id: number): any {

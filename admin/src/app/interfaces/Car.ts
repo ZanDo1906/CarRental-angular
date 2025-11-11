@@ -1,5 +1,6 @@
 export interface iCar {
-    Ma_xe: number;   
+    Ma_xe: number;
+    Ma_nguoi_dung: number;      // int
     Ma_vi_tri: number;              // int
     Giay_to_xe: string;         // String
     Bien_so_xe: string;         // String
