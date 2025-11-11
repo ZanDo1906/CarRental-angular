@@ -15,14 +15,32 @@ export class VehicleManagement {
   cars = carsData;
   currentPage = 1;
   pageSize = 10;
+  sortType: 'az' | 'newest' | 'oldest' = 'az';
+
+  get sortedCars() {
+    let sorted = [...this.cars];
+    if (this.sortType === 'az') {
+      sorted.sort((a, b) => a.Ma_xe - b.Ma_xe);
+    } else if (this.sortType === 'newest') {
+      sorted.sort((a, b) => b.Nam_san_xuat - a.Nam_san_xuat);
+    } else if (this.sortType === 'oldest') {
+      sorted.sort((a, b) => a.Nam_san_xuat - b.Nam_san_xuat);
+    }
+    return sorted;
+  }
 
   get pagedCars() {
     const start = (this.currentPage - 1) * this.pageSize;
-    return this.cars.slice(start, start + this.pageSize);
+    return this.sortedCars.slice(start, start + this.pageSize);
   }
 
   setPage(page: number) {
     this.currentPage = page;
+  }
+
+  setSort(type: 'az' | 'newest' | 'oldest') {
+    this.sortType = type;
+    this.currentPage = 1;
   }
   users = usersData;
   constructor(

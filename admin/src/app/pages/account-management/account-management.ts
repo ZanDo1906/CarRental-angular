@@ -13,6 +13,23 @@ import { OwnerService } from '../../services/owner.service';
 })
 export class AccountManagement {
   users = usersData;
+  sortType: 'az' | 'newest' | 'oldest' = 'az';
+
+  get sortedUsers() {
+    let sorted = [...this.users];
+    if (this.sortType === 'az') {
+      sorted.sort((a, b) => a.Ma_nguoi_dung - b.Ma_nguoi_dung);
+    } else if (this.sortType === 'newest') {
+      sorted.sort((a, b) => new Date(b.Ngay_tao).getTime() - new Date(a.Ngay_tao).getTime());
+    } else if (this.sortType === 'oldest') {
+      sorted.sort((a, b) => new Date(a.Ngay_tao).getTime() - new Date(b.Ngay_tao).getTime());
+    }
+    return sorted;
+  }
+
+  setSort(type: 'az' | 'newest' | 'oldest') {
+    this.sortType = type;
+  }
 
   constructor(
     private router: Router,
