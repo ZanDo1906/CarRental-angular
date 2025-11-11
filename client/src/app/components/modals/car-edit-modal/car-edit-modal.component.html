@@ -1,0 +1,137 @@
+<div class="modal-overlay" *ngIf="show" (click)="onClose()">
+  <div class="modal-content" (click)="$event.stopPropagation()">
+    <div class="modal-header">
+      <h3><i class="bi bi-pencil-square"></i> Cập nhật thông tin xe</h3>
+      <button type="button" class="close-btn" (click)="onClose()">
+        <i class="bi bi-x-lg"></i>
+      </button>
+    </div>
+    
+    <div class="modal-body" *ngIf="editingCar">
+      <form>
+        <!-- Hình ảnh xe -->
+        <div class="row mb-4">
+          <div class="col-12">
+            <h5><i class="bi bi-camera"></i> Hình ảnh xe</h5>
+            <div class="car-images-section">
+              <div class="current-images" *ngIf="editingCar.Anh_xe && editingCar.Anh_xe.length > 0">
+                <div class="image-grid">
+                  <div *ngFor="let image of editingCar.Anh_xe; let i = index" class="image-item">
+                    <img [src]="image" [alt]="'Ảnh xe ' + (i + 1)" class="car-image-preview">
+                    <button type="button" class="btn-remove-image" (click)="removeImage(i)" title="Xóa ảnh">
+                      <i class="bi bi-x-circle-fill"></i>
+                    </button>
+                  </div>
+                </div>
+              </div>
+              
+              <div class="upload-section mt-3">
+                <input type="file" #fileInput (change)="onImageSelected($event)" accept="image/*" multiple style="display: none;">
+                <button type="button" class="btn btn-outline-primary" (click)="fileInput.click()">
+                  <i class="bi bi-plus-circle"></i> Thêm hình ảnh
+                </button>
+                <small class="form-text text-muted d-block mt-1">
+                  Chọn nhiều ảnh (JPG, PNG). Ảnh đầu tiên sẽ là ảnh đại diện.
+                </small>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="row">
+          <!-- Cột trái - Thông tin cơ bản (KHÔNG CHỈNH SỬA ĐƯỢC) -->
+          <div class="col-md-6">
+            <h5><i class="bi bi-info-circle"></i> Thông tin cơ bản (Không thể chỉnh sửa)</h5>
+            
+            <div class="form-group">
+              <label>Hãng xe</label>
+              <input type="text" class="form-control" [value]="editingCar.Hang_xe" readonly disabled>
+            </div>
+            
+            <div class="form-group">
+              <label>Dòng xe</label>
+              <input type="text" class="form-control" [value]="editingCar.Dong_xe" readonly disabled>
+            </div>
+            
+            <div class="form-group">
+              <label>Năm sản xuất</label>
+              <input type="number" class="form-control" [value]="editingCar.Nam_san_xuat" readonly disabled>
+            </div>
+            
+            <div class="form-group">
+              <label>Biển số xe</label>
+              <input type="text" class="form-control" [value]="editingCar.Bien_so_xe" readonly disabled>
+            </div>
+            
+            <div class="form-group">
+              <label>Màu sắc</label>
+              <input type="text" class="form-control" [value]="editingCar.Mau_sac" readonly disabled>
+            </div>
+
+            <div class="form-group">
+              <label>Số chỗ ngồi</label>
+              <input type="text" class="form-control" [value]="editingCar.So_cho + ' chỗ'" readonly disabled>
+            </div>
+            
+            <div class="form-group">
+              <label>Nhiên liệu</label>
+              <input type="text" class="form-control" [value]="editingCar.Nhien_lieu" readonly disabled>
+            </div>
+            
+            <div class="form-group">
+              <label>Hộp số</label>
+              <input type="text" class="form-control" [value]="editingCar.Hop_so" readonly disabled>
+            </div>
+
+            <div class="form-group">
+              <label>Điểm đánh giá (Hệ thống tự động tính)</label>
+              <input type="text" class="form-control" [value]="(editingCar.Diem_danh_gia || 5.0) + '/5.0'" readonly disabled>
+            </div>
+          </div>
+          
+          <!-- Cột phải - Thông tin có thể chỉnh sửa -->
+          <div class="col-md-6">
+            <h5><i class="bi bi-pencil-square"></i> Thông tin có thể chỉnh sửa</h5>
+            
+            <div class="form-group">
+              <label>Giá thuê (VNĐ/ngày) *</label>
+              <input type="number" class="form-control editable-field" [(ngModel)]="editingCar.Gia_thue" name="gia_thue" min="50000" max="10000000" required
+                placeholder="Ví dụ: 500000">
+              <small class="form-text text-muted">Hiện tại: {{ vnd(editingCar.Gia_thue) }} VNĐ</small>
+            </div>
+
+            <div class="form-group">
+              <label>Số km đã đi</label>
+              <input type="number" class="form-control editable-field" [(ngModel)]="editingCar.So_km" name="so_km" min="0" max="999999"
+                placeholder="Nhập số km hiện tại">
+              <small class="form-text text-muted">Km hiện tại của xe</small>
+            </div>
+
+            <div class="form-group">
+              <label>Mức tiêu thụ (L/100km)</label>
+              <input type="number" class="form-control editable-field" [(ngModel)]="editingCar.Muc_tieu_thu" name="muc_tieu_thu" 
+                min="0" max="50" step="0.1" placeholder="Ví dụ: 7.5">
+              <small class="form-text text-muted">Mức tiêu thụ nhiên liệu trung bình</small>
+            </div>
+
+            <div class="form-group">
+              <label>Mô tả chi tiết</label>
+              <textarea class="form-control editable-field" [(ngModel)]="editingCar.Mo_ta" name="mo_ta" rows="8" 
+                placeholder="Mô tả chi tiết về xe: tình trạng, tính năng đặc biệt, lưu ý sử dụng..."></textarea>
+              <small class="form-text text-muted">Mô tả để khách hàng hiểu rõ hơn về xe</small>
+            </div>
+          </div>
+        </div>
+      </form>
+    </div>
+    
+    <div class="modal-footer">
+      <button type="button" class="btn btn-secondary" (click)="onCancel()">
+        <i class="bi bi-x-circle"></i> Hủy
+      </button>
+      <button type="button" class="btn btn-primary" (click)="onSave()">
+        <i class="bi bi-check-circle"></i> Lưu thay đổi
+      </button>
+    </div>
+  </div>
+</div>

@@ -1,8 +1,8 @@
 import { Component, Input, Output, EventEmitter } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
-import { iCar_rental } from '../../interfaces/Car_rental';
-import { iCar } from '../../interfaces/Car';
+import { iCar_rental } from '../../../interfaces/Car_rental';
+import { iCar } from '../../../interfaces/Car';
 
 type RentalWithCar = iCar_rental & { car_details: iCar };
 

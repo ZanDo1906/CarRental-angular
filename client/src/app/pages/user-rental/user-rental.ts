@@ -10,8 +10,8 @@ import { iCar } from '../../interfaces/Car';
 import { iLocation } from '../../interfaces/location';
 import { forkJoin, Subscription } from 'rxjs';
 import { filter } from 'rxjs/operators';
-import { ReviewModalComponent } from '../../modals/review-modal/review-modal.component';
-import { ComplaintModalComponent } from '../../modals/complaint-modal/complaint-modal.component';
+import { ReviewModalComponent } from '../../components/modals/review-modal/review-modal.component';
+import { ComplaintModalComponent } from '../../components/modals/complaint-modal/complaint-modal.component';
 
 type RentalWithCar = iCar_rental & { car_details: iCar };
 

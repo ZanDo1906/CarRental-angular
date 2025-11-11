@@ -1,8 +1,8 @@
 import { Component, Input, Output, EventEmitter, OnInit, OnChanges, SimpleChanges } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { CarRental } from '../../services/car-rental';
-import { BlockedDateService } from '../../services/blocked-date.service';
-import { BlockedDate } from '../../interfaces/BlockedDate';
+import { CarRental } from '../../../services/car-rental';
+import { BlockedDateService } from '../../../services/blocked-date.service';
+import { BlockedDate } from '../../../interfaces/BlockedDate';
 
 @Component({
   selector: 'app-calendar-modal',

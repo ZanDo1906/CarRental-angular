@@ -13,14 +13,15 @@ import { BlockedDateService } from '../../services/blocked-date.service';
 import { BlockedDate } from '../../interfaces/BlockedDate';
 import { Subscription } from 'rxjs';
 import { filter } from 'rxjs/operators';
-import { CalendarModalComponent } from '../../modals/calendar-modal/calendar-modal.component';
-import { BlockDateModalComponent } from '../../modals/block-date-modal/block-date-modal.component';
+import { CalendarModalComponent } from '../../components/modals/calendar-modal/calendar-modal.component';
+import { BlockDateModalComponent } from '../../components/modals/block-date-modal/block-date-modal.component';
+import { CarEditModalComponent } from '../../components/modals/car-edit-modal/car-edit-modal.component';
 
 // User car list for the first user
 @Component({
   selector: 'app-user-car',
   standalone: true,
-  imports: [CommonModule, FormsModule, RouterModule, CalendarModalComponent, BlockDateModalComponent],
+  imports: [CommonModule, FormsModule, RouterModule, CalendarModalComponent, BlockDateModalComponent, CarEditModalComponent],
   templateUrl: './user-car.html',
   styleUrls: ['./user-car.css'],
 })
