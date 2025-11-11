@@ -14,19 +14,17 @@ body {
 
 }
 
-.app-side-bar {
-  flex-shrink: 0;
-}
-
 .app-content {
   flex-grow: 1;
   display: flex;
+  padding-left: 50px;
+  padding-right: 80px;
 }
 
 .main-layout {
   display: flex;
   flex-grow: 1;
-  margin-left: 60px;
+  margin-left: 130px;
   margin-right: 60px;
   margin-bottom: 40px;
 }
