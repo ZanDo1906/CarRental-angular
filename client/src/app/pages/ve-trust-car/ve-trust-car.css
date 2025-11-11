@@ -1,6 +1,10 @@
 body {
     overflow-x: hidden;
 }
+.first-section {
+    width: 100vw;
+    margin-left: calc(-50vw + 50%);
+}
 .first {
     position: relative;
     width: 100%;
@@ -11,7 +15,6 @@ body {
     background-image: url("/assets/assets/istock2.png");
     background-size: cover;
     background-position: center;
-    border-radius: 20px;
     overflow: hidden;
     box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
 }
