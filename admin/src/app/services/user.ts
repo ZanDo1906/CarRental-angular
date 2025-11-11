@@ -1,8 +1,9 @@
 import { iUser } from './../interfaces/User';
+import staticUsers from '../../assets/data/User.json';
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable, of } from 'rxjs';
-import { map } from 'rxjs/operators';
+import { map, catchError } from 'rxjs/operators';
 @Injectable({
   providedIn: 'root',
 })
@@ -30,7 +31,12 @@ export class UserService {
     return this._http.get<iUser[]>(this.url).pipe(
       map(assetUsers => {
         const extras = this.readExtras();
-        return [...assetUsers, ...extras];
+        return [...(assetUsers || []), ...extras];
+      }),
+      catchError(err => {
+        // Nếu lỗi (404, network...), trả về staticUsers (import cứng) + local extras
+        const extras = this.readExtras();
+        return of([...(staticUsers || []), ...extras]);
       })
     );
   }

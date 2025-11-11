@@ -1,28 +1,38 @@
-import { Component, OnInit } from '@angular/core';
-import { CommonModule} from '@angular/common';
+import { Component, OnInit, ChangeDetectorRef } from '@angular/core';
+import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
-import { RouterModule, Router } from '@angular/router';
+import { RouterModule, Router, ActivatedRoute } from '@angular/router';
 import { UserService } from '../../services/user';
 import { Inject } from '@angular/core';
 import { OwnerService } from '../../services/owner.service';
 
 @Component({
   selector: 'app-account-detail',
-  standalone: true, 
+  standalone: true,
   imports: [CommonModule, RouterModule, FormsModule],
   templateUrl: './account-detail.html',
   styleUrl: './account-detail.css',
 })
-export class AccountDetail  implements OnInit {
+export class AccountDetail implements OnInit {
 
   user: any = null;
   editingProfile: boolean = false;
   editingLicense: boolean = false;
 
-  constructor(private userService: UserService, @Inject(OwnerService) private ownerService: OwnerService, private router: Router ) { }
+  constructor(
+    private userService: UserService,
+    @Inject(OwnerService) private ownerService: OwnerService,
+    private router: Router,
+    private route: ActivatedRoute,
+    private cdr: ChangeDetectorRef
+  ) { }
 
   ngOnInit(): void {
-    this.loadUser();
+    // Lấy id từ route param, nếu có thì load đúng user đó
+    this.route.paramMap.subscribe(params => {
+      const id = params.get('id');
+      this.loadUser(id || undefined);
+    });
   }
 
   goBack(): void {
@@ -49,14 +59,14 @@ export class AccountDetail  implements OnInit {
     if (!this.user) return;
     this.localSaveUser(this.user);
     this.editingProfile = false;
-    try { alert('Thông tin người dùng đã được lưu.'); } catch {}
+    try { alert('Thông tin người dùng đã được lưu.'); } catch { }
   }
 
   saveLicense() {
     if (!this.user) return;
     this.localSaveUser(this.user);
     this.editingLicense = false;
-    try { alert('Thông tin GPLX đã được lưu.'); } catch {}
+    try { alert('Thông tin GPLX đã được lưu.'); } catch { }
   }
 
   cancelEdit() {
@@ -103,8 +113,8 @@ export class AccountDetail  implements OnInit {
       } else {
         extras.push(user);
       }
-  localStorage.setItem(key, JSON.stringify(extras));
-  try { this.ownerService.setOwnerId(Number(user.Ma_nguoi_dung)); } catch (e) { }
+      localStorage.setItem(key, JSON.stringify(extras));
+      try { this.ownerService.setOwnerId(Number(user.Ma_nguoi_dung)); } catch (e) { }
     } catch (e) {
 
       console.error('localSaveUser failed', e);
@@ -112,7 +122,7 @@ export class AccountDetail  implements OnInit {
   }
 
   loadUser(userId?: string | number): void {
-  const idToFind = userId || this.ownerService.getOwnerId();
+    const idToFind = userId || this.ownerService.getOwnerId();
     this.userService.getAllUsers().subscribe({
       next: (users: any) => {
         const list = Array.isArray(users) ? users : [];
@@ -120,17 +130,11 @@ export class AccountDetail  implements OnInit {
         if (idToFind) {
           found = list.find((u: any) => String(u.Ma_nguoi_dung) === String(idToFind));
         }
-        if (!found && list.length > 0) found = list[0];
-
+        // Nếu không tìm thấy user, không fallback về user đầu tiên nữa
         if (found) {
           if (found.Anh_dai_dien) (found as any)._avatar = String(found.Anh_dai_dien).replace(/^\.?\//, '/');
-          // Ensure basic profile defaults for learners
-          if (!found.Gioi_tinh) {
-            found.Gioi_tinh = 'Nữ';
-          }
-          if (!found.Ngay_sinh) {
-            found.Ngay_sinh = '';
-          }
+          if (!found.Gioi_tinh) found.Gioi_tinh = 'Nữ';
+          if (!found.Ngay_sinh) found.Ngay_sinh = '';
           if (found.Giay_phep_lai_xe) {
             const val = String(found.Giay_phep_lai_xe);
             (found as any)._license = val.startsWith('data:') ? val : val.replace(/^\.?\//, '/');
@@ -140,12 +144,15 @@ export class AccountDetail  implements OnInit {
             (found as any)._licenseExists = false;
             (found as any)._licenseAuthenticated = false;
           }
+          this.user = found;
+        } else {
+          this.user = null;
         }
-
-        this.user = found;
+        this.cdr.detectChanges();
       },
       error: (err: any) => {
         console.error('Error loading users for user-account:', err);
+        this.user = null;
       }
     });
   }
@@ -164,5 +171,5 @@ export class AccountDetail  implements OnInit {
       }
     });
   }
-    
+
 }

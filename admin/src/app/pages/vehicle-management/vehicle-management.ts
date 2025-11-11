@@ -27,9 +27,9 @@ export class VehicleManagement {
 
   viewCarDetail(car: any): void {
     if (car && car.Ma_xe) {
+      // store selected car id (used elsewhere) and navigate with id param
       this.ownerService.setOwnerId(car.Ma_xe);
-      this.router.navigate(['/vehicle-detail']);
-      this.router.navigate(['/vehicle-detail']);
+      this.router.navigate(['/vehicle-detail', car.Ma_xe]);
     }
   }
 }
