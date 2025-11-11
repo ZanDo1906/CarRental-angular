@@ -1,3 +1,5 @@
+
+
 .m-container, .s-container {
   position: relative;
   margin: 0 auto;
@@ -40,7 +42,7 @@
 
 @media ((min-width: 1400px)) {
   .m-container {
-    max-width: 1140px;
+    max-width: 1320px;
   }
 
 }
