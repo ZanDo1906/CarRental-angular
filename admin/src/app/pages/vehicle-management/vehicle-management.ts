@@ -1,8 +1,8 @@
-import { Component, OnInit } from '@angular/core';
-import { CommonModule, DecimalPipe } from '@angular/common';
-import { CarService } from '../../services/car';
-import { iCar } from '../../interfaces/Car';
-
+import { Component } from '@angular/core';
+import usersData from '../../../assets/data/User.json';
+import { CommonModule } from '@angular/common';
+import { RouterModule, Router } from '@angular/router';
+import { OwnerService } from '../../services/owner.service';
 
 @Component({
   selector: 'app-vehicle-management',
@@ -11,16 +11,19 @@ import { iCar } from '../../interfaces/Car';
   templateUrl: './vehicle-management.html',
   styleUrls: ['./vehicle-management.css'],
 })
-export class VehicleManagement implements OnInit {
-  cars: iCar[] = [];
+export class AccountManagement {
+  users = usersData;
 
-  Array = Array; // Expose Array to template
+  constructor(
+    private router: Router,
+    private ownerService: OwnerService
+  ) { }
 
-  constructor(private carService: CarService) { }
+  viewUserDetail(user: any): void {
+    if (user && user.Ma_nguoi_dung) {
+      this.ownerService.setOwnerId(user.Ma_nguoi_dung);
 
-  ngOnInit(): void {
-    this.carService.getAllCars().subscribe((data) => {
-      this.cars = data;
-    });
+      this.router.navigate(['/account-detail']);
+    }
   }
 }

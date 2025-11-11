@@ -1,128 +1,205 @@
-/* Container styling */
-.container {
-    padding: 24px;
-    max-width: 1100px;
-    margin: 0 auto;
-}
+@import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700;800&family=Inter:wght@400;500;600;700&display=swap');
 
-.list-group-item {
-    margin-bottom: 18px;
-    border: 1px solid #e0e0e0;
-    border-radius: 10px;
-    background: #fff;
-    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04);
-    padding: 18px;
-    transition: box-shadow 0.2s;
-}
-
-.list-group-item:hover {
-    box-shadow: 0 4px 16px rgba(0, 0, 0, 0.10);
-}
-
-.car-info {
+:host {
+    --color-primary: #1D7363;
+    --color-primary-text: #212121;
+    --color-secondary-text: #555555;
+    --color-label-text: #333333;
+    --color-border: #e0e0e0;
+    --color-background: #f8f9fa;
+    --color-card-bg: #ffffff;
+    --color-image-bg: #eeeeee;
+    --color-error: #d32f2f;
+    ;
+    --shadow: 0 2px 8px rgba(0, 0, 0, 0.06);
+    --shadow-hover: 0 6px 20px rgba(29, 115, 99, 0.1);
     display: flex;
-    gap: 24px;
-    align-items: flex-start;
+    flex-grow: 1;
+    width: 100%;
+    font-family: 'Inter', sans-serif;
 }
 
-.car-images {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 10px;
-    width: 320px;
+.btn-primary-custom {
+    background-color: #1d7363;
+    border-color: #1d7363;
+    border-radius: 8px;
+    color: #FFFFFF;
 }
 
-.car-image {
-    width: 140px;
-    height: 95px;
-    object-fit: cover;
-    border-radius: 6px;
-    border: 1px solid #bdbdbd;
-    background: #f8f8f8;
+
+.main-content {
+    height: 100%;
+    flex-grow: 1;
+    overflow-y: auto;
+    /* padding-top: 1rem; */
+    font-size: 16px;
 }
 
-.car-details h4 {
-    margin: 0 0 10px 0;
-    color: #1a2233;
-    font-size: 1.25em;
+.main-content>h2 {
+    font-size: 32px;
+    font-weight: 700;
+    color: var(--color-primary);
+    margin-top: 30px;
+    margin-bottom: 25px;
+    font-family: 'Montserrat', sans-serif;
+
 }
 
-.car-details p {
-    margin: 4px 0;
-    color: #444;
-    font-size: 1em;
+.search-wrapper {
+    position: relative;
+    margin-top: 5px;
 }
 
-.price {
-    color: #e53935;
-    font-weight: bold;
-    font-size: 1.1em;
+.search-wrapper .search-icon {
+    position: absolute;
+    left: 1rem;
+    top: 50%;
+    transform: translateY(-50%);
+    color: #6B7280;
 }
 
-h3 {
-    text-align: center;
-    color: #2d3a4b;
-    margin-bottom: 32px;
-    font-size: 1.5em;
-    letter-spacing: 1px;
+
+.search-wrapper .search-input {
+    border-radius: 20px;
+    margin-left: 50px;
+    margin-bottom: 20px;
+    padding-left: 1.5rem;
+    padding-right: 2.5rem;
+    border: 1px solid #6B7280 !important;
+    width: 250px;
 }
 
-.vehicle-list {
-    max-width: 1000px;
-    margin: 0 auto;
-    padding: 24px;
+.search-input:focus {
+    border-color: #166051;
+    box-shadow: 0 0 0 0.25rem rgba(29, 115, 99, 0.25);
+    outline: none;
 }
 
-.vehicle-list h2 {
-    text-align: center;
-    margin-bottom: 32px;
-    color: #2d3a4b;
+
+.table-responsive-wrapper {
+    background-color: #FFFFFF;
+    border-radius: 20px;
+    font-size: 16px;
+    padding: 2rem;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.06);
+    border: 1px solid #1D7363;
+    max-width: 100%;
+    margin-left: auto;
+    margin-right: auto;
 }
 
-.vehicle-card {
-    display: flex;
-    align-items: center;
-    background: #fff;
-    border-radius: 12px;
-    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
-    margin-bottom: 24px;
-    padding: 16px 24px;
-    transition: box-shadow 0.2s;
+.table {
+    margin-bottom: 10px;
+    margin-left: auto;
+    margin-right: auto;
 }
 
-.vehicle-card:hover {
-    box-shadow: 0 4px 16px rgba(0, 0, 0, 0.15);
+.table thead th {
+    background-color: #fcfcfc;
+    font-size: 16px;
 }
 
-.vehicle-image {
-    flex: 0 0 140px;
-    height: 100px;
+.table tbody td {
+    vertical-align: middle;
+    color: var(--text-color);
+    font-size: 16px;
+    text-align: left;
+}
+
+.table tbody tr:hover {
+    background-color: #eef6f4;
+    color: #1D7363;
+    cursor: pointer;
+}
+
+.pagination {
+    margin-right: 10px;
+    list-style: none;
+    gap: 0.5rem;
+}
+
+.pagination .page-link {
+    border: none;
+    background-color: #ffffff;
+    color: var(--color-primary);
+    border-radius: 50%;
+    transition: all 0.2s ease;
+    text-decoration: none;
+    width: 36px;
+    height: 36px;
     display: flex;
     align-items: center;
     justify-content: center;
-    margin-right: 32px;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
 }
 
-.vehicle-image img {
-    max-width: 120px;
-    max-height: 90px;
-    border-radius: 8px;
-    object-fit: cover;
-    border: 1px solid #eee;
+.pagination .page-link:hover {
+    background-color: var(--color-primary);
+    color: #ffffff;
+    transform: translateY(-2px);
+    box-shadow: 0 4px 10px rgba(29, 115, 99, 0.3);
 }
 
-.vehicle-info {
-    flex: 1;
+
+.pagination .page-link i {
+    font-size: 16px;
 }
 
-.vehicle-info h3 {
-    margin: 0 0 8px 0;
-    color: #1a2233;
-    font-size: 1.2rem;
+.pagination .page-item.active .page-link {
+    background-color: var(--color-primary);
+    color: #ffffff;
+    font-weight: 700;
+    box-shadow: 0 2px 8px rgba(29, 115, 99, 0.4);
 }
 
-.vehicle-info p {
-    margin: 2px 0;
-    color: #444;
-    font-size: 1rem;
+/* Responsive text size */
+@media (max-width: 768px) {
+    .main-content {
+        font-size: 14px;
+    }
+
+    .main-content>h2 {
+        font-size: 28px;
+        margin-top: 0px;
+    }
+
+    .table {
+        font-size: 14px;
+    }
+
+    .table thead th,
+    .table tbody td {
+        font-size: 14px;
+    }
+
+    .search-wrapper {
+        position: relative;
+        margin-top: 5px;
+    }
+
+    .search-wrapper .search-icon {
+        position: absolute;
+        left: 1rem;
+        top: 50%;
+        transform: translateY(-50%);
+        color: #6B7280;
+    }
+
+
+    .search-wrapper .search-input {
+        border-radius: 20px;
+        margin-left: 50px;
+        margin-bottom: 20px;
+        padding-left: 1.5rem;
+        padding-right: 2.5rem;
+        border: 1px solid #6B7280 !important;
+        width: 250px;
+    }
+
+    .search-input:focus {
+        border-color: #166051;
+        box-shadow: 0 0 0 0.25rem rgba(29, 115, 99, 0.25);
+        outline: none;
+    }
+
 }

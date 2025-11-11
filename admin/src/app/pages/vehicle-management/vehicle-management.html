@@ -1,27 +1,65 @@
-<div class="container">
-    <h3>Danh sách xe trong hệ thống</h3>
-    <div *ngIf="cars.length === 0">Không có xe nào trong hệ thống.</div>
-    <div class="list-group" *ngFor="let c of cars">
-        <div class="list-group-item">
-            <div class="car-info">
-                <div class="car-images">
-                    <ng-container *ngIf="Array.isArray(c.Anh_xe); else singleImage">
-                        <img *ngFor="let img of c.Anh_xe" [src]="img" [alt]="c.Hang_xe + ' ' + c.Dong_xe"
-                            class="car-image" />
-                    </ng-container>
-                    <ng-template #singleImage>
-                        <img [src]="c.Anh_xe" [alt]="c.Hang_xe + ' ' + c.Dong_xe" class="car-image" />
-                    </ng-template>
-                </div>
-                <div class="car-details">
-                    <h4>{{c.Hang_xe}} {{c.Dong_xe}} ({{c.Nam_san_xuat}})</h4>
-                    <p>Biển số: {{c.Bien_so_xe}}</p>
-                    <p>Màu sắc: {{c.Mau_sac}}</p>
-                    <p>Số chỗ: {{c.So_cho}}</p>
-                    <p>Mô tả: {{c.Mo_ta}}</p>
-                    <p class="price">Giá thuê: {{c.Gia_thue | currency:'VND':'symbol':'1.0-0'}}</p>
-                </div>
+<main class="main-content">
+    <h2>Quản lý tài khoản</h2>
+
+    <div class="content-header d-flex justify-content-between align-items-center flex-wrap pb-2 mb-3">
+        <div class="btn-toolbar mb-2 mb-md-0">
+            <div class="btn-group me-2">
+                <button type="button" class="btn btn-primary-custom">
+                    <i class="bi bi-check-lg"></i> A-Z
+                </button>
+                <button type="button" class="btn btn-sm btn-outline-secondary">Mới nhất</button>
+                <button type="button" class="btn btn-sm btn-outline-secondary">Cũ nhất</button>
             </div>
         </div>
+        <div class="d-flex align-items-center">
+            <span class="me-3 user-count">Số tài khoản người dùng: <strong>{{ users.length }}</strong></span>
+        </div>
     </div>
-</div>
+
+    <div class="table-responsive-wrapper">
+        <div class="table-responsive">
+            <div class="search-wrapper">
+                <i class="bi bi-search search-icon"></i>
+                <input type="text" class="form-control search-input" placeholder="Search">
+            </div>
+            <table class=" table table-hover align-middle">
+                <thead>
+                    <tr>
+                        <th scope="col">ID</th>
+                        <th scope="col">Tên</th>
+                        <th scope="col">Email</th>
+                        <th scope="col">Số điện thoại</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr *ngFor="let user of users" (click)="viewUserDetail(user)" style="cursor: pointer;">
+                        <td>{{ user.Ma_nguoi_dung }}</td>
+                        <td>{{ user.Ho_va_ten }}</td>
+                        <td class="text-primary">{{ user.Email }}</td>
+                        <td>{{ user.So_dien_thoai }}</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+    <nav aria-label="Page navigation" class="d-flex justify-content-end mt-3">
+        <ul class="pagination">
+            <li class="page-item">
+                <a class="page-link" href="#" aria-label="Previous">
+                    <i class="bi bi-chevron-left"></i>
+                </a>
+            </li>
+            <li class="page-item active"><a class="page-link" href="#">1</a></li>
+            <li class="page-item"><a class="page-link" href="#">2</a></li>
+            <li class="page-item"><a class="page-link" href="#">3</a></li>
+            <li class="page-item">
+                <a class="page-link" href="#" aria-label="Next">
+                    <i class="bi bi-chevron-right"></i>
+                </a>
+            </li>
+        </ul>
+    </nav>
+
+</main>
+<!-- </div> -->
