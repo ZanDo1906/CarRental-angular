@@ -186,6 +186,25 @@ export class CarList implements OnInit {
     this.applyFilter();
   }
 
+  // Reset tất cả bộ lọc và sắp xếp
+  resetAllFilters() {
+    this.filters = {
+      location: null,
+      brand: null,
+      type: null,
+      seat: null,
+      fuel: null,
+      price: null,
+      purpose: null,
+      transmission: null,
+      consumption: null,
+      rating: null
+    };
+    this.sortOrder = null;
+    this.openKey = null;
+    this.applyFilter();
+  }
+
   // Thiết lập sắp xếp theo giá
   setSortOrder(order: 'asc' | 'desc' | null) {
     this.sortOrder = order;

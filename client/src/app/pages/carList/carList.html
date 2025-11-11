@@ -41,11 +41,7 @@
     <div class="chip-row">
       <!-- Tất cả: reset mọi bộ lọc -->
       <div class="dropdown" (click)="$event.stopPropagation()">
-        <button class="btn-chip" (click)="selectOption('location', null); selectOption('brand', null);
-                                          selectOption('type', null); selectOption('seat', null);
-                                          selectOption('fuel', null); selectOption('price', null);
-                                          selectOption('transmission', null); selectOption('consumption', null);
-                                          selectOption('rating', null); selectOption('purpose', null)">
+        <button class="btn-chip" (click)="resetAllFilters()">
           Tất cả
         </button>
       </div>
