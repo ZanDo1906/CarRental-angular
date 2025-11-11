@@ -515,7 +515,8 @@ p {
   display: flex;
   flex-direction: column;
   grid-gap: 24px;
-  gap: 24px
+  gap: 24px;
+  margin-top: 24px;
 }
 
 .driver-license .title {

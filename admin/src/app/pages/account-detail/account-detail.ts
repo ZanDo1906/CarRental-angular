@@ -1,9 +1,8 @@
-import { Component, OnInit, ChangeDetectorRef } from '@angular/core';
+import { Component, OnInit, ChangeDetectorRef, Inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { RouterModule, Router, ActivatedRoute } from '@angular/router';
 import { UserService } from '../../services/user';
-import { Inject } from '@angular/core';
 import { OwnerService } from '../../services/owner.service';
 
 @Component({
@@ -18,6 +17,9 @@ export class AccountDetail implements OnInit {
   user: any = null;
   editingProfile: boolean = false;
   editingLicense: boolean = false;
+  
+  // --- THÊM CÁC BIẾN CÒN THIẾU ---
+  totalTripsCount: number = 0;
 
   constructor(
     private userService: UserService,
@@ -38,6 +40,21 @@ export class AccountDetail implements OnInit {
   goBack(): void {
     this.router.navigate(['/account']);
   }
+  // --- THÊM GETTER 'avatarUrl' ---
+  get avatarUrl(): string {
+    // Ưu tiên hiển thị ảnh mới upload (nếu có)
+    if (this.user?._avatar && this.user._avatar.startsWith('data:')) {
+      return this.user._avatar;
+    }
+    // Lấy ảnh từ database
+    if (this.user?.Anh_dai_dien) {
+      return String(this.user.Anh_dai_dien).replace(/^\.?\//, '/');
+    }
+    // Ảnh dự phòng
+    return '/assets/images/user_avt.jpg';
+  }
+
+  // --- XÓA 'goBack()' VÌ KHÔNG DÙNG ---
 
   onEdit(field: string) {
     if (field === 'uploadGPLX') {
@@ -90,6 +107,30 @@ export class AccountDetail implements OnInit {
     (this.user as any)._licenseExists = true;
     (this.user as any)._licenseAuthenticated = false;
     this.localSaveUser(this.user);
+    this.cdr.detectChanges(); // Cập nhật giao diện
+  }
+
+  // --- THÊM 'onAvatarSelected' ĐỂ UP ẢNH ĐẠI DIỆN ---
+  async onAvatarSelected(ev: Event) {
+    const input = ev.target as HTMLInputElement;
+    if (!input.files || input.files.length === 0 || !this.user) return;
+    const file = input.files[0];
+    const dataUrl = await this.readFileAsDataURL(file);
+    
+    // Cập nhật cả 2 thuộc tính để lưu và hiển thị
+    this.user.Anh_dai_dien = dataUrl; 
+    (this.user as any)._avatar = dataUrl;
+    
+    this.localSaveUser(this.user);
+    this.cdr.detectChanges(); // Cập nhật giao diện
+  }
+
+  // --- THÊM 'refreshTripsCount' ---
+  refreshTripsCount(): void {
+    // Thêm logic để lấy số chuyến đi mới ở đây
+    // Tạm thời, gán lại giá trị từ user
+    this.totalTripsCount = (this.user as any)?.So_Chuyen || 0;
+    console.log('Đã làm mới số chuyến đi.');
   }
 
   private readFileAsDataURL(file: File): Promise<string> {
@@ -116,7 +157,6 @@ export class AccountDetail implements OnInit {
       localStorage.setItem(key, JSON.stringify(extras));
       try { this.ownerService.setOwnerId(Number(user.Ma_nguoi_dung)); } catch (e) { }
     } catch (e) {
-
       console.error('localSaveUser failed', e);
     }
   }
@@ -130,7 +170,7 @@ export class AccountDetail implements OnInit {
         if (idToFind) {
           found = list.find((u: any) => String(u.Ma_nguoi_dung) === String(idToFind));
         }
-        // Nếu không tìm thấy user, không fallback về user đầu tiên nữa
+        
         if (found) {
           if (found.Anh_dai_dien) (found as any)._avatar = String(found.Anh_dai_dien).replace(/^\.?\//, '/');
           if (!found.Gioi_tinh) found.Gioi_tinh = 'Nữ';
@@ -145,6 +185,10 @@ export class AccountDetail implements OnInit {
             (found as any)._licenseAuthenticated = false;
           }
           this.user = found;
+          
+          // Cập nhật số chuyến đi khi load user
+          this.totalTripsCount = (this.user as any)?.So_Chuyen || 0;
+          
         } else {
           this.user = null;
         }
@@ -153,21 +197,6 @@ export class AccountDetail implements OnInit {
       error: (err: any) => {
         console.error('Error loading users for user-account:', err);
         this.user = null;
-      }
-    });
-  }
-
-  sendUserData(userId?: string | number): void {
-    this.userService.getAllUsers().subscribe({
-      next: (users: any) => {
-        const list = Array.isArray(users) ? users : [];
-        let payload: any = null;
-        if (userId) payload = list.find((u: any) => String(u.Ma_nguoi_dung) === String(userId));
-        if (!payload) payload = list.length ? list[0] : null;
-        window.dispatchEvent(new CustomEvent('userDataReady', { detail: payload }));
-      },
-      error: (err: any) => {
-        console.error('Error sending user data:', err);
       }
     });
   }
