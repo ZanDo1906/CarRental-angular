@@ -64,7 +64,7 @@
 
                 <!-- Giá -->
                 <div class="price-row">
-                  <div class="price fs-3">
+                  <div class="price fs-4">
                     {{vnd(car.Gia_thue)}} VNĐ/Ngày
                   </div>
                 </div>
@@ -282,114 +282,24 @@
   </div>
 </div>
 
-<!-- Modal lịch cho thuê -->
-<div class="modal-overlay" *ngIf="showCalendarModal" (click)="closeCalendarModal()">
-  <div class="calendar-modal-content" (click)="$event.stopPropagation()">
-    <div class="modal-header">
-      <h3><i class="bi bi-calendar-check"></i> Lịch cho thuê xe</h3>
-      <button type="button" class="close-btn" (click)="closeCalendarModal()">
-        <i class="bi bi-x-lg"></i>
-      </button>
-    </div>
-    
-    <div class="modal-body" *ngIf="selectedCar">
-      <!-- Thông tin xe -->
-      <div class="car-info-header">
-        <div class="car-thumb">
-          <img [src]="selectedCar.Anh_xe && selectedCar.Anh_xe.length ? selectedCar.Anh_xe[0] : 'assets/images/placeholder.webp'" 
-               [alt]="selectedCar.Hang_xe + ' ' + selectedCar.Dong_xe">
-        </div>
-        <div class="car-details">
-          <h4>{{selectedCar.Hang_xe}} {{selectedCar.Dong_xe}} {{selectedCar.Nam_san_xuat}}</h4>
-          <p class="car-license">Biển số: {{selectedCar.Bien_so_xe}}</p>
-          <p class="car-price">{{vnd(selectedCar.Gia_thue)}} VNĐ/Ngày</p>
-        </div>
-      </div>
+<!-- Calendar Modal Component -->
+<app-calendar-modal
+  [show]="showCalendarModal"
+  [selectedCar]="selectedCar"
+  (closeModal)="closeCalendarModal()"
+  (dayClicked)="onDayClick($event)"
+  (blockedDateRemoved)="handleBlockedDateRemoval($event)">
+</app-calendar-modal>
 
-      <!-- Điều hướng tháng -->
-      <div class="calendar-nav">
-        <button class="btn-nav" (click)="previousMonth()">
-          <i class="bi bi-chevron-left"></i>
-        </button>
-        <h4 class="month-year">{{getMonthName()}} {{currentYear}}</h4>
-        <button class="btn-nav" (click)="nextMonth()">
-          <i class="bi bi-chevron-right"></i>
-        </button>
-      </div>
-
-      <!-- Lịch -->
-      <div class="calendar-container">
-        <!-- Tiêu đề các ngày trong tuần -->
-        <div class="calendar-weekdays">
-          <div class="weekday">T2</div>
-          <div class="weekday">T3</div>
-          <div class="weekday">T4</div>
-          <div class="weekday">T5</div>
-          <div class="weekday">T6</div>
-          <div class="weekday">T7</div>
-          <div class="weekday">CN</div>
-        </div>
-
-        <!-- Các ngày trong tháng -->
-        <div class="calendar-days">
-          <div *ngFor="let day of calendarDays" 
-               class="calendar-day"
-               [class.current-month]="day.isCurrentMonth"
-               [class.other-month]="!day.isCurrentMonth"
-               [class.today]="day.isToday"
-               [class.occupied]="day.isOccupied"
-               [class.past]="day.isPast && !day.isOccupied"
-               [class.future-available]="day.isFutureAvailable"
-               [title]="getTooltipText(day)">
-            <span class="day-number">{{day.day}}</span>
-            <div class="day-status" *ngIf="day.isCurrentMonth">
-              <i *ngIf="day.isOccupied" class="bi bi-calendar-x text-danger" title="Đã được thuê"></i>
-              <i *ngIf="day.isFutureAvailable" class="bi bi-calendar-check text-success" title="Ngày rảnh"></i>
-              <i *ngIf="day.isToday && !day.isOccupied" class="bi bi-calendar-event text-primary" title="Hôm nay"></i>
-              <i *ngIf="day.isPast && !day.isOccupied" class="bi bi-calendar text-muted" title="Ngày đã qua"></i>
-            </div>
-          </div>
-        </div>
-      </div>
-
-      <!-- Chú thích -->
-      <div class="calendar-legend">
-        <div class="legend-item">
-          <div class="legend-color occupied"></div>
-          <span>Đã được thuê</span>
-        </div>
-        <div class="legend-item">
-          <div class="legend-color available"></div>
-          <span>Ngày rảnh (có thể thuê)</span>
-        </div>
-        <div class="legend-item">
-          <div class="legend-color today"></div>
-          <span>Hôm nay</span>
-        </div>
-        <div class="legend-item">
-          <div class="legend-color past"></div>
-          <span>Ngày đã qua</span>
-        </div>
-      </div>
-
-      <!-- Thống kê -->
-      <div class="calendar-stats" *ngIf="rentals.length > 0">
-        <h5><i class="bi bi-graph-up"></i> Thống kê thuê xe</h5>
-        <div class="stats-grid">
-          <div class="stat-item">
-            <span class="stat-number">{{rentals.length}}</span>
-            <span class="stat-label">Tổng đơn thuê</span>
-          </div>
-          <div class="stat-item">
-            <span class="stat-number">{{occupiedDates.size}}</span>
-            <span class="stat-label">Ngày đã thuê</span>
-          </div>
-          <div class="stat-item">
-            <span class="stat-number">{{getTotalRevenue()}}</span>
-            <span class="stat-label">Tổng doanh thu</span>
-          </div>
-        </div>
-      </div>
-    </div>
-  </div>
-</div>
+<!-- Block Date Modal Component -->
+<app-block-date-modal
+  [show]="showBlockModal"
+  [blockStartDate]="blockStartDate"
+  [blockEndDate]="blockEndDate"
+  [blockReason]="blockReason"
+  (closeModal)="closeBlockModal()"
+  (confirm)="confirmBlockDates()"
+  (startDateChange)="blockStartDate = $event"
+  (endDateChange)="blockEndDate = $event"
+  (reasonChange)="blockReason = $event">
+</app-block-date-modal>

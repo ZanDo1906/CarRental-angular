@@ -3,15 +3,34 @@
     <h2>Chuyến của tôi ({{ rentals.length }})</h2>
   </div>
 
+  <!-- Tabs -->
+  <div class="rental-tabs">
+    <button 
+      class="tab-btn"
+      [class.active]="activeTab === 'current'"
+      (click)="switchTab('current')">
+      <i class="bi bi-hourglass-split"></i>
+      Chuyến hiện tại ({{ currentRentals.length }})
+    </button>
+    <button 
+      class="tab-btn"
+      [class.active]="activeTab === 'history'"
+      (click)="switchTab('history')">
+      <i class="bi bi-clock-history"></i>
+      Lịch sử chuyến ({{ historyRentals.length }})
+    </button>
+  </div>
+
   <div class="alert alert-info" *ngIf="loading">
     Đang tải dữ liệu...
   </div>
 
-  <div class="alert alert-warning" *ngIf="!loading && rentals.length === 0">
-    Bạn chưa có chuyến đi nào.
+  <div class="alert alert-warning" *ngIf="!loading && filteredRentals.length === 0">
+    <span *ngIf="activeTab === 'current'">Bạn chưa có chuyến đi hiện tại nào.</span>
+    <span *ngIf="activeTab === 'history'">Bạn chưa có lịch sử chuyến đi nào.</span>
   </div>
 
-          <div class="cards-list" *ngIf="!loading && rentals.length > 0">
+  <div class="cards-list" *ngIf="!loading && filteredRentals.length > 0">
 
             <div *ngFor="let rental of paginatedRentals" class="car-card">
 
@@ -33,20 +52,20 @@
                   <h3 class="car-name">{{ rental.car_details.Hang_xe }} {{ rental.car_details.Dong_xe }} {{ rental.car_details.Nam_san_xuat
                   }}</h3>
                 </div>
-                <div class="spec-grid">
-                  <div class="spec">
+                <!-- <div class="meta-row">
+                  <div class="meta">
                     <i class="bi bi-gear"></i>
                     <span>{{ rental.car_details.Hop_so }}</span>
                   </div>
-                  <div class="spec">
+                  <div class="meta">
                     <i class="bi bi-people"></i>
                     <span>{{ rental.car_details.So_cho }} chỗ</span>
                   </div>
-                  <div class="spec">
+                  <div class="meta">
                     <i class="bi bi-fuel-pump"></i>
                     <span>{{ rental.car_details.Nhien_lieu }}</span>
                   </div>
-                </div>
+                </div> -->
 
                 <!-- Địa điểm (resolve Ma_vi_tri → địa chỉ từ location.json) -->
                 <!-- <div class="loc-row" *ngIf="car.Ma_vi_tri != null">
@@ -57,7 +76,7 @@
                 <hr>
 
                 <!-- Điểm & số chuyến -->
-                <div class="meta-row">
+                <!-- <div class="meta-row">
                   <div class="meta">
                     <i class="bi bi-star-fill text-warning"></i>
                     <span>{{ rental.car_details.Diem_danh_gia || '5.0'}}</span>
@@ -66,7 +85,7 @@
                     <i class="bi bi-graph-up"></i>
                     <span>{{ rental.car_details.So_chuyen || rental.car_details.So_luot_thue || 0}} chuyến</span>
                   </div>
-                </div>
+                </div> -->
 
                 
 
@@ -85,30 +104,74 @@
                   </div>
                 </div>
 
+                 <div class="meta-row  ">
+                  <div class="meta">
+                    <i class="bi bi-calendar-check"></i>
+                    <span>Ngày nhận: {{ formatDate(rental.Ngay_nhan_xe) }} {{ rental.Gio_nhan_xe }}</span>
+                  </div>
+                  <div class="meta">
+                    <i class="bi bi-calendar-x"></i>
+                    <span>Ngày trả: {{ formatDate(rental.Ngay_tra_xe) }} {{ rental.Gio_tra_xe }}</span>
+                  </div>
+                </div>
+
+
                 <!-- Giá -->
                 <div class="price-row">
-                  <div class="price fs-3">
+                  <div class="price fs-4">
                     {{vnd(rental.Tong_chi_phi)}} VNĐ
                   </div>
                 </div>
 
-                <div class="rental-status">Đang cho thuê</div>
-                <div class="rental-date text-muted">
+                <span class=" status-badge rental-status" [ngClass]="getStatusClass(rental.Trang_thai)">
+                    {{ getStatusText(rental.Trang_thai) }}
+                  </span>
+                <!-- <div class="rental-date text-muted">
                   Ngày trả: 
                     <span class="">{{formatDate(rental.Ngay_tra_xe)}} {{rental.Gio_tra_xe}}</span>
-                </div>
+                </div> -->
               </div>
 
               <div class="rental-actions">
-                <p class="rental-status">Đang cho thuê</p>
-                <div class="rental-date text-muted">
+                <!-- <p class="rental-status">Đang cho thuê</p> -->
+                 <span class=" status-badge rental-status" [ngClass]="getStatusClass(rental.Trang_thai)">
+                    {{ getStatusText(rental.Trang_thai) }}
+                  </span>
+                <!-- <div class="rental-date text-muted">
                   Ngày trả: 
                     <span class="">{{formatDate(rental.Ngay_tra_xe)}} {{rental.Gio_tra_xe}}</span>
-                </div>
+                </div> -->
+                <ng-container *ngIf="activeTab === 'current'">
+                  <button *ngIf="rental.Trang_thai === 1" class="btn btn-outline-danger">
+                    <i class="bi bi-x-circle"></i> Hủy đặt xe
+                  </button>
+                  <button *ngIf="rental.Trang_thai === 3" class="btn btn-solid-primary">
+                    <i class="bi bi-check-circle"></i> Xác nhận trả xe
+                  </button>
+                  <button *ngIf="rental.Trang_thai === 2 || rental.Trang_thai === 3" class="btn btn-approve">
+                    <i class="bi bi-clock-history"></i> Gia hạn thuê
+                  </button>
+                </ng-container>
+                <ng-container *ngIf="activeTab === 'history'">
+                  <button *ngIf="rental.Trang_thai === 4" class="btn btn-solid-primary">
+                    <i class="bi bi-arrow-repeat"></i> Thuê lại
+                  </button>
+                  <button *ngIf="rental.Trang_thai === 4" class="btn btn-approve">
+                    <i class="bi bi-star"></i> Đánh giá
+                  </button>
+                  <button *ngIf="rental.Trang_thai === 4" class="btn btn-outline-danger">
+                    <i class="bi bi-exclamation-circle"></i> Khiếu nại
+                  </button>
+                </ng-container>
                 
-                <button  class="btn btn-solid-primary">Trả xe</button>
+                <!-- <button class="btn btn-outline-secondary">
+                  <i class="bi bi-eye"></i> Chi tiết
+                </button> -->
+
+                
+                <!-- <button  class="btn btn-solid-primary">Trả xe</button>
                 <button  class="btn btn-approve">Gia hạn thuê</button>
-                <button  class="btn btn-outline-danger">Khiếu nại</button>
+                <button  class="btn btn-outline-danger">Khiếu nại</button> -->
               </div>
             </div>
             <!-- Thân card -->

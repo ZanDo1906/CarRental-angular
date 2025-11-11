@@ -2,7 +2,6 @@ import { Component, OnInit, OnDestroy, AfterViewInit, ChangeDetectorRef } from '
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { RouterModule, Router, NavigationEnd } from '@angular/router';
-import { SideBar } from '../side-bar/side-bar';
 import { CarService } from '../../services/car';
 import { LocationService } from '../../services/location';
 import { UserService } from '../../services/user';
@@ -10,14 +9,18 @@ import { AuthService } from '../../services/auth';
 import { CarRental } from '../../services/car-rental';
 import { Inject } from '@angular/core';
 import { OwnerService } from '../../services/owner.service';
+import { BlockedDateService } from '../../services/blocked-date.service';
+import { BlockedDate } from '../../interfaces/BlockedDate';
 import { Subscription } from 'rxjs';
 import { filter } from 'rxjs/operators';
+import { CalendarModalComponent } from '../../modals/calendar-modal/calendar-modal.component';
+import { BlockDateModalComponent } from '../../modals/block-date-modal/block-date-modal.component';
 
 // User car list for the first user
 @Component({
   selector: 'app-user-car',
   standalone: true,
-  imports: [CommonModule, FormsModule, RouterModule, SideBar],
+  imports: [CommonModule, FormsModule, RouterModule, CalendarModalComponent, BlockDateModalComponent],
   templateUrl: './user-car.html',
   styleUrls: ['./user-car.css'],
 })
@@ -42,6 +45,15 @@ export class UserCar implements OnInit, OnDestroy, AfterViewInit {
   calendarDays: any[] = [];
   rentals: any[] = [];
   occupiedDates: Set<string> = new Set();
+  blockedDates: BlockedDate[] = [];
+  blockedDateSet: Set<string> = new Set();
+  
+  // Block date modal variables
+  showBlockModal = false;
+  blockStartDate: string = '';
+  blockEndDate: string = '';
+  blockReason: string = '';
+  selectedDateForBlock: any = null;
 
   ownerId: number | null = null;
   private subscriptions: Subscription[] = [];
@@ -52,6 +64,7 @@ export class UserCar implements OnInit, OnDestroy, AfterViewInit {
     private userService: UserService,
     private authService: AuthService,
     private carRentalService: CarRental,
+    private blockedDateService: BlockedDateService,
     private router: Router,
     private cdr: ChangeDetectorRef,
     @Inject(OwnerService) private ownerService: OwnerService
@@ -437,10 +450,11 @@ export class UserCar implements OnInit, OnDestroy, AfterViewInit {
     });
   }
 
-  // Load dữ liệu thuê xe
+  // Load dữ liệu thuê xe và ngày bị chặn
   loadRentalData() {
     if (!this.selectedCar) return;
 
+    // Load rental data
     this.carRentalService.getAllCars().subscribe((rentals: any[]) => {
       // Lọc các đơn thuê cho xe hiện tại
       const carRentals = rentals.filter(r => 
@@ -450,7 +464,36 @@ export class UserCar implements OnInit, OnDestroy, AfterViewInit {
 
       this.rentals = carRentals;
       this.calculateOccupiedDates();
+      
+      // Load blocked dates
+      this.loadBlockedDates();
+    });
+  }
+
+  // Load blocked dates cho xe hiện tại
+  loadBlockedDates() {
+    if (!this.selectedCar) return;
+
+    this.blockedDateService.getBlockedDatesForCar(this.selectedCar.Ma_xe).subscribe(dates => {
+      this.blockedDates = dates;
+      this.calculateBlockedDates();
       this.generateCalendar();
+    });
+  }
+
+  // Tính toán các ngày bị chặn
+  calculateBlockedDates() {
+    this.blockedDateSet.clear();
+
+    this.blockedDates.forEach(blocked => {
+      const startDate = new Date(blocked.Ngay_bat_dau);
+      const endDate = new Date(blocked.Ngay_ket_thuc);
+
+      // Thêm tất cả các ngày từ ngày bắt đầu đến ngày kết thúc
+      for (let d = new Date(startDate); d <= endDate; d.setDate(d.getDate() + 1)) {
+        const dateStr = this.formatDate(d);
+        this.blockedDateSet.add(dateStr);
+      }
     });
   }
 
@@ -500,16 +543,17 @@ export class UserCar implements OnInit, OnDestroy, AfterViewInit {
       const dateStr = this.formatDate(currentDate);
       const isCurrentMonth = currentDate.getMonth() === this.currentMonth;
       const isOccupied = this.occupiedDates.has(dateStr);
+      const isBlocked = this.blockedDateSet.has(dateStr);
       const isToday = this.formatDate(today) === dateStr;
       
       // Kiểm tra ngày đã qua: chỉ những ngày TRƯỚC hôm nay
       const isPast = currentDate < today;
       
-      // Ngày rảnh trong tương lai: không bị thuê, không phải ngày quá khứ, trong tháng hiện tại
-      const isFutureAvailable = isCurrentMonth && !isPast && !isOccupied && !isToday;
+      // Ngày rảnh trong tương lai: không bị thuê, không bị block, không phải ngày quá khứ, trong tháng hiện tại
+      const isFutureAvailable = isCurrentMonth && !isPast && !isOccupied && !isBlocked && !isToday;
       
       // Ngày có thể tương tác: hôm nay hoặc tương lai
-      const isInteractable = !isPast || isOccupied;
+      const isInteractable = !isPast || isOccupied || isBlocked;
 
       this.calendarDays.push({
         date: currentDate,
@@ -517,6 +561,7 @@ export class UserCar implements OnInit, OnDestroy, AfterViewInit {
         day: currentDate.getDate(),
         isCurrentMonth: isCurrentMonth,
         isOccupied: isOccupied,
+        isBlocked: isBlocked,
         isToday: isToday,
         isPast: isPast,
         isFutureAvailable: isFutureAvailable,
@@ -598,6 +643,11 @@ export class UserCar implements OnInit, OnDestroy, AfterViewInit {
       return this.getRentalInfo(day.dateStr);
     }
     
+    if (day.isBlocked) {
+      const blockedInfo = this.getBlockedInfo(day.dateStr);
+      return blockedInfo ? `Đã chặn: ${blockedInfo}` : 'Đã chặn bởi chủ xe';
+    }
+    
     if (day.isToday) {
       return 'Hôm nay' + (day.isOccupied ? '' : ' - Có thể thuê');
     }
@@ -607,9 +657,114 @@ export class UserCar implements OnInit, OnDestroy, AfterViewInit {
     }
     
     if (day.isFutureAvailable) {
-      return 'Ngày rảnh - Có thể thuê';
+      return 'Ngày rảnh - Click để chặn';
     }
     
     return '';
+  }
+
+  // Lấy thông tin blocked date
+  getBlockedInfo(dateStr: string): string {
+    const blocked = this.blockedDates.find(b => {
+      const startDate = new Date(b.Ngay_bat_dau);
+      const endDate = new Date(b.Ngay_ket_thuc);
+      const checkDate = new Date(dateStr);
+      return checkDate >= startDate && checkDate <= endDate;
+    });
+
+    if (blocked) {
+      return blocked.Ly_do || `${blocked.Ngay_bat_dau} - ${blocked.Ngay_ket_thuc}`;
+    }
+    return '';
+  }
+
+  // Click vào ngày để block
+  onDayClick(day: any) {
+    if (!day.isFutureAvailable) return;
+    
+    this.selectedDateForBlock = day;
+    this.blockStartDate = day.dateStr;
+    this.blockEndDate = day.dateStr;
+    this.blockReason = '';
+    this.showBlockModal = true;
+  }
+
+  // Đóng modal block
+  closeBlockModal() {
+    this.showBlockModal = false;
+    this.selectedDateForBlock = null;
+    this.blockStartDate = '';
+    this.blockEndDate = '';
+    this.blockReason = '';
+  }
+
+  // Xác nhận block dates
+  confirmBlockDates() {
+    if (!this.selectedCar || !this.blockStartDate || !this.blockEndDate) return;
+
+    const newBlock: BlockedDate = {
+      Ma_xe: this.selectedCar.Ma_xe,
+      Ngay_bat_dau: this.blockStartDate,
+      Ngay_ket_thuc: this.blockEndDate,
+      Ly_do: this.blockReason || 'Nhu cầu cá nhân',
+      Ngay_tao: new Date().toISOString()
+    };
+
+    this.blockedDateService.addBlockedDate(newBlock).subscribe({
+      next: (result) => {
+        alert('Đã chặn ngày thành công!');
+        this.closeBlockModal();
+        this.loadBlockedDates();
+      },
+      error: (err) => {
+        console.error('Error blocking dates:', err);
+        alert('Có lỗi xảy ra khi chặn ngày!');
+      }
+    });
+  }
+
+  // Xóa blocked date
+  removeBlockedDate(day: any) {
+    if (!day.isBlocked) return;
+
+    const blocked = this.blockedDates.find(b => {
+      const startDate = new Date(b.Ngay_bat_dau);
+      const endDate = new Date(b.Ngay_ket_thuc);
+      const checkDate = new Date(day.dateStr);
+      return checkDate >= startDate && checkDate <= endDate;
+    });
+
+    if (blocked && blocked.Ma_block) {
+      if (confirm('Bạn có chắc muốn bỏ chặn khoảng thời gian này?')) {
+        this.blockedDateService.removeBlockedDate(blocked.Ma_block).subscribe({
+          next: () => {
+            alert('Đã bỏ chặn thành công!');
+            this.loadBlockedDates();
+          },
+          error: (err) => {
+            console.error('Error removing block:', err);
+            alert('Có lỗi xảy ra khi bỏ chặn!');
+          }
+        });
+      }
+    }
+  }
+
+  // Handle blocked date removal from calendar modal
+  handleBlockedDateRemoval(blocked: BlockedDate) {
+    if (blocked && blocked.Ma_block) {
+      if (confirm('Bạn có chắc muốn bỏ chặn khoảng thời gian này?')) {
+        this.blockedDateService.removeBlockedDate(blocked.Ma_block).subscribe({
+          next: () => {
+            alert('Đã bỏ chặn thành công!');
+            // Calendar modal will reload its own data
+          },
+          error: (err) => {
+            console.error('Error removing block:', err);
+            alert('Có lỗi xảy ra khi bỏ chặn!');
+          }
+        });
+      }
+    }
   }
 }

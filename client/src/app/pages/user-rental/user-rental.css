@@ -94,6 +94,140 @@ h2 {
   flex: 1;
 }
 
+/* Rental Tabs */
+.rental-tabs {
+  display: flex;
+  gap: 1rem;
+  margin-bottom: 1.5rem;
+  border-bottom: 2px solid #e9ecef;
+  padding-bottom: 0;
+}
+
+.tab-btn {
+  background: none;
+  border: none;
+  padding: 1rem 1.5rem;
+  font-size: 1rem;
+  font-weight: 600;
+  color: #6c757d;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  border-bottom: 3px solid transparent;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  position: relative;
+  bottom: -2px;
+  font-family: 'Inter', sans-serif;
+}
+
+.tab-btn:hover {
+  color: var(--color-primary);
+  background: rgba(29, 115, 99, 0.05);
+}
+
+.tab-btn.active {
+  color: var(--color-primary);
+  border-bottom-color: var(--color-primary);
+  font-weight: 700;
+}
+
+.tab-btn i {
+  font-size: 1.1rem;
+}
+
+/* Car Header with Status Badge */
+.car-header-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 1rem;
+  margin-bottom: 0.5rem;
+}
+
+.car-name {
+  flex: 1;
+}
+
+/* Status Badges */
+.status-badge {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0.4rem 0.9rem;
+  border-radius: 20px;
+  font-size: 0.85rem;
+  font-weight: 600;
+  white-space: nowrap;
+  flex-shrink: 0;
+  font-family: 'Montserrat', sans-serif;
+}
+
+.status-pending {
+  background: #fff3cd;
+  color: #856404;
+  border: 1px solid #ffeaa7;
+}
+
+.status-approved {
+  background: #d1ecf1;
+  color: #0c5460;
+  border: 1px solid #bee5eb;
+}
+
+.status-ongoing {
+  background: #cfe2ff;
+  color: #084298 !important;
+  border: 1px solid #b6d4fe;
+}
+
+.status-completed {
+  background: #d1e7dd;
+  color: #0f5132;
+  border: 1px solid #badbcc;
+}
+
+.status-cancelled {
+  background: #f8d7da;
+  color: #842029;
+  border: 1px solid #f5c2c7;
+}
+
+.status-rejected {
+  background: #f8d7da;
+  color: #842029;
+  border: 1px solid #f5c2c7;
+}
+
+/* Rental Date Info */
+.rental-date-info {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  margin-top: 1rem;
+  padding: 0.75rem;
+  background: #f8f9fa;
+  border-radius: 8px;
+  border-left: 3px solid var(--color-primary);
+}
+
+.date-item {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-size: 0.9rem;
+  color: #495057;
+}
+
+.date-item i {
+  color: var(--color-primary);
+  font-size: 1rem;
+}
+
+.date-item span {
+  font-weight: 500;
+}
+
 
 
 /* Cards */
@@ -155,7 +289,7 @@ h2 {
   display: block;
   margin-bottom: 10px;
   color: var(--color-primary);
-  font-size: 30px;
+  font-size: 25px;
 }
 
 /* .car-card:hover .car-name {
@@ -214,8 +348,9 @@ h2 {
 /* Điểm & chuyến */
 .meta-row {
   display: flex;
-  align-items: center;
-  justify-content: space-between;
+  flex-direction: column;
+  align-items: left;
+  justify-content: flex-start;
   margin-bottom: 6px;
   margin-top: auto;
 }
@@ -292,7 +427,7 @@ h2 {
 
 .car-details h3 {
   margin: 0 0 0.75rem 0;
-  font-size: 20px;
+  font-size: 15px;
   font-weight: 700;
   color: var(--color-primary-text);
   font-family: 'Montserrat', sans-serif;
@@ -318,7 +453,7 @@ h2 {
 }
 
 .car-details .rental-status {
-  font-size: 1.5rem;
+  font-size: 1.2rem;
   font-weight: 800;
   color: #1D7363;
   text-align: center;
@@ -331,16 +466,16 @@ h2 {
   flex-direction: column;
   gap: 0.5rem;
   flex-shrink: 0;
-  min-width: 140px;
+  min-width: 120px;
   align-items: stretch;
 }
 
 .rental-actions .rental-status {
-  font-size: 1.5rem;
+  font-size: 1.2rem;
   font-weight: 800;
   color: #1D7363;
   text-align: center;
-  margin: 8px 0;
+  /* margin: 8px 0; */
 }
 
 
@@ -401,6 +536,28 @@ h2 {
   background: var(--color-error);
   color: #ffffff;
   box-shadow: 0 4px 12px rgba(211, 47, 47, 0.15);
+}
+
+.btn-outline-secondary {
+  border: 2px solid #6c757d;
+  color: #6c757d;
+  background: #fff;
+  padding: 0.75rem 1.5rem;
+  border-radius: 8px;
+  font-size: 1rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+}
+
+.btn-outline-secondary:hover {
+  background: #6c757d;
+  color: #ffffff;
+  box-shadow: 0 4px 12px rgba(108, 117, 125, 0.15);
 }
 
 .pagination {
@@ -557,6 +714,26 @@ h2 {
     font-size: 24px;
   }
 
+  .rental-tabs {
+    gap: 0.5rem;
+    overflow-x: auto;
+  }
+
+  .tab-btn {
+    padding: 0.75rem 1rem;
+    font-size: 0.9rem;
+    white-space: nowrap;
+  }
+
+  .status-badge {
+    font-size: 0.75rem;
+    padding: 0.3rem 0.7rem;
+  }
+
+  .rental-date-info {
+    font-size: 0.85rem;
+  }
+
     .rental-actions {
     flex-direction: row;
     justify-content: space-between;
@@ -583,7 +760,7 @@ h2 {
   }
 
   .car-details .rental-status {
-    font-size: 1.5rem;
+    font-size: 1.2rem;
     font-weight: 800;
     color: #1D7363;
     text-align: center;

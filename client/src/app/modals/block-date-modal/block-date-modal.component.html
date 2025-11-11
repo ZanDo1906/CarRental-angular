@@ -1,0 +1,63 @@
+<div class="modal-overlay" *ngIf="show" (click)="close()">
+  <div class="block-modal-content" (click)="$event.stopPropagation()">
+    <div class="modal-header">
+      <h3><i class="bi bi-lock"></i> Chặn lịch cho thuê</h3>
+      <button type="button" class="close-btn" (click)="close()">
+        <i class="bi bi-x-lg"></i>
+      </button>
+    </div>
+    
+    <div class="modal-body">
+      <p class="block-description">
+        Chặn khoảng thời gian này để xe không thể được thuê. Thích hợp khi bạn cần dùng xe cho nhu cầu cá nhân.
+      </p>
+      
+      <div class="form-group">
+        <label for="blockStartDate">Ngày bắt đầu:</label>
+        <input 
+          type="date" 
+          id="blockStartDate" 
+          class="form-control" 
+          [ngModel]="blockStartDate"
+          (ngModelChange)="onStartDateChange($event)"
+          [min]="blockStartDate">
+      </div>
+      
+      <div class="form-group">
+        <label for="blockEndDate">Ngày kết thúc:</label>
+        <input 
+          type="date" 
+          id="blockEndDate" 
+          class="form-control" 
+          [ngModel]="blockEndDate"
+          (ngModelChange)="onEndDateChange($event)"
+          [min]="blockStartDate">
+      </div>
+      
+      <div class="form-group">
+        <label for="blockReason">Lý do (tùy chọn):</label>
+        <textarea 
+          id="blockReason" 
+          class="form-control" 
+          rows="3" 
+          [ngModel]="blockReason"
+          (ngModelChange)="onReasonChange($event)"
+          placeholder="Ví dụ: Đi công tác, Bảo dưỡng xe, Sử dụng cá nhân..."></textarea>
+      </div>
+      
+      <div class="alert alert-info">
+        <i class="bi bi-info-circle"></i>
+        <strong>Lưu ý:</strong> Các ngày đã chặn sẽ không thể được khách hàng đặt thuê. Click vào ngày đã chặn trong lịch để bỏ chặn.
+      </div>
+    </div>
+    
+    <div class="modal-footer">
+      <button type="button" class="btn btn-secondary" (click)="close()">
+        Hủy
+      </button>
+      <button type="button" class="btn btn-primary" (click)="confirmBlock()">
+        <i class="bi bi-lock-fill"></i> Xác nhận chặn
+      </button>
+    </div>
+  </div>
+</div>

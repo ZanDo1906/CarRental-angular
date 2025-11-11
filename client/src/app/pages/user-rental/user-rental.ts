@@ -1,7 +1,6 @@
 import { Component, OnInit, OnDestroy, AfterViewInit, ChangeDetectorRef } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterModule, Router, NavigationEnd, ActivatedRoute } from '@angular/router';
-import { SideBar } from '../side-bar/side-bar';
 import { CarService } from '../../services/car';
 import { LocationService } from '../../services/location';
 import { AuthService } from '../../services/auth';
@@ -17,7 +16,7 @@ type RentalWithCar = iCar_rental & { car_details: iCar };
 @Component({
   selector: 'app-user-rental',
   standalone: true,
-  imports: [CommonModule, RouterModule, SideBar],
+  imports: [CommonModule, RouterModule],
   templateUrl: './user-rental.html',
   styleUrls: ['./user-rental.css']
 })
@@ -28,15 +27,41 @@ export class UserRental implements OnInit, OnDestroy, AfterViewInit {
   userId: number | null = null;
   pageSize = 6;
   currentPage = 1;
+  activeTab: 'current' | 'history' = 'current'; // Tab hiện tại
   private subscriptions: Subscription[] = [];
+
+  // Lọc chuyến hiện tại (status 1, 2, 3)
+  get currentRentals(): RentalWithCar[] {
+    return this.rentals.filter(r => 
+      r.Trang_thai === 1 || r.Trang_thai === 2 || r.Trang_thai === 3
+    );
+  }
+
+  // Lọc lịch sử chuyến (status 4, 5, 0)
+  get historyRentals(): RentalWithCar[] {
+    return this.rentals.filter(r => 
+      r.Trang_thai === 4 || r.Trang_thai === 5 || r.Trang_thai === 0
+    );
+  }
+
+  // Rentals theo tab hiện tại
+  get filteredRentals(): RentalWithCar[] {
+    return this.activeTab === 'current' ? this.currentRentals : this.historyRentals;
+  }
 
   get paginatedRentals(): RentalWithCar[] {
     const startIndex = (this.currentPage - 1) * this.pageSize;
-    return this.rentals.slice(startIndex, startIndex + this.pageSize);
+    return this.filteredRentals.slice(startIndex, startIndex + this.pageSize);
   }
 
   get totalPages(): number {
-    return Math.ceil(this.rentals.length / this.pageSize);
+    return Math.ceil(this.filteredRentals.length / this.pageSize);
+  }
+
+  // Chuyển tab
+  switchTab(tab: 'current' | 'history'): void {
+    this.activeTab = tab;
+    this.currentPage = 1; // Reset về trang 1 khi chuyển tab
   }
 
   changePage(page: number): void {
@@ -225,6 +250,26 @@ export class UserRental implements OnInit, OnDestroy, AfterViewInit {
     } catch {
       return dateString;
     }
+  }
+
+  // Lấy text trạng thái
+  getStatusText(status: number): string {
+    const statusMap: { [key: number]: string } = {
+      3: 'ĐANG THUÊ',
+      4: 'HOÀN THÀNH',
+      5: 'BỊ HUỶ'
+    };
+    return statusMap[status] || 'Không xác định';
+  }
+
+  // Lấy class CSS cho status badge
+  getStatusClass(status: number): string {
+    const classMap: { [key: number]: string } = {
+      3: 'status-ongoing',
+      4: 'status-completed',
+      5: 'status-rejected'
+    };
+    return classMap[status] || '';
   }
 
   // Method để force reload data (có thể gọi từ bên ngoài)

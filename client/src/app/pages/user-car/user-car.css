@@ -171,7 +171,7 @@ h2 {
   display: block;
   margin-bottom: 10px;
   color: var(--color-primary);
-  font-size: 30px;
+  font-size: 25px;
 }
 
 /* .car-card:hover .car-name {
@@ -334,11 +334,6 @@ h2 {
 }
 
 .car-details .car-status {
-  font-size: 1.5rem;
-  font-weight: 800;
-  color: #1D7363;
-  text-align: center;
-  margin-top: 10px;
   display: none;
 }
 
@@ -352,11 +347,11 @@ h2 {
 }
 
 .car-actions .car-status {
-  font-size: 1.5rem;
+  font-size: 1.4rem;
   font-weight: 800;
   color: #1D7363;
   text-align: center;
-  margin: 8px 0;
+  margin: 0;
 }
 
 
@@ -605,7 +600,7 @@ h2 {
   }
 }
 
-@media (max-width: 576px) {
+/* @media (max-width: 576px) {
   .m-container,
   .s-container {
     max-width: none;
@@ -630,7 +625,7 @@ h2 {
     font-size: 14px;
     padding: 12px 18px;
   }
-}
+} */
 
 /* Bootstrap Grid Helper */
 .row {
@@ -1199,6 +1194,22 @@ h2 {
   background: rgba(220, 53, 69, 0.15);
 }
 
+.calendar-day.blocked {
+  background: rgba(255, 193, 7, 0.15);
+  border-color: #ffc107;
+  color: #ff9800;
+  cursor: pointer;
+}
+
+.calendar-day.blocked:hover {
+  background: rgba(255, 193, 7, 0.25);
+  transform: scale(1.02);
+}
+
+.calendar-day.blocked .bi-lock-fill {
+  font-size: 14px;
+}
+
 .calendar-day.available {
   background: rgba(40, 167, 69, 0.1);
   border-color: #28a745;
@@ -1227,6 +1238,14 @@ h2 {
 .calendar-day.future-available:hover {
   background: rgba(40, 167, 69, 0.15);
   transform: scale(1.02);
+}
+
+.calendar-day.clickable {
+  cursor: pointer;
+}
+
+.calendar-day.clickable:hover {
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
 }
 
 .day-number {
@@ -1271,6 +1290,11 @@ h2 {
 .legend-color.occupied {
   background: rgba(220, 53, 69, 0.1);
   border-color: #dc3545;
+}
+
+.legend-color.blocked {
+  background: rgba(255, 193, 7, 0.15);
+  border-color: #ffc107;
 }
 
 .legend-color.available {
@@ -1399,4 +1423,137 @@ h2 {
   .stat-number {
     font-size: 1.25rem;
   }
+}
+
+/* ========== BLOCK DATE MODAL ========== */
+.block-modal-content {
+  background: white;
+  border-radius: 15px;
+  width: 90%;
+  max-width: 500px;
+  max-height: 90vh;
+  overflow-y: auto;
+  box-shadow: 0 10px 40px rgba(0, 0, 0, 0.2);
+}
+
+.model-overlay .block-description {
+  background: #e7f3ff;
+  padding: 1rem;
+  border-radius: 8px;
+  border-left: 4px solid #0d6efd;
+  margin-bottom: 1.5rem;
+  font-size: 0.95rem;
+  color: #0c5da5;
+}
+
+.model-overlay .form-group {
+  margin-bottom: 1.5rem;
+}
+
+.model-overlay .form-group label {
+  display: block;
+  margin-bottom: 0.5rem;
+  font-weight: 600;
+  color: #333;
+  font-size: 0.95rem;
+}
+
+.model-overlay .form-control {
+  width: 100%;
+  padding: 0.75rem;
+  border: 2px solid #e0e0e0;
+  border-radius: 8px;
+  font-size: 1rem;
+  font-family: 'Inter', sans-serif;
+  transition: border-color 0.3s ease;
+}
+
+.model-overlay .form-control:focus {
+  outline: none;
+  border-color: var(--color-primary);
+  box-shadow: 0 0 0 3px rgba(29, 115, 99, 0.1);
+}
+
+.model-overlay textarea.form-control {
+  resize: vertical;
+  min-height: 80px;
+}
+
+.model-overlay .alert {
+  padding: 1rem;
+  border-radius: 8px;
+  display: flex;
+  align-items: flex-start;
+  gap: 0.75rem;
+  font-size: 0.9rem;
+  margin-top: 1rem;
+}
+
+.model-overlay .alert-info {
+  background: #e7f3ff;
+  border: 1px solid #b3d9ff;
+  color: #0c5da5;
+}
+
+.model-overlay .alert i {
+  font-size: 1.2rem;
+  flex-shrink: 0;
+}
+
+.model-overlay .modal-footer {
+  display: flex;
+  justify-content: flex-end;
+  gap: 1rem;
+  padding: 1.5rem;
+  border-top: 1px solid #e0e0e0;
+  background: #f8f9fa;
+  border-radius: 0 0 15px 15px;
+}
+
+.model-overlay .btn {
+  padding: 0.75rem 1.5rem;
+  border-radius: 8px;
+  font-size: 1rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.model-overlay .btn-secondary {
+  background: #6c757d;
+  color: white;
+}
+
+.model-overlay .btn-secondary:hover {
+  background: #5a6268;
+}
+
+.model-overlay .btn-primary {
+  background: var(--color-primary);
+  color: white;
+}
+
+.model-overlay .btn-primary:hover {
+  background: #155a4d;
+  transform: translateY(-2px);
+  box-shadow: 0 4px 8px rgba(29, 115, 99, 0.2);
+}
+
+@media (max-width: 576px) {
+  .block-modal-content {
+    width: 95%;
+    max-width: none;
+  }
+
+  .modal-footer {
+    flex-direction: column;
+  }
+
+  /* .btn {
+    width: 100%;
+    justify-content: center;
+  } */
 }
