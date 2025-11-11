@@ -23,13 +23,13 @@
         </a>
       </li>
       <li class="nav-item">
-        <a class="nav-link" routerLink="/account" routerLinkActive="active">
+        <a class="nav-link" routerLink="/account" [class.active]="isAccountManagementActive()">
           <i class="bi bi-people me-2"></i>
           Quản lý tài khoản
         </a>
       </li>
       <li class="nav-item">
-        <a class="nav-link" routerLink="/vehicle-management" routerLinkActive="active">
+        <a class="nav-link" routerLink="/vehicle-management" [class.active]="isVehicleManagementActive()">
           <i class="bi bi-car-front me-2"></i>
           Quản lý xe
         </a>
@@ -41,7 +41,7 @@
         </a>
       </li>
       <li class="nav-item">
-        <a class="nav-link" routerLink="/car-registration-approval" routerLinkActive="active">
+        <a class="nav-link" routerLink="/car-registration-approval" [class.active]="isCarApprovalActive()">
           <i class="bi bi-clipboard2-check me-2"></i>
           Duyệt đơn đăng kí xe
         </a>
