@@ -33,6 +33,7 @@ h2 {
   margin-bottom: 25px;
   font-family: 'Montserrat', sans-serif;
 }
+
 .card-list {
   display: flex;
   flex-direction: column; 
@@ -41,11 +42,12 @@ h2 {
 
 .card-content-wrapper {
   display: flex;
-  flex-wrap: wrap;
-  flex: 1;
-  min-width: 420px;
-  gap: 1.5rem;
   align-items: center;
+  justify-content: space-between;
+  flex: 1;
+  flex-wrap: wrap;
+  gap: 1rem;
+  width: 100%;
 }
 
 .license-card {
@@ -70,64 +72,61 @@ h2 {
   box-shadow: var(--shadow-hover);
 }
 
-
 .license-avatar {
-  flex-shrink: 0;
-  width: 210px;
-  height: 200px;
-  border-radius: 50%; 
+  flex: 0 0 28%; /* 22% chiều ngang, không co giãn */
+  aspect-ratio: 1 / 1; /* đảm bảo hình tròn */
+  border-radius: 50%;
   overflow: hidden;
-  margin-left: 15px;
-  margin-right: 15px;
-  background-color: #fef9e8; 
+  background-color: #fef9e8;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
 .license-avatar img {
   width: 100%;
   height: 100%;
-  object-fit: cover; 
+  object-fit: cover;
 }
-
 .license-details {
-  flex-grow: 1; 
-  min-width: 310px; 
+  flex: 1 1 55%; /* có thể co giãn */
+  display: flex;
+  flex-direction: column;
+  gap: 0.2rem;
+  margin-left: 1rem;
 }
 
 .license-details h3 {
-  margin: 0 0 0.75rem 0;
-  font-size: 20px; 
+  font-size: 1.25rem;
   font-weight: 700;
-  color: var(--color-primary-text);
-  font-family: 'Montserrat', sans-serif;
+  margin: 0;
 }
 
 .license-details p {
-  margin: 0.5rem 0;
-  font-size: 16px;
-  color: var(--color-secondary-text);
+  font-size: 1rem;
+  margin: 0.25rem 0;
 }
 
 .license-details .label {
   font-weight: 600;
-  color: var(--color-primary-text);
-  width: 100px;
-  flex-shrink: 0;
-  height: auto;
 }
 
 .license-details .status-pending {
   font-weight: 600;
   color: var(--color-error);
 }
-
 .license-actions {
+  flex: 0 0 22%;
   display: flex;
   flex-direction: column;
-  gap: 0.75rem;
-  flex-shrink: 0;
-  min-width: 160px;
+  gap: 0.6rem;
+  align-items: stretch;
 }
 
+.license-actions .btn {
+  flex: 1 1 auto;
+  text-align: center;
+}
 .btn {
   padding: 0.7rem 1rem;
   font-size: 16px; 
@@ -347,27 +346,64 @@ h2 {
   padding-top: 15px;
 }
 
-@media (max-width: 992px) {
+@media (max-width: 768px) {
+
+  h2{
+    margin-top: 0;
+  }
+  .card-list {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    gap: 1.5rem; 
+  }
 
   .license-card {
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
     justify-content: center;
-    padding: 1.2rem;
+    width: 100% !important;   
+    margin: 0 !important;  
+    box-sizing: border-box;
+    gap: 1rem;
+  }
+
+  .card-content-wrapper {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+    gap: 1rem;
+    width: 100%;
   }
 
   .license-avatar {
-    width: 110px;
-    height: 100px;
-    margin-right: 20px;
+    flex: 0 0 40%; 
+    aspect-ratio: 1 / 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .license-avatar img {
+    width: 100%;
+    height: 100%;
+    border-radius: 50%;
+    object-fit: cover;
   }
 
   .license-details {
-    margin-left: 10px;
+    flex: 1 1 60%; 
+    margin: 0;
+    text-align: left; 
   }
 
   .license-actions {
     flex-direction: row;
     width: 100%;
     justify-content: space-between;
+    margin-top: 1rem; /* tách ra khỏi avatar+details */
   }
 
   .license-actions .btn {
@@ -376,27 +412,9 @@ h2 {
     padding: 0.6rem;
   }
 
-  .main-content {
-    font-size: 14px;
-  }
-  h2 {
-    font-size: 28px;
-    margin-top: 0;
-    margin-bottom: 25px;
-  }
-
-  .license-details h3 {
-    font-size: 16px;
-  }
-
-  .license-details p,
-  .license-details .label {
-    font-size: 14px;
-  }
-
   .modal-content {
-  padding: 1.2rem; 
-  width: 95%; 
+    padding: 1.2rem; 
+    width: 90%; 
   }
 
   .modal-header h3 {
@@ -413,3 +431,4 @@ h2 {
     min-width: 150px; 
   }
 }
+

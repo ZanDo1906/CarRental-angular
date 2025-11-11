@@ -1,47 +1,108 @@
-<div class="admin-account-container">
-    <div class="admin-info-card">
-        <h2>
-            Thông tin tài khoản
-        </h2>
+<div class="account-section sec space">
+  <div class="main-container">
+    <div class="row">
+      <div class="content-account">
 
-        <div class="admin-content-wrapper">
-            <!-- Cột trái: Avatar và thông tin cơ bản -->
-            <div class="left-column">
-                <div class="admin-profile">
-                    <div class="admin-avatar">
-                        <img [src]="avatarUrl" [alt]="admin?.Ho_va_ten || 'Avatar'" />
-                    </div>
-                    <div class="admin-basic-info">
-                        <h3>{{ admin?.Ho_va_ten || 'Chưa cập nhật' }}</h3>
-                        <p class="admin-join-date">Tham gia {{ admin?.Ngay_tao || 'Chưa cập nhật' }}</p>
-                    </div>
-                </div>
-            </div>
-
-            <!-- Cột phải: Chi tiết thông tin -->
-            <div class="right-column">
-                <div class="info-section">
-                    <div class="info-item">
-                        <label>Ngày sinh</label>
-                        <span>{{ ngaySinh }}</span>
-                    </div>
-
-                    <div class="info-item">
-                        <label>Giới tính</label>
-                        <span>{{ gioiTinh }}</span>
-                    </div>
-
-                    <div class="info-item">
-                        <label>Số điện thoại</label>
-                        <span>{{ admin?.So_dien_thoai || 'Chưa cập nhật' }}</span>
-                    </div>
-
-                    <div class="info-item">
-                        <label>Email</label>
-                        <span>{{ admin?.Email || 'Chưa cập nhật' }}</span>
-                    </div>
-                </div>
-            </div>
+        <div *ngIf="!admin" class="alert alert-info">
+          Không tìm thấy thông tin người dùng. Hãy chắc chắn dev server đang chạy và
+          `assets/data/User.json` trả về dữ liệu.
+          <button class="btn btn-sm btn-secondary ms-2" (click)="loadAdmin()">Tải lại</button>
         </div>
+
+        <div *ngIf="admin" class="content-item user-profile">
+          <div class="title">
+            <div class="title-edit">
+              <h5>Thông tin tài khoản</h5>
+
+              <div class="wrap-svg" (click)="onEdit('profile')" style="cursor:pointer">
+                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16"
+                     fill="currentColor" class="bi bi-pencil" viewBox="0 0 16 16">
+                  <path
+                    d="M12.146.146a.5.5 0 0 1 .708 0l3 3a.5.5 0 0 1 0 .708l-10 10a.5.5 0 0 1-.168.11l-5 2a.5.5 0 0 1-.65-.65l2-5a.5.5 0 0 1 .11-.168zM11.207 2.5
+                          13.5 4.793 14.793 3.5 12.5 1.207zm1.586 3L10.5 3.207
+                          4 9.707V10h.5a.5.5 0 0 1 .5.5v.5h.5a.5.5 0 0 1
+                          .5.5v.5h.293zm-9.761 5.175-.106.106-1.528 3.821
+                          3.821-1.528.106-.106A.5.5 0 0 1
+                          5 12.5V12h-.5a.5.5 0 0 1-.5-.5V11h-.5a.5.5 0 0
+                          1-.468-.325" />
+                </svg>
+              </div>
+
+              <div class="ms-2 d-inline-block">
+                <button *ngIf="editingProfile"
+                        class="btn1 btn--s btn-save"
+                        (click)="saveAdmin()">Lưu</button>
+                <button *ngIf="editingProfile"
+                        class="btn1 btn--s btn-cancel"
+                        (click)="cancelEdit()">Hủy</button>
+              </div>
+            </div>
+
+          </div>
+
+          <div class="content">
+            <div class="avatar-box">
+              <div class="avatar avatar--xl has-edit">
+                <img [src]="avatarUrl"
+                     [alt]="admin.Ho_va_ten || 'avatar'">
+              </div>
+
+              <h6>{{ admin.Ho_va_ten || 'Tên người dùng' }}</h6>
+              <p class="note">Tham gia {{ admin.Ngay_tao | date:'yyyy-MM-dd' }}</p>
+            </div>
+
+            <div class="info-user">
+              <div class="info-desc">
+
+                <div class="info-desc__item">
+                  <div class="title-item">Mã người dùng</div>
+                  <div class="name pointer">
+                    {{ admin.Ma_nguoi_dung || 'N/A' }}
+                  </div>
+                </div>
+
+                <div class="info-desc__item">
+                  <div class="title-item">Họ và tên</div>
+                  <div class="name pointer">
+                    <ng-container *ngIf="!editingProfile">
+                      <p>{{ admin.Ho_va_ten || 'Chưa cập nhật' }}</p>
+                    </ng-container>
+                    <ng-container *ngIf="editingProfile">
+                      <input type="text" [(ngModel)]="admin.Ho_va_ten">
+                    </ng-container>
+                  </div>
+                </div>
+
+                <div class="info-desc__item">
+                  <div class="title-item">Số điện thoại</div>
+                  <div class="name pointer">
+                    {{ admin.So_dien_thoai || 'Chưa có số điện thoại' }}
+                  </div>
+                </div>
+
+                <div class="info-desc__item">
+                  <div class="title-item">Email</div>
+                  <div class="name pointer">
+                    {{ admin.Email || 'Chưa có email' }}
+                  </div>
+                </div>
+                
+                <div class="info-desc__item">
+                    <div class="title-item">Ngày tạo tài khoản</div>
+                    <div class="name pointer">
+                      {{ admin.Ngay_tao | date:'yyyy-MM-dd' }}
+                    </div>
+                </div>
+
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="learn-more"></div>
+
+      </div>
     </div>
+
+  </div>
 </div>
