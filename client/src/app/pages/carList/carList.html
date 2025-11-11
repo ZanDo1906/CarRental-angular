@@ -152,13 +152,40 @@
 
       <!-- Mức giá -->
       <div class="dropdown" (click)="$event.stopPropagation()">
-        <button class="btn-chip" [class.selected]="filters.price" (click)="toggleDropdown('price')">Mức giá</button>
+        <button class="btn-chip" [class.selected]="filters.price || sortOrder" (click)="toggleDropdown('price')">Mức giá</button>
         <div class="menu" *ngIf="openKey==='price'">
-          <button class="dropdown-item" [class.active]="!filters.price"
-                  (click)="selectOption('price', null)">Tất cả</button>
-          <button class="dropdown-item" *ngFor="let p of ['<800k','800k–1tr','>1tr']"
-                  [class.active]="filters.price===p"
-                  (click)="selectOption('price', p)">{{p}}</button>
+          <button class="dropdown-item" [class.active]="!filters.price && sortOrder"
+                  (click)="selectPriceOption(null)">
+            <span>Tất cả</span>
+            <span class="price-arrow ms-auto" *ngIf="!filters.price && sortOrder">
+              <i class="bi bi-arrow-up" *ngIf="sortOrder==='asc'"></i>
+              <i class="bi bi-arrow-down" *ngIf="sortOrder==='desc'"></i>
+            </span>
+          </button>
+          <button class="dropdown-item" [class.active]="filters.price==='<800k'"
+                  (click)="selectPriceOption('<800k')">
+            <span>&lt;800k</span>
+            <span class="price-arrow ms-auto" *ngIf="filters.price==='<800k'">
+              <i class="bi bi-arrow-up" *ngIf="sortOrder==='asc'"></i>
+              <i class="bi bi-arrow-down" *ngIf="sortOrder==='desc'"></i>
+            </span>
+          </button>
+          <button class="dropdown-item" [class.active]="filters.price==='800k–1tr'"
+                  (click)="selectPriceOption('800k–1tr')">
+            <span>800k-1tr</span>
+            <span class="price-arrow ms-auto" *ngIf="filters.price==='800k–1tr'">
+              <i class="bi bi-arrow-up" *ngIf="sortOrder==='asc'"></i>
+              <i class="bi bi-arrow-down" *ngIf="sortOrder==='desc'"></i>
+            </span>
+          </button>
+          <button class="dropdown-item" [class.active]="filters.price==='>1tr'"
+                  (click)="selectPriceOption('>1tr')">
+            <span>&gt;1tr</span>
+            <span class="price-arrow ms-auto" *ngIf="filters.price==='>1tr'">
+              <i class="bi bi-arrow-up" *ngIf="sortOrder==='asc'"></i>
+              <i class="bi bi-arrow-down" *ngIf="sortOrder==='desc'"></i>
+            </span>
+          </button>
         </div>
       </div>
     </div>

@@ -166,3 +166,42 @@
   color: #6b7280;
   margin: 0;
 }
+
+/* Price sorting icons */
+.dropdown-item {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 8px 12px;
+}
+
+.price-arrow {
+  display: flex;
+  align-items: center;
+  opacity: 0.8;
+}
+
+.price-arrow .bi-arrow-up,
+.price-arrow .bi-arrow-down {
+  color: #1D7363;
+  font-size: 14px;
+  font-weight: bold;
+  transition: all 0.2s ease;
+}
+
+.dropdown-item:hover .price-arrow .bi-arrow-up,
+.dropdown-item:hover .price-arrow .bi-arrow-down {
+  color: #fff;
+  transform: scale(1.1);
+}
+
+.dropdown-item.active .price-arrow .bi-arrow-up,
+.dropdown-item.active .price-arrow .bi-arrow-down {
+  color: #fff;
+}
+
+/* Divider styling */
+.dropdown-divider {
+  margin: 0.5rem 0;
+  border-color: #e0e0e0;
+}

@@ -161,6 +161,9 @@ export class CarList implements OnInit {
     rating: null as string | null,
   };
 
+  // Sắp xếp theo giá
+  sortOrder: 'asc' | 'desc' | null = null;
+
   // mở/đóng dropdown
   toggleDropdown(key: FilterKey) {
     this.openKey = this.openKey === key ? null : key;
@@ -175,6 +178,48 @@ export class CarList implements OnInit {
   // chọn 1 giá trị và lọc ngay
   selectOption(key: FilterKey, value: string | null) {
     this.filters[key] = value;
+    this.openKey = null;
+    this.applyFilter();
+  }
+
+  // Thiết lập sắp xếp theo giá
+  setSortOrder(order: 'asc' | 'desc' | null) {
+    this.sortOrder = order;
+    this.openKey = null;
+    this.applyFilter();
+  }
+
+  // Xử lý chọn khoảng giá: lần 1 = lọc + tăng dần, lần 2+ = toggle tăng/giảm
+  selectPriceOption(priceRange: string | null) {
+    if (priceRange === null) {
+      // "Tất cả" - giống các nút khác, nếu đang chọn thì toggle, chưa chọn thì tăng dần
+      if (!this.filters.price && this.sortOrder) {
+        // Đang ở trạng thái "Tất cả" với sort, toggle tăng/giảm
+        if (this.sortOrder === 'asc') {
+          this.sortOrder = 'desc';
+        } else {
+          this.sortOrder = 'asc';
+        }
+      } else {
+        // Lần đầu hoặc từ khoảng giá khác: chuyển về "Tất cả" + tăng dần
+        this.filters.price = null;
+        this.sortOrder = 'asc';
+      }
+    } else {
+      // Nếu cùng khoảng giá, toggle giữa tăng/giảm
+      if (this.filters.price === priceRange) {
+        if (this.sortOrder === 'asc') {
+          this.sortOrder = 'desc'; // Từ tăng sang giảm
+        } else {
+          this.sortOrder = 'asc'; // Từ giảm sang tăng
+        }
+      } else {
+        // Khoảng giá mới: lọc + tăng dần luôn
+        this.filters.price = priceRange;
+        this.sortOrder = 'asc';
+      }
+    }
+    
     this.openKey = null;
     this.applyFilter();
   }
@@ -233,6 +278,20 @@ export class CarList implements OnInit {
     // Mục đích chuyến đi - logic matching dựa trên thuộc tính xe
     if (this.filters.purpose) {
       list = list.filter(c => matchPurpose(c, this.filters.purpose as Purpose));
+    }
+
+    // Sắp xếp theo giá
+    if (this.sortOrder) {
+      list = list.sort((a, b) => {
+        const priceA = Number(a.Gia_thue) || 0;
+        const priceB = Number(b.Gia_thue) || 0;
+        
+        if (this.sortOrder === 'asc') {
+          return priceA - priceB; // Tăng dần
+        } else {
+          return priceB - priceA; // Giảm dần
+        }
+      });
     }
 
     this.filtered = list;                          // lưu full list đã lọc
