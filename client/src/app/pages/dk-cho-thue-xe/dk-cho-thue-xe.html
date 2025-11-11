@@ -26,7 +26,7 @@
         </div>
 
         <!-- Form -->
-        <form class="registration-form">
+        <form class="registration-form" (ngSubmit)="onSubmit()">
             <!-- Step 1: Thông tin xe -->
             <div *ngIf="currentStep === 1">
                 <!-- Biển số xe -->
@@ -388,5 +388,23 @@
                 </button>
             </div>
         </form>
+    </div>
+</div>
+
+<!-- Success Popup -->
+<div class="popup-overlay" *ngIf="showSuccessPopup" (click)="closeSuccessPopup()">
+    <div class="popup-content" (click)="$event.stopPropagation()">
+        <div class="popup-header">
+            <div class="popup-icon success">
+                <i class="bi bi-check-circle-fill"></i>
+            </div>
+            <h3 class="popup-title">Đăng ký thành công!</h3>
+        </div>
+        <div class="popup-body">
+            <p class="popup-message">Đơn đã được ghi nhận và đang chờ duyệt. Theo dõi thông báo trong thời gian sớm nhất.</p>
+        </div>
+        <div class="popup-actions">
+            <button class="btn-primary" (click)="closeSuccessPopup()">Đóng</button>
+        </div>
     </div>
 </div>

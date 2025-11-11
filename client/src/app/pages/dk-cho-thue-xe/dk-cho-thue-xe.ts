@@ -2,6 +2,7 @@ import { Component, OnInit, ViewChild, ElementRef } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { HttpClient } from '@angular/common/http';
+import { Router } from '@angular/router';
 
 interface Province {
   name: string;
@@ -30,7 +31,7 @@ interface District {
 export class DKChoThueXe implements OnInit {
   currentStep = 1;
 
-  constructor(private http: HttpClient) { }
+  constructor(private http: HttpClient, private router: Router) { }
 
   // Step 1 data
   step1Data = {
@@ -78,6 +79,9 @@ export class DKChoThueXe implements OnInit {
   vehicleDocumentsImage: string | null = null;
   ownerIDImage: string | null = null;
   carImages: (string | null)[] = [null, null, null, null];
+
+  // Popup state
+  showSuccessPopup: boolean = false;
 
   @ViewChild('licensePlateInput') licensePlateInput!: ElementRef<HTMLInputElement>;
   @ViewChild('vehicleDocumentsInput') vehicleDocumentsInput!: ElementRef<HTMLInputElement>;
@@ -413,5 +417,37 @@ export class DKChoThueXe implements OnInit {
       };
       reader.readAsDataURL(file);
     }
+  }
+
+  validateStep3(): boolean {
+    // Có thể thêm validation cho step 3 ở đây nếu cần
+    // Ví dụ: kiểm tra có ít nhất 1 ảnh xe được upload
+    return true;
+  }
+
+  onSubmit(): void {
+    if (this.currentStep === 3) {
+      if (this.validateStep3()) {
+        // Log all data to console (có thể gửi lên server ở đây)
+        console.log('=== ĐĂNG KÝ XE HOÀN THÀNH ===');
+        console.log('Step 1 Data:', this.step1Data);
+        console.log('Step 2 Data:', this.step2Data);
+        console.log('Images:', {
+          licensePlate: this.licensePlateImage,
+          vehicleDocuments: this.vehicleDocumentsImage,
+          ownerID: this.ownerIDImage,
+          carImages: this.carImages
+        });
+        
+        // Hiển thị popup thành công
+        this.showSuccessPopup = true;
+      }
+    }
+  }
+
+  closeSuccessPopup(): void {
+    this.showSuccessPopup = false;
+    // Navigate về trang chủ
+    this.router.navigate(['/']);
   }
 }

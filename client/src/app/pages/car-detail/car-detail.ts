@@ -47,6 +47,7 @@ export class CarDetail implements OnInit, OnDestroy {
   pickupTime: string = '';
   returnTime: string = '';
   dateError: string = '';
+  minDateTime: string = '';
 
   // Popup
   showErrorPopup: boolean = false;
@@ -70,6 +71,9 @@ export class CarDetail implements OnInit, OnDestroy {
   ngOnInit(): void {
     this.id = this.route.snapshot.paramMap.get('id');
     console.log('CarDetail ngOnInit - ID:', this.id);
+    
+    // Set min datetime to current time
+    this.setMinDateTime();
 
     // Lắng nghe sự kiện đăng nhập thành công
     const loginHandler = this.handleLoginSuccess.bind(this);
@@ -349,6 +353,12 @@ export class CarDetail implements OnInit, OnDestroy {
     }
     
     return '1 ngày';
+  }
+
+  private setMinDateTime(): void {
+    const now = new Date();
+    // Format to YYYY-MM-DDTHH:mm for datetime-local input
+    this.minDateTime = now.toISOString().slice(0, 16);
   }
 
   // Validate thời gian thuê/trả

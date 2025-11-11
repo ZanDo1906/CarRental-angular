@@ -21,6 +21,7 @@ export class Homepage implements AfterViewInit, OnInit {
   pickupTime: string = '';
   returnTime: string = '';
   dateError: string = '';
+  minDateTime: string = '';
 
   // Cars data
   cars: iCar[] = [];
@@ -47,10 +48,18 @@ export class Homepage implements AfterViewInit, OnInit {
   ) { }
 
   ngOnInit(): void {
+    // Set min datetime to current time
+    this.setMinDateTime();
     // Load locations trước
     this.loadLocations();
     // Sau đó load cars
     this.loadCars();
+  }
+
+  private setMinDateTime(): void {
+    const now = new Date();
+    // Format to YYYY-MM-DDTHH:mm for datetime-local input
+    this.minDateTime = now.toISOString().slice(0, 16);
   }
 
   ngAfterViewInit(): void {

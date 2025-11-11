@@ -81,6 +81,7 @@ export class CarList implements OnInit {
   pickupTime: string = '';
   returnTime: string = '';
   dateError: string = '';
+  minDateTime: string = '';
 
   constructor(
     private carService: CarService, 
@@ -101,6 +102,9 @@ export class CarList implements OnInit {
     }
 
   ngOnInit() {
+    // Set min datetime to current time
+    this.setMinDateTime();
+    
     // Load locations trước
     this._locationService.getAllLocations().subscribe({
       next: (data: any) => {
@@ -347,6 +351,12 @@ getLocationById(id: number): any {
 
   getStars(rating: number): string {
     return '⭐'.repeat(rating) + '☆'.repeat(5 - rating);
+  }
+
+  private setMinDateTime(): void {
+    const now = new Date();
+    // Format to YYYY-MM-DDTHH:mm for datetime-local input
+    this.minDateTime = now.toISOString().slice(0, 16);
   }
 
   // Validate thời gian thuê/trả
