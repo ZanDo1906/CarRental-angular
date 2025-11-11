@@ -247,7 +247,29 @@ export class UserCar implements OnInit, OnDestroy, AfterViewInit {
     } else if (action === 'approve') {
       this.openCalendarModal(car);
     } else if (action === 'reject') {
-      alert(`Đã từ chối duyệt xe: ${car.Hang_xe} ${car.Dong_xe}`);
+      // Toggle trạng thái cho thuê
+      const currentStatus = car.Tinh_trang_xe || 'active';
+      const newStatus = currentStatus === 'active' ? 'stopped' : 'active';
+      
+      car.Tinh_trang_xe = newStatus;
+      
+      // Cập nhật trong danh sách
+      const index = this.cars.findIndex(c => c.Ma_xe === car.Ma_xe);
+      if (index !== -1) {
+        this.cars[index] = { ...car };
+      }
+      
+      // Lưu vào localStorage
+      this.saveCarToStorage(car);
+      
+      // Thông báo
+      const message = newStatus === 'stopped' 
+        ? `Đã dừng cho thuê xe: ${car.Hang_xe} ${car.Dong_xe}`
+        : `Đã tiếp tục cho thuê xe: ${car.Hang_xe} ${car.Dong_xe}`;
+      alert(message);
+      
+      // Refresh UI
+      this.cdr.detectChanges();
     }
   }
 

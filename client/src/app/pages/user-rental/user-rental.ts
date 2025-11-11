@@ -10,13 +10,15 @@ import { iCar } from '../../interfaces/Car';
 import { iLocation } from '../../interfaces/location';
 import { forkJoin, Subscription } from 'rxjs';
 import { filter } from 'rxjs/operators';
+import { ReviewModalComponent } from '../../modals/review-modal/review-modal.component';
+import { ComplaintModalComponent } from '../../modals/complaint-modal/complaint-modal.component';
 
 type RentalWithCar = iCar_rental & { car_details: iCar };
 
 @Component({
   selector: 'app-user-rental',
   standalone: true,
-  imports: [CommonModule, RouterModule],
+  imports: [CommonModule, RouterModule, ReviewModalComponent, ComplaintModalComponent],
   templateUrl: './user-rental.html',
   styleUrls: ['./user-rental.css']
 })
@@ -29,6 +31,11 @@ export class UserRental implements OnInit, OnDestroy, AfterViewInit {
   currentPage = 1;
   activeTab: 'current' | 'history' = 'current'; // Tab hiện tại
   private subscriptions: Subscription[] = [];
+
+  // Modal states
+  showReviewModal = false;
+  showComplaintModal = false;
+  selectedRental: RentalWithCar | null = null;
 
   // Lọc chuyến hiện tại (status 1, 2, 3)
   get currentRentals(): RentalWithCar[] {
@@ -197,14 +204,9 @@ export class UserRental implements OnInit, OnDestroy, AfterViewInit {
   }
 
   getLocationAddress(locationId: number): string {
-    const location = this.locations.find(loc => loc.Ma_vi_tri === locationId);
-    if (!location) return 'N/A';
-    return [
-      location.Dia_chi_cu_the,
-      location.Phuong_xa,
-      location.Quan_huyen,
-      location.Tinh_thanh
-    ].filter(Boolean).join(', ');
+    const location = this.locations.find(loc => loc.Ma_vi_tri == locationId);
+    if (!location) return 'Chưa cập nhật';
+    return `${location.Dia_chi_cu_the}, ${location.Phuong_xa}, ${location.Quan_huyen}, ${location.Tinh_thanh}`;
   }
 
   getRentalStatusText(status: number): string {
@@ -255,9 +257,9 @@ export class UserRental implements OnInit, OnDestroy, AfterViewInit {
   // Lấy text trạng thái
   getStatusText(status: number): string {
     const statusMap: { [key: number]: string } = {
-      3: 'ĐANG THUÊ',
+      3: 'ĐÃ ĐẶT ',
       4: 'HOÀN THÀNH',
-      5: 'BỊ HUỶ'
+      5: 'ĐÃ HUỶ'
     };
     return statusMap[status] || 'Không xác định';
   }
@@ -270,6 +272,58 @@ export class UserRental implements OnInit, OnDestroy, AfterViewInit {
       5: 'status-rejected'
     };
     return classMap[status] || '';
+  }
+
+  // Thuê lại - chuyển đến trang chi tiết xe
+  rentAgain(rental: RentalWithCar): void {
+    const carId = rental.Ma_xe;
+    this.router.navigate(['/xe', carId]);
+  }
+
+  // Mở modal đánh giá
+  openReviewModal(rental: RentalWithCar): void {
+    this.selectedRental = rental;
+    this.showReviewModal = true;
+  }
+
+  // Xử lý submit đánh giá từ modal component
+  handleReviewSubmit(event: { rating: number; comment: string }): void {
+    if (!this.selectedRental) return;
+    
+    // TODO: Gọi API lưu đánh giá
+    console.log('Đánh giá:', {
+      rental: this.selectedRental.Ma_don_thue,
+      car: this.selectedRental.Ma_xe,
+      rating: event.rating,
+      comment: event.comment
+    });
+
+    alert(`Cảm ơn bạn đã đánh giá ${event.rating} sao!`);
+    this.showReviewModal = false;
+    this.selectedRental = null;
+  }
+
+  // Mở modal khiếu nại
+  openComplaintModal(rental: RentalWithCar): void {
+    this.selectedRental = rental;
+    this.showComplaintModal = true;
+  }
+
+  // Xử lý submit khiếu nại từ modal component
+  handleComplaintSubmit(event: { reason: string; description: string }): void {
+    if (!this.selectedRental) return;
+    
+    // TODO: Gọi API lưu khiếu nại
+    console.log('Khiếu nại:', {
+      rental: this.selectedRental.Ma_don_thue,
+      car: this.selectedRental.Ma_xe,
+      reason: event.reason,
+      description: event.description
+    });
+
+    alert('Khiếu nại của bạn đã được gửi. Chúng tôi sẽ xử lý trong thời gian sớm nhất!');
+    this.showComplaintModal = false;
+    this.selectedRental = null;
   }
 
   // Method để force reload data (có thể gọi từ bên ngoài)

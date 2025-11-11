@@ -15,7 +15,7 @@ export interface iCar {
     Muc_tieu_thu: number;       // double
     Gia_thue: number;           // int
     So_cho: number;             // int
-    Tinh_trang_xe: string;      // String
+    Tinh_trang_xe: string;      // String - "active" | "stopped"
     Diem_danh_gia: number;      // double
     So_luot_danh_gia: number;   // int
     So_luot_thue: number;       // int

@@ -27,16 +27,16 @@
                 <div>
                   <h3 class="car-name">{{car.Hang_xe}} {{car.Dong_xe}} {{car.Nam_san_xuat}}</h3>
                 </div>
-                <div class="spec-grid">
-                  <div class="spec">
+                <div class="meta-row">
+                  <div class="meta">
                     <i class="bi bi-gear"></i>
                     <span>{{car.Hop_so}}</span>
                   </div>
-                  <div class="spec">
+                  <div class="meta">
                     <i class="bi bi-people"></i>
                     <span>{{car.So_cho}} chỗ</span>
                   </div>
-                  <div class="spec">
+                  <div class="meta">
                     <i class="bi bi-fuel-pump"></i>
                     <span>{{car.Nhien_lieu}}</span>
                   </div>
@@ -48,7 +48,7 @@
                   <span>{{ getLocationAddress(car.Ma_vi_tri) }}</span>
                 </div> -->
 
-                <hr>
+              
 
                 <!-- Điểm & số chuyến -->
                 <div class="meta-row">
@@ -68,13 +68,22 @@
                     {{vnd(car.Gia_thue)}} VNĐ/Ngày
                   </div>
                 </div>
-                <div class="car-status">Đang cho thuê</div>
+                <div class="car-status" [class.status-stopped]="car.Tinh_trang_xe === 'stopped'">
+                  {{ car.Tinh_trang_xe === 'stopped' ? 'Đã dừng cho thuê' : 'Đang cho thuê' }}
+                </div>
               </div>
               <div class="car-actions">
-                <p class="car-status">Đang cho thuê</p>
+                <p class="car-status" [class.status-stopped]="car.Tinh_trang_xe === 'stopped'">
+                  {{ car.Tinh_trang_xe === 'stopped' ? 'Đã dừng cho thuê' : 'Đang cho thuê' }}
+                </p>
                 <button (click)="onAction('view', car)" class="btn btn-solid-primary">Cập nhật thông tin</button>
                 <button (click)="onAction('approve', car)" class="btn btn-approve">Lịch cho thuê</button>
-                <button (click)="onAction('reject', car)" class="btn btn-outline-danger">Dừng cho thuê</button>
+                <button (click)="onAction('reject', car)" 
+                        class="btn"
+                        [class.btn-outline-danger]="car.Tinh_trang_xe !== 'stopped'"
+                        [class.btn-outline-success]="car.Tinh_trang_xe === 'stopped'">
+                  {{ car.Tinh_trang_xe === 'stopped' ? 'Tiếp tục cho thuê' : 'Dừng cho thuê' }}
+                </button>
               </div>
             </div>
             <!-- Thân card -->

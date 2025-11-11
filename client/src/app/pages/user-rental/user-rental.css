@@ -20,16 +20,12 @@
   font-family: 'Inter', sans-serif;
 }
 
-.m-container,
-.s-container {
-  position: relative;
-  margin: 0 auto;
-}
-
 .m-container {
   max-width: 1280px;
   padding-left: 20px;
   padding-right: 20px;
+  position: relative;
+  margin: 0 auto;
 }
 
 .space.sec {
@@ -75,15 +71,6 @@
   flex-direction: column;
 }
 
-/* Page Header Layout */
-.page-header {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  margin-top: 30px;
-  margin-bottom: 25px;
-  gap: 1rem;
-}
 
 h2 {
   font-size: 32px;
@@ -195,7 +182,7 @@ h2 {
 
 .status-rejected {
   background: #f8d7da;
-  color: #842029;
+  color: #842029 !important;
   border: 1px solid #f5c2c7;
 }
 
@@ -345,6 +332,44 @@ h2 {
   overflow: hidden;
 }
 
+/* Info Grid Layout */
+.info-grid {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  margin-bottom: 10px;
+  margin-top: auto;
+}
+
+.info-row {
+  display: grid;
+  grid-template-columns: 140px 1fr;
+  gap: 12px;
+  align-items: start;
+}
+
+.info-label {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  color: black;
+  font-weight: 600;
+  white-space: nowrap;
+}
+
+.info-label i {
+  font-size: 18px;
+  color: #1D7363;
+  flex-shrink: 0;
+}
+
+.info-value {
+  color: #333;
+  font-weight: normal;
+  word-break: break-word;
+  line-height: 1.5;
+}
+
 /* Điểm & chuyến */
 .meta-row {
   display: flex;
@@ -365,7 +390,14 @@ h2 {
 
 .meta i {
   font-size: 18px;
-  color: #1D7363
+  color: #1D7363;
+  flex-shrink: 0;
+}
+
+.meta span {
+  font-weight: normal;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 
 /* Giá */
@@ -475,6 +507,7 @@ h2 {
   font-weight: 800;
   color: #1D7363;
   text-align: center;
+  min-width: 175px;
   /* margin: 8px 0; */
 }
 

@@ -266,7 +266,7 @@ h2 {
   display: flex;
   flex-wrap: nowrap;
   align-items: stretch;
-  gap: 1.25rem;
+  gap: 2rem;
   background: #ffffff;
   border-radius: 12px;
   padding: 1rem;
@@ -354,7 +354,20 @@ h2 {
   margin: 0;
 }
 
+.car-actions .car-status.status-stopped,
+.car-details .car-status.status-stopped {
+  color: #dc3545;
+}
 
+.btn-outline-success {
+  color: #28a745;
+  border-color: #28a745;
+}
+
+.btn-outline-success:hover {
+  background-color: #28a745;
+  color: white;
+}
 
 .btn {
   padding: 0.7rem 1rem;

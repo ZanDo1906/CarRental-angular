@@ -73,7 +73,7 @@
                   <span>{{ getLocationAddress(car.Ma_vi_tri) }}</span>
                 </div> -->
 
-                <hr>
+                
 
                 <!-- Điểm & số chuyến -->
                 <!-- <div class="meta-row">
@@ -91,27 +91,37 @@
 
                 
 
-                <div class="meta-row" >
-                  <div class="meta" *ngIf="rental.Ma_vi_tri_nhan != null">
-                    <i class="bi bi-geo-alt"></i>
-                    Vị trí nhận:
-            <span>{{ getLocationAddress(rental.Ma_vi_tri_nhan) }}</span>
+                <div class="info-grid">
+                  <div class="info-row" *ngIf="rental.Ma_vi_tri_nhan != null">
+                    <div class="info-label">
+                      <i class="bi bi-geo-alt"></i>
+                      <span>Vị trí nhận:</span>
+                    </div>
+                    <div class="info-value">{{ getLocationAddress(rental.Ma_vi_tri_nhan) }}</div>
                   </div>
-                  <div class="meta" *ngIf="rental.Ma_vi_tri_tra != null">
-                    <i class="bi bi-geo-alt"></i>
-                    Vị trí trả:
-                    <span>{{ getLocationAddress(rental.Ma_vi_tri_tra) }}</span>
+                  
+                  <div class="info-row" *ngIf="rental.Ma_vi_tri_tra != null">
+                    <div class="info-label">
+                      <i class="bi bi-geo-alt"></i>
+                      <span>Vị trí trả:</span>
+                    </div>
+                    <div class="info-value">{{ getLocationAddress(rental.Ma_vi_tri_tra) }}</div>
                   </div>
-                </div>
-
-                 <div class="meta-row  ">
-                  <div class="meta">
-                    <i class="bi bi-calendar-check"></i>
-                    <span>Ngày nhận: {{ formatDate(rental.Ngay_nhan_xe) }} {{ rental.Gio_nhan_xe }}</span>
+                  
+                  <div class="info-row">
+                    <div class="info-label">
+                      <i class="bi bi-calendar-check"></i>
+                      <span>Ngày nhận:</span>
+                    </div>
+                    <div class="info-value">{{ formatDate(rental.Ngay_nhan_xe) }} {{ rental.Gio_nhan_xe }}</div>
                   </div>
-                  <div class="meta">
-                    <i class="bi bi-calendar-x"></i>
-                    <span>Ngày trả: {{ formatDate(rental.Ngay_tra_xe) }} {{ rental.Gio_tra_xe }}</span>
+                  
+                  <div class="info-row">
+                    <div class="info-label">
+                      <i class="bi bi-calendar-x"></i>
+                      <span>Ngày trả:</span>
+                    </div>
+                    <div class="info-value">{{ formatDate(rental.Ngay_tra_xe) }} {{ rental.Gio_tra_xe }}</div>
                   </div>
                 </div>
 
@@ -124,7 +134,7 @@
                 </div>
 
                 <span class=" status-badge rental-status" [ngClass]="getStatusClass(rental.Trang_thai)">
-                    {{ getStatusText(rental.Trang_thai) }}
+                   
                   </span>
                 <!-- <div class="rental-date text-muted">
                   Ngày trả: 
@@ -153,13 +163,13 @@
                   </button>
                 </ng-container>
                 <ng-container *ngIf="activeTab === 'history'">
-                  <button *ngIf="rental.Trang_thai === 4" class="btn btn-solid-primary">
+                  <button *ngIf="rental.Trang_thai === 4" class="btn btn-solid-primary" (click)="rentAgain(rental)">
                     <i class="bi bi-arrow-repeat"></i> Thuê lại
                   </button>
-                  <button *ngIf="rental.Trang_thai === 4" class="btn btn-approve">
+                  <button *ngIf="rental.Trang_thai === 4" class="btn btn-approve" (click)="openReviewModal(rental)">
                     <i class="bi bi-star"></i> Đánh giá
                   </button>
-                  <button *ngIf="rental.Trang_thai === 4" class="btn btn-outline-danger">
+                  <button *ngIf="rental.Trang_thai === 4" class="btn btn-outline-danger" (click)="openComplaintModal(rental)">
                     <i class="bi bi-exclamation-circle"></i> Khiếu nại
                   </button>
                 </ng-container>
@@ -300,3 +310,18 @@
             </ul>
           </nav>
 </main>
+
+<!-- Modal Components -->
+<app-review-modal 
+  [show]="showReviewModal" 
+  [selectedRental]="selectedRental"
+  (closeModal)="showReviewModal = false"
+  (submitReview)="handleReviewSubmit($event)">
+</app-review-modal>
+
+<app-complaint-modal 
+  [show]="showComplaintModal" 
+  [selectedRental]="selectedRental"
+  (closeModal)="showComplaintModal = false"
+  (submitComplaint)="handleComplaintSubmit($event)">
+</app-complaint-modal>

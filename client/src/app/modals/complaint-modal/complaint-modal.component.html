@@ -1,0 +1,46 @@
+<div class="modal-overlay" *ngIf="show" (click)="onClose()">
+  <div class="modal-content" (click)="$event.stopPropagation()">
+    <div class="modal-header">
+      <h3><i class="bi bi-exclamation-triangle text-danger"></i> Khiếu nại</h3>
+      <button type="button" class="close-btn" (click)="onClose()">
+        <i class="bi bi-x-lg"></i>
+      </button>
+    </div>
+    
+    <div class="modal-body" *ngIf="selectedRental">
+      <div class="car-info-review">
+        <h5>{{ selectedRental.car_details.Hang_xe }} {{ selectedRental.car_details.Dong_xe }}</h5>
+        <p class="text-muted">Mã đơn: #{{ selectedRental.Ma_don_thue }}</p>
+      </div>
+
+      <div class="form-group">
+        <label><strong>Lý do khiếu nại: *</strong></label>
+        <select class="form-control" [(ngModel)]="complaintReason">
+          <option value="">-- Chọn lý do --</option>
+          <option value="Xe không đúng mô tả">Xe không đúng mô tả</option>
+          <option value="Xe có vấn đề kỹ thuật">Xe có vấn đề kỹ thuật</option>
+          <option value="Chủ xe không đúng hẹn">Chủ xe không đúng hẹn</option>
+          <option value="Thái độ phục vụ không tốt">Thái độ phục vụ không tốt</option>
+          <option value="Vấn đề về chi phí">Vấn đề về chi phí</option>
+          <option value="Khác">Khác</option>
+        </select>
+      </div>
+
+      <div class="form-group">
+        <label><strong>Mô tả chi tiết: *</strong></label>
+        <textarea class="form-control" [(ngModel)]="complaintDescription" rows="5" 
+                  placeholder="Vui lòng mô tả chi tiết vấn đề bạn gặp phải..."></textarea>
+      </div>
+
+      <div class="alert alert-info">
+        <i class="bi bi-info-circle"></i>
+        Chúng tôi sẽ xem xét và phản hồi khiếu nại của bạn trong vòng 24-48 giờ.
+      </div>
+    </div>
+    
+    <div class="modal-footer">
+      <button type="button" class="btn btn-outline-secondary" (click)="onClose()">Hủy</button>
+      <button type="button" class="btn btn-outline-danger" (click)="onSubmit()">Gửi khiếu nại</button>
+    </div>
+  </div>
+</div>

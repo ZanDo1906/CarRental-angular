@@ -1,0 +1,42 @@
+<div class="modal-overlay" *ngIf="show" (click)="onClose()">
+  <div class="modal-content" (click)="$event.stopPropagation()">
+    <div class="modal-header">
+      <h3><i class="bi bi-star-fill text-warning"></i> Đánh giá chuyến đi</h3>
+      <button type="button" class="close-btn" (click)="onClose()">
+        <i class="bi bi-x-lg"></i>
+      </button>
+    </div>
+    
+    <div class="modal-body" *ngIf="selectedRental">
+      <div class="car-info-review">
+        <h5>{{ selectedRental.car_details.Hang_xe }} {{ selectedRental.car_details.Dong_xe }}</h5>
+        <p class="text-muted">{{ formatDate(selectedRental.Ngay_nhan_xe) }} - {{ formatDate(selectedRental.Ngay_tra_xe) }}</p>
+      </div>
+
+      <div class="form-group">
+        <label><strong>Đánh giá của bạn:</strong></label>
+        <div class="star-rating">
+          <i *ngFor="let star of [1,2,3,4,5]" 
+             class="bi" 
+             [class.bi-star-fill]="star <= reviewRating"
+             [class.bi-star]="star > reviewRating"
+             [class.text-warning]="star <= reviewRating"
+             (click)="reviewRating = star"
+             style="font-size: 2rem; cursor: pointer; margin: 0 5px;"></i>
+        </div>
+        <p class="text-center mt-2">{{ reviewRating }} sao</p>
+      </div>
+
+      <div class="form-group">
+        <label><strong>Nhận xét:</strong></label>
+        <textarea class="form-control" [(ngModel)]="reviewComment" rows="4" 
+                  placeholder="Chia sẻ trải nghiệm của bạn về chuyến đi..."></textarea>
+      </div>
+    </div>
+    
+    <div class="modal-footer">
+      <button type="button" class="btn btn-outline-secondary" (click)="onClose()">Hủy</button>
+      <button type="button" class="btn btn-solid-primary" (click)="onSubmit()">Gửi đánh giá</button>
+    </div>
+  </div>
+</div>
