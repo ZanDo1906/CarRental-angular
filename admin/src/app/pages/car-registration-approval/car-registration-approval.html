@@ -4,23 +4,20 @@
 
   <div class="card-list">
 
-    <div *ngFor="let car of displayedCars()" class="approval-card">
-
-      <div class="card-content-wrapper">
+      <div *ngFor="let car of displayedCars()" class="approval-card">
         <div class="card-image">
           <img [src]="car.Anh_xe[0]" [alt]="car.Hang_xe + ' ' + car.Dong_xe" (error)="onImageError($event)">
         </div>
         <div class="card-details">
           <h3>{{ car.Hang_xe | uppercase }} {{ car.Dong_xe | uppercase }} {{ car.Nam_san_xuat }}</h3>
-          <p><span class="label">Địa điểm:</span> <span class="value"> {{ car.Vi_tri }}</span></p>
-          <p><span class="label">Số xe:</span> <span class="value"> {{ car.Bien_so_xe }}</span></p>
-          <p><span class="label">Loại xe:</span> <span class="value"> {{ car.Dong_xe }}</span></p>
-          <p><span class="label">Số km đã đi:</span> <span class="value"> {{ formatNumber(car.So_km) }} km</span></p>
-          <p><span class="label">Đơn giá thuê:</span> <span class="value price" style="color: #1D7363"> {{
-              formatNumber(car.Gia_thue) }} vnđ/Ngày</span></p>
-          <p><span class="label">Màu sắc:</span> <span class="value"> {{ car.Mau_sac }}</span></p>
+          <div class="meta-row"><span class="label">Địa điểm:</span> <span class="value"> {{ car.Vi_tri }}</span></div>
+          <div class="meta-row"><span class="label">Số xe:</span> <span class="value"> {{ car.Bien_so_xe }}</span></div>
+          <div class="meta-row"><span class="label">Loại xe:</span> <span class="value"> {{ car.Dong_xe }}</span></div>
+          <div class="meta-row"><span class="label">Số km đã đi:</span> <span class="value"> {{ formatNumber(car.So_km) }} km</span></div>
+          <div class="meta-row"><span class="label">Đơn giá thuê:</span> <span class="value price" style="color: #1D7363"> {{
+              formatNumber(car.Gia_thue) }} vnđ/Ngày</span></div>
+          <div class="meta-row"><span class="label">Màu sắc:</span> <span class="value"> {{ car.Mau_sac }}</span></div>
         </div>
-      </div>
 
       <div class="card-actions">
         <button (click)="onAction('detail', car)" class="btn btn-solid-primary">Xem chi tiết</button>

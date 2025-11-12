@@ -57,14 +57,11 @@ h2 {
   box-shadow: var(--shadow-hover);
 }
 
-.card-content-wrapper {
+.card-list {
   display: flex;
-  flex-wrap: wrap;
-  flex: 1;
-  min-width: 400px;
-  gap: 1.5rem;
-  align-items: center;
+  flex-direction: column;
 }
+
 
 .card-image {
   flex-shrink: 0;
@@ -122,6 +119,15 @@ h2 {
   font-weight: 700; 
   color: var(--color-primary);
 }
+/* 
+.meta-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 6px;
+  margin-top: auto;
+} */
+
 
 .card-actions {
   display: flex;
@@ -349,38 +355,8 @@ h2 {
   padding-top: 15px;
 }
 
-/* 
-@media (max-width: 992px) {
 
-  .main-content {
-    font-size: 14px; 
-  }
-
-  h2 {
-    font-size: 28px;
-    margin-top: 0;
-  }
-
-  .card-details h3 {
-    font-size: 16px;
-  }
-
-  .card-details p,
-  .card-details .label,
-  .card-details .value {
-    font-size: 14px;
-    line-height: 1.4;
-  }
-
-  .card-image {
-    width: 165px;
-    height: 165px;
-  }
-
-  .approval-card {
-    padding: 1.2rem;
-    gap: 1rem;
-  }
+@media (max-width: 1199px) {
 
   .card-actions {
   display: flex;
@@ -395,32 +371,33 @@ h2 {
   flex: 1 1 auto;
   min-width: 0;
 }
-  .modal-content {
-  padding: 1.2rem; 
-  width: 95%; 
-  }
 
-  .modal-header h3 {
-    font-size: 20px; 
-    margin-top: 0; 
-  }
-
-  .modal-footer {
-    flex-wrap: wrap; 
-  }
-
-  .modal-footer .btn {
-    flex: 1; 
-    min-width: 150px; 
-  }
 }
- */
 
+
+@media (max-width: 992px) {
+
+  .card-actions {
+  display: flex;
+  flex-direction: row !important;
+  flex-wrap: nowrap;
+  width: 100%;
+  justify-content: space-between;
+  gap: 0.5rem;
+}
+
+.card-actions .btn {
+  flex: 1 1 auto;
+  min-width: 0;
+}
+
+}
 
 @media (max-width: 768px) {
 
   h2{
     margin-top: 0;
+    font-size: 28px;
   }
   .card-list {
     display: flex;
@@ -440,17 +417,8 @@ h2 {
     gap: 1rem;
   }
 
-  .card-content-wrapper {
-    display: flex;
-    flex-direction: row;
-    align-items: center;
-    justify-content: center;
-    gap: 1rem;
-    width: 100%;
-  }
 
   .card-image {
-    flex: 0 0 50%; 
     aspect-ratio: 1 / 1;
     display: flex;
     align-items: center;
@@ -464,7 +432,6 @@ h2 {
   }
 
   .card-details {
-    flex: 1 1 60%; 
     margin: 0;
     text-align: left; 
   }
@@ -473,7 +440,7 @@ h2 {
     flex-direction: row;
     width: 100%;
     justify-content: space-between;
-    margin-top: 1rem; /* tách ra khỏi avatar+details */
+    margin-top: 1rem; 
   }
 
   .card-actions .btn {
