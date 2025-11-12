@@ -485,7 +485,6 @@ input { display: inline-block; width: 100%; font-size: 1rem; color: #242420; bor
   border-radius: 16px
 }
 
-/* Ensure the license image fills its container and is cropped correctly */
 .driver-license .content .info-license__img .fix-img img {
   position: absolute;
   top: 0;
@@ -548,7 +547,7 @@ input { display: inline-block; width: 100%; font-size: 1rem; color: #242420; bor
     padding: 40px;
   }
 
-  .main-content .content-item {
+  .content-item {
     padding: 24px
   }
 
@@ -596,7 +595,7 @@ input { display: inline-block; width: 100%; font-size: 1rem; color: #242420; bor
     gap: 20px;
   }
 
-  .account-section .account-container .main-content .content-item {
+  .account-section .account-container.content-item {
     padding: 24px 16px;
   }
 }
@@ -638,6 +637,7 @@ input { display: inline-block; width: 100%; font-size: 1rem; color: #242420; bor
 @media (max-width: 767px) {
   .main-container, .s-container {
     max-width: 540px;
+    padding-top: 0;
   }
 
   .space.sec {
@@ -650,6 +650,7 @@ input { display: inline-block; width: 100%; font-size: 1rem; color: #242420; bor
   .main-container {
     max-width: none;
     margin: 0 16px;
+    padding-top: 0;
   }
 
   .title{
@@ -673,9 +674,4 @@ input { display: inline-block; width: 100%; font-size: 1rem; color: #242420; bor
     color: #1D7363
   }
 
-
-  .space.sec {
-    padding-top: 40px;
-    padding-bottom: 40px;
-  }
 }
