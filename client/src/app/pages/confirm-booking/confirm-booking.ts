@@ -225,4 +225,10 @@ export class ConfirmBooking implements OnInit, OnDestroy {
     // Sử dụng history.back() để quay về trang trước đó
     window.history.back();
   }
+
+  // Điều hướng tới trang quản lý cho thuê của người dùng
+  goToUserRental(): void {
+    // Navigate to the user rental page inside the user layout
+    this.router.navigate(['/user-rental']);
+  }
 }

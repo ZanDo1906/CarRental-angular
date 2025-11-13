@@ -317,13 +317,13 @@ h2 {
 }
 
 .btn-outline-danger {
-  border-color: var(--color-error);
-  color: var(--color-error);
+  border-color: #d32f2f;
+  color: #d32f2f;
   background: #fff;
 }
 
 .btn-outline-danger:hover {
-  background: var(--color-error);
+  background: #d32f2f;
   color: #ffffff;
   box-shadow: 0 4px 12px rgba(211, 47, 47, 0.15);
 }

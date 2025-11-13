@@ -16,12 +16,13 @@ import { filter } from 'rxjs/operators';
 import { CalendarModalComponent } from '../../components/modals/calendar-modal/calendar-modal.component';
 import { BlockDateModalComponent } from '../../components/modals/block-date-modal/block-date-modal.component';
 import { CarEditModalComponent } from '../../components/modals/car-edit-modal/car-edit-modal.component';
+import { ComplaintModalComponent } from '../../components/modals/complaint-modal/complaint-modal.component';
 
 // User car list for the first user
 @Component({
   selector: 'app-user-car',
   standalone: true,
-  imports: [CommonModule, FormsModule, RouterModule, CalendarModalComponent, BlockDateModalComponent, CarEditModalComponent],
+  imports: [CommonModule, FormsModule, RouterModule, CalendarModalComponent, BlockDateModalComponent, CarEditModalComponent, ComplaintModalComponent],
   templateUrl: './user-car.html',
   styleUrls: ['./user-car.css'],
 })
@@ -32,6 +33,18 @@ export class UserCar implements OnInit, OnDestroy, AfterViewInit {
   // pagination
   pageSize = 6;
   currentPage = 1;
+
+  // Filter properties
+  selectedCarFilter: string = 'all';
+  selectedTripFilter: string = 'renting';
+  filteredCars: any[] = [];
+  
+  // Dropdown state
+  openDropdown: string | null = null;
+  
+  // Rental section properties
+  showRentalSection: boolean = false;
+  filteredRentals: any[] = [];
 
   // Modal variables
   showModal = false;
@@ -100,6 +113,17 @@ export class UserCar implements OnInit, OnDestroy, AfterViewInit {
     
     // Initialize calendar for current month
     this.generateCalendar();
+    
+    // Add click event listener để đóng dropdown khi click bên ngoài
+    document.addEventListener('click', this.handleDocumentClick.bind(this));
+  }
+
+  private handleDocumentClick(event: Event): void {
+    const target = event.target as HTMLElement;
+    // Nếu click không phải trên dropdown wrapper thì đóng tất cả dropdown
+    if (!target.closest('.dropdown-wrapper')) {
+      this.closeAllDropdowns();
+    }
   }
 
   ngAfterViewInit() {
@@ -121,6 +145,9 @@ export class UserCar implements OnInit, OnDestroy, AfterViewInit {
   ngOnDestroy() {
     // Cleanup subscriptions
     this.subscriptions.forEach(sub => sub.unsubscribe());
+    
+    // Remove event listener
+    document.removeEventListener('click', this.handleDocumentClick.bind(this));
   }
 
   private initializeData() {
@@ -167,6 +194,9 @@ export class UserCar implements OnInit, OnDestroy, AfterViewInit {
       this.currentPage = 1;
       this.loading = false;
 
+      // Apply filters after loading data
+      this.applyFilters();
+
       // Force change detection để ensure UI update
       this.cdr.detectChanges();
       
@@ -207,16 +237,16 @@ export class UserCar implements OnInit, OnDestroy, AfterViewInit {
   displayedCars(): any[] {
     // keep the name displayedUsers() for template compatibility but return cars
     const start = (this.currentPage - 1) * this.pageSize;
-    return this.cars.slice(start, start + this.pageSize);
+    return this.filteredCars.slice(start, start + this.pageSize);
   }
 
   users(): any[] {
     // return full list for header count (template used users())
-    return this.cars;
+    return this.filteredCars;
   }
 
   totalPages(): number {
-    return Math.max(1, Math.ceil(this.cars.length / this.pageSize));
+    return Math.max(1, Math.ceil(this.filteredCars.length / this.pageSize));
   }
 
   totalPagesArray(): number[] {
@@ -234,6 +264,246 @@ export class UserCar implements OnInit, OnDestroy, AfterViewInit {
 
   nextPage(): void { this.goToPage(this.currentPage + 1); }
   prevPage(): void { this.goToPage(this.currentPage - 1); }
+
+  // Filter methods  
+  setCarFilter(filter: string): void {
+    this.selectedCarFilter = filter;
+    
+    // Apply filter to show cars
+    this.applyFilters();
+    this.currentPage = 1;
+    
+    // Ensure rental section is hidden
+    this.showRentalSection = false;
+  }
+
+  setTripFilter(filter: string): void {
+    this.selectedTripFilter = filter;
+    
+    // Load and filter rental data based on selected filter
+    this.showRentalSection = true;
+    this.loadRentalsByFilter(filter);
+  }
+
+  // Dropdown methods
+  toggleDropdown(key: string): void {
+    this.openDropdown = this.openDropdown === key ? null : key;
+  }
+
+  selectCarFilter(filter: string): void {
+    this.setCarFilter(filter);
+    this.openDropdown = null;
+  }
+
+  selectTripFilter(filter: string): void {
+    this.setTripFilter(filter);
+    this.openDropdown = null;
+  }
+
+  // Load rentals based on filter
+  loadRentalsByFilter(filter: string): void {
+    this.carRentalService.getAllCars().subscribe((allRentals: any[]) => {
+      // Filter rentals for current user's cars
+      const userCarIds = this.cars.map(car => car.Ma_xe);
+      let userRentals = allRentals.filter(rental => 
+        userCarIds.includes(Number(rental.Ma_xe))
+      );
+
+      // Apply status filter
+      switch(filter) {
+        case 'renting':
+          // Đang cho thuê: status 1 (pending), 2 (approved) và 3 (renting)
+          this.filteredRentals = userRentals.filter(rental => 
+            rental.Trang_thai === 1 || rental.Trang_thai === 2 || rental.Trang_thai === 3
+          );
+          break;
+        case 'completed':
+          // Đã hoàn tất: status 4 (completed)
+          this.filteredRentals = userRentals.filter(rental => 
+            rental.Trang_thai === 4
+          );
+          break;
+        case 'cancelled':
+          // Đã hủy: status 0 (cancelled) và 5 (rejected)
+          this.filteredRentals = userRentals.filter(rental => 
+            rental.Trang_thai === 0 || rental.Trang_thai === 5
+          );
+          break;
+        default:
+          this.filteredRentals = userRentals;
+      }
+
+      // Sort by date (newest first)
+      this.filteredRentals.sort((a, b) => 
+        new Date(b.Ngay_tao || b.Ngay_nhan_xe).getTime() - 
+        new Date(a.Ngay_tao || a.Ngay_nhan_xe).getTime()
+      );
+
+      this.cdr.detectChanges();
+    });
+  }
+
+  // Handle select changes
+  onCarFilterChange(event: any): void {
+    const filter = event.target.value;
+    this.setCarFilter(filter);
+  }
+
+  onTripFilterChange(event: any): void {
+    const filter = event.target.value;
+    this.setTripFilter(filter);
+  }
+
+  // Close dropdowns when clicking outside (keep for other modals)
+  private closeAllDropdowns(): void {
+    // No longer needed for select dropdowns
+  }
+
+  getCarFilterText(): string {
+    const filterMap: { [key: string]: string } = {
+      'all': 'Tất cả',
+      'active': 'Đang hoạt động',
+      'stopped': 'Dừng hoạt động',
+      'pending': 'Chờ duyệt',
+      'rejected': 'Bị từ chối'
+    };
+    return filterMap[this.selectedCarFilter] || 'Tất cả';
+  }
+
+  getTripFilterText(): string {
+    const filterMap: { [key: string]: string } = {
+      'renting': 'Đang cho thuê',
+      'completed': 'Đã hoàn tất',
+      'cancelled': 'Đã hủy'
+    };
+    return filterMap[this.selectedTripFilter] || 'Đang cho thuê';
+  }
+
+  applyFilters(): void {
+    let filtered = [...this.cars];
+
+    // Apply car status filter
+    if (this.selectedCarFilter !== 'all') {
+      filtered = filtered.filter(car => {
+        const status = car.Tinh_trang_xe || car.Trang_thai || 'active';
+        switch (this.selectedCarFilter) {
+          case 'active':
+            return status === 'active' || status === 'approved' || status === 1 || status === 2;
+          case 'stopped':
+            return status === 'stopped' || status === 'inactive';
+          case 'pending':
+            return status === 'pending' || status === 0;
+          case 'rejected':
+            return status === 'rejected' || status === -1 || status === 5;
+          default:
+            return true;
+        }
+      });
+    }
+
+    // For trip filter, we would need rental data to filter cars based on their rental status
+    // This is a placeholder - you might want to load rental data and filter accordingly
+    if (this.selectedTripFilter !== 'renting') {
+      // Load rental data and filter cars based on their current rental status
+      // This would require integration with car rental service
+    }
+
+    this.filteredCars = filtered;
+    this.cdr.detectChanges();
+  }
+
+  // Hide rental section
+  hideRentalSection(): void {
+    this.showRentalSection = false;
+    this.filteredRentals = [];
+  }
+
+  // Get car name by ID
+  getCarName(carId: number): string {
+    const car = this.cars.find(c => Number(c.Ma_xe) === Number(carId));
+    return car ? `${car.Hang_xe} ${car.Dong_xe} ${car.Nam_san_xuat}` : `Xe #${carId}`;
+  }
+
+  // Get user name by ID
+  getUserName(userId: number): string {
+    // You might want to load user data or use a service here
+    return `Khách hàng #${userId}`;
+  }
+
+  // Get rental status text
+  getRentalStatusText(status: number): string {
+    const statusMap: { [key: number]: string } = {
+      0: 'Đã hủy',
+      1: 'Chờ duyệt',
+      2: 'Đã duyệt',
+      3: 'Đang thuê',
+      4: 'Hoàn thành',
+      5: 'Bị từ chối'
+    };
+    return statusMap[status] || 'Không xác định';
+  }
+
+  // Get rental status CSS class
+  getRentalStatusClass(status: number): string {
+    const classMap: { [key: number]: string } = {
+      0: 'status-cancelled',
+      1: 'status-pending',
+      2: 'status-approved',
+      3: 'status-active',
+      4: 'status-completed',
+      5: 'status-rejected'
+    };
+    return classMap[status] || 'status-unknown';
+  }
+
+  // Format date for display
+  formatRentalDate(dateString: string): string {
+    if (!dateString) return 'N/A';
+    const date = new Date(dateString);
+    return date.toLocaleDateString('vi-VN', {
+      day: '2-digit',
+      month: '2-digit',
+      year: 'numeric',
+      hour: '2-digit',
+      minute: '2-digit'
+    });
+  }
+
+  // View rental detail
+  viewRentalDetail(rental: any): void {
+    // You can implement a modal or navigate to detail page
+    alert(`Chi tiết chuyến thuê:\nMã: ${rental.Ma_chuyen_di}\nTrạng thái: ${this.getRentalStatusText(rental.Trang_thai)}`);
+  }
+
+  // Approve rental
+  approveRental(rental: any): void {
+    if (confirm('Bạn có chắc muốn duyệt chuyến thuê này?')) {
+      // Update rental status
+      rental.Trang_thai = 2; // Set to "Đã duyệt"
+      
+      // You might want to save this to backend here
+      
+      alert('Đã duyệt chuyến thuê thành công!');
+      
+      // Refresh the rental list
+      this.loadRentalsByFilter(this.selectedTripFilter);
+    }
+  }
+
+  // Reject rental
+  rejectRental(rental: any): void {
+    if (confirm('Bạn có chắc muốn từ chối chuyến thuê này?')) {
+      // Update rental status
+      rental.Trang_thai = 5; // Set to "Bị từ chối"
+      
+      // You might want to save this to backend here
+      
+      alert('Đã từ chối chuyến thuê!');
+      
+      // Refresh the rental list
+      this.loadRentalsByFilter(this.selectedTripFilter);
+    }
+  }
 
   getLocationAddress(id: number): string {
     if (!this.locations || !this.locations.length) return 'Chưa cập nhật';
@@ -789,5 +1059,22 @@ export class UserCar implements OnInit, OnDestroy, AfterViewInit {
         });
       }
     }
+  }
+
+  // Complaint modal state
+  showComplaintModal: boolean = false;
+  selectedRental: any = null;
+
+  // Open complaint modal
+  openComplaintModal(rental: any): void {
+    this.selectedRental = rental;
+    this.showComplaintModal = true;
+  }
+
+  // Handle complaint submission from modal
+  handleComplaintSubmit(payload: { reason: string; description: string }): void {
+    // Here you should send payload + selectedRental to backend. For now, just show an alert and log.
+    console.log('Complaint submitted for rental', this.selectedRental, payload);
+    alert('Đã gửi khiếu nại. Chúng tôi sẽ xử lý trong thời gian sớm nhất.');
   }
 }
