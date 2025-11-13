@@ -1,0 +1,87 @@
+/* Hover effect for account items in dropdown */
+.account-hover {
+    transition: background 0.2s;
+    cursor: pointer;
+}
+
+.account-hover:hover {
+    background: #f2f2f2;
+}
+
+.status-red {
+    color: #d32f2f !important;
+    font-weight: bold;
+}
+
+.status-th,
+.status-td {
+    text-align: center;
+    font-weight: bold;
+    letter-spacing: 1px;
+    font-size: 1.08rem;
+    color: #1D7363;
+    text-transform: uppercase;
+}
+
+.complaint-th {
+    width: 180px;
+    min-width: 160px;
+    max-width: 220px;
+    text-align: left;
+    font-size: 1.08rem;
+    vertical-align: top;
+    color: #1D7363;
+}
+
+.complaint-td {
+    font-size: 1.08rem;
+    word-break: break-word;
+    white-space: pre-line;
+}
+
+.fw-bold {
+    font-weight: bold !important;
+}
+
+.fw-semibold {
+    font-weight: 500 !important;
+}
+
+.fs-5 {
+    font-size: 1.15rem !important;
+}
+
+.complaint-details-container {
+    margin-top: 24px;
+}
+
+.bg-main {
+    background-color: #1D7363 !important;
+}
+
+.rental-info-card,
+.complaint-info-card {
+    border: 1.5px solid #1D7363;
+    border-radius: 8px;
+    box-shadow: 0 2px 8px rgba(29, 115, 99, 0.08);
+}
+
+.card-header {
+    font-weight: 600;
+    font-size: 1.1rem;
+    letter-spacing: 0.5px;
+}
+
+.avatar {
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+    object-fit: cover;
+    border: 2px solid #1D7363;
+}
+
+@media (max-width: 991px) {
+    .complaint-details-container .row>div {
+        margin-bottom: 16px;
+    }
+}

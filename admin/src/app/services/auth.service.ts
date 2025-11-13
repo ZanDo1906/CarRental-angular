@@ -11,7 +11,7 @@ export class AuthService {
     public currentAdmin$ = this.currentAdminSubject.asObservable();
 
     constructor(private router: Router) {
-        // Khôi phục trạng thái đăng nhập từ localStorage
+        // Khôi phục trạng thái đăng nhập từ localStorage nếu có
         const savedAdmin = localStorage.getItem('currentAdmin');
         if (savedAdmin) {
             try {

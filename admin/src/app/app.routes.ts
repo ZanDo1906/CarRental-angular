@@ -10,6 +10,9 @@ import { LogIn } from './pages/log-in/log-in';
 import { AuthGuard } from './guards/auth.guard';
 import { VehicleManagement } from './pages/vehicle-management/vehicle-management';
 import { VehicleDetail } from './pages/vehicle-detail/vehicle-detail';
+import { ComplaintHandling } from './pages/complaint-handling/complaint-handling';
+import { ComplaintDetails } from './pages/complaint-details/complaint-details';
+
 
 export const routes: Routes = [
   { path: 'login', component: LogIn },
@@ -22,6 +25,8 @@ export const routes: Routes = [
   { path: 'admin-account', component: AdminAccount, canActivate: [AuthGuard] },
   { path: 'vehicle-management', component: VehicleManagement, canActivate: [AuthGuard] },
   { path: 'vehicle-detail/:id', component: VehicleDetail, canActivate: [AuthGuard] },
+  { path: 'complaint-handling', component: ComplaintHandling, canActivate: [AuthGuard] },
+  { path: 'complaint-details/:id', component: ComplaintDetails, canActivate: [AuthGuard] },
   { path: '', redirectTo: '/login', pathMatch: 'full' },
   { path: '**', redirectTo: '/login' }
 ];

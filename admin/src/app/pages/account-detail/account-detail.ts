@@ -17,7 +17,7 @@ export class AccountDetail implements OnInit {
   user: any = null;
   editingProfile: boolean = false;
   editingLicense: boolean = false;
-  
+
   // --- THÊM CÁC BIẾN CÒN THIẾU ---
   totalTripsCount: number = 0;
 
@@ -116,11 +116,11 @@ export class AccountDetail implements OnInit {
     if (!input.files || input.files.length === 0 || !this.user) return;
     const file = input.files[0];
     const dataUrl = await this.readFileAsDataURL(file);
-    
+
     // Cập nhật cả 2 thuộc tính để lưu và hiển thị
-    this.user.Anh_dai_dien = dataUrl; 
+    this.user.Anh_dai_dien = dataUrl;
     (this.user as any)._avatar = dataUrl;
-    
+
     this.localSaveUser(this.user);
     this.cdr.detectChanges(); // Cập nhật giao diện
   }
@@ -170,7 +170,7 @@ export class AccountDetail implements OnInit {
         if (idToFind) {
           found = list.find((u: any) => String(u.Ma_nguoi_dung) === String(idToFind));
         }
-        
+
         if (found) {
           if (found.Anh_dai_dien) (found as any)._avatar = String(found.Anh_dai_dien).replace(/^\.?\//, '/');
           if (!found.Gioi_tinh) found.Gioi_tinh = 'Nữ';
@@ -185,10 +185,10 @@ export class AccountDetail implements OnInit {
             (found as any)._licenseAuthenticated = false;
           }
           this.user = found;
-          
+
           // Cập nhật số chuyến đi khi load user
           this.totalTripsCount = (this.user as any)?.So_Chuyen || 0;
-          
+
         } else {
           this.user = null;
         }
@@ -201,4 +201,13 @@ export class AccountDetail implements OnInit {
     });
   }
 
+  // Hàm xử lý nút Khóa tài khoản
+  lockAccount(): void {
+    if (!this.user) {
+      alert('Không tìm thấy thông tin tài khoản để khóa.');
+      return;
+    }
+    // TODO: Thực hiện logic khóa tài khoản ở đây (ví dụ cập nhật trạng thái, gọi API, v.v.)
+    alert('Tài khoản đã bị khóa.');
+  }
 }

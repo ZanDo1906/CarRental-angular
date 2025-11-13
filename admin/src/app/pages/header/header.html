@@ -15,67 +15,72 @@
       <ul class="navbar-nav ms-auto align-items-lg-center gap-lg-3">
         @if (currentAdmin) {
         <li class="nav-item dropdown">
-          <a class="nav-link position-relative" href="#" id="notificationDropdown" role="button" 
-             data-bs-toggle="dropdown" aria-expanded="false">
+          <a class="nav-link position-relative" href="#" id="notificationDropdown" role="button"
+            data-bs-toggle="dropdown" aria-expanded="false">
             <i class="bi bi-bell-fill"></i>
-            <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger" 
-                  style="font-size: 10px;">5</span>
+            <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger"
+              style="font-size: 10px;">5</span>
           </a>
           <ul class="dropdown-menu dropdown-menu-end notification-dropdown" aria-labelledby="notificationDropdown">
             <li class="dropdown-header d-flex justify-content-between align-items-center">
               <h6 class="mb-0 notification-header-title">Thông báo</h6>
               <small class="text-muted">5 mới</small>
             </li>
-            <li><hr class="dropdown-divider"></li>
-            
+            <li>
+              <hr class="dropdown-divider">
+            </li>
+
             <!-- Admin notification items -->
             <li>
-              <a class="dropdown-item notification-item unread" href="#">
+              <a class="dropdown-item notification-item unread" href="javascript:void(0)">
                 <div class="d-flex">
                   <div class="notification-icon bg-danger rounded-circle me-3">
                     <i class="bi bi-exclamation-triangle text-white"></i>
                   </div>
                   <div class="notification-content">
                     <h6 class="notification-title">Báo cáo vi phạm</h6>
-                    <p class="notification-text mb-1">Có một báo cáo vi phạm mới từ người dùng về xe Honda City biển số 59A-12345.</p>
+                    <p class="notification-text mb-1">Có một báo cáo vi phạm mới từ người dùng về xe Honda City biển số
+                      59A-12345.</p>
                     <small class="notification-time text-muted">30 phút trước</small>
                   </div>
                 </div>
               </a>
             </li>
-            
+
             <li>
-              <a class="dropdown-item notification-item unread" href="#">
+              <a class="dropdown-item notification-item unread" href="javascript:void(0)">
                 <div class="d-flex">
                   <div class="notification-icon bg-warning rounded-circle me-3">
                     <i class="bi bi-car-front text-white"></i>
                   </div>
                   <div class="notification-content">
                     <h6 class="notification-title">Đăng ký xe mới</h6>
-                    <p class="notification-text mb-1">Có một yêu cầu đăng ký xe mới cần được phê duyệt từ chủ xe Nguyễn Văn A.</p>
+                    <p class="notification-text mb-1">Có một yêu cầu đăng ký xe mới cần được phê duyệt từ chủ xe Nguyễn
+                      Văn A.</p>
                     <small class="notification-time text-muted">1 giờ trước</small>
                   </div>
                 </div>
               </a>
             </li>
-            
+
             <li>
-              <a class="dropdown-item notification-item unread" href="#">
+              <a class="dropdown-item notification-item unread" href="javascript:void(0)">
                 <div class="d-flex">
                   <div class="notification-icon bg-info rounded-circle me-3">
                     <i class="bi bi-person-plus text-white"></i>
                   </div>
                   <div class="notification-content">
                     <h6 class="notification-title">Tài khoản mới</h6>
-                    <p class="notification-text mb-1">Người dùng mới Trần Thị B đã đăng ký tài khoản và cần xác minh giấy tờ.</p>
+                    <p class="notification-text mb-1">Người dùng mới Trần Thị B đã đăng ký tài khoản và cần xác minh
+                      giấy tờ.</p>
                     <small class="notification-time text-muted">2 giờ trước</small>
                   </div>
                 </div>
               </a>
             </li>
-            
+
             <li>
-              <a class="dropdown-item notification-item unread" href="#">
+              <a class="dropdown-item notification-item unread" href="javascript:void(0)">
                 <div class="d-flex">
                   <div class="notification-icon bg-primary rounded-circle me-3">
                     <i class="bi bi-graph-up text-white"></i>
@@ -88,32 +93,35 @@
                 </div>
               </a>
             </li>
-            
+
             <li>
-              <a class="dropdown-item notification-item" href="#">
+              <a class="dropdown-item notification-item" href="javascript:void(0)">
                 <div class="d-flex">
                   <div class="notification-icon bg-success rounded-circle me-3">
                     <i class="bi bi-shield-check text-white"></i>
                   </div>
                   <div class="notification-content">
                     <h6 class="notification-title">Cập nhật hệ thống</h6>
-                    <p class="notification-text mb-1">Hệ thống đã được cập nhật phiên bản mới với nhiều tính năng bảo mật.</p>
+                    <p class="notification-text mb-1">Hệ thống đã được cập nhật phiên bản mới với nhiều tính năng bảo
+                      mật.</p>
                     <small class="notification-time text-muted">3 ngày trước</small>
                   </div>
                 </div>
               </a>
             </li>
-            
-            <li><hr class="dropdown-divider"></li>
+
             <li>
-              <a class="dropdown-item text-center view-all-notifications" href="#">
+              <hr class="dropdown-divider">
+            </li>
+            <li>
+              <a class="dropdown-item text-center view-all-notifications" href="javascript:void(0)">
                 Xem tất cả thông báo
               </a>
             </li>
           </ul>
         </li>
         <li class="nav-item dropdown user-menu-container">
-          <a class="nav-link d-flex align-items-center gap-2 text-decoration-none" href="#">
+          <a class="nav-link d-flex align-items-center gap-2 text-decoration-none" routerLink="/admin-account">
             <img [src]="currentAdmin.Anh_dai_dien || 'assets/images/admin_avt.png'" [alt]="currentAdmin.Ho_va_ten"
               class="rounded-circle user-avatar">
             <span class="user-name">{{ currentAdmin.Ho_va_ten }}</span>

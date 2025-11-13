@@ -1,0 +1,125 @@
+<div class="container-fluid complaint-details-container">
+    <div class="row">
+        <div class="col-12 mb-3">
+            <div class="card rental-info-card">
+                <div class="card-header bg-main text-white">Thông tin đơn thuê</div>
+                <div class="card-body">
+                    <div><b>Ngày nhận xe:</b> {{ carRental?.Ngay_nhan_xe }} - {{ carRental?.Gio_nhan_xe }}</div>
+                    <div><b>Ngày trả xe:</b> {{ carRental?.Ngay_tra_xe }} - {{ carRental?.Gio_tra_xe }}</div>
+                    <div><b>Tổng chi phí:</b> {{ carRental?.Tong_chi_phi | number }} VNĐ</div>
+                    <div *ngIf="locationNhan">
+                        <b>Vị trí nhận xe:</b> {{ locationNhan.Dia_chi_cu_the }}, {{ locationNhan.Phuong_xa }}, {{
+                        locationNhan.Quan_huyen }}, {{ locationNhan.Tinh_thanh }}
+                    </div>
+                    <div *ngIf="locationTra">
+                        <b>Vị trí trả xe:</b> {{ locationTra.Dia_chi_cu_the }}, {{ locationTra.Phuong_xa }}, {{
+                        locationTra.Quan_huyen }}, {{ locationTra.Tinh_thanh }}
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-12 mb-3">
+            <div class="card complaint-info-card">
+                <div class="card-header bg-main text-white">Chi tiết khiếu nại</div>
+                <div class="card-body">
+                    <table class="table table-bordered table-sm mb-0">
+                        <tr>
+                            <th class="complaint-th">Mã khiếu nại</th>
+                            <td class="complaint-td">{{ complaint?.Ma_khieu_nai }}</td>
+                        </tr>
+                        <tr>
+                            <th class="complaint-th">Mã đơn thuê</th>
+                            <td class="complaint-td">{{ complaint?.Ma_don_thue }}</td>
+                        </tr>
+                        <tr>
+                            <th class="complaint-th">Tài khoản khiếu nại</th>
+                            <td class="complaint-td" *ngIf="userK">
+                                <div class="d-flex align-items-center mb-2">
+                                    <img [src]="userK.Anh_dai_dien" alt="avatar" class="avatar me-2">
+                                    <span class="fw-bold fs-5">{{ userK.Ho_va_ten }}</span>
+                                </div>
+                                <div class="mb-1">SĐT: <span class="fw-semibold">{{ userK.So_dien_thoai }}</span></div>
+                                <div class="mb-1">CCCD: <span class="fw-semibold">{{ userK.Can_cuoc_cong_dan }}</span>
+                                </div>
+                                <div class="mb-1">Vai trò: <span class="fw-semibold">{{ getRoleText(userK.Vai_tro)
+                                        }}</span></div>
+                            </td>
+                            <td class="complaint-td" *ngIf="!userK">{{ complaint?.Tai_khoan_khieu_nai }}</td>
+                        </tr>
+                        <tr>
+                            <th class="complaint-th">Tài khoản bị khiếu nại</th>
+                            <td class="complaint-td" *ngIf="userB">
+                                <div class="d-flex align-items-center mb-2">
+                                    <img [src]="userB.Anh_dai_dien" alt="avatar" class="avatar me-2">
+                                    <span class="fw-bold fs-5">{{ userB.Ho_va_ten }}</span>
+                                </div>
+                                <div class="mb-1">SĐT: <span class="fw-semibold">{{ userB.So_dien_thoai }}</span></div>
+                                <div class="mb-1">CCCD: <span class="fw-semibold">{{ userB.Can_cuoc_cong_dan }}</span>
+                                </div>
+                                <div class="mb-1">Vai trò: <span class="fw-semibold">{{ getRoleText(userB.Vai_tro)
+                                        }}</span></div>
+                            </td>
+                            <td class="complaint-td" *ngIf="!userB">{{ complaint?.Tai_khoan_bi_khieu_nai }}</td>
+                        </tr>
+                        <tr>
+                            <th class="complaint-th">Nội dung khiếu nại</th>
+                            <td class="complaint-td">{{ complaint?.Noi_dung_khieu_nai }}</td>
+                        </tr>
+                        <tr>
+                            <th class="complaint-th">Ngày khiếu nại</th>
+                            <td class="complaint-td">{{ complaint?.Ngay_khieu_nai | date:'dd/MM/yyyy' }}</td>
+                        </tr>
+                        <tr>
+                            <th class="complaint-th">Trạng thái</th>
+                            <td class="complaint-td  status-red">{{
+                                getStatusText(complaint?.Trang_thai_khieu_nai) }}</td>
+                        </tr>
+                    </table>
+                    <div *ngIf="complaint?.Trang_thai_khieu_nai === 'DANG_XU_LY'" class="mt-4">
+                        <div class="d-flex justify-content-center align-items-center gap-3 position-relative">
+                            <div style="position:relative;">
+                                <button class="btn btn-danger px-4 py-2"
+                                    (click)="onAccountDropdown(!showAccountDropdown)">
+                                    Xử lý khóa tài khoản
+                                </button>
+                                <div *ngIf="showAccountDropdown"
+                                    class="account-dropdown-card bg-white border shadow rounded p-3"
+                                    style="position: absolute; right: 0; top: 110%; min-width: 320px; z-index: 10;">
+                                    <div *ngIf="userK" class="mb-2 account-hover pointer p-2 rounded"
+                                        (click)="goToAccountDetail(userK)">
+                                        <div class="fw-bold text-main">Tài khoản khiếu nại</div>
+                                        <div class="d-flex align-items-center mb-1">
+                                            <img [src]="userK.Anh_dai_dien" alt="avatar" class="avatar me-2"
+                                                style="width:32px;height:32px;border-radius:50%;">
+                                            <span class="fw-bold">{{ userK.Ho_va_ten }}</span>
+                                        </div>
+                                        <div>SĐT: <span class="fw-semibold">{{ userK.So_dien_thoai }}</span></div>
+                                        <div>CCCD: <span class="fw-semibold">{{ userK.Can_cuoc_cong_dan }}</span></div>
+                                    </div>
+                                    <div *ngIf="userB" class="account-hover pointer p-2 rounded"
+                                        (click)="goToAccountDetail(userB)">
+                                        <div class="fw-bold text-danger">Tài khoản bị khiếu nại</div>
+                                        <div class="d-flex align-items-center mb-1">
+                                            <img [src]="userB.Anh_dai_dien" alt="avatar" class="avatar me-2"
+                                                style="width:32px;height:32px;border-radius:50%;">
+                                            <span class="fw-bold">{{ userB.Ho_va_ten }}</span>
+                                        </div>
+                                        <div>SĐT: <span class="fw-semibold">{{ userB.So_dien_thoai }}</span></div>
+                                        <div>CCCD: <span class="fw-semibold">{{ userB.Can_cuoc_cong_dan }}</span></div>
+                                    </div>
+                                </div>
+                            </div>
+                            <button class="btn btn-secondary px-4 py-2"
+                                (click)="showAlert('Hệ thống đã từ chối khiếu nại này!')">Từ chối</button>
+                            <button class="btn btn-success px-4 py-2"
+                                (click)="showAlert('Hệ thống đã xử lý hòa giải khiếu nại này!')">Đã xử lý hòa
+                                giải</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div *ngIf="loading" class="text-center py-4">Đang tải dữ liệu...</div>
+    <div *ngIf="error" class="text-danger py-2">{{ error }}</div>
+</div>

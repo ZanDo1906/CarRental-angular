@@ -1,0 +1,251 @@
+@import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700;800&family=Inter:wght@400;500;600;700&display=swap');
+
+:host {
+    --color-primary: #1D7363;
+    --color-primary-text: #212121;
+    --color-secondary-text: #555555;
+    --color-label-text: #333333;
+    --color-border: #e0e0e0;
+    --color-background: #f8f9fa;
+    --color-card-bg: #ffffff;
+    --color-image-bg: #eeeeee;
+    --color-error: #d32f2f;
+    ;
+    --shadow: 0 2px 8px rgba(0, 0, 0, 0.06);
+    --shadow-hover: 0 6px 20px rgba(29, 115, 99, 0.1);
+    display: flex;
+    flex-grow: 1;
+    width: 100%;
+    font-family: 'Inter', sans-serif;
+}
+
+.btn-primary-custom {
+    background-color: #1d7363;
+    border-color: #1d7363;
+    border-radius: 8px;
+    color: #FFFFFF;
+}
+
+
+.main-content {
+    height: 100%;
+    flex-grow: 1;
+    overflow-y: auto;
+    /* padding-top: 1rem; */
+    font-size: 16px;
+}
+
+.main-content>h2 {
+    font-size: 32px;
+    font-weight: 700;
+    color: var(--color-primary);
+    margin-top: 30px;
+    margin-bottom: 25px;
+    font-family: 'Montserrat', sans-serif;
+
+}
+
+.search-wrapper {
+    position: relative;
+    margin-top: 5px;
+}
+
+.search-wrapper .search-icon {
+    position: absolute;
+    left: 1rem;
+    top: 50%;
+    transform: translateY(-50%);
+    color: #6B7280;
+}
+
+
+.search-wrapper .search-input {
+    border-radius: 20px;
+    margin-left: 50px;
+    margin-bottom: 20px;
+    padding-left: 1.5rem;
+    padding-right: 2.5rem;
+    border: 1px solid #6B7280 !important;
+    width: 250px;
+}
+
+.search-input:focus {
+    border-color: #166051;
+    box-shadow: 0 0 0 0.25rem rgba(29, 115, 99, 0.25);
+    outline: none;
+}
+
+
+.table-responsive-wrapper {
+    background-color: #FFFFFF;
+    border-radius: 20px;
+    font-size: 16px;
+    padding: 2rem;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.06);
+    border: 1px solid #1D7363;
+    max-width: 100%;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.table {
+    margin-bottom: 10px;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.table thead th {
+    background-color: #fcfcfc;
+    font-size: 16px;
+}
+
+.table tbody td {
+    vertical-align: middle;
+    color: var(--text-color);
+    font-size: 16px;
+    text-align: left;
+}
+
+.table tbody tr:hover {
+    background-color: #eef6f4;
+    color: #1D7363;
+    cursor: pointer;
+}
+
+.pagination {
+    margin-right: 10px;
+    list-style: none;
+    gap: 0.5rem;
+}
+
+.pagination .page-link {
+    border: none;
+    background-color: #ffffff;
+    color: var(--color-primary);
+    border-radius: 50%;
+    transition: all 0.2s ease;
+    text-decoration: none;
+    width: 36px;
+    height: 36px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
+}
+
+.pagination .page-link:hover {
+    background-color: var(--color-primary);
+    color: #ffffff;
+    transform: translateY(-2px);
+    box-shadow: 0 4px 10px rgba(29, 115, 99, 0.3);
+}
+
+
+.pagination .page-link i {
+    font-size: 16px;
+}
+
+.pagination .page-item.active .page-link {
+    background-color: var(--color-primary);
+    color: #ffffff;
+    font-weight: 700;
+    box-shadow: 0 2px 8px rgba(29, 115, 99, 0.4);
+}
+
+/* Toolbar buttons – đồng bộ với vehicle */
+.btn-group .btn {
+    border-radius: 8px;
+    border: 1px solid var(--color-primary);
+    background: transparent;
+    color: var(--color-primary);
+    font-weight: 600;
+    line-height: 1;
+    padding: .55rem .9rem;
+    transition: background .15s ease, color .15s ease, box-shadow .15s ease, transform .15s ease;
+}
+
+/* A–Z button */
+.btn-primary-custom {
+    border: 1px solid var(--color-primary);
+    background: transparent;
+    color: var(--color-primary);
+}
+
+/* Hai nút viền */
+.btn-outline-secondary {
+    border: 1px solid var(--color-primary);
+    background: transparent;
+    color: var(--color-primary);
+}
+
+/* Hover khi chưa active */
+.btn-group .btn:not(.active):hover {
+    background: rgba(29, 115, 99, .08);
+    color: var(--color-primary);
+    transform: translateY(-1px);
+}
+
+/* Trạng thái active */
+.btn-group .btn.active {
+    background: var(--color-primary);
+    color: #fff;
+    box-shadow: 0 4px 10px rgba(29, 115, 99, .30);
+    border-color: var(--color-primary);
+}
+
+/* Đồng bộ đếm số */
+.user-count strong {
+    color: var(--color-primary);
+}
+
+/* Responsive text size */
+@media (max-width: 768px) {
+    .main-content {
+        font-size: 14px;
+    }
+
+    .main-content>h2 {
+        font-size: 28px;
+        margin-top: 0px;
+    }
+
+    .table {
+        font-size: 14px;
+    }
+
+    .table thead th,
+    .table tbody td {
+        font-size: 14px;
+    }
+
+    .search-wrapper {
+        position: relative;
+        margin-top: 5px;
+    }
+
+    .search-wrapper .search-icon {
+        position: absolute;
+        left: 1rem;
+        top: 50%;
+        transform: translateY(-50%);
+        color: #6B7280;
+    }
+
+
+    .search-wrapper .search-input {
+        border-radius: 20px;
+        margin-left: 50px;
+        margin-bottom: 20px;
+        padding-left: 1.5rem;
+        padding-right: 2.5rem;
+        border: 1px solid #6B7280 !important;
+        width: 250px;
+    }
+
+    .search-input:focus {
+        border-color: #166051;
+        box-shadow: 0 0 0 0.25rem rgba(29, 115, 99, 0.25);
+        outline: none;
+    }
+
+}

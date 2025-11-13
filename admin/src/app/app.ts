@@ -28,6 +28,14 @@ export class App implements OnInit {
     this.authService.currentAdmin$.subscribe(admin => {
       this.isLoggedIn = !!admin;
       this.currentAdmin = admin;
+      // Nếu đã đăng nhập và đang ở trang login thì chuyển về /admin-account
+      if (this.isLoggedIn && window.location.pathname === '/login') {
+        window.location.replace('/admin-account');
+      }
     });
+    // Nếu vào trang root (/) thì chuyển về login
+    if (window.location.pathname === '/') {
+      window.location.replace('/login');
+    }
   }
 }

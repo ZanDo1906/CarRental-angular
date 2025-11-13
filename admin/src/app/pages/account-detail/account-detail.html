@@ -1,225 +1,241 @@
 <main class="main-content">
-     <button (click)="goBack()" class="btn-icon-round btn-outline">
-                <i class="bi bi-chevron-left"></i>
-            </button>
+    <button (click)="goBack()" class="btn-icon-round btn-outline">
+        <i class="bi bi-chevron-left"></i>
+    </button>
     <div class="content-item user-profile">
-                        <div class="title">
-                            <div class="title-edit">
-                                <h5>Thông tin tài khoản</h5>
-                                <div class="wrap-svg" (click)="onEdit('profile')" style="cursor:pointer">
-                                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
-                                        class="bi bi-pencil" viewBox="0 0 16 16">
-                                        <path
-                                            d="M12.146.146a.5.5 0 0 1 .708 0l3 3a.5.5 0 0 1 0 .708l-10 10a.5.5 0 0 1-.168.11l-5 2a.5.5 0 0 1-.65-.65l2-5a.5.5 0 0 1 .11-.168zM11.207 2.5 13.5 4.793 14.793 3.5 12.5 1.207zm1.586 3L10.5 3.207 4 9.707V10h.5a.5.5 0 0 1 .5.5v.5h.5a.5.5 0 0 1 .5.5v.5h.293zm-9.761 5.175-.106.106-1.528 3.821 3.821-1.528.106-.106A.5.5 0 0 1 5 12.5V12h-.5a.5.5 0 0 1-.5-.5V11h-.5a.5.5 0 0 1-.468-.325" />
-                                    </svg>
-                                </div>
-                                <div class="ms-2 d-inline-block">
-                                    <button *ngIf="editingProfile" class="btn1 btn--s btn-save" (click)="saveUser()">Lưu</button>
-                                    <button *ngIf="editingProfile" class="btn1 btn--s btn-cancel" (click)="cancelEdit()">Hủy</button>
-                                </div>
-                            </div>
-                            <div class="total-trips" style="align-items: center;">
-                                <div class="wrap-svg">
-                                    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor"
-                                        class="bi bi-car-front-fill" viewBox="0 0 16 16">
-                                        <path
-                                            d="M2.52 3.515A2.5 2.5 0 0 1 4.82 2h6.362c1 0 1.904.596 2.298 1.515l.792 1.848c.075.175.21.319.38.404.5.25.855.715.965 1.262l.335 1.679q.05.242.049.49v.413c0 .814-.39 1.543-1 1.997V13.5a.5.5 0 0 1-.5.5h-2a.5.5 0 0 1-.5-.5v-1.338c-1.292.048-2.745.088-4 .088s-2.708-.04-4-.088V13.5a.5.5 0 0 1-.5.5h-2a.5.5 0 0 1-.5-.5v-1.892c-.61-.454-1-1.183-1-1.997v-.413a2.5 2.5 0 0 1 .049-.49l.335-1.68c.11-.546.465-1.012.964-1.261a.8.8 0 0 0 .381-.404l.792-1.848ZM3 10a1 1 0 1 0 0-2 1 1 0 0 0 0 2m10 0a1 1 0 1 0 0-2 1 1 0 0 0 0 2M6 8a1 1 0 0 0 0 2h4a1 1 0 1 0 0-2zM2.906 5.189a.51.51 0 0 0 .497.731c.91-.073 3.35-.17 4.597-.17s3.688.097 4.597.17a.51.51 0 0 0 .497-.731l-.956-1.913A.5.5 0 0 0 11.691 3H4.309a.5.5 0 0 0-.447.276L2.906 5.19Z" />
-                                    </svg>
-                                </div>
-                                <p class="count" (click)="refreshTripsCount()" style="cursor: pointer;" title="Click để refresh">{{ totalTripsCount }}</p>
-                                <span>Chuyến</span>
-                            </div>
+        <div class="title">
+            <div class="title-edit">
+                <h5>Thông tin tài khoản</h5>
+                <div class="wrap-svg" (click)="onEdit('profile')" style="cursor:pointer">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
+                        class="bi bi-pencil" viewBox="0 0 16 16">
+                        <path
+                            d="M12.146.146a.5.5 0 0 1 .708 0l3 3a.5.5 0 0 1 0 .708l-10 10a.5.5 0 0 1-.168.11l-5 2a.5.5 0 0 1-.65-.65l2-5a.5.5 0 0 1 .11-.168zM11.207 2.5 13.5 4.793 14.793 3.5 12.5 1.207zm1.586 3L10.5 3.207 4 9.707V10h.5a.5.5 0 0 1 .5.5v.5h.5a.5.5 0 0 1 .5.5v.5h.293zm-9.761 5.175-.106.106-1.528 3.821 3.821-1.528.106-.106A.5.5 0 0 1 5 12.5V12h-.5a.5.5 0 0 1-.5-.5V11h-.5a.5.5 0 0 1-.468-.325" />
+                    </svg>
+                </div>
+                <div class="ms-2 d-inline-block">
+                    <button *ngIf="editingProfile" class="btn1 btn--s btn-save" (click)="saveUser()">Lưu</button>
+                    <button *ngIf="editingProfile" class="btn1 btn--s btn-cancel" (click)="cancelEdit()">Hủy</button>
+                </div>
+            </div>
+            <div class="total-trips d-flex align-items-center justify-content-start" style="gap: 8px;">
+                <span style="display: flex; align-items: center;">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor"
+                        class="bi bi-car-front-fill" viewBox="0 0 16 16">
+                        <path
+                            d="M2.52 3.515A2.5 2.5 0 0 1 4.82 2h6.362c1 0 1.904.596 2.298 1.515l.792 1.848c.075.175.21.319.38.404.5.25.855.715.965 1.262l.335 1.679q.05.242.049.49v.413c0 .814-.39 1.543-1 1.997V13.5a.5.5 0 0 1-.5.5h-2a.5.5 0 0 1-.5-.5v-1.338c-1.292.048-2.745.088-4 .088s-2.708-.04-4-.088V13.5a.5.5 0 0 1-.5.5h-2a.5.5 0 0 1-.5-.5v-1.892c-.61-.454-1-1.183-1-1.997v-.413a2.5 2.5 0 0 1 .049-.49l.335-1.68c.11-.546.465-1.012.964-1.261a.8.8 0 0 0 .381-.404l.792-1.848ZM3 10a1 1 0 1 0 0-2 1 1 0 0 0 0 2m10 0a1 1 0 1 0 0-2 1 1 0 0 0 0 2M6 8a1 1 0 0 0 0 2h4a1 1 0 1 0 0-2zM2.906 5.189a.51.51 0 0 0 .497.731c.91-.073 3.35-.17 4.597-.17s3.688.097 4.597.17a.51.51 0 0 0 .497-.731l-.956-1.913A.5.5 0 0 0 11.691 3H4.309a.5.5 0 0 0-.447.276L2.906 5.19Z" />
+                    </svg>
+                </span>
+                <span style="font-weight: bold; color: #008080; font-size: 1.2em; cursor: pointer;"
+                    (click)="refreshTripsCount()" title="Click để refresh">{{ totalTripsCount }}</span>
+                <span style="color: #888; font-size: 1em;">Chuyến</span>
+            </div>
+        </div>
+        <div class="content">
+            <div class="avatar-box">
+                <label class="avatar avatar--xl has-edit" for="avatarInput"
+                    style="cursor: pointer; position: relative;">
+                    <img [src]="avatarUrl" [alt]="user?.Ho_va_ten || 'avatar'"
+                        style="width: 100%; height: 100%; object-fit: cover; border-radius: 50%;"
+                        (error)="$any($event.target).src='/assets/images/user_avt.jpg'">
+                    <div class="avatar-edit-overlay">
+                        <div class="wrap-svg">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor"
+                                class="bi bi-camera" viewBox="0 0 16 16">
+                                <path
+                                    d="M15 12a1 1 0 0 1-1 1H2a1 1 0 0 1-1-1V6a1 1 0 0 1 1-1h1.172a3 3 0 0 0 2.12-.879l.83-.828A1 1 0 0 1 6.827 3h2.344a1 1 0 0 1 .707.293l.828.828A3 3 0 0 0 12.828 5H14a1 1 0 0 1 1 1zM2 4a2 2 0 0 0-2 2v6a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V6a2 2 0 0 0-2-2h-1.172a2 2 0 0 1-1.414-.586l-.828-.828A2 2 0 0 0 9.172 2H6.828a2 2 0 0 0-1.414.586l-.828.828A2 2 0 0 1 3.172 4z" />
+                                <path
+                                    d="M8 11a2.5 2.5 0 1 1 0-5 2.5 2.5 0 0 1 0 5m0 1a3.5 3.5 0 1 0 0-7 3.5 3.5 0 0 0 0 7M3 6.5a.5.5 0 1 1-1 0 .5.5 0 0 1 1 0" />
+                            </svg>
                         </div>
-                        <div class="content">
-                            <div class="avatar-box">
-                                <label class="avatar avatar--xl has-edit" for="avatarInput" style="cursor: pointer; position: relative;">
-                                    <img [src]="avatarUrl" [alt]="user?.Ho_va_ten || 'avatar'"
-                                         style="width: 100%; height: 100%; object-fit: cover; border-radius: 50%;"
-                                         (error)="$any($event.target).src='/assets/images/user_avt.jpg'">
-                                    <div class="avatar-edit-overlay">
-                                        <div class="wrap-svg">
-                                            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" class="bi bi-camera" viewBox="0 0 16 16">
-                                                <path d="M15 12a1 1 0 0 1-1 1H2a1 1 0 0 1-1-1V6a1 1 0 0 1 1-1h1.172a3 3 0 0 0 2.12-.879l.83-.828A1 1 0 0 1 6.827 3h2.344a1 1 0 0 1 .707.293l.828.828A3 3 0 0 0 12.828 5H14a1 1 0 0 1 1 1zM2 4a2 2 0 0 0-2 2v6a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V6a2 2 0 0 0-2-2h-1.172a2 2 0 0 1-1.414-.586l-.828-.828A2 2 0 0 0 9.172 2H6.828a2 2 0 0 0-1.414.586l-.828.828A2 2 0 0 1 3.172 4z"/>
-                                                <path d="M8 11a2.5 2.5 0 1 1 0-5 2.5 2.5 0 0 1 0 5m0 1a3.5 3.5 0 1 0 0-7 3.5 3.5 0 0 0 0 7M3 6.5a.5.5 0 1 1-1 0 .5.5 0 0 1 1 0"/>
-                                            </svg>
-                                        </div>
-                                    </div>
-                                </label>
-                                <!-- Hidden file input for uploading avatar -->
-                                <input id="avatarInput" type="file" accept="image/*" style="display:none" (change)="onAvatarSelected($event)">
-                                <h6>{{ user?.Ho_va_ten || 'Tên người dùng' }}</h6>
-                                <p class="note">Tham gia {{ user?.Ngay_tao || '' }}</p>
-                                
-                            </div>
-                            <div class="info-user">
-                                
-                                <div class="info-desc">
-                                    <div class="info-desc__item">
-                                        <div class="title-item">
-                                            Ngày sinh
-                                        </div>
-                                        <div class="name pointer">
-                                            <!-- show formatted date when not editing; show date input when editing -->
-                                            <ng-container *ngIf="!editingProfile">
-                                                <p>{{ user?.Ngay_sinh ? (user.Ngay_sinh | date:'yyyy-MM-dd') : 'Chưa cập nhật' }}</p>
-                                            </ng-container>
-                                            <ng-container *ngIf="editingProfile">
-                                                <input type="date" [(ngModel)]="user.Ngay_sinh">
-                                            </ng-container>
-                                            <div class="wrap-svg"></div>
-                                        </div>
-                                    </div>
-                                    <div class="info-desc__item">
-                                        <div class="title-item">
-                                            Giới tính
-                                        </div>
-                                        <div class="name pointer">
-                                            <ng-container *ngIf="!editingProfile">
-                                                <p>{{ user?.Gioi_tinh || 'Nữ' }}</p>
-                                            </ng-container>
-                                            <ng-container *ngIf="editingProfile">
-                                                <select [(ngModel)]="user.Gioi_tinh">
-                                                    <option value="Nữ">Nữ</option>
-                                                    <option value="Nam">Nam</option>
-                                                    <option value="Khác">Khác</option>
-                                                </select>
-                                            </ng-container>
-                                            <div class="wrap-svg"></div>
-                                        </div>
-                                    </div>
-                                    <div class="info-desc__item">
-                                        <div class="title-item">
-                                            Số điện thoại
-
-                                        </div>
-                                        <div class="name pointer">
-                                            {{ user?.So_dien_thoai || 'Chưa có số điện thoại' }}
-                                            <div class="wrap-svg"></div>
-                                        </div>
-                                    </div>
-                                    <div class="info-desc__item">
-                                        <div class="title-item">
-                                            Email
-                                            
-                                        </div>
-                                        <div class="name pointer">
-                                            {{ user?.Email || 'Chưa có email' }}
-                                            <div class="wrap-svg"></div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-
                     </div>
-                    
-                    </div>
-                    <div class="content-item driver-license">
-                        <div class="title">
-                            <div class="title-item">
-                                <h6>Giấy phép lái xe</h6>
-                                <div class="title-item__info error">
-                                    <div class="wrap-svg">
-                                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16"
-                                            fill="currentColor" class="bi bi-exclamation-circle-fill"
-                                            viewBox="0 0 16 16">
-                                            <path
-                                                d="M16 8A8 8 0 1 1 0 8a8 8 0 0 1 16 0M8 4a.905.905 0 0 0-.9.995l.35 3.507a.552.552 0 0 0 1.1 0l.35-3.507A.905.905 0 0 0 8 4m.002 6a1 1 0 1 0 0 2 1 1 0 0 0 0-2" fill="#f04438" />
-                                        </svg>
-                                    </div>
-                                    Chưa xác thực
-                                </div>
-                                
-                            </div>
-                            <div >
-                                <!-- License controls: edit license fields or upload image separately -->
-                                 
-                                <button *ngIf="!editingLicense" class="btn1 btn--s" (click)="onEdit('license')">Chỉnh sửa
-                                    <div class="wrap-svg" (click)="onEdit('profile')" style="cursor:pointer">
-                                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
-                                        class="bi bi-pencil" viewBox="0 0 16 16">
-                                        <path
-                                            d="M12.146.146a.5.5 0 0 1 .708 0l3 3a.5.5 0 0 1 0 .708l-10 10a.5.5 0 0 1-.168.11l-5 2a.5.5 0 0 1-.65-.65l2-5a.5.5 0 0 1 .11-.168zM11.207 2.5 13.5 4.793 14.793 3.5 12.5 1.207zm1.586 3L10.5 3.207 4 9.707V10h.5a.5.5 0 0 1 .5.5v.5h.5a.5.5 0 0 1 .5.5v.5h.293zm-9.761 5.175-.106.106-1.528 3.821 3.821-1.528.106-.106A.5.5 0 0 1 5 12.5V12h-.5a.5.5 0 0 1-.5-.5V11h-.5a.5.5 0 0 1-.468-.325" />
-                                    </svg>
-                                </div>
-                                </button>
-                                <button *ngIf="editingLicense" class="btn1 btn--s btn-save" (click)="saveLicense()">Lưu</button>
-                                <button *ngIf="editingLicense" class="btn1 btn--s btn-cancel" (click)="cancelLicenseEdit()">Hủy</button>
-                                <!-- <button class="btn1 btn--s ms-2" (click)="onEdit('uploadGPLX')" [disabled]="user?._licenseAuthenticated">Tải lên ảnh GPLX</button> -->
-                            </div>
-                            
+                </label>
+                <!-- Hidden file input for uploading avatar -->
+                <input id="avatarInput" type="file" accept="image/*" style="display:none"
+                    (change)="onAvatarSelected($event)">
+                <h6>{{ user?.Ho_va_ten || 'Tên người dùng' }}</h6>
+                <p class="note">Tham gia {{ user?.Ngay_tao || '' }}</p>
+
+            </div>
+            <div class="info-user">
+
+                <div class="info-desc">
+                    <div class="info-desc__item">
+                        <div class="title-item">
+                            Ngày sinh
                         </div>
-                        <div class="note-license">
-                            <p>
-                                <b>Lưu ý</b>: để tránh phát sinh vấn đề trong quá trình thuê xe, <u>người đặt xe</u>
-                                trên Mioto (đã
-                                xác thực GPLX) <b>ĐỒNG THỜI</b> phải là <u>người nhận xe</u>.
-                            </p>
-                        </div>
-                        <div class="learn-more">
-                            <p class="text-disabled">
-                                Bạn có thể sử dụng GPLX thẻ cứng hoặc GPLX điện tử trên VNeID
-                            </p>
+                        <div class="name pointer">
+                            <!-- show formatted date when not editing; show date input when editing -->
+                            <ng-container *ngIf="!editingProfile">
+                                <p>{{ user?.Ngay_sinh ? (user.Ngay_sinh | date:'yyyy-MM-dd') : 'Chưa cập nhật' }}</p>
+                            </ng-container>
+                            <ng-container *ngIf="editingProfile">
+                                <input type="date" [(ngModel)]="user.Ngay_sinh">
+                            </ng-container>
                             <div class="wrap-svg"></div>
                         </div>
-                        <div class="content">
-                            <div class="info-license position-relative">
-                                <div class="info-license__title">
-                                    <p>Hình ảnh</p>
-                                </div>
-                                <label class="info-license__img" for="licenseInput">
-                                    <div class="fix-img">
-                                        <img [src]="user?._license || user?.Giay_phep_lai_xe || '/assets/assets/nopicture.jpg'" alt="GPLX">
-                                    </div>
-                                </label>
-                                <!-- hidden file input for uploading license image -->
-                                <input id="licenseInput" type="file" accept="image/*" style="display:none" (change)="onLicenseSelected($event)">
-                            </div>
-                            <div class="info-license">
-                                <div class="info-license__title">
-                                    <p>Thông tin chung</p>
-                                </div>
-                                <div class="custom-input">
-                                    <div class="wrap-info">
-                                        <div class="title-status">
-                                            <p>Số GPLX</p>
-                                        </div>
-                                        <div class="desc text-success"></div>
-                                    </div>
-                                    <div class="wrap-input" [ngClass]="{ 'disabled': !editingLicense }">
-                                        <div class="wrap-text">
-                                            <input [disabled]="!editingLicense" type="text" name="licenseNumber" [(ngModel)]="user.Can_cuoc_cong_dan" placeholder="Nhập số GPLX đã cấp ">
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="custom-input">
-                                    <div class="wrap-info">
-                                        <div class="title-status">
-                                            <p>Họ và tên</p>
-                                        </div>
-                                        <div class="desc text-success"></div>
-                                    </div>
-                                    <div class="wrap-input" [ngClass]="{ 'disabled': !editingLicense }">
-                                        <div class="wrap-text">
-                                            <input [disabled]="!editingLicense" type="text" name="licenseName" [(ngModel)]="user.Ho_va_ten" placeholder="Nhập đầy đủ họ tên ">
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="custom-input">
-                                    <div class="wrap-info">
-                                        <div class="title-status">
-                                            <p>Ngày sinh</p>
-                                        </div>
-                                        <div class="desc text-success"></div>
-                                    </div>
-                                    <div class="wrap-input" [ngClass]="{ 'disabled': !editingLicense }">
-                                        <div class="wrap-text">
-                                            <input [disabled]="!editingLicense" type="text" name="licenseBirth" [(ngModel)]="user.Ngay_sinh" placeholder="Nhập ngày sinh ">
-                                        </div>
-                                    </div>
-                                </div>
-                        </div>
-                        
                     </div>
-                    <div class="learn-more"></div>
+                    <div class="info-desc__item">
+                        <div class="title-item">
+                            Giới tính
+                        </div>
+                        <div class="name pointer">
+                            <ng-container *ngIf="!editingProfile">
+                                <p>{{ user?.Gioi_tinh || 'Nữ' }}</p>
+                            </ng-container>
+                            <ng-container *ngIf="editingProfile">
+                                <select [(ngModel)]="user.Gioi_tinh">
+                                    <option value="Nữ">Nữ</option>
+                                    <option value="Nam">Nam</option>
+                                    <option value="Khác">Khác</option>
+                                </select>
+                            </ng-container>
+                            <div class="wrap-svg"></div>
+                        </div>
+                    </div>
+                    <div class="info-desc__item">
+                        <div class="title-item">
+                            Số điện thoại
+
+                        </div>
+                        <div class="name pointer">
+                            {{ user?.So_dien_thoai || 'Chưa có số điện thoại' }}
+                            <div class="wrap-svg"></div>
+                        </div>
+                    </div>
+                    <div class="info-desc__item">
+                        <div class="title-item">
+                            Email
+
+                        </div>
+                        <div class="name pointer">
+                            {{ user?.Email || 'Chưa có email' }}
+                            <div class="wrap-svg"></div>
+                        </div>
+                    </div>
                 </div>
+            </div>
+
+        </div>
+
+    </div>
+    <div class="content-item driver-license">
+        <div class="title">
+            <div class="title-item">
+                <h6>Giấy phép lái xe</h6>
+                <div class="title-item__info error">
+                    <div class="wrap-svg">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
+                            class="bi bi-exclamation-circle-fill" viewBox="0 0 16 16">
+                            <path
+                                d="M16 8A8 8 0 1 1 0 8a8 8 0 0 1 16 0M8 4a.905.905 0 0 0-.9.995l.35 3.507a.552.552 0 0 0 1.1 0l.35-3.507A.905.905 0 0 0 8 4m.002 6a1 1 0 1 0 0 2 1 1 0 0 0 0-2"
+                                fill="#f04438" />
+                        </svg>
+                    </div>
+                    Chưa xác thực
+                </div>
+
+            </div>
+            <div>
+                <!-- License controls: edit license fields or upload image separately -->
+
+                <button *ngIf="!editingLicense" class="btn1 btn--s" (click)="onEdit('license')">Chỉnh sửa
+                    <div class="wrap-svg" (click)="onEdit('profile')" style="cursor:pointer">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
+                            class="bi bi-pencil" viewBox="0 0 16 16">
+                            <path
+                                d="M12.146.146a.5.5 0 0 1 .708 0l3 3a.5.5 0 0 1 0 .708l-10 10a.5.5 0 0 1-.168.11l-5 2a.5.5 0 0 1-.65-.65l2-5a.5.5 0 0 1 .11-.168zM11.207 2.5 13.5 4.793 14.793 3.5 12.5 1.207zm1.586 3L10.5 3.207 4 9.707V10h.5a.5.5 0 0 1 .5.5v.5h.5a.5.5 0 0 1 .5.5v.5h.293zm-9.761 5.175-.106.106-1.528 3.821 3.821-1.528.106-.106A.5.5 0 0 1 5 12.5V12h-.5a.5.5 0 0 1-.5-.5V11h-.5a.5.5 0 0 1-.468-.325" />
+                        </svg>
+                    </div>
+                </button>
+                <button *ngIf="editingLicense" class="btn1 btn--s btn-save" (click)="saveLicense()">Lưu</button>
+                <button *ngIf="editingLicense" class="btn1 btn--s btn-cancel" (click)="cancelLicenseEdit()">Hủy</button>
+                <!-- <button class="btn1 btn--s ms-2" (click)="onEdit('uploadGPLX')" [disabled]="user?._licenseAuthenticated">Tải lên ảnh GPLX</button> -->
+            </div>
+
+        </div>
+        <div class="note-license">
+            <p>
+                <b>Lưu ý</b>: để tránh phát sinh vấn đề trong quá trình thuê xe, <u>người đặt xe</u>
+                trên Mioto (đã
+                xác thực GPLX) <b>ĐỒNG THỜI</b> phải là <u>người nhận xe</u>.
+            </p>
+        </div>
+        <div class="learn-more">
+            <p class="text-disabled">
+                Bạn có thể sử dụng GPLX thẻ cứng hoặc GPLX điện tử trên VNeID
+            </p>
+            <div class="wrap-svg"></div>
+        </div>
+        <div class="content">
+            <div class="info-license position-relative">
+                <div class="info-license__title">
+                    <p>Hình ảnh</p>
+                </div>
+                <label class="info-license__img" for="licenseInput">
+                    <div class="fix-img">
+                        <img [src]="user?._license || user?.Giay_phep_lai_xe || '/assets/assets/nopicture.jpg'"
+                            alt="GPLX">
+                    </div>
+                </label>
+                <!-- hidden file input for uploading license image -->
+                <input id="licenseInput" type="file" accept="image/*" style="display:none"
+                    (change)="onLicenseSelected($event)">
+            </div>
+            <div class="info-license">
+                <div class="info-license__title">
+                    <p>Thông tin chung</p>
+                </div>
+                <div class="custom-input">
+                    <div class="wrap-info">
+                        <div class="title-status">
+                            <p>Số GPLX</p>
+                        </div>
+                        <div class="desc text-success"></div>
+                    </div>
+                    <div class="wrap-input" [ngClass]="{ 'disabled': !editingLicense }">
+                        <div class="wrap-text">
+                            <input [disabled]="!editingLicense" type="text" name="licenseNumber"
+                                [(ngModel)]="user.Can_cuoc_cong_dan" placeholder="Nhập số GPLX đã cấp ">
+                        </div>
+                    </div>
+                </div>
+                <div class="custom-input">
+                    <div class="wrap-info">
+                        <div class="title-status">
+                            <p>Họ và tên</p>
+                        </div>
+                        <div class="desc text-success"></div>
+                    </div>
+                    <div class="wrap-input" [ngClass]="{ 'disabled': !editingLicense }">
+                        <div class="wrap-text">
+                            <input [disabled]="!editingLicense" type="text" name="licenseName"
+                                [(ngModel)]="user.Ho_va_ten" placeholder="Nhập đầy đủ họ tên ">
+                        </div>
+                    </div>
+                </div>
+                <div class="custom-input">
+                    <div class="wrap-info">
+                        <div class="title-status">
+                            <p>Ngày sinh</p>
+                        </div>
+                        <div class="desc text-success"></div>
+                    </div>
+                    <div class="wrap-input" [ngClass]="{ 'disabled': !editingLicense }">
+                        <div class="wrap-text">
+                            <input [disabled]="!editingLicense" type="text" name="licenseBirth"
+                                [(ngModel)]="user.Ngay_sinh" placeholder="Nhập ngày sinh ">
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+        <div class="learn-more"></div>
+        <div class="d-flex justify-content-end mt-4">
+            <button class="btn btn-danger px-4 py-2" (click)="lockAccount()">
+                <i class="bi bi-lock-fill me-2"></i>Khóa tài khoản
+            </button>
+        </div>
+    </div>
 </main>
