@@ -14,11 +14,11 @@
     font-family: 'Inter', sans-serif;
 }
 
-/* Remove all borders and outlines */
+/* Remove all borders and outlines
 :host *, :host *::before, :host *::after {
   border: none !important;
   outline: none !important;
-}
+} */
 
   .tc-container{
     padding-top: 35px;
@@ -41,17 +41,17 @@
 }
 
 .btn-icon-round.btn-outline {
-  background-color: #ffffff;
-  color: #1D7363;
-  /* border: 1px solid #1D7363; */
-  box-shadow: 0 1px 3px rgba(0,0,0,0.05); 
+    background-color: #ffffff;
+    color: #1D7363;
+    border: 1px solid #1D7363;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
 }
 
 .btn-icon-round.btn-outline:hover {
-  background-color: #1D7363;
-  color: #ffffff;
-  transform: translateY(-2px); 
-  box-shadow: 0 4px 10px rgba(29, 115, 99, 0.3);
+    background-color: #1D7363;
+    color: #ffffff;
+    transform: translateY(-2px);
+    box-shadow: 0 4px 10px rgba(29, 115, 99, 0.3);
 }
 
 .car-detail-page {
@@ -142,12 +142,18 @@
   color: #1D7363;
   margin: 0;
 }
-.actions-icons .icon-btn{
-  background:#fff; 
-  /* border-radius:10px; */
-  padding:6px 10px; margin-left:6px; cursor:pointer;
+.actions-icons .icon-btn {
+    border: 1px solid var(--line);
+    background: #fff;
+    border-radius: 10px;
+    padding: 6px 10px;
+    margin-left: 6px;
+    cursor: pointer;
 }
-.actions-icons .icon-btn i{ color: #1D7363; }
+
+.actions-icons .icon-btn i {
+    color: #1D7363;
+}
 
 .rating-row {
     margin-top: 6px;

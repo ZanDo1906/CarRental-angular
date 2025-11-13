@@ -100,6 +100,10 @@ export class ComplaintDetails implements OnInit {
     });
   }
 
+  goBack(): void {
+    this.router.navigate(['/complaint-handling']);
+  }
+
   getRoleText(role: string | number): string {
     if (role === '1' || role === 1) return 'Khách thuê';
     if (role === '2' || role === 2) return 'Chủ xe';

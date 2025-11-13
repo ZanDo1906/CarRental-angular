@@ -8,6 +8,37 @@
     background: #f2f2f2;
 }
 
+.btn-icon-round {
+    text-decoration: none;
+    cursor: pointer;
+    border-radius: 50%;
+    width: 36px;
+    height: 36px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.2s ease;
+    margin-bottom: 20px;
+}
+
+.btn-icon-round i {
+    font-size: 16px;
+}
+
+.btn-icon-round.btn-outline {
+    background-color: #ffffff;
+    color: #1D7363;
+    border: 1px solid #1D7363;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
+}
+
+.btn-icon-round.btn-outline:hover {
+    background-color: #1D7363;
+    color: #ffffff;
+    transform: translateY(-2px);
+    box-shadow: 0 4px 10px rgba(29, 115, 99, 0.3);
+}
+
 .status-red {
     color: #d32f2f !important;
     font-weight: bold;

@@ -202,12 +202,30 @@ export class AccountDetail implements OnInit {
   }
 
   // Hàm xử lý nút Khóa tài khoản
+  // Toggle account lock/unlock state
+  get isAccountLocked(): boolean {
+    // use an internal flag on `user` to avoid depending on backend field names
+    return !!(this.user && (this.user as any)._isLocked);
+  }
+
   lockAccount(): void {
     if (!this.user) {
-      alert('Không tìm thấy thông tin tài khoản để khóa.');
+      alert('Không tìm thấy thông tin tài khoản.');
       return;
     }
-    // TODO: Thực hiện logic khóa tài khoản ở đây (ví dụ cập nhật trạng thái, gọi API, v.v.)
-    alert('Tài khoản đã bị khóa.');
+
+    if (!this.isAccountLocked) {
+      if (!confirm('Bạn có chắc chắn muốn khóa tài khoản này?')) return;
+      (this.user as any)._isLocked = true;
+      this.localSaveUser(this.user);
+      try { alert('Tài khoản đã bị khóa.'); } catch {}
+    } else {
+      if (!confirm('Bạn có chắc chắn muốn mở lại tài khoản này?')) return;
+      (this.user as any)._isLocked = false;
+      this.localSaveUser(this.user);
+      try { alert('Tài khoản đã được mở lại.'); } catch {}
+    }
+
+    this.cdr.detectChanges();
   }
 }

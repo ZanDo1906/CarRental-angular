@@ -51,6 +51,11 @@ export class SideBar implements OnInit {
     return this.currentUrl.includes('/car-registration-approval') || this.currentUrl.includes('/car-detail-approval');
   }
 
+  // Kiểm tra xem có phải đang ở trang xử lý khiếu nại hay không
+  isComplaintHandlingActive(): boolean {
+    return this.currentUrl.includes('/complaint-handling') || this.currentUrl.includes('/complaint-details');
+  }
+
   logout() {
     if (confirm('Bạn có chắc chắn muốn đăng xuất?')) {
       this.authService.logout();
