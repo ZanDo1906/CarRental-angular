@@ -633,16 +633,18 @@ h2 {
   border: none;
 }
 .action-btn.detail:hover {
-  background: #166051;
+  transform: translateY(-2px);
 }
 
 .action-btn.complaint {
+  border: 2px solid #d32f2f;
+  color: #d32f2f;
   background: #fff;
-  color: #b32d2d;
-  border: 2px solid #b32d2d;
 }
 .action-btn.complaint:hover {
-  background: #ffeaea;
+  background: #d32f2f;
+  color: #ffffff;
+  box-shadow: 0 4px 12px rgba(211, 47, 47, 0.15);
 }
 
 /* Responsive Design */
