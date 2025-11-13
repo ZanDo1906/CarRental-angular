@@ -1,4 +1,4 @@
-import { Component, OnInit, ChangeDetectorRef } from '@angular/core';
+import { Component, OnInit, signal, ChangeDetectorRef, computed } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { ActivatedRoute, Router, RouterModule } from '@angular/router';
@@ -6,6 +6,12 @@ import { CarService } from '../../services/car';
 import { LocationService } from '../../services/location';
 import { UserService } from '../../services/user';
 import { OwnerService } from '../../services/owner.service';
+import { iCar } from '../../interfaces/Car'; 
+import { iLocation } from '../../interfaces/location'; 
+
+interface iCarWithLocation extends iCar {
+  Vi_tri?: string;
+}
 
 @Component({
   selector: 'app-car-detail-approval',
@@ -22,6 +28,31 @@ export class CarDetail implements OnInit {
 
   showLightbox = false;
   currentImageIndex = 0;
+
+  cars = signal<iCarWithLocation[]>([]);
+  
+    currentPage = signal<number>(1);
+    itemsPerPage: number = 5; 
+
+  modalType = signal<'reject' | null>(null);
+  selectedCar = signal<iCarWithLocation | null>(null);
+  rejectionReason = signal<string>('');
+
+  displayedCars = computed(() => {
+    const page = this.currentPage();
+    const startIndex = (page - 1) * this.itemsPerPage;
+    const endIndex = startIndex + this.itemsPerPage;
+
+    return this.cars().slice(startIndex, endIndex);
+  });
+
+  totalPages = computed(() => {
+    return Math.ceil(this.cars().length / this.itemsPerPage);
+  });
+
+  totalPagesArray = computed(() => {
+    return Array.from({ length: this.totalPages() }, (_, i) => i + 1);
+  });
 
   constructor(
     private route: ActivatedRoute,
@@ -84,6 +115,57 @@ export class CarDetail implements OnInit {
       }
     });
   }
+
+  onAction(action: string, car: iCarWithLocation) {
+    if (action === 'detail') {
+      this.router.navigate(['/car-detail-approval', car.Ma_xe]);
+    } else if (action === 'approve') {
+      alert(`Đã duyệt xe: ID ${car.Ma_xe}_${car.Hang_xe} ${car.Dong_xe} ${car.Nam_san_xuat}`);
+      this.removeCar(car); 
+    } else if (action === 'reject') {
+      this.selectedCar.set(car);
+      this.rejectionReason.set('');
+      this.modalType.set('reject');
+    }
+  }
+
+  private removeCar(car: iCarWithLocation) {
+    this.cars.update((currentCars) =>
+      currentCars.filter((c) => c.Ma_xe !== car.Ma_xe)
+    );
+
+    if (this.displayedCars().length === 0 && this.currentPage() > 1) {
+      this.currentPage.set(this.currentPage() - 1);
+    }
+  }
+
+  closeModal() {
+    this.modalType.set(null);
+    this.selectedCar.set(null);
+  }
+
+  onReasonChange(event: Event) {
+    const reason = (event.target as HTMLTextAreaElement).value;
+    this.rejectionReason.set(reason);
+  }
+
+  submitRejection() {
+    const car = this.selectedCar();
+    const reason = this.rejectionReason();
+    if (!car) return;
+
+    if (reason.trim().length === 0) {
+      alert('Vui lòng nhập lý do từ chối.');
+      return;
+    }
+
+    alert(
+      `Đã từ chối xe ${car.Hang_xe} ${car.Dong_xe} với lý do: ${reason}`
+    );
+    this.removeCar(car);
+    this.closeModal(); 
+  }
+
 
   openLightbox(index: number) {
     this.currentImageIndex = index;
