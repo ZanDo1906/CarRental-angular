@@ -312,37 +312,44 @@ export class Dashboard implements OnInit, AfterViewInit {
     // Get appropriate labels and dataset labels based on period
     const chartConfig = this.getChartConfig();
 
+    // Build datasets array - only show 1 line for "all", 2 lines for other periods
+    const datasets: any[] = [
+      {
+        label: chartConfig.currentLabel,
+        data: weeklyData.currentWeek,
+        borderColor: '#2C5F59',
+        backgroundColor: 'rgba(44, 95, 89, 0.1)',
+        borderWidth: 3,
+        fill: true,
+        tension: 0.4,
+        pointBackgroundColor: '#2C5F59',
+        pointBorderColor: '#2C5F59',
+        pointRadius: 4,
+      }
+    ];
+
+    // Only add second dataset if not "all" period
+    if (this.selectedPeriod !== 'all') {
+      datasets.push({
+        label: chartConfig.previousLabel,
+        data: weeklyData.lastWeek,
+        borderColor: '#B8D4D1',
+        backgroundColor: 'rgba(184, 212, 209, 0.1)',
+        borderWidth: 2,
+        borderDash: [5, 5],
+        fill: false,
+        tension: 0.4,
+        pointBackgroundColor: '#B8D4D1',
+        pointBorderColor: '#B8D4D1',
+        pointRadius: 3,
+      });
+    }
+
     this.revenueChart = new Chart(ctx, {
       type: 'line',
       data: {
         labels: chartConfig.labels,
-        datasets: [
-          {
-            label: chartConfig.currentLabel,
-            data: weeklyData.currentWeek,
-            borderColor: '#2C5F59',
-            backgroundColor: 'rgba(44, 95, 89, 0.1)',
-            borderWidth: 3,
-            fill: true,
-            tension: 0.4,
-            pointBackgroundColor: '#2C5F59',
-            pointBorderColor: '#2C5F59',
-            pointRadius: 4,
-          },
-          {
-            label: chartConfig.previousLabel,
-            data: weeklyData.lastWeek,
-            borderColor: '#B8D4D1',
-            backgroundColor: 'rgba(184, 212, 209, 0.1)',
-            borderWidth: 2,
-            borderDash: [5, 5],
-            fill: false,
-            tension: 0.4,
-            pointBackgroundColor: '#B8D4D1',
-            pointBorderColor: '#B8D4D1',
-            pointRadius: 3,
-          }
-        ]
+        datasets: datasets
       },
       options: {
         responsive: true,
@@ -428,15 +435,14 @@ export class Dashboard implements OnInit, AfterViewInit {
     this.statusChart = new Chart(ctx, {
       type: 'bar',
       data: {
-        labels: ['Đang chờ duyệt', 'Đang thực hiện', 'Đã hoàn thành', 'Đã hủy'],
+        labels: ['Đang thực hiện', 'Đã hoàn tất', 'Đã huỷ'],
         datasets: [{
           label: 'Số đơn',
           data: statusData,
           backgroundColor: [
-            '#60A5FA', // Blue for pending
             '#34D399', // Green for in progress  
             '#1F2937', // Dark for completed
-            '#60A5FA'  // Blue for cancelled
+            '#EF4444'  // Red for cancelled
           ],
           borderRadius: 8,
           borderWidth: 0
@@ -629,13 +635,12 @@ export class Dashboard implements OnInit, AfterViewInit {
       });
     }
 
-    // Count by status (Trang_thai: 1=pending, 2=in progress, 4=completed, 0=cancelled)
-    const pending = filteredRentals.filter(rental => rental.Trang_thai === 1).length;
+    // Count by status (Trang_thai: 2=in progress, 3=Đã huỷ, 4=Đã hoàn tất)
     const inProgress = filteredRentals.filter(rental => rental.Trang_thai === 2).length;
     const completed = filteredRentals.filter(rental => rental.Trang_thai === 4).length;
-    const cancelled = filteredRentals.filter(rental => rental.Trang_thai === 0).length;
+    const cancelled = filteredRentals.filter(rental => rental.Trang_thai === 3).length;
 
-    return [pending, inProgress, completed, cancelled];
+    return [inProgress, completed, cancelled];
   }
 
   getVehicleTypeData(): { labels: string[], values: number[] } {
@@ -691,8 +696,8 @@ export class Dashboard implements OnInit, AfterViewInit {
     switch (this.selectedPeriod) {
       case 'all':
         return {
-          labels: ['T1', 'T2', 'T3', 'T4', 'T5', 'T6', 'T7'],
-          currentLabel: 'Tất cả dữ liệu',
+          labels: ['Kỳ 1', 'Kỳ 2', 'Kỳ 3', 'Kỳ 4', 'Kỳ 5', 'Kỳ 6', 'Kỳ 7'],
+          currentLabel: 'Tổng doanh thu',
           previousLabel: 'Dữ liệu so sánh'
         };
       case 'week':
@@ -750,7 +755,7 @@ export class Dashboard implements OnInit, AfterViewInit {
     if (this.carRentals.length === 0) {
       return {
         currentWeek: [0, 0, 0, 0, 0, 0, 0],
-        lastWeek: [0, 0, 0, 0, 0, 0, 0]
+        lastWeek: []
       };
     }
 
@@ -759,16 +764,12 @@ export class Dashboard implements OnInit, AfterViewInit {
     const minDate = new Date(Math.min(...allDates));
     const maxDate = new Date(Math.max(...allDates));
 
-    // Split into two periods for comparison
-    const totalPeriod = maxDate.getTime() - minDate.getTime();
-    const midPoint = new Date(minDate.getTime() + totalPeriod / 2);
-
-    const earlierData = this.calculateRealChartData(minDate, midPoint);
-    const laterData = this.calculateRealChartData(midPoint, maxDate);
+    // For "all time", show all data in one line divided into 7 segments
+    const allData = this.calculateRealChartData(minDate, maxDate);
 
     return {
-      currentWeek: laterData,
-      lastWeek: earlierData
+      currentWeek: allData,
+      lastWeek: []
     };
   }
 
