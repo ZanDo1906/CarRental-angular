@@ -102,21 +102,47 @@
             {{vnd(car.Gia_thue)}} VNĐ/Ngày
           </div>
         </div>
-        <div class="car-status" [class.status-stopped]="car.Tinh_trang_xe === 'stopped'">
-          {{ car.Tinh_trang_xe === 'stopped' ? 'Đã dừng cho thuê' : 'Đang cho thuê' }}
+        <div class="car-status" 
+             [class.status-stopped]="car.Tinh_trang_xe === 'stopped' || car.Tinh_trang_xe === 'Đã dừng cho thuê'"
+             [class.status-pending]="car.Tinh_trang_xe === 'pending' || car.Tinh_trang_xe === 'Đang chờ duyệt'"
+             [class.status-rejected]="car.Tinh_trang_xe === 'rejected' || car.Tinh_trang_xe === 'Từ chối duyệt'"
+             [class.status-active]="car.Tinh_trang_xe === 'active' || car.Tinh_trang_xe === 'Sẵn sàng cho thuê'">
+          {{ getCarStatusText(car.Tinh_trang_xe) }}
         </div>
       </div>
       <div class="car-actions">
-        <p class="car-status" [class.status-stopped]="car.Tinh_trang_xe === 'stopped'">
-          {{ car.Tinh_trang_xe === 'stopped' ? 'Đã dừng cho thuê' : 'Đang cho thuê' }}
+        <p class="car-status" 
+           [class.status-stopped]="car.Tinh_trang_xe === 'stopped' || car.Tinh_trang_xe === 'Đã dừng cho thuê'"
+           [class.status-pending]="car.Tinh_trang_xe === 'pending' || car.Tinh_trang_xe === 'Đang chờ duyệt'"
+           [class.status-rejected]="car.Tinh_trang_xe === 'rejected' || car.Tinh_trang_xe === 'Từ chối duyệt'"
+           [class.status-active]="car.Tinh_trang_xe === 'active' || car.Tinh_trang_xe === 'Sẵn sàng cho thuê'">
+          {{ getCarStatusText(car.Tinh_trang_xe) }}
         </p>
         <button (click)="onAction('view', car)" class="btn btn-solid-primary">Cập nhật thông tin</button>
-        <button (click)="onAction('approve', car)" class="btn btn-approve">Lịch cho thuê</button>
-        <button (click)="onAction('reject', car)" class="btn"
-          [class.btn-outline-danger]="car.Tinh_trang_xe !== 'stopped'"
-          [class.btn-outline-success]="car.Tinh_trang_xe === 'stopped'">
-          {{ car.Tinh_trang_xe === 'stopped' ? 'Tiếp tục cho thuê' : 'Dừng cho thuê' }}
+        
+        <!-- Hiển thị nút theo trạng thái xe -->
+        <button *ngIf="car.Tinh_trang_xe === 'active' || car.Tinh_trang_xe === 'stopped' || car.Tinh_trang_xe === 'Sẵn sàng cho thuê' || car.Tinh_trang_xe === 'Đã dừng cho thuê'" 
+                (click)="onAction('approve', car)" 
+                class="btn btn-approve">Lịch cho thuê</button>
+        
+        <!-- Nút dừng/tiếp tục cho thuê (chỉ hiện với xe active/stopped) -->
+        <button *ngIf="car.Tinh_trang_xe === 'active' || car.Tinh_trang_xe === 'stopped' || car.Tinh_trang_xe === 'Sẵn sàng cho thuê' || car.Tinh_trang_xe === 'Đã dừng cho thuê'"
+                (click)="onAction('reject', car)" 
+                class="btn"
+                [class.btn-outline-danger]="car.Tinh_trang_xe !== 'stopped' && car.Tinh_trang_xe !== 'Đã dừng cho thuê'"
+                [class.btn-outline-success]="car.Tinh_trang_xe === 'stopped' || car.Tinh_trang_xe === 'Đã dừng cho thuê'">
+          {{ (car.Tinh_trang_xe === 'stopped' || car.Tinh_trang_xe === 'Đã dừng cho thuê') ? 'Tiếp tục cho thuê' : 'Dừng cho thuê' }}
         </button>
+        
+        <!-- Nút gửi lại duyệt (với xe bị từ chối) -->
+        <button *ngIf="car.Tinh_trang_xe === 'rejected' || car.Tinh_trang_xe === 'Từ chối duyệt'" 
+                (click)="onAction('resubmit', car)" 
+                class="btn btn-solid-primary">Gửi lại duyệt</button>
+                
+        <!-- Thông báo chờ duyệt -->
+        <div *ngIf="car.Tinh_trang_xe === 'pending' || car.Tinh_trang_xe === 'Đang chờ duyệt'" class="alert alert-info">
+          <i class="bi bi-clock"></i> Xe đang chờ admin duyệt
+        </div>
       </div>
     </div>
   </div>
