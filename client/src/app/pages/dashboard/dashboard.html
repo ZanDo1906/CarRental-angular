@@ -13,9 +13,6 @@
                 </div>
             </div>
 
-            <div class="owner-filter" style="width:100%; text-align:center;">
-                <div style="font-weight:600; color:#2C5F59;">Dashboard cho chủ xe: <span style="color:#1D7363">{{ ownerName || (ownerId ? ownerId : 'Không có') }}</span></div>
-            </div>
 
             <div class="stats-grid">
                 <!-- Tổng doanh thu -->
@@ -29,49 +26,49 @@
                 </div>
 
                 <!-- Tổng đơn đặt xe -->
-        <div class="stat-card bookings">
-            <div class="stat-header">
-                <span class="stat-title">Tổng đơn đặt xe</span>
-            </div>
-            <div class="stat-value">
-                {{ dataLoaded ? totalBookings : '...' }} đơn
-            </div>
-        </div>
+                <div class="stat-card bookings">
+                    <div class="stat-header">
+                        <span class="stat-title">Tổng đơn đặt xe</span>
+                    </div>
+                    <div class="stat-value">
+                        {{ dataLoaded ? totalBookings : '...' }} đơn
+                    </div>
+                </div>
 
-        <!-- Đơn hoàn thành -->
-        <div class="stat-card completed">
-            <div class="stat-header">
-                <span class="stat-title">Đơn hoàn thành</span>
+                <!-- Đơn hoàn thành -->
+                <div class="stat-card completed">
+                    <div class="stat-header">
+                        <span class="stat-title">Đơn hoàn thành</span>
+                    </div>
+                    <div class="stat-value">
+                        {{ dataLoaded ? totalCompletedBookings : '...' }} đơn
+                    </div>
+                </div>
+
             </div>
-            <div class="stat-value">
-                {{ dataLoaded ? totalCompletedBookings : '...' }} đơn
+
+            <!-- Chart and Top Owners Layout -->
+            <div class="chart-top-owners-container">
+                <!-- Chart Section -->
+                <div class="chart-section">
+                    <div class="chart-container">
+                        <canvas #revenueChart></canvas>
+                    </div>
+                </div>
+
+
             </div>
-        </div>
 
-    </div>
+            <!-- Additional Charts Section -->
+            <div class="additional-charts-container">
+                <!-- Status Chart Section -->
+                <div class="status-chart-section">
+                    <div class="chart-container">
+                        <canvas #statusChart></canvas>
+                    </div>
+                </div>
 
-    <!-- Chart and Top Owners Layout -->
-    <div class="chart-top-owners-container">
-        <!-- Chart Section -->
-        <div class="chart-section">
-            <div class="chart-container">
-                <canvas #revenueChart></canvas>
-            </div>
-        </div>
 
-        
-    </div>
-
-    <!-- Additional Charts Section -->
-    <div class="additional-charts-container">
-        <!-- Status Chart Section -->
-        <div class="status-chart-section">
-            <div class="chart-container">
-                <canvas #statusChart></canvas>
-            </div>
-        </div>
-
-        
             </div>
         </div>
     </div>
