@@ -1,194 +1,186 @@
 <section class="tc-container py-4">
   <div class="container">
 
-  <!-- ============ FILTER BOX ============ -->
-  <div class="filter-box">
-    <!-- Row 1: 3 ô form -->
-    <div class="row g-3 align-items-center fields-center mb-3">
+    <!-- ============ FILTER BOX ============ -->
+    <div class="filter-box">
+      <!-- Row 1: 3 ô form -->
+      <div class="row g-3 align-items-center fields-center mb-3">
         <!-- Địa điểm -->
         <div class="col-auto field-wrap">
-            <label class="filter-label">Địa điểm</label>
-            <select class="form-control form-control-sm field-input"
-                    [(ngModel)]="filters.location"
-                    (change)="applyFilter()">
+          <label class="filter-label">Địa điểm</label>
+          <select class="form-control form-control-sm field-input" [(ngModel)]="filters.location"
+            (change)="applyFilter()">
             <option [ngValue]="null">Tất cả</option>
-            <option value="TP. Hồ Chí Minh">TP. Hồ Chí Minh</option>
-            <option value="TP. Thủ Đức">TP. Thủ Đức</option>
-            <option value="Hà Nội">Hà Nội</option>
-            <option value="Đà Nẵng">Đà Nẵng</option>
-            <option value="Nha Trang">Nha Trang</option>
-            <option value="Cần Thơ">Cần Thơ</option>
-            <option value="Huế">Huế</option>
-            </select>
+            <option *ngFor="let location of availableLocations" [value]="location">
+              {{ location }}
+            </option>
+          </select>
         </div>
 
         <!-- Thời gian thuê -->
         <div class="col-auto field-wrap">
-            <label class="filter-label">Thời gian thuê</label>
-            <input type="datetime-local" class="form-control form-control-sm field-input" [(ngModel)]="pickupTime" [min]="minDateTime" (change)="validateDates()">
+          <label class="filter-label">Thời gian thuê</label>
+          <input type="datetime-local" class="form-control form-control-sm field-input" [(ngModel)]="pickupTime"
+            [min]="minDateTime" (change)="validateDates()">
         </div>
 
         <!-- Thời gian trả -->
         <div class="col-auto field-wrap">
-            <label class="filter-label">Thời gian trả</label>
-            <input type="datetime-local" class="form-control form-control-sm field-input" [(ngModel)]="returnTime" [min]="pickupTime || minDateTime" (change)="validateDates()">
-        </div>
-    </div>
-    
-    <div *ngIf="dateError" class="date-error mt-2">{{dateError}}</div>
-
-    <!-- Row 2: các chip (nút viền xanh, xổ xuống) -->
-    <div class="chip-row">
-      <!-- Tất cả: reset mọi bộ lọc -->
-      <div class="dropdown" (click)="$event.stopPropagation()">
-        <button class="btn-chip" (click)="resetAllFilters()">
-          Tất cả
-        </button>
-      </div>
-
-      <!-- Mục đích chuyến đi (demo giao diện, không lọc vì dataset không có) -->
-      <div class="dropdown" (click)="$event.stopPropagation()">
-        <button class="btn-chip" [class.selected]="filters.purpose" (click)="toggleDropdown('purpose')">Mục đích chuyến đi</button>
-        <div class="menu" *ngIf="openKey==='purpose'">
-          <button class="dropdown-item" [class.active]="!filters.purpose"
-                  (click)="selectOption('purpose', null)">Tất cả</button>
-          <button class="dropdown-item" *ngFor="let p of PURPOSES"
-                  [class.active]="filters.purpose===p"
-                  (click)="selectOption('purpose', p)">{{p}}</button>
+          <label class="filter-label">Thời gian trả</label>
+          <input type="datetime-local" class="form-control form-control-sm field-input" [(ngModel)]="returnTime"
+            [min]="pickupTime || minDateTime" (change)="validateDates()">
         </div>
       </div>
 
-      <!-- Loại xe -->
-      <div class="dropdown" (click)="$event.stopPropagation()">
-        <button class="btn-chip" [class.selected]="filters.type" (click)="toggleDropdown('type')">Loại xe</button>
-        <div class="menu" *ngIf="openKey==='type'">
-          <button class="dropdown-item" [class.active]="!filters.type"
-                  (click)="selectOption('type', null)">Tất cả</button>
-          <button class="dropdown-item" *ngFor="let t of ['Sedan','Hatchback','SUV/CUV','Bán tải','MPV','Minivan']"
-                  [class.active]="filters.type===t"
-                  (click)="selectOption('type', t)">{{t}}</button>
-        </div>
-      </div>
+      <div *ngIf="dateError" class="date-error mt-2">{{dateError}}</div>
 
-      <!-- Hãng xe -->
-      <div class="dropdown" (click)="$event.stopPropagation()">
-        <button class="btn-chip" [class.selected]="filters.brand" (click)="toggleDropdown('brand')">Hãng xe</button>
-        <div class="menu" *ngIf="openKey==='brand'">
-          <button class="dropdown-item" [class.active]="!filters.brand"
-                  (click)="selectOption('brand', null)">Tất cả</button>
-          <button class="dropdown-item" *ngFor="let b of ['Toyota','Hyundai','Kia','Mazda','Mitsubishi','VinFast']"
-                  [class.active]="filters.brand===b"
-                  (click)="selectOption('brand', b)">{{b}}</button>
-        </div>
-      </div>
-
-      <!-- Số chỗ -->
-      <div class="dropdown" (click)="$event.stopPropagation()">
-        <button class="btn-chip" [class.selected]="filters.seat" (click)="toggleDropdown('seat')">Số chỗ</button>
-        <div class="menu" *ngIf="openKey==='seat'">
-          <button class="dropdown-item" [class.active]="!filters.seat"
-                  (click)="selectOption('seat', null)">Tất cả</button>
-          <button class="dropdown-item" *ngFor="let s of ['4','5','7']"
-                  [class.active]="filters.seat===s"
-                  (click)="selectOption('seat', s)">{{s}} chỗ</button>
-        </div>
-      </div>
-
-      <!-- Nhiên liệu -->
-      <div class="dropdown" (click)="$event.stopPropagation()">
-        <button class="btn-chip" [class.selected]="filters.fuel" (click)="toggleDropdown('fuel')">Nhiên liệu</button>
-        <div class="menu" *ngIf="openKey==='fuel'">
-          <button class="dropdown-item" [class.active]="!filters.fuel"
-                  (click)="selectOption('fuel', null)">Tất cả</button>
-          <button class="dropdown-item" *ngFor="let f of ['Xăng','Dầu','Điện','Hybrid']"
-                  [class.active]="filters.fuel===f"
-                  (click)="selectOption('fuel', f)">{{f}}</button>
-        </div>
-      </div>
-
-      <!-- Truyền động (dataset: Hop_so có "Tự động/Sàn"; nếu muốn lọc, thêm key riêng) -->
-      <div class="dropdown" (click)="$event.stopPropagation()">
-        <button class="btn-chip" [class.selected]="filters.transmission" (click)="toggleDropdown('transmission')">Truyền động</button>
-        <div class="menu" *ngIf="openKey==='transmission'">
-          <button class="dropdown-item" [class.active]="!filters.transmission"
-                  (click)="selectOption('transmission', null)">Tất cả</button>
-    <!-- Gửi value khớp với Car.json: 'Tự động' | 'Số sàn' -->
-    <button class="dropdown-item"
-      [class.active]="filters.transmission==='Tự động'"
-      (click)="selectOption('transmission', 'Tự động')">Số tự động</button>
-    <button class="dropdown-item"
-      [class.active]="filters.transmission==='Số sàn'"
-      (click)="selectOption('transmission', 'Số sàn')">Số sàn</button>
-        </div>
-      </div>
-
-      <!-- Mức tiêu thụ NL (demo giao diện) -->
-      <div class="dropdown" (click)="$event.stopPropagation()">
-        <button class="btn-chip" [class.selected]="filters.consumption" (click)="toggleDropdown('consumption')">Mức tiêu thụ nhiên liệu</button>
-        <div class="menu" *ngIf="openKey==='consumption'">
-          <button class="dropdown-item" [class.active]="!filters.consumption"
-                  (click)="selectOption('consumption', null)">Tất cả</button>
-          <button class="dropdown-item" *ngFor="let c of ['<5l','5-8l','>8l']"
-                  [class.active]="filters.consumption===c"
-                  (click)="selectOption('consumption', c)">{{c}}/100km</button>
-        </div>
-      </div>
-
-      <!-- Đánh giá (demo giao diện) -->
-      <div class="dropdown" (click)="$event.stopPropagation()">
-        <button class="btn-chip" [class.selected]="filters.rating" (click)="toggleDropdown('rating')">Đánh giá</button>
-        <div class="menu" *ngIf="openKey==='rating'">
-          <button class="dropdown-item" [class.active]="!filters.rating"
-                  (click)="selectOption('rating', null)">Tất cả</button>
-          <button class="dropdown-item" *ngFor="let r of ['<3','3-4','4-4.5','>=4.5']"
-                  [class.active]="filters.rating===r"
-                  (click)="selectOption('rating', r)">{{r === '>=4.5' ? '≥4.5 sao' : r + ' sao'}}</button>
-        </div>
-      </div>
-
-      <!-- Mức giá -->
-      <div class="dropdown" (click)="$event.stopPropagation()">
-        <button class="btn-chip" [class.selected]="filters.price || sortOrder" (click)="toggleDropdown('price')">Mức giá</button>
-        <div class="menu" *ngIf="openKey==='price'">
-          <button class="dropdown-item" [class.active]="!filters.price && sortOrder"
-                  (click)="selectPriceOption(null)">
-            <span>Tất cả</span>
-            <span class="price-arrow ms-auto" *ngIf="!filters.price && sortOrder">
-              <i class="bi bi-arrow-up" *ngIf="sortOrder==='asc'"></i>
-              <i class="bi bi-arrow-down" *ngIf="sortOrder==='desc'"></i>
-            </span>
+      <!-- Row 2: các chip (nút viền xanh, xổ xuống) -->
+      <div class="chip-row">
+        <!-- Tất cả: reset mọi bộ lọc -->
+        <div class="dropdown" (click)="$event.stopPropagation()">
+          <button class="btn-chip" (click)="resetAllFilters()">
+            Tất cả
           </button>
-          <button class="dropdown-item" [class.active]="filters.price==='<800k'"
-                  (click)="selectPriceOption('<800k')">
-            <span>&lt;800k</span>
-            <span class="price-arrow ms-auto" *ngIf="filters.price==='<800k'">
-              <i class="bi bi-arrow-up" *ngIf="sortOrder==='asc'"></i>
-              <i class="bi bi-arrow-down" *ngIf="sortOrder==='desc'"></i>
-            </span>
-          </button>
-          <button class="dropdown-item" [class.active]="filters.price==='800k–1tr'"
-                  (click)="selectPriceOption('800k–1tr')">
-            <span>800k-1tr</span>
-            <span class="price-arrow ms-auto" *ngIf="filters.price==='800k–1tr'">
-              <i class="bi bi-arrow-up" *ngIf="sortOrder==='asc'"></i>
-              <i class="bi bi-arrow-down" *ngIf="sortOrder==='desc'"></i>
-            </span>
-          </button>
-          <button class="dropdown-item" [class.active]="filters.price==='>1tr'"
-                  (click)="selectPriceOption('>1tr')">
-            <span>&gt;1tr</span>
-            <span class="price-arrow ms-auto" *ngIf="filters.price==='>1tr'">
-              <i class="bi bi-arrow-up" *ngIf="sortOrder==='asc'"></i>
-              <i class="bi bi-arrow-down" *ngIf="sortOrder==='desc'"></i>
-            </span>
-          </button>
+        </div>
+
+        <!-- Mục đích chuyến đi (demo giao diện, không lọc vì dataset không có) -->
+        <div class="dropdown" (click)="$event.stopPropagation()">
+          <button class="btn-chip" [class.selected]="filters.purpose" (click)="toggleDropdown('purpose')">Mục đích
+            chuyến đi</button>
+          <div class="menu" *ngIf="openKey==='purpose'">
+            <button class="dropdown-item" [class.active]="!filters.purpose" (click)="selectOption('purpose', null)">Tất
+              cả</button>
+            <button class="dropdown-item" *ngFor="let p of PURPOSES" [class.active]="filters.purpose===p"
+              (click)="selectOption('purpose', p)">{{p}}</button>
+          </div>
+        </div>
+
+        <!-- Loại xe -->
+        <div class="dropdown" (click)="$event.stopPropagation()">
+          <button class="btn-chip" [class.selected]="filters.type" (click)="toggleDropdown('type')">Loại xe</button>
+          <div class="menu" *ngIf="openKey==='type'">
+            <button class="dropdown-item" [class.active]="!filters.type" (click)="selectOption('type', null)">Tất
+              cả</button>
+            <button class="dropdown-item" *ngFor="let t of ['Sedan','Hatchback','SUV/CUV','Bán tải','MPV','Minivan']"
+              [class.active]="filters.type===t" (click)="selectOption('type', t)">{{t}}</button>
+          </div>
+        </div>
+
+        <!-- Hãng xe -->
+        <div class="dropdown" (click)="$event.stopPropagation()">
+          <button class="btn-chip" [class.selected]="filters.brand" (click)="toggleDropdown('brand')">Hãng xe</button>
+          <div class="menu" *ngIf="openKey==='brand'">
+            <button class="dropdown-item" [class.active]="!filters.brand" (click)="selectOption('brand', null)">Tất
+              cả</button>
+            <button class="dropdown-item" *ngFor="let b of ['Toyota','Hyundai','Kia','Mazda','Mitsubishi','VinFast']"
+              [class.active]="filters.brand===b" (click)="selectOption('brand', b)">{{b}}</button>
+          </div>
+        </div>
+
+        <!-- Số chỗ -->
+        <div class="dropdown" (click)="$event.stopPropagation()">
+          <button class="btn-chip" [class.selected]="filters.seat" (click)="toggleDropdown('seat')">Số chỗ</button>
+          <div class="menu" *ngIf="openKey==='seat'">
+            <button class="dropdown-item" [class.active]="!filters.seat" (click)="selectOption('seat', null)">Tất
+              cả</button>
+            <button class="dropdown-item" *ngFor="let s of ['4','5','7']" [class.active]="filters.seat===s"
+              (click)="selectOption('seat', s)">{{s}} chỗ</button>
+          </div>
+        </div>
+
+        <!-- Nhiên liệu -->
+        <div class="dropdown" (click)="$event.stopPropagation()">
+          <button class="btn-chip" [class.selected]="filters.fuel" (click)="toggleDropdown('fuel')">Nhiên liệu</button>
+          <div class="menu" *ngIf="openKey==='fuel'">
+            <button class="dropdown-item" [class.active]="!filters.fuel" (click)="selectOption('fuel', null)">Tất
+              cả</button>
+            <button class="dropdown-item" *ngFor="let f of ['Xăng','Dầu','Điện','Hybrid']"
+              [class.active]="filters.fuel===f" (click)="selectOption('fuel', f)">{{f}}</button>
+          </div>
+        </div>
+
+        <!-- Truyền động (dataset: Hop_so có "Tự động/Sàn"; nếu muốn lọc, thêm key riêng) -->
+        <div class="dropdown" (click)="$event.stopPropagation()">
+          <button class="btn-chip" [class.selected]="filters.transmission"
+            (click)="toggleDropdown('transmission')">Truyền động</button>
+          <div class="menu" *ngIf="openKey==='transmission'">
+            <button class="dropdown-item" [class.active]="!filters.transmission"
+              (click)="selectOption('transmission', null)">Tất cả</button>
+            <!-- Gửi value khớp với Car.json: 'Tự động' | 'Số sàn' -->
+            <button class="dropdown-item" [class.active]="filters.transmission==='Tự động'"
+              (click)="selectOption('transmission', 'Tự động')">Số tự động</button>
+            <button class="dropdown-item" [class.active]="filters.transmission==='Số sàn'"
+              (click)="selectOption('transmission', 'Số sàn')">Số sàn</button>
+          </div>
+        </div>
+
+        <!-- Mức tiêu thụ NL (demo giao diện) -->
+        <div class="dropdown" (click)="$event.stopPropagation()">
+          <button class="btn-chip" [class.selected]="filters.consumption" (click)="toggleDropdown('consumption')">Mức
+            tiêu thụ nhiên liệu</button>
+          <div class="menu" *ngIf="openKey==='consumption'">
+            <button class="dropdown-item" [class.active]="!filters.consumption"
+              (click)="selectOption('consumption', null)">Tất cả</button>
+            <button class="dropdown-item" *ngFor="let c of ['<5l','5-8l','>8l']"
+              [class.active]="filters.consumption===c" (click)="selectOption('consumption', c)">{{c}}/100km</button>
+          </div>
+        </div>
+
+        <!-- Đánh giá (demo giao diện) -->
+        <div class="dropdown" (click)="$event.stopPropagation()">
+          <button class="btn-chip" [class.selected]="filters.rating" (click)="toggleDropdown('rating')">Đánh
+            giá</button>
+          <div class="menu" *ngIf="openKey==='rating'">
+            <button class="dropdown-item" [class.active]="!filters.rating" (click)="selectOption('rating', null)">Tất
+              cả</button>
+            <button class="dropdown-item" *ngFor="let r of ['<3','3-4','4-4.5','>=4.5']"
+              [class.active]="filters.rating===r" (click)="selectOption('rating', r)">{{r === '>=4.5' ? '≥4.5 sao' : r +
+              ' sao'}}</button>
+          </div>
+        </div>
+
+        <!-- Mức giá -->
+        <div class="dropdown" (click)="$event.stopPropagation()">
+          <button class="btn-chip" [class.selected]="filters.price || sortOrder" (click)="toggleDropdown('price')">Mức
+            giá</button>
+          <div class="menu" *ngIf="openKey==='price'">
+            <button class="dropdown-item" [class.active]="!filters.price && sortOrder"
+              (click)="selectPriceOption(null)">
+              <span>Tất cả</span>
+              <span class="price-arrow ms-auto" *ngIf="!filters.price && sortOrder">
+                <i class="bi bi-arrow-up" *ngIf="sortOrder==='asc'"></i>
+                <i class="bi bi-arrow-down" *ngIf="sortOrder==='desc'"></i>
+              </span>
+            </button>
+            <button class="dropdown-item" [class.active]="filters.price==='<800k'" (click)="selectPriceOption('<800k')">
+              <span>&lt;800k</span>
+              <span class="price-arrow ms-auto" *ngIf="filters.price==='<800k'">
+                <i class="bi bi-arrow-up" *ngIf="sortOrder==='asc'"></i>
+                <i class="bi bi-arrow-down" *ngIf="sortOrder==='desc'"></i>
+              </span>
+            </button>
+            <button class="dropdown-item" [class.active]="filters.price==='800k–1tr'"
+              (click)="selectPriceOption('800k–1tr')">
+              <span>800k-1tr</span>
+              <span class="price-arrow ms-auto" *ngIf="filters.price==='800k–1tr'">
+                <i class="bi bi-arrow-up" *ngIf="sortOrder==='asc'"></i>
+                <i class="bi bi-arrow-down" *ngIf="sortOrder==='desc'"></i>
+              </span>
+            </button>
+            <button class="dropdown-item" [class.active]="filters.price==='>1tr'" (click)="selectPriceOption('>1tr')">
+              <span>&gt;1tr</span>
+              <span class="price-arrow ms-auto" *ngIf="filters.price==='>1tr'">
+                <i class="bi bi-arrow-up" *ngIf="sortOrder==='asc'"></i>
+                <i class="bi bi-arrow-down" *ngIf="sortOrder==='desc'"></i>
+              </span>
+            </button>
+          </div>
         </div>
       </div>
     </div>
-  </div>
-  <!-- ============ /FILTER BOX ============ -->
+    <!-- ============ /FILTER BOX ============ -->
 
-  <h2 class="brand-text fw-bold fs-4 text-center mt-5">XE DÀNH CHO BẠN</h2>
+    <h2 class="brand-text fw-bold fs-4 text-center mt-5">XE DÀNH CHO BẠN</h2>
 
     <!-- Thông báo khi không có dữ liệu -->
     <div *ngIf="filtered.length === 0" class="no-results">
@@ -199,7 +191,8 @@
 
     <!-- GRID -->
     <div class="cards-grid" *ngIf="filtered.length > 0">
-  <article class="car-card" *ngFor="let car of visibleCars" (click)="goToCarDetail(car.Ma_xe)" style="cursor:pointer;">
+      <article class="car-card" *ngFor="let car of visibleCars" (click)="goToCarDetail(car.Ma_xe)"
+        style="cursor:pointer;">
         <!-- Ảnh -->
         <div class="thumb">
           <img [src]="car?.Anh_xe?.[0] || 'assets/images/placeholder.webp'" alt="">
@@ -256,7 +249,7 @@
     </div>
 
     <div class="text-center mt-3" *ngIf="visibleCars.length < filtered.length">
-    <button class="btn-more" (click)="loadMore()">Xem thêm sản phẩm</button>
+      <button class="btn-more" (click)="loadMore()">Xem thêm sản phẩm</button>
     </div>
 
   </div>

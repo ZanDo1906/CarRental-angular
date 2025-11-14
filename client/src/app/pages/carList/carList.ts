@@ -73,6 +73,7 @@ export class CarList implements OnInit {
   // inject location service so we can resolve Ma_vi_tri → address
   users: any[] = [];
   locations: any[] = [];
+  availableLocations: string[] = []; // Danh sách địa điểm có xe sẵn sàng cho thuê
   
   // Mục đích chuyến đi
   readonly PURPOSES = PURPOSES;
@@ -109,12 +110,18 @@ export class CarList implements OnInit {
     this._locationService.getAllLocations().subscribe({
       next: (data: any) => {
         this.locations = Array.isArray(data) ? data : [];
+        // Sau khi load locations, cập nhật danh sách địa điểm có xe sẵn sàng
+        this.updateAvailableLocations();
       }
     });
 
     // Load cars và hiển thị
     this.carService.getAllCars().subscribe((data: any) => {
-      this.cars = Array.isArray(data) ? data : [];
+      // Lọc chỉ lấy các xe sẵn sàng cho thuê
+      const allCars = Array.isArray(data) ? data : [];
+      this.cars = allCars.filter((car: any) => car.Tinh_trang_xe === 'Sẵn sàng cho thuê');
+      console.log('Tổng số xe:', allCars.length);
+      console.log('Số xe sẵn sàng cho thuê:', this.cars.length);
       
       // Nhận dữ liệu booking từ homepage (nếu có)
       const bookingData = this.bookingDataService.getBookingData();
@@ -135,6 +142,9 @@ export class CarList implements OnInit {
         this.filtered = [...this.cars];
         this.visibleCars = this.filtered.slice(0, this.pageSize);
       }
+      
+      // Sau khi load cars, cập nhật danh sách địa điểm có xe sẵn sàng
+      this.updateAvailableLocations();
       
       // Force update UI
       this.cdr.detectChanges();
@@ -249,7 +259,8 @@ export class CarList implements OnInit {
 
   // lọc thật
   applyFilter() {
-    let list = [...this.cars];
+    // Đảm bảo chỉ lấy xe sẵn sàng cho thuê
+    let list = [...this.cars].filter((car: any) => car.Tinh_trang_xe === 'Sẵn sàng cho thuê');
 
     // Lọc theo địa điểm - dựa vào Ma_vi_tri và locations
     // Chỉ lọc nếu location có giá trị (không phải null/undefined)
@@ -326,7 +337,44 @@ export class CarList implements OnInit {
   this.visibleCars = this.visibleCars.concat(next);
 }
 
-getLocationById(id: number): any {
+  // Cập nhật danh sách địa điểm có xe sẵn sàng cho thuê
+  updateAvailableLocations(): void {
+    // Chỉ cập nhật khi đã có cả cars và locations
+    if (this.cars.length === 0 || this.locations.length === 0) {
+      return;
+    }
+
+    // Lấy tất cả các xe sẵn sàng cho thuê
+    const availableCars = this.cars.filter(car => 
+      car.Tinh_trang_xe === 'Sẵn sàng cho thuê' && car.Ma_vi_tri != null
+    );
+
+    // Lấy danh sách Ma_vi_tri từ các xe sẵn sàng
+    const locationIds = new Set<number>();
+    availableCars.forEach(car => {
+      if (car.Ma_vi_tri) {
+        locationIds.add(Number(car.Ma_vi_tri));
+      }
+    });
+
+    // Lấy danh sách Tinh_thanh từ locations và loại bỏ trùng lặp
+    const uniqueProvinces = new Set<string>();
+    locationIds.forEach(locationId => {
+      const location = this.locations.find((loc: any) => 
+        Number(loc.Ma_vi_tri) === locationId
+      );
+      if (location && location.Tinh_thanh) {
+        uniqueProvinces.add(location.Tinh_thanh);
+      }
+    });
+
+    // Chuyển Set thành Array và sắp xếp
+    this.availableLocations = Array.from(uniqueProvinces).sort();
+    console.log('Địa điểm có xe sẵn sàng (carList):', this.availableLocations);
+    this.cdr.detectChanges();
+  }
+
+  getLocationById(id: number): any {
     return this.locations?.find((loc: any) => loc.Ma_vi_tri == id);
   }
 
