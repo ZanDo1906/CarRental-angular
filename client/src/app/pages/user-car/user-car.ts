@@ -531,9 +531,9 @@ export class UserCar implements OnInit, OnDestroy, AfterViewInit {
       
       // Xử lý cả trạng thái tiếng Việt và tiếng Anh
       if (currentStatus === 'active' || currentStatus === 'Sẵn sàng cho thuê') {
-        newStatus = 'Đã dừng cho thuê';
+        newStatus = 'Dừng cho thuê';
       } else {
-        newStatus = 'Sẵn sàng cho thuê';
+        newStatus = 'Đang cho thuê';
       }
       
       car.Tinh_trang_xe = newStatus;
@@ -960,12 +960,12 @@ export class UserCar implements OnInit, OnDestroy, AfterViewInit {
       // Mapping từ tiếng Anh (nếu có)
       'pending': 'Đang chờ duyệt',
       'active': 'Sẵn sàng cho thuê',
-      'stopped': 'Đã dừng cho thuê',
+      'stopped': 'Dừng cho thuê',
       'rejected': 'Từ chối duyệt',
       // Mapping từ tiếng Việt (từ JSON)
       'Đang chờ duyệt': 'Đang chờ duyệt',
-      'Sẵn sàng cho thuê': 'Sẵn sàng cho thuê',
-      'Đã dừng cho thuê': 'Đã dừng cho thuê',
+      'Sẵn sàng cho thuê': 'Đang cho thuê',
+      'Đã dừng cho thuê': 'Dừng cho thuê',
       'Từ chối duyệt': 'Từ chối duyệt'
     };
     const result = statusMap[status] || 'Không xác định';
