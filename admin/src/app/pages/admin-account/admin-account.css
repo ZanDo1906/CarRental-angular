@@ -56,8 +56,8 @@ input { display: inline-block; width: 100%; font-size: 1rem; color: #242420; bor
 
 .user-profile .title { display:flex; align-items:center; justify-content:space-between; gap:8px; }
 .user-profile .title-edit { display:flex; align-items:center; gap:8px; }
-.user-profile .title-edit .wrap-svg { padding:6px; border-radius:100%; border:1px solid #e0e0e0; cursor:pointer }
-.user-profile .title-edit h5 { font-size:1.25rem; font-weight:600; color:#1D7363; margin-bottom:16px }
+.user-profile .title-edit .wrap-svg { padding:6px; border-radius:100%; border:1px solid #e0e0e0; cursor:pointer;margin-bottom:16px }
+.user-profile .title-edit h5 { font-size:1.25rem; font-weight:600; color:#1D7363; margin-bottom:15px }
 .user-profile .content { display:flex; gap:36px; }
 .user-profile .content .avatar-box { display:flex; flex-direction:column; align-items:center; gap:16px; width:30%; }
 .user-profile .content .avatar-box h6 { text-align:center }
