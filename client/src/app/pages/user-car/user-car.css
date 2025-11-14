@@ -313,20 +313,19 @@ h2 {
 }
 
 .car-actions .btn {
-  width: 160px !important;
+  /* width: 160px !important;
   min-width: 160px !important;
-  max-width: 160px !important;
+  max-width: 160px !important; */
   box-sizing: border-box;
-  height: 44px !important;
+  /* height: 44px !important;
   min-height: 44px !important;
   max-height: 44px !important;
-  padding: 8px 12px !important;
+  padding: 8px 12px !important; */
   text-align: center;
   display: flex;
   align-items: center;
   justify-content: center;
-  white-space: nowrap;
-  overflow: hidden;
+  white-space: normal;
   text-overflow: ellipsis;
   font-size: 13px !important;
   line-height: 1.2 !important;
@@ -337,14 +336,12 @@ h2 {
 .car-actions .btn.btn-approve,
 .car-actions .btn.btn-outline-danger,
 .car-actions .btn.btn-outline-success {
-  width: 160px !important;
-  min-width: 160px !important;
-  max-width: 160px !important;
-  height: 44px !important;
-  min-height: 44px !important;
-  max-height: 44px !important;
-  padding: 8px 12px !important;
-  font-size: 13px !important;
+  width: 160px ;
+  min-width: 160px ;
+  max-width: 160px ;
+  height: 44px ;
+  padding: 8px 12px ;
+  font-size: 13px ;
 }
 
 /* Pagination */
@@ -711,46 +708,8 @@ h2 {
     font-size: 13px !important;
   }
 
-  .rental-section {
-    margin-top: 15px;
-  }
-
   .section-header {
     justify-content: space-between;
-  }
-
-  .rental-list {
-    gap: 0.5rem;
-  }
-
-  .rental-card {
-    padding: 15px;
-    flex-direction: column;
-  }
-
-  .rental-header h4 {
-    font-size: 16px;
-    margin-bottom: 8px;
-  }
-
-  .rental-actions {
-    flex-direction: column;
-    gap: 0.5rem;
-    margin-top: 10px;
-  }
-
-  .rental-actions .btn {
-    font-size: 12px;
-    padding: 8px 12px;
-  }
-
-  .rental-grid {
-    grid-template-columns: 1fr;
-    gap: 1rem;
-  }
-
-  .rental-container {
-    padding: 0 15px;
   }
 
   .section-header {
@@ -761,11 +720,6 @@ h2 {
 
   .section-header h2 {
     font-size: 22px;
-  }
-
-  .rental-details {
-    grid-template-columns: 1fr;
-    gap: 8px;
   }
 
   .car-card {
@@ -783,13 +737,10 @@ h2 {
   }
   
   .car-actions .btn {
-    width: 140px !important;
-    min-width: 140px !important;
-    max-width: 140px !important;
-    height: 40px !important;
-    min-height: 40px !important;
-    max-height: 40px !important;
-    flex: none !important;
+    width: 100px !important;
+    min-width: 100px !important;
+    max-width: 100px !important;
+
   }
 
   .car-actions .car-status {
@@ -829,5 +780,9 @@ h2 {
     justify-content: center;
     padding: 14px;
     font-size: 15px;
+  }
+
+  .car-actions .btn {
+    min-width: 100px;
   }
 }
