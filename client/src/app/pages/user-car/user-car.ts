@@ -176,7 +176,9 @@ export class UserCar implements OnInit, OnDestroy, AfterViewInit {
     // Load cars và locations cùng lúc
     this.carService.getAllCars().subscribe((data: any) => {
       const all = Array.isArray(data) ? data : [];
+      console.log('Raw data from JSON:', all.slice(0, 3)); // Debug: first 3 cars
       const merged = this.mergeExtras(all);
+      console.log('Merged data (after localStorage):', merged.slice(0, 3)); // Debug: first 3 cars
       
       if (this.ownerId != null) {
         this.cars = merged.filter((c: any) => Number(c.Ma_nguoi_dung) === this.ownerId);
@@ -189,6 +191,11 @@ export class UserCar implements OnInit, OnDestroy, AfterViewInit {
       } else {
         this.cars = merged;
       }
+
+      console.log('Final cars data:', this.cars.slice(0, 2)); // Debug: first 2 user cars
+      this.cars.forEach(car => {
+        console.log(`Car ${car.Ma_xe}: Tinh_trang_xe = "${car.Tinh_trang_xe}"`);
+      });
 
       // Ensure pagination resets when owner changes
       this.currentPage = 1;
@@ -385,16 +392,16 @@ export class UserCar implements OnInit, OnDestroy, AfterViewInit {
     // Apply car status filter
     if (this.selectedCarFilter !== 'all') {
       filtered = filtered.filter(car => {
-        const status = car.Tinh_trang_xe || car.Trang_thai || 'active';
+        const status = car.Tinh_trang_xe || car.Trang_thai || 'Sẵn sàng cho thuê';
         switch (this.selectedCarFilter) {
           case 'active':
-            return status === 'active' || status === 'approved' || status === 1 || status === 2;
+            return status === 'active' || status === 'approved' || status === 'Sẵn sàng cho thuê' || status === 1 || status === 2;
           case 'stopped':
-            return status === 'stopped' || status === 'inactive';
+            return status === 'stopped' || status === 'inactive' || status === 'Đã dừng cho thuê';
           case 'pending':
-            return status === 'pending' || status === 0;
+            return status === 'pending' || status === 'Đang chờ duyệt' || status === 0;
           case 'rejected':
-            return status === 'rejected' || status === -1 || status === 5;
+            return status === 'rejected' || status === 'Từ chối duyệt' || status === -1 || status === 5;
           default:
             return true;
         }
@@ -520,7 +527,14 @@ export class UserCar implements OnInit, OnDestroy, AfterViewInit {
     } else if (action === 'reject') {
       // Toggle trạng thái cho thuê
       const currentStatus = car.Tinh_trang_xe || 'active';
-      const newStatus = currentStatus === 'active' ? 'stopped' : 'active';
+      let newStatus: string;
+      
+      // Xử lý cả trạng thái tiếng Việt và tiếng Anh
+      if (currentStatus === 'active' || currentStatus === 'Sẵn sàng cho thuê') {
+        newStatus = 'Dừng cho thuê';
+      } else {
+        newStatus = 'Đang cho thuê';
+      }
       
       car.Tinh_trang_xe = newStatus;
       
@@ -534,10 +548,27 @@ export class UserCar implements OnInit, OnDestroy, AfterViewInit {
       this.saveCarToStorage(car);
       
       // Thông báo
-      const message = newStatus === 'stopped' 
+      const message = newStatus === 'Đã dừng cho thuê' 
         ? `Đã dừng cho thuê xe: ${car.Hang_xe} ${car.Dong_xe}`
         : `Đã tiếp tục cho thuê xe: ${car.Hang_xe} ${car.Dong_xe}`;
       alert(message);
+      
+      // Refresh UI
+      this.cdr.detectChanges();
+    } else if (action === 'resubmit') {
+      // Gửi lại duyệt xe bị từ chối
+      car.Tinh_trang_xe = 'Đang chờ duyệt';
+      
+      // Cập nhật trong danh sách
+      const index = this.cars.findIndex(c => c.Ma_xe === car.Ma_xe);
+      if (index !== -1) {
+        this.cars[index] = { ...car };
+      }
+      
+      // Lưu vào localStorage
+      this.saveCarToStorage(car);
+      
+      alert(`Đã gửi lại xe ${car.Hang_xe} ${car.Dong_xe} để admin duyệt!`);
       
       // Refresh UI
       this.cdr.detectChanges();
@@ -920,6 +951,26 @@ export class UserCar implements OnInit, OnDestroy, AfterViewInit {
       5: 'Bị từ chối'
     };
     return statusMap[status] || 'Không xác định';
+  }
+
+  // Lấy trạng thái xe text
+  getCarStatusText(status: string): string {
+    console.log('getCarStatusText input:', status); // Debug log
+    const statusMap: { [key: string]: string } = {
+      // Mapping từ tiếng Anh (nếu có)
+      'pending': 'Đang chờ duyệt',
+      'active': 'Sẵn sàng cho thuê',
+      'stopped': 'Dừng cho thuê',
+      'rejected': 'Từ chối duyệt',
+      // Mapping từ tiếng Việt (từ JSON)
+      'Đang chờ duyệt': 'Đang chờ duyệt',
+      'Sẵn sàng cho thuê': 'Đang cho thuê',
+      'Đã dừng cho thuê': 'Dừng cho thuê',
+      'Từ chối duyệt': 'Từ chối duyệt'
+    };
+    const result = statusMap[status] || 'Không xác định';
+    console.log('getCarStatusText output:', result); // Debug log
+    return result;
   }
 
   // Tính tổng doanh thu
