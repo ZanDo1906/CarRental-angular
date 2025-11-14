@@ -27,6 +27,7 @@ export class Homepage implements AfterViewInit, OnInit {
   cars: iCar[] = [];
   displayedCars: iCar[] = [];
   locations: any[] = [];
+  availableLocations: string[] = []; // Danh sách địa điểm có xe sẵn sàng cho thuê
 
   faq1Open: boolean = false;
   faq2Open: boolean = false;
@@ -171,19 +172,19 @@ export class Homepage implements AfterViewInit, OnInit {
   private setupQuestionsAnimation(): void {
     const container = this.el.nativeElement.querySelector('.questions');
 
-    if (!container) { 
+    if (!container) {
       console.error('Không tìm thấy phần tử .questions để "animate"');
-      return; 
+      return;
     }
 
     const observer = new IntersectionObserver((entries) => {
-        entries.forEach(entry => {
-            if (entry.isIntersecting) {
-                container.classList.add('animate-fade-up');
-            } else {
-                container.classList.remove('animate-fade-up');
-            }
-        });
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          container.classList.add('animate-fade-up');
+        } else {
+          container.classList.remove('animate-fade-up');
+        }
+      });
     }, { threshold: 0.2 });
 
     observer.observe(container);
@@ -234,10 +235,25 @@ export class Homepage implements AfterViewInit, OnInit {
   loadCars(): void {
     this.carService.getAllCars().subscribe({
       next: (data) => {
-        this.cars = data;
+        // Lọc chỉ lấy các xe sẵn sàng cho thuê
+        const allCars = Array.isArray(data) ? data : [];
+        this.cars = allCars.filter((car: any) => {
+          const status = car.Tinh_trang_xe;
+          return status === 'Sẵn sàng cho thuê';
+        });
         this.displayedCars = this.cars.slice(0, 4); // Chỉ lấy 4 xe đầu tiên
-        console.log('Đã load xe:', this.displayedCars.length, 'xe');
-        console.log('Data xe:', this.displayedCars);
+        console.log('Tổng số xe:', allCars.length);
+        console.log('Số xe sẵn sàng cho thuê:', this.cars.length);
+        console.log('Đã load xe hiển thị:', this.displayedCars.length, 'xe');
+        // Debug: Kiểm tra các trạng thái khác
+        const otherStatuses = allCars
+          .filter((car: any) => car.Tinh_trang_xe !== 'Sẵn sàng cho thuê')
+          .map((car: any) => ({ id: car.Ma_xe, status: car.Tinh_trang_xe }));
+        if (otherStatuses.length > 0) {
+          console.log('Các xe không sẵn sàng:', otherStatuses);
+        }
+        // Sau khi load cars, cập nhật danh sách địa điểm có xe sẵn sàng
+        this.updateAvailableLocations();
         this.cdr.detectChanges(); // Force Angular update UI
       },
       error: (err) => {
@@ -252,12 +268,51 @@ export class Homepage implements AfterViewInit, OnInit {
       next: (data) => {
         this.locations = data;
         console.log('Đã load locations:', this.locations.length);
+        // Sau khi load locations, cập nhật danh sách địa điểm có xe sẵn sàng
+        this.updateAvailableLocations();
         this.cdr.detectChanges(); // Update UI sau khi có locations
       },
       error: (err) => {
         console.error('Lỗi khi load locations:', err);
       }
     });
+  }
+
+  // Cập nhật danh sách địa điểm có xe sẵn sàng cho thuê
+  updateAvailableLocations(): void {
+    // Chỉ cập nhật khi đã có cả cars và locations
+    if (this.cars.length === 0 || this.locations.length === 0) {
+      return;
+    }
+
+    // Lấy tất cả các xe sẵn sàng cho thuê
+    const availableCars = this.cars.filter(car =>
+      car.Tinh_trang_xe === 'Sẵn sàng cho thuê' && car.Ma_vi_tri != null
+    );
+
+    // Lấy danh sách Ma_vi_tri từ các xe sẵn sàng
+    const locationIds = new Set<number>();
+    availableCars.forEach(car => {
+      if (car.Ma_vi_tri) {
+        locationIds.add(Number(car.Ma_vi_tri));
+      }
+    });
+
+    // Lấy danh sách Tinh_thanh từ locations và loại bỏ trùng lặp
+    const uniqueProvinces = new Set<string>();
+    locationIds.forEach(locationId => {
+      const location = this.locations.find((loc: any) =>
+        Number(loc.Ma_vi_tri) === locationId
+      );
+      if (location && location.Tinh_thanh) {
+        uniqueProvinces.add(location.Tinh_thanh);
+      }
+    });
+
+    // Chuyển Set thành Array và sắp xếp
+    this.availableLocations = Array.from(uniqueProvinces).sort();
+    console.log('Địa điểm có xe sẵn sàng:', this.availableLocations);
+    this.cdr.detectChanges();
   }
 
   // Navigate đến trang danh sách xe

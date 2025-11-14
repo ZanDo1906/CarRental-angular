@@ -22,13 +22,9 @@
           <label class="filter-label">Địa điểm</label>
           <select class="form-control form-control-sm field-input" [(ngModel)]="selectedLocation">
             <option [value]="null">Tất cả</option>
-            <option value="TP. Hồ Chí Minh">TP. Hồ Chí Minh</option>
-            <option value="TP. Thủ Đức">TP. Thủ Đức</option>
-            <option value="Hà Nội">Hà Nội</option>
-            <option value="Đà Nẵng">Đà Nẵng</option>
-            <option value="Nha Trang">Nha Trang</option>
-            <option value="Cần Thơ">Cần Thơ</option>
-            <option value="Huế">Huế</option>
+            <option *ngFor="let location of availableLocations" [value]="location">
+              {{ location }}
+            </option>
           </select>
         </div>
 
