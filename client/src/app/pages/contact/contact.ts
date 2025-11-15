@@ -3,12 +3,12 @@ import { FormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
 
 @Component({
-  selector: 'app-lien-he',
+  selector: 'app-contact',
   imports: [FormsModule, CommonModule],
-  templateUrl: './lien-he.html',
-  styleUrl: './lien-he.css',
+  templateUrl: './contact.html',
+  styleUrl: './contact.css',
 })
-export class LienHe {
+export class Contact {
   showSuccessMessage = false;
 
   formData = {

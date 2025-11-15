@@ -23,12 +23,13 @@ interface District {
 }
 
 @Component({
-  selector: 'app-dk-cho-thue-xe',
+  selector: 'app-car-registration',
+  standalone: true,
   imports: [CommonModule, FormsModule],
-  templateUrl: './dk-cho-thue-xe.html',
-  styleUrl: './dk-cho-thue-xe.css',
+  templateUrl: './car-registration.html',
+  styleUrl: './car-registration.css',
 })
-export class DKChoThueXe implements OnInit {
+export class CarRegistration implements OnInit {
   currentStep = 1;
 
   constructor(private http: HttpClient, private router: Router) { }

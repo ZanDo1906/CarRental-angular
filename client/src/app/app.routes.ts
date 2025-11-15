@@ -1,9 +1,9 @@
 import { Routes } from '@angular/router';
 import { CarList } from './pages/carList/carList';
 import { CarDetail } from './pages/car-detail/car-detail';
-import { TroThanhChuXe } from './pages/tro-thanh-chu-xe/tro-thanh-chu-xe';
-import { DKChoThueXe } from './pages/dk-cho-thue-xe/dk-cho-thue-xe';
-import { VeTrustCar } from './pages/ve-trust-car/ve-trust-car';
+import { BecomeCarOwner } from './pages/become-car-owner/become-car-owner';
+import { CarRegistration } from './pages/car-registration/car-registration';
+import { AboutTrustCar } from './pages/about-trustcar/about-trustcar';
 import { Homepage } from './pages/homepage/homepage';
 import { ConfirmBooking } from './pages/confirm-booking/confirm-booking';
 import { CarRentalGuide } from './pages/car-rental-guide/car-rental-guide';
@@ -13,7 +13,7 @@ import { UserCar } from './pages/user-car/user-car';
 import { UserRental } from './pages/user-rental/user-rental';
 import { Dashboard } from './pages/dashboard/dashboard';
 // import { VehicleManagement } from '../../../admin/src/app/pages/vehicle-management/vehicle-management';
-import { LienHe } from './pages/lien-he/lien-he';
+import { Contact } from './pages/contact/contact';
 import { UserLayoutComponent } from './pages/user-layout/user-layout.component';
 
 export const routes: Routes = [
@@ -21,10 +21,10 @@ export const routes: Routes = [
     { path: 'log-in', component: LogIn },         // trang đăng nhập
     { path: 'danh-sach-xe', component: CarList }, // trang danh sách xe
     { path: 'xe/:id', component: CarDetail },  // trang chi tiết
-    { path: 'tro-thanh-chu-xe', component: TroThanhChuXe }, // trang trở thành chủ xe
-    { path: 'owner', component: TroThanhChuXe }, // alias cho header "Trở thành chủ xe"
-    { path: 'dk-cho-thue-xe', component: DKChoThueXe }, // trang đăng ký cho thuê xe
-    { path: 've-trust-car', component: VeTrustCar }, // trang Về Trustcar
+    { path: 'tro-thanh-chu-xe', component: BecomeCarOwner }, // trang trở thành chủ xe
+    { path: 'owner', component: BecomeCarOwner }, // alias cho header "Trở thành chủ xe"
+    { path: 'dk-cho-thue-xe', component: CarRegistration }, // trang đăng ký cho thuê xe
+    { path: 've-trust-car', component: AboutTrustCar }, // trang Về Trustcar
     { path: 'confirm-booking/:id', component: ConfirmBooking }, // trang xác nhận đặt xe
     { path: 'guide', component: CarRentalGuide }, // trang Hướng dẫn thuê xe
     
@@ -41,7 +41,7 @@ export const routes: Routes = [
     },
     
     // { path: 'vehicle-management', component: VehicleManagement }, // trang Quản lý xe (Admin)
-    { path: 'lien-he', component: LienHe }, // trang Liên hệ
+    { path: 'lien-he', component: Contact }, // trang Liên hệ
     { path: '**', redirectTo: '' },
 
 ];

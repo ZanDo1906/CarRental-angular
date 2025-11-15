@@ -1,18 +1,17 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { DKChoThueXe } from './dk-cho-thue-xe';
+import { Contact } from './contact';
 
-describe('DKChoThueXe', () => {
-  let component: DKChoThueXe;
-  let fixture: ComponentFixture<DKChoThueXe>;
-
+describe('Contact', () => {
+  let component: Contact;
+  let fixture: ComponentFixture<Contact>;
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [DKChoThueXe]
+      imports: [Contact]
     })
     .compileComponents();
 
-    fixture = TestBed.createComponent(DKChoThueXe);
+    fixture = TestBed.createComponent(Contact);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

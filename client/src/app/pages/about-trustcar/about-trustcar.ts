@@ -2,12 +2,13 @@ import { Component, AfterViewInit, ElementRef } from '@angular/core';
 import { Router } from '@angular/router';
 
 @Component({
-  selector: 'app-ve-trust-car',
+  selector: 'app-about-trustcar',
+  standalone: true,
   imports: [],
-  templateUrl: './ve-trust-car.html',
-  styleUrl: './ve-trust-car.css',
+  templateUrl: './about-trustcar.html',
+  styleUrl: './about-trustcar.css',
 })
-export class VeTrustCar implements AfterViewInit {
+export class AboutTrustCar implements AfterViewInit {
   constructor(private el: ElementRef, private router: Router) {}
 
   ngAfterViewInit(): void {

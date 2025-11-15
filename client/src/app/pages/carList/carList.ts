@@ -57,7 +57,7 @@ function matchPurpose(car: any, purpose: Purpose): boolean {
 }
 
 @Component({
-  selector: 'app-carList',
+  selector: 'app-car-list',
   standalone: true,
   imports: [CommonModule, FormsModule],
   templateUrl: './carList.html',

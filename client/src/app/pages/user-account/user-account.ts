@@ -2,7 +2,6 @@ import { Component, OnInit, ChangeDetectorRef, NgZone } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { RouterModule } from '@angular/router';
-import { SideBar } from '../side-bar/side-bar';
 import { UserService } from '../../services/user';
 import { Inject } from '@angular/core';
 import { OwnerService } from '../../services/owner.service';
@@ -11,7 +10,7 @@ import { CarRental } from '../../services/car-rental';
 
 @Component({
   selector: 'app-user-account',
-  imports: [CommonModule, RouterModule, SideBar, FormsModule],
+  imports: [CommonModule, RouterModule, FormsModule],
   templateUrl: './user-account.html',
   styleUrl: './user-account.css',
 })

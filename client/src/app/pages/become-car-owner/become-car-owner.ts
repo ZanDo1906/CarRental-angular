@@ -3,12 +3,13 @@ import { Router } from '@angular/router';
 
 
 @Component({
-  selector: 'app-tro-thanh-chu-xe',
+  selector: 'app-become-car-owner',
+  standalone: true,
   imports: [],
-  templateUrl: './tro-thanh-chu-xe.html',
-  styleUrl: './tro-thanh-chu-xe.css',
+  templateUrl: './become-car-owner.html',
+  styleUrl: './become-car-owner.css',
 })
-export class TroThanhChuXe {
+export class BecomeCarOwner {
   constructor(private el: ElementRef, private router: Router) {}
 
   goToRegisterOwner(){
