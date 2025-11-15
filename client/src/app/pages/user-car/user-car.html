@@ -230,11 +230,11 @@
           <button class="action-btn complaint" (click)="openComplaintModal(rental)"><i class="bi bi-exclamation-circle"></i> Khiếu nại</button>
         </div>
         <div *ngIf="rental.Trang_thai !== 4" class="rental-actions">
-          <button *ngIf="rental.Trang_thai === 1" class="btn btn-sm btn-success" (click)="approveRental(rental)">
+          <button *ngIf="rental.Trang_thai === 1" class="btn btn-sm btn-success" >
             <i class="bi bi-check-circle"></i>
             Duyệt
           </button>
-          <button *ngIf="rental.Trang_thai === 1" class="btn btn-sm btn-danger" (click)="rejectRental(rental)">
+          <button *ngIf="rental.Trang_thai === 1" class="btn btn-sm btn-danger">
             <i class="bi bi-x-circle"></i>
             Từ chối
           </button>
@@ -242,7 +242,7 @@
       </div>
     </div>
 
-    <div *ngIf="filteredRentals.length === 0" class="alert alert-info">
+    <div *ngIf="filteredRentals.length === 0" class="alert alert-info" >
       <i class="bi bi-info-circle"></i>
       Không có chuyến nào trong danh mục "{{ getTripFilterText() }}".
     </div>

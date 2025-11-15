@@ -279,6 +279,7 @@ h2 {
   color: #1D7363;
 }
 
+
 /* Alert styles */
 .alert {
   padding: 0.75rem 1rem;
@@ -287,6 +288,9 @@ h2 {
   display: flex;
   align-items: center;
   gap: 0.5rem;
+}
+
+.car-actions .alert {
   min-width: 160px !important;
     max-width: 160px !important;
 }
@@ -313,14 +317,7 @@ h2 {
 }
 
 .car-actions .btn {
-  /* width: 160px !important;
-  min-width: 160px !important;
-  max-width: 160px !important; */
   box-sizing: border-box;
-  /* height: 44px !important;
-  min-height: 44px !important;
-  max-height: 44px !important;
-  padding: 8px 12px !important; */
   text-align: center;
   display: flex;
   align-items: center;
@@ -448,9 +445,6 @@ h2 {
   border-radius: 10px;
   box-shadow: 0 16px 32px rgba(0,0,0,.16), 0 2px 8px rgba(80,180,152,0.08);
   padding: 6px;
-  /* Đảm bảo không có scroll, hiện full */
-  /* max-height: none; */
-  /* overflow: visible; */
 }
 
 .dropdown-item {
@@ -750,7 +744,7 @@ h2 {
   .car-details .car-status {
     font-size: 1.5rem;
     font-weight: 800;
-    color: #1D7363;
+    /* color: #1D7363; */
     text-align: center;
     margin-top: 10px;
     display: block !important;
