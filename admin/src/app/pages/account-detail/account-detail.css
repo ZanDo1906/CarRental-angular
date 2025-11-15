@@ -33,14 +33,60 @@
   transform: translateY(-2px);
 }
 
+
 input:disabled { background-color: #f6f6f6; color: #333; -webkit-text-fill-color: #333; }
 input { display: inline-block; width: 100%; font-size: 1rem; color: #242420; border: none; box-shadow: none; }
 .wrap-svg { line-height: 0; -webkit-user-select: none; user-select: none; }
 .pointer { cursor: pointer !important; }
 
-.btn1 { display:inline-flex; align-items:center; gap:8px; font-weight:700; padding:8px 16px; border-radius:8px; border:1px solid #e0e0e0; }
-.btn1.btn--s { padding:12px 20px; }
+.btn1 { display:inline-flex; align-items:center; gap:8px; font-weight:700; padding:8px 16px; border-radius:8px; }
+.btn1.btn--s.btn-save{ 
+  background-color: #1D7363;
+  color: #ffffff;
+  border: 1px solid #1D7363;
+  box-shadow: 0 1px 3px rgba(0,0,0,0.05);
+  margin-right: 8px;}
 
+.btn1.btn--s.btn-save:hover {
+  background: #166051; 
+  box-shadow: 0 4px 12px rgba(29, 115, 99, 0.15); 
+}
+
+.btn1.btn--s.btn-save:focus,
+.btn1.btn--s.btn-save:active {
+  background-color: #1D7363;
+  border-color: #1D7363;
+  color: #fff;
+  box-shadow: 0 0 0 0.2rem rgba(29, 115, 99, 0.25);
+}
+
+.btn1.btn--s { 
+  border: 1px solid #e0e0e0;
+  background-color: #ffffff;
+  padding: 12px 20px; 
+}
+
+.btn1.btn--s.btn-cancel{ 
+  padding:12px 20px; 
+  background-color: #d32f2f;
+  color: #ffffff;
+  border: 1px solid #d32f2f;
+  box-shadow: 0 1px 3px rgba(0,0,0,0.05);
+  margin-right: 8px;}
+
+.btn1.btn--s.btn-cancel:hover {
+  background: #d32f2f;
+  color: #ffffff;
+  box-shadow: 0 4px 12px rgba(211, 47, 47, 0.3); 
+}
+
+.btn1.btn--s.btn-cancel:focus,
+.btn1.btn--s.btn-cancel:active {
+  background-color: #d32f2f;
+  border-color:  #d32f2f;
+  color: #fff;
+  box-shadow: 0 0 0 0.2rem rgba(159, 52, 40, 0.25);
+}
 .main-content {
     height: 100%;
     flex-grow: 1;
@@ -374,7 +420,7 @@ input { display: inline-block; width: 100%; font-size: 1rem; color: #242420; bor
 
 .driver-license .note-license p {
   font-size: 12px;
-  color: #f04438
+  color: #d32f2f;
 }
 
 .driver-license .content {

@@ -50,7 +50,7 @@
                         </div>
                     </div>
                 </label>
-                <!-- Hidden file input for uploading avatar -->
+
                 <input id="avatarInput" type="file" accept="image/*" style="display:none"
                     (change)="onAvatarSelected($event)">
                 <h6>{{ user?.Ho_va_ten || 'Tên người dùng' }}</h6>
@@ -65,7 +65,7 @@
                             Ngày sinh
                         </div>
                         <div class="name pointer">
-                            <!-- show formatted date when not editing; show date input when editing -->
+
                             <ng-container *ngIf="!editingProfile">
                                 <p>{{ user?.Ngay_sinh ? (user.Ngay_sinh | date:'yyyy-MM-dd') : 'Chưa cập nhật' }}</p>
                             </ng-container>
@@ -137,7 +137,6 @@
 
             </div>
             <div>
-                <!-- License controls: edit license fields or upload image separately -->
 
                 <button *ngIf="!editingLicense" class="btn1 btn--s" (click)="onEdit('license')">Chỉnh sửa
                     <div class="wrap-svg" (click)="onEdit('profile')" style="cursor:pointer">
@@ -150,7 +149,6 @@
                 </button>
                 <button *ngIf="editingLicense" class="btn1 btn--s btn-save" (click)="saveLicense()">Lưu</button>
                 <button *ngIf="editingLicense" class="btn1 btn--s btn-cancel" (click)="cancelLicenseEdit()">Hủy</button>
-                <!-- <button class="btn1 btn--s ms-2" (click)="onEdit('uploadGPLX')" [disabled]="user?._licenseAuthenticated">Tải lên ảnh GPLX</button> -->
             </div>
 
         </div>
@@ -178,7 +176,6 @@
                             alt="GPLX">
                     </div>
                 </label>
-                <!-- hidden file input for uploading license image -->
                 <input id="licenseInput" type="file" accept="image/*" style="display:none"
                     (change)="onLicenseSelected($event)">
             </div>

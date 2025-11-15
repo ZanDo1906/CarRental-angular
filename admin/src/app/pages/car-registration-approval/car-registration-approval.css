@@ -160,6 +160,7 @@ h2 {
   background: var(--color-primary);
 
 }
+
 .btn-solid-primary:hover {
   background: #166051; 
   box-shadow: 0 4px 12px rgba(29, 115, 99, 0.15); 
