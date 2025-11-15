@@ -54,6 +54,11 @@
         </div>
       </div>
       <div class="car-details">
+        <div style="margin-bottom: 10px;">
+          <span *ngIf="getMaintenanceStatusLabel(car)" class="maintenance-tag" [ngClass]="getMaintenanceStatusClass(car)">
+            {{ getMaintenanceStatusLabel(car) }}
+          </span>
+        </div>
         <div>
           <h3 class="car-name">{{car.Hang_xe}} {{car.Dong_xe}} {{car.Nam_san_xuat}}</h3>
         </div>

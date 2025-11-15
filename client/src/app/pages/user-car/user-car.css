@@ -78,7 +78,7 @@ h2 {
   padding: 12px 24px;
   border-radius: 25px;
   font-weight: 600;
-  font-size: 14px;
+  font-size: 16px;
   display: flex;
   align-items: center;
   gap: 8px;
@@ -221,6 +221,39 @@ h2 {
   font-size: 25px;
 }
 
+.car-title-row {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+}
+
+.maintenance-tag {
+  display: inline-block;
+  padding: 6px 10px;
+  border-radius: 14px;
+  font-size: 13px;
+  font-weight: 700;
+  white-space: nowrap;
+}
+
+.status-good {
+  background: #d1e7dd;
+  color: #0f5132;
+  border: 1px solid #badbcc;
+}
+
+.status-warning {
+  background: #fff3cd;
+  color: #856404;
+  border: 1px solid #ffecb5;
+}
+
+.status-danger {
+  background: #f8d7da;
+  color: #842029;
+  border: 1px solid #f5c2c7;
+}
+
 .meta-row {
   display: flex;
   align-items: center;
@@ -291,8 +324,8 @@ h2 {
 }
 
 .car-actions .alert {
-  min-width: 160px !important;
-    max-width: 160px !important;
+  min-width: 185px !important;
+    max-width: 185px !important;
 }
 
 .alert-info {
@@ -324,7 +357,7 @@ h2 {
   justify-content: center;
   white-space: normal;
   text-overflow: ellipsis;
-  font-size: 13px !important;
+  font-size: 16px !important;
   line-height: 1.2 !important;
 }
 
@@ -333,12 +366,12 @@ h2 {
 .car-actions .btn.btn-approve,
 .car-actions .btn.btn-outline-danger,
 .car-actions .btn.btn-outline-success {
-  width: 160px ;
-  min-width: 160px ;
-  max-width: 160px ;
+  width: 185px ;
+  min-width: 185px ;
+  max-width: 185px ;
   height: 44px ;
   padding: 8px 12px ;
-  font-size: 13px ;
+  font-size: 16px ;
 }
 
 /* Pagination */
@@ -734,6 +767,7 @@ h2 {
     width: 100px !important;
     min-width: 100px !important;
     max-width: 100px !important;
+    font-size: 13px !important;
 
   }
 

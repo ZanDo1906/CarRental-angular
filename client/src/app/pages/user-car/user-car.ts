@@ -482,36 +482,6 @@ export class UserCar implements OnInit, OnDestroy, AfterViewInit {
     alert(`Chi tiết chuyến thuê:\nMã: ${rental.Ma_chuyen_di}\nTrạng thái: ${this.getRentalStatusText(rental.Trang_thai)}`);
   }
 
-  // Approve rental
-  approveRental(rental: any): void {
-    if (confirm('Bạn có chắc muốn duyệt chuyến thuê này?')) {
-      // Update rental status
-      rental.Trang_thai = 2; // Set to "Đã duyệt"
-      
-      // You might want to save this to backend here
-      
-      alert('Đã duyệt chuyến thuê thành công!');
-      
-      // Refresh the rental list
-      this.loadRentalsByFilter(this.selectedTripFilter);
-    }
-  }
-
-  // Reject rental
-  rejectRental(rental: any): void {
-    if (confirm('Bạn có chắc muốn từ chối chuyến thuê này?')) {
-      // Update rental status
-      rental.Trang_thai = 5; // Set to "Bị từ chối"
-      
-      // You might want to save this to backend here
-      
-      alert('Đã từ chối chuyến thuê!');
-      
-      // Refresh the rental list
-      this.loadRentalsByFilter(this.selectedTripFilter);
-    }
-  }
-
   getLocationAddress(id: number): string {
     if (!this.locations || !this.locations.length) return 'Chưa cập nhật';
     const l = this.locations.find((x: any) => x.Ma_vi_tri == id || x.Ma_vi_tri === String(id));
@@ -971,6 +941,38 @@ export class UserCar implements OnInit, OnDestroy, AfterViewInit {
     const result = statusMap[status] || 'Không xác định';
     console.log('getCarStatusText output:', result); // Debug log
     return result;
+  }
+
+  // Maintenance tag helpers (reuse same logic as car-detail)
+  getMaintenanceStatus(car: any): { label: string; class: string } {
+    if (!car || !car.Bao_hanh_gan_nhat) {
+      return { label: '', class: 'status-unknown' };
+    }
+
+    const maintenanceDate = new Date(car.Bao_hanh_gan_nhat);
+    if (isNaN(maintenanceDate.getTime())) {
+      return { label: '', class: 'status-unknown' };
+    }
+
+    const today = new Date();
+    const diffTime = today.getTime() - maintenanceDate.getTime();
+    const diffDays = Math.floor(diffTime / (1000 * 60 * 60 * 24));
+
+    if (diffDays < 90) {
+      return { label: 'Đã bảo dưỡng gần đây', class: 'status-good' };
+    } else if (diffDays >= 90 && diffDays <= 180) {
+      return { label: 'Sắp đến hạn bảo dưỡng', class: 'status-warning' };
+    } else {
+      return { label: 'Cần bảo dưỡng', class: 'status-danger' };
+    }
+  }
+
+  getMaintenanceStatusLabel(car: any): string {
+    return this.getMaintenanceStatus(car).label;
+  }
+
+  getMaintenanceStatusClass(car: any): string {
+    return this.getMaintenanceStatus(car).class;
   }
 
   // Tính tổng doanh thu

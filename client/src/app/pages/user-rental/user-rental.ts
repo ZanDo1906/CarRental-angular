@@ -32,6 +32,12 @@ export class UserRental implements OnInit, OnDestroy, AfterViewInit {
   activeTab: 'current' | 'history' = 'current'; // Tab hiện tại
   private subscriptions: Subscription[] = [];
 
+  // Filter states
+  selectedStatusFilter: string = 'all';
+  selectedTimeFilter: string = 'all';
+  selectedPriceFilter: string = 'all';
+  openDropdown: string | null = null;
+
   // Modal states
   showReviewModal = false;
   showComplaintModal = false;
@@ -51,9 +57,16 @@ export class UserRental implements OnInit, OnDestroy, AfterViewInit {
     );
   }
 
-  // Rentals theo tab hiện tại
+  // Rentals theo tab hiện tại và các bộ lọc
   get filteredRentals(): RentalWithCar[] {
-    return this.activeTab === 'current' ? this.currentRentals : this.historyRentals;
+    let result = this.activeTab === 'current' ? this.currentRentals : this.historyRentals;
+    
+    // Chỉ áp dụng filter khi ở tab history
+    if (this.activeTab === 'history') {
+      result = this.applyFilters(result);
+    }
+    
+    return result;
   }
 
   get paginatedRentals(): RentalWithCar[] {
@@ -77,6 +90,132 @@ export class UserRental implements OnInit, OnDestroy, AfterViewInit {
       // Scroll lên đầu trang khi chuyển trang
       window.scrollTo({ top: 0, behavior: 'smooth' });
     }
+  }
+
+  // Filter methods
+  applyFilters(rentals: RentalWithCar[]): RentalWithCar[] {
+    let filtered = [...rentals];
+    
+    // Lọc theo trạng thái
+    if (this.selectedStatusFilter !== 'all') {
+      filtered = filtered.filter(rental => {
+        switch (this.selectedStatusFilter) {
+          case 'completed':
+            return rental.Trang_thai === 4;
+          case 'cancelled':
+            return rental.Trang_thai === 5;
+          case 'rejected':
+            return rental.Trang_thai === 0;
+          default:
+            return true;
+        }
+      });
+    }
+    
+    // Lọc theo thời gian
+    if (this.selectedTimeFilter !== 'all') {
+      const now = new Date();
+      filtered = filtered.filter(rental => {
+        const rentalDate = new Date(rental.Ngay_nhan_xe);
+        
+        switch (this.selectedTimeFilter) {
+          case 'thisMonth':
+            return rentalDate.getMonth() === now.getMonth() && 
+                   rentalDate.getFullYear() === now.getFullYear();
+          case 'lastMonth':
+            const lastMonth = new Date(now.getFullYear(), now.getMonth() - 1);
+            return rentalDate.getMonth() === lastMonth.getMonth() && 
+                   rentalDate.getFullYear() === lastMonth.getFullYear();
+          case 'last3Months':
+            const threeMonthsAgo = new Date(now.getFullYear(), now.getMonth() - 3);
+            return rentalDate >= threeMonthsAgo;
+          case 'thisYear':
+            return rentalDate.getFullYear() === now.getFullYear();
+          default:
+            return true;
+        }
+      });
+    }
+    
+    // Lọc theo giá
+    if (this.selectedPriceFilter !== 'all') {
+      filtered = filtered.filter(rental => {
+        const price = rental.Tong_chi_phi || 0;
+        
+        switch (this.selectedPriceFilter) {
+          case 'under1M':
+            return price < 1000000;
+          case '1M_3M':
+            return price >= 1000000 && price < 3000000;
+          case '3M_5M':
+            return price >= 3000000 && price < 5000000;
+          case 'over5M':
+            return price >= 5000000;
+          default:
+            return true;
+        }
+      });
+    }
+    
+    return filtered;
+  }
+
+  // Dropdown methods
+  toggleDropdown(type: string): void {
+    console.log('toggleDropdown called with:', type, 'current openDropdown:', this.openDropdown);
+    this.openDropdown = this.openDropdown === type ? null : type;
+    console.log('new openDropdown:', this.openDropdown);
+  }
+
+  selectStatusFilter(filter: string): void {
+    this.selectedStatusFilter = filter;
+    this.openDropdown = null;
+    this.currentPage = 1;
+  }
+
+  selectTimeFilter(filter: string): void {
+    this.selectedTimeFilter = filter;
+    this.openDropdown = null;
+    this.currentPage = 1;
+  }
+
+  selectPriceFilter(filter: string): void {
+    this.selectedPriceFilter = filter;
+    this.openDropdown = null;
+    this.currentPage = 1;
+  }
+
+  // Filter text methods
+  getStatusFilterText(): string {
+    const statusMap: { [key: string]: string } = {
+      'all': 'Tất cả',
+      'completed': 'Hoàn thành',
+      'cancelled': 'Đã hủy',
+      'rejected': 'Bị từ chối'
+    };
+    return statusMap[this.selectedStatusFilter] || 'Tất cả';
+  }
+
+  getTimeFilterText(): string {
+    const timeMap: { [key: string]: string } = {
+      'all': 'Tất cả',
+      'thisMonth': 'Tháng này',
+      'lastMonth': 'Tháng trước',
+      'last3Months': '3 tháng qua',
+      'thisYear': 'Năm nay'
+    };
+    return timeMap[this.selectedTimeFilter] || 'Tất cả';
+  }
+
+  getPriceFilterText(): string {
+    const priceMap: { [key: string]: string } = {
+      'all': 'Tất cả',
+      'under1M': 'Dưới 1 triệu',
+      '1M_3M': '1 - 3 triệu',
+      '3M_5M': '3 - 5 triệu',
+      'over5M': 'Trên 5 triệu'
+    };
+    return priceMap[this.selectedPriceFilter] || 'Tất cả';
   }
 
   constructor(
@@ -103,6 +242,15 @@ export class UserRental implements OnInit, OnDestroy, AfterViewInit {
         }
       })
     );
+
+    // Add click listener to close dropdowns
+    document.addEventListener('click', (event) => {
+      const target = event.target as HTMLElement;
+      if (!target.closest('.filter-dropdown')) {
+        this.openDropdown = null;
+        this.cdr.detectChanges();
+      }
+    });
 
     // Load data lần đầu
     this.initializeData();
@@ -257,7 +405,10 @@ export class UserRental implements OnInit, OnDestroy, AfterViewInit {
   // Lấy text trạng thái
   getStatusText(status: number): string {
     const statusMap: { [key: number]: string } = {
-      3: 'ĐÃ ĐẶT ',
+      0: 'BỊ TỪ CHỐI',
+      1: 'CHỜ DUYỆT',
+      2: 'ĐÃ DUYỆT',
+      3: 'ĐANG THUÊ',
       4: 'HOÀN THÀNH',
       5: 'ĐÃ HUỶ'
     };
@@ -267,9 +418,12 @@ export class UserRental implements OnInit, OnDestroy, AfterViewInit {
   // Lấy class CSS cho status badge
   getStatusClass(status: number): string {
     const classMap: { [key: number]: string } = {
+      0: 'status-rejected',
+      1: 'status-pending',
+      2: 'status-approved',
       3: 'status-ongoing',
       4: 'status-completed',
-      5: 'status-rejected'
+      5: 'status-cancelled'
     };
     return classMap[status] || '';
   }

@@ -13,6 +13,67 @@
     </button>
   </div>
 
+  <!-- Bộ lọc cho lịch sử chuyến -->
+  <div class="chip-row" *ngIf="activeTab === 'history'">
+    <!-- Lọc theo trạng thái -->
+    <div class="dropdown" (click)="$event.stopPropagation()">
+      <button class="btn-chip" [class.selected]="selectedStatusFilter !== 'all'" (click)="toggleDropdown('status')">
+        <i class="bi bi-funnel"></i>
+        Trạng thái: {{ getStatusFilterText() }}
+      </button>
+      <div class="menu" *ngIf="openDropdown === 'status'">
+        <button class="dropdown-item" [class.active]="selectedStatusFilter === 'all'"
+                (click)="selectStatusFilter('all')">Tất cả</button>
+        <button class="dropdown-item" [class.active]="selectedStatusFilter === 'completed'"
+                (click)="selectStatusFilter('completed')">Hoàn thành</button>
+        <button class="dropdown-item" [class.active]="selectedStatusFilter === 'cancelled'"
+                (click)="selectStatusFilter('cancelled')">Đã hủy</button>
+        <button class="dropdown-item" [class.active]="selectedStatusFilter === 'rejected'"
+                (click)="selectStatusFilter('rejected')">Bị từ chối</button>
+      </div>
+    </div>
+
+    <!-- Lọc theo thời gian -->
+    <div class="dropdown" (click)="$event.stopPropagation()">
+      <button class="btn-chip" [class.selected]="selectedTimeFilter !== 'all'" (click)="toggleDropdown('time')">
+        <i class="bi bi-calendar-range"></i>
+        Thời gian: {{ getTimeFilterText() }}
+      </button>
+      <div class="menu" *ngIf="openDropdown === 'time'">
+        <button class="dropdown-item" [class.active]="selectedTimeFilter === 'all'"
+                (click)="selectTimeFilter('all')">Tất cả</button>
+        <button class="dropdown-item" [class.active]="selectedTimeFilter === 'thisMonth'"
+                (click)="selectTimeFilter('thisMonth')">Tháng này</button>
+        <button class="dropdown-item" [class.active]="selectedTimeFilter === 'lastMonth'"
+                (click)="selectTimeFilter('lastMonth')">Tháng trước</button>
+        <button class="dropdown-item" [class.active]="selectedTimeFilter === 'last3Months'"
+                (click)="selectTimeFilter('last3Months')">3 tháng qua</button>
+        <button class="dropdown-item" [class.active]="selectedTimeFilter === 'thisYear'"
+                (click)="selectTimeFilter('thisYear')">Năm nay</button>
+      </div>
+    </div>
+
+    <!-- Lọc theo giá -->
+    <div class="dropdown" (click)="$event.stopPropagation()">
+      <button class="btn-chip" [class.selected]="selectedPriceFilter !== 'all'" (click)="toggleDropdown('price')">
+        <i class="bi bi-currency-dollar"></i>
+        Giá: {{ getPriceFilterText() }}
+      </button>
+      <div class="menu" *ngIf="openDropdown === 'price'">
+        <button class="dropdown-item" [class.active]="selectedPriceFilter === 'all'"
+                (click)="selectPriceFilter('all')">Tất cả</button>
+        <button class="dropdown-item" [class.active]="selectedPriceFilter === 'under1M'"
+                (click)="selectPriceFilter('under1M')">Dưới 1 triệu</button>
+        <button class="dropdown-item" [class.active]="selectedPriceFilter === '1M_3M'"
+                (click)="selectPriceFilter('1M_3M')">1 - 3 triệu</button>
+        <button class="dropdown-item" [class.active]="selectedPriceFilter === '3M_5M'"
+                (click)="selectPriceFilter('3M_5M')">3 - 5 triệu</button>
+        <button class="dropdown-item" [class.active]="selectedPriceFilter === 'over5M'"
+                (click)="selectPriceFilter('over5M')">Trên 5 triệu</button>
+      </div>
+    </div>
+  </div>
+
   <div class="alert alert-warning" *ngIf="!loading && filteredRentals.length === 0">
     <span *ngIf="activeTab === 'current'">Bạn chưa có chuyến đi hiện tại nào.</span>
     <span *ngIf="activeTab === 'history'">Bạn chưa có lịch sử chuyến đi nào.</span>
