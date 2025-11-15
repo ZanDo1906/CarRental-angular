@@ -442,9 +442,9 @@
     "Gia_thue": 850000,
     "So_cho": 5,
     "Tinh_trang_xe": "Đang chờ duyệt",
-    "Diem_danh_gia": 4.7,
-    "So_luot_danh_gia": 90,
-    "So_luot_thue": 60,
+    "Diem_danh_gia": 0,
+    "So_luot_danh_gia": 0,
+    "So_luot_thue": 0,
     "Bao_hanh_gan_nhat": "2025-03-12",
     "Loai_xe": "Sedan",
     "Nam_san_xuat": 2023
@@ -471,9 +471,9 @@
     "Gia_thue": 600000,
     "So_cho": 4,
     "Tinh_trang_xe": "Đang chờ duyệt",
-    "Diem_danh_gia": 4.5,
-    "So_luot_danh_gia": 75,
-    "So_luot_thue": 50,
+    "Diem_danh_gia": 0,
+    "So_luot_danh_gia": 0,
+    "So_luot_thue": 0,
     "Bao_hanh_gan_nhat": "2024-09-18",
     "Loai_xe": "Hatchback",
     "Nam_san_xuat": 2021
@@ -499,10 +499,10 @@
     "Muc_tieu_thu": 7.4,
     "Gia_thue": 1200000,
     "So_cho": 7,
-    "Tinh_trang_xe": "Bị từ chối",
-    "Diem_danh_gia": 4.8,
-    "So_luot_danh_gia": 110,
-    "So_luot_thue": 80,
+    "Tinh_trang_xe": "Từ chối duyệt",
+    "Diem_danh_gia": 0,
+    "So_luot_danh_gia": 0,
+    "So_luot_thue": 0,
     "Bao_hanh_gan_nhat": "2025-02-05",
     "Loai_xe": "SUV",
     "Nam_san_xuat": 2021
@@ -529,12 +529,11 @@
     "Gia_thue": 1100000,
     "So_cho": 5,
     "Tinh_trang_xe": "Từ chối duyệt",
-    "Diem_danh_gia": 4.9,
-    "So_luot_danh_gia": 140,
-    "So_luot_thue": 100,
+    "Diem_danh_gia": 0,
+    "So_luot_danh_gia": 0,
+    "So_luot_thue": 0,
     "Bao_hanh_gan_nhat": "2025-05-10",
     "Loai_xe": "Sedan",
     "Nam_san_xuat": 2022
   }
-  
 ]

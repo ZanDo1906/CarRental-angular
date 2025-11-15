@@ -5,12 +5,30 @@
             <h2 class="brand-text fw-bold fs-3 mb-4">ĐĂNG KÝ XE</h2>
 
             <!-- Illustration -->
-            <img src="assets/assets/xe_tro_thanh_chu_xe.png" alt="Become an Owner Illustration" class="illustration img-fluid mb-4" />
+            <img src="assets/assets/xe_tro_thanh_chu_xe.png" alt="Become an Owner Illustration"
+                class="illustration img-fluid mb-4" />
 
             <!-- Register Button -->
             <button class="btn register-btn btn-lg px-5 py-3 mb-3" (click)="goToRegisterOwner()">
                 Đăng ký xe tự lái
             </button>
+
+            <!-- Login Required Popup -->
+            <div class="popup-overlay" *ngIf="showLoginPopup" (click)="closeLoginPopup()">
+                <div class="popup-content" (click)="$event.stopPropagation()">
+                    <div class="popup-header">
+                        <h3>Thông báo</h3>
+                        <button class="popup-close" (click)="closeLoginPopup()">×</button>
+                    </div>
+                    <div class="popup-body">
+                        <p>Bạn phải đăng nhập để đăng ký xe</p>
+                    </div>
+                    <div class="popup-footer">
+                        <button class="btn-cancel" (click)="closeLoginPopup()">Hủy</button>
+                        <button class="btn-ok" (click)="goToLogin()">Đăng nhập</button>
+                    </div>
+                </div>
+            </div>
 
             <p class="subtitle fw-bold mb-0">
                 Gia tăng thu nhập từ 5-12 tr/tháng cùng TrustCar
