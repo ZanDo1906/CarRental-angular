@@ -5,7 +5,7 @@
   <div class="card-list">
 
       <div *ngFor="let car of displayedCars()" class="approval-card">
-        <div class="card-image">
+        <div class="card-image" (click)="onAction('detail', car)">
           <img [src]="car.Anh_xe[0]" [alt]="car.Hang_xe + ' ' + car.Dong_xe" (error)="onImageError($event)">
         </div>
         <div class="card-details">
