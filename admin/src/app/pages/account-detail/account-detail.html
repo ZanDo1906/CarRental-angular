@@ -6,7 +6,7 @@
         <div class="title">
             <div class="title-edit">
                 <h5>Thông tin tài khoản</h5>
-                <div class="wrap-svg" (click)="onEdit('profile')" style="cursor:pointer">
+                <div class="wrap-svg" style="cursor: not-allowed; opacity: 0.5;">
                     <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
                         class="bi bi-pencil" viewBox="0 0 16 16">
                         <path
@@ -138,7 +138,7 @@
             </div>
             <div>
 
-                <button *ngIf="!editingLicense" class="btn1 btn--s" (click)="onEdit('license')">Chỉnh sửa
+                <button *ngIf="!editingLicense" class="btn1 btn--s" (click)="onEdit('license')" [disabled]="true">Chỉnh sửa
                     <div class="wrap-svg" (click)="onEdit('profile')" style="cursor:pointer">
                         <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
                             class="bi bi-pencil" viewBox="0 0 16 16">

@@ -310,7 +310,8 @@ input { display: inline-block; width: 100%; font-size: 1rem; color: #242420; bor
 }
 
 .user-profile .content .info-user .info-desc__item .title-item .note.error {
-  background: #ffd0cd
+  background: #ffd0cd;
+  padding: 8px 12px;
 }
 
 .user-profile .content .info-user .info-desc__item .name {
@@ -362,9 +363,9 @@ input { display: inline-block; width: 100%; font-size: 1rem; color: #242420; bor
   align-items: center;
   grid-gap: 4px;
   gap: 4px;
-  padding: 4px 6px;
+  padding: 8px 12px;
   border-radius: 100px;
-  font-size: .625rem;
+  font-size: .8rem;
   font-weight: 500;
   color: #262626
 }
