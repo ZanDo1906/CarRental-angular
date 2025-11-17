@@ -206,8 +206,10 @@ export class UserCar implements OnInit, OnDestroy, AfterViewInit {
       }
 
       console.log('Final cars data:', this.cars.slice(0, 2)); // Debug: first 2 user cars
+      // Normalize status values so template class checks and labels work reliably
       this.cars.forEach(car => {
-        console.log(`Car ${car.Ma_xe}: Tinh_trang_xe = "${car.Tinh_trang_xe}"`);
+        car.Tinh_trang_xe = this.normalizeCarStatusValue(car.Tinh_trang_xe || car.Trang_thai);
+        console.log(`Car ${car.Ma_xe}: normalized Tinh_trang_xe = "${car.Tinh_trang_xe}"`);
       });
 
       // Ensure pagination resets when owner changes
@@ -484,6 +486,28 @@ export class UserCar implements OnInit, OnDestroy, AfterViewInit {
     return statusMap[status] || 'Không xác định';
   }
 
+  // Normalize various possible status values (English, Vietnamese, numeric) to canonical Vietnamese labels
+  private normalizeCarStatusValue(value: any): string {
+    if (value == null) return 'Sẵn sàng cho thuê';
+    const s = ('' + value).trim();
+    const lower = s.toLowerCase();
+
+    // numeric codes sometimes used elsewhere (try to be permissive)
+    if (lower === '0' || lower === 'pending' || lower.includes('chờ')) return 'Đang chờ duyệt';
+    if (lower === '1' || lower === '2' || lower === '3' || lower === 'active' || lower.includes('sẵn sàng') || lower.includes('đang cho thuê')) return 'Sẵn sàng cho thuê';
+    if (lower === 'stopped' || lower.includes('dừng') || lower.includes('đã dừng')) return 'Đã dừng cho thuê';
+    if (lower === 'rejected' || lower === '-1' || lower === '5' || lower.includes('từ chối')) return 'Từ chối duyệt';
+
+    // Default fallback: if the incoming value already contains known Vietnamese phrases, normalize them
+    if (s.includes('Sẵn sàng') || s.includes('sẵn sàng')) return 'Sẵn sàng cho thuê';
+    if (s.includes('Dừng') || s.includes('dừng')) return 'Đã dừng cho thuê';
+    if (s.includes('chờ') || s.includes('Chờ')) return 'Đang chờ duyệt';
+    if (s.includes('Từ chối') || s.includes('từ chối')) return 'Từ chối duyệt';
+
+    // Last resort: return original string
+    return s;
+  }
+
   // Get rental status CSS class
   getRentalStatusClass(status: number): string {
     const classMap: { [key: number]: string } = {
@@ -529,34 +553,35 @@ export class UserCar implements OnInit, OnDestroy, AfterViewInit {
     } else if (action === 'approve') {
       this.openCalendarModal(car);
     } else if (action === 'reject') {
-      // Toggle trạng thái cho thuê
-      const currentStatus = car.Tinh_trang_xe || 'active';
+      // Toggle trạng thái cho thuê: use canonical Vietnamese labels so template mappings match
+      const currentStatus = (car.Tinh_trang_xe || '').toString();
       let newStatus: string;
-      
-      // Xử lý cả trạng thái tiếng Việt và tiếng Anh
-      if (currentStatus === 'active' || currentStatus === 'Sẵn sàng cho thuê') {
-        newStatus = 'Dừng cho thuê';
+
+      // If currently ready/active, switch to the canonical stopped label
+      if (currentStatus === 'active' || currentStatus === 'Sẵn sàng cho thuê' || currentStatus === 'Đang cho thuê') {
+        newStatus = 'Đã dừng cho thuê';
       } else {
-        newStatus = 'Đang cho thuê';
+        // Otherwise resume to ready state (canonical label)
+        newStatus = 'Sẵn sàng cho thuê';
       }
-      
+
       car.Tinh_trang_xe = newStatus;
-      
+
       // Cập nhật trong danh sách
       const index = this.cars.findIndex(c => c.Ma_xe === car.Ma_xe);
       if (index !== -1) {
         this.cars[index] = { ...car };
       }
-      
+
       // Lưu vào localStorage
       this.saveCarToStorage(car);
-      
+
       // Thông báo
-      const message = newStatus === 'Đã dừng cho thuê' 
+      const message = newStatus === 'Đã dừng cho thuê'
         ? `Đã dừng cho thuê xe: ${car.Hang_xe} ${car.Dong_xe}`
         : `Đã tiếp tục cho thuê xe: ${car.Hang_xe} ${car.Dong_xe}`;
       alert(message);
-      
+
       // Refresh UI
       this.cdr.detectChanges();
     } else if (action === 'resubmit') {
