@@ -1,4 +1,3 @@
-
 /* CSS Variables */
 :host {
   --color-primary: #1D7363;
@@ -325,7 +324,7 @@ h2 {
 
 .car-actions .alert {
   min-width: 185px !important;
-    max-width: 185px !important;
+  max-width: 185px !important;
 }
 
 .alert-info {
@@ -366,12 +365,12 @@ h2 {
 .car-actions .btn.btn-approve,
 .car-actions .btn.btn-outline-danger,
 .car-actions .btn.btn-outline-success {
-  width: 185px ;
-  min-width: 185px ;
-  max-width: 185px ;
-  height: 44px ;
-  padding: 8px 12px ;
-  font-size: 16px ;
+  width: 185px;
+  min-width: 185px;
+  max-width: 185px;
+  height: 44px;
+  padding: 8px 12px;
+  font-size: 16px;
 }
 
 /* Pagination */
@@ -424,11 +423,11 @@ h2 {
 
 
 /* Chip row */
-.chip-row { 
-  display: flex; 
-  flex-wrap: wrap; 
-  gap: 10px; 
-  justify-content: flex-start; 
+.chip-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  justify-content: flex-start;
   margin-bottom: 2rem;
 }
 
@@ -448,14 +447,14 @@ h2 {
   font-size: 14px;
 }
 
-.btn-chip:hover { 
-  background: var(--color-primary, #50B498); 
-  color: #fff; 
+.btn-chip:hover {
+  background: var(--color-primary, #50B498);
+  color: #fff;
 }
 
-.btn-chip.selected { 
-  background: var(--color-primary, #50B498); 
-  color: #fff; 
+.btn-chip.selected {
+  background: var(--color-primary, #50B498);
+  color: #fff;
 }
 
 .btn-chip i {
@@ -463,8 +462,8 @@ h2 {
 }
 
 /* Dropdown của chip */
-.dropdown { 
-  position: relative; 
+.dropdown {
+  position: relative;
 }
 
 .menu {
@@ -476,32 +475,32 @@ h2 {
   background: #fff !important;
   border: 1px solid #e7efed;
   border-radius: 10px;
-  box-shadow: 0 16px 32px rgba(0,0,0,.16), 0 2px 8px rgba(80,180,152,0.08);
+  box-shadow: 0 16px 32px rgba(0, 0, 0, .16), 0 2px 8px rgba(80, 180, 152, 0.08);
   padding: 6px;
 }
 
 .dropdown-item {
-  display: block; 
-  width: 100%; 
+  display: block;
+  width: 100%;
   text-align: left;
-  background: none; 
-  border: 0; 
+  background: none;
+  border: 0;
   padding: 10px 12px;
-  border-radius: 8px; 
-  cursor: pointer; 
+  border-radius: 8px;
+  cursor: pointer;
   color: #333;
   font-size: 14px;
   transition: all 0.2s ease;
 }
 
-.dropdown-item:hover { 
-  background: #eef6f4; 
-  color: var(--color-primary, #50B498); 
+.dropdown-item:hover {
+  background: #eef6f4;
+  color: var(--color-primary, #50B498);
 }
 
-.dropdown-item.active { 
-  background: var(--color-primary, #50B498); 
-  color: #fff; 
+.dropdown-item.active {
+  background: var(--color-primary, #50B498);
+  color: #fff;
   font-weight: 600;
 }
 
@@ -617,7 +616,7 @@ h2 {
   font-size: 16px;
   font-weight: 700;
   text-transform: uppercase;
-  box-shadow: 0 2px 6px rgba(0,0,0,0.06);
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.06);
 }
 
 .rental-details {
@@ -693,6 +692,7 @@ h2 {
   color: #fff;
   border: none;
 }
+
 .action-btn.detail:hover {
   transform: translateY(-2px);
 }
@@ -702,6 +702,7 @@ h2 {
   color: #d32f2f;
   background: #fff;
 }
+
 .action-btn.complaint:hover {
   background: #d32f2f;
   color: #ffffff;
@@ -762,7 +763,7 @@ h2 {
     min-width: auto;
     gap: 8px;
   }
-  
+
   .car-actions .btn {
     width: 100px !important;
     min-width: 100px !important;
@@ -813,4 +814,47 @@ h2 {
   .car-actions .btn {
     min-width: 100px;
   }
+}
+
+/* Renter Message (for users with role = 1) */
+.renter-message {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 400px;
+  padding: 40px 20px;
+  margin-top: 40px;
+}
+
+.renter-message-content {
+  text-align: center;
+  max-width: 600px;
+  background: #fff3cd;
+  border: 2px solid #ffc107;
+  border-radius: 12px;
+  padding: 48px 32px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+}
+
+.renter-icon {
+  font-size: 64px;
+  color: #856404;
+  margin-bottom: 24px;
+  display: block;
+}
+
+.renter-title {
+  color: #856404;
+  margin: 0 0 16px 0;
+  font-family: 'Montserrat', 'Inter', sans-serif;
+  font-weight: 700;
+  font-size: 24px;
+}
+
+.renter-description {
+  color: #856404;
+  font-size: 16px;
+  line-height: 1.6;
+  margin: 0;
+  font-family: 'Inter', sans-serif;
 }

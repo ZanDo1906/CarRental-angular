@@ -1,187 +1,205 @@
 <main class="main-content">
-  <div class="page-header">
-    <h2>Xe của tôi ({{ users().length }})</h2>
-    <button class="btn btn-register-car" (click)="openRegisterCarModal()">
-      <i class="bi bi-plus-circle"></i>
-      Đăng ký xe mới
-    </button>
-  </div>
-
-  <!-- Navigation Menu Section -->
-  <div class="chip-row">
-    <!-- Danh sách xe dropdown -->
-    <div class="dropdown" (click)="$event.stopPropagation()">
-      <button class="btn-chip" [class.selected]="selectedCarFilter !== 'all'" (click)="toggleDropdown('car')">
-        <i class="bi bi-car-front"></i>
-        Danh sách xe: {{ getCarFilterText() }}
+  <!-- Hiển thị cho người cho thuê (role = 2) -->
+  <div *ngIf="!isRenterRole">
+    <div class="page-header">
+      <h2>Xe của tôi ({{ users().length }})</h2>
+      <button class="btn btn-register-car" (click)="openRegisterCarModal()">
+        <i class="bi bi-plus-circle"></i>
+        Đăng ký xe mới
       </button>
-      <div class="menu" *ngIf="openDropdown === 'car'">
-        <button class="dropdown-item" [class.active]="selectedCarFilter === 'all'"
-                (click)="selectCarFilter('all')">Tất cả</button>
-        <button class="dropdown-item" [class.active]="selectedCarFilter === 'active'"
-                (click)="selectCarFilter('active')">Đang hoạt động</button>
-        <button class="dropdown-item" [class.active]="selectedCarFilter === 'stopped'"
-                (click)="selectCarFilter('stopped')">Dừng hoạt động</button>
-        <button class="dropdown-item" [class.active]="selectedCarFilter === 'pending'"
-                (click)="selectCarFilter('pending')">Chờ duyệt</button>
-        <button class="dropdown-item" [class.active]="selectedCarFilter === 'rejected'"
-                (click)="selectCarFilter('rejected')">Bị từ chối</button>
-      </div>
     </div>
 
-    <!-- Quản lý chuyến dropdown -->
-    <div class="dropdown" (click)="$event.stopPropagation()">
-      <button class="btn-chip" [class.selected]="selectedTripFilter !== 'renting'" (click)="toggleDropdown('trip')">
-        <i class="bi bi-list-check"></i>
-        Quản lý chuyến: {{ getTripFilterText() }}
-      </button>
-      <div class="menu" *ngIf="openDropdown === 'trip'">
-        <button class="dropdown-item" [class.active]="selectedTripFilter === 'renting'"
-                (click)="selectTripFilter('renting')">Đang cho thuê</button>
-        <button class="dropdown-item" [class.active]="selectedTripFilter === 'completed'"
-                (click)="selectTripFilter('completed')">Đã hoàn tất</button>
-        <button class="dropdown-item" [class.active]="selectedTripFilter === 'cancelled'"
-                (click)="selectTripFilter('cancelled')">Đã hủy</button>
+    <!-- Navigation Menu Section -->
+    <div class="chip-row">
+      <!-- Danh sách xe dropdown -->
+      <div class="dropdown" (click)="$event.stopPropagation()">
+        <button class="btn-chip" [class.selected]="selectedCarFilter !== 'all'" (click)="toggleDropdown('car')">
+          <i class="bi bi-car-front"></i>
+          Danh sách xe: {{ getCarFilterText() }}
+        </button>
+        <div class="menu" *ngIf="openDropdown === 'car'">
+          <button class="dropdown-item" [class.active]="selectedCarFilter === 'all'"
+            (click)="selectCarFilter('all')">Tất cả</button>
+          <button class="dropdown-item" [class.active]="selectedCarFilter === 'active'"
+            (click)="selectCarFilter('active')">Đang hoạt động</button>
+          <button class="dropdown-item" [class.active]="selectedCarFilter === 'stopped'"
+            (click)="selectCarFilter('stopped')">Dừng hoạt động</button>
+          <button class="dropdown-item" [class.active]="selectedCarFilter === 'pending'"
+            (click)="selectCarFilter('pending')">Chờ duyệt</button>
+          <button class="dropdown-item" [class.active]="selectedCarFilter === 'rejected'"
+            (click)="selectCarFilter('rejected')">Bị từ chối</button>
+        </div>
+      </div>
+
+      <!-- Quản lý chuyến dropdown -->
+      <div class="dropdown" (click)="$event.stopPropagation()">
+        <button class="btn-chip" [class.selected]="selectedTripFilter !== 'renting'" (click)="toggleDropdown('trip')">
+          <i class="bi bi-list-check"></i>
+          Quản lý chuyến: {{ getTripFilterText() }}
+        </button>
+        <div class="menu" *ngIf="openDropdown === 'trip'">
+          <button class="dropdown-item" [class.active]="selectedTripFilter === 'renting'"
+            (click)="selectTripFilter('renting')">Đang cho thuê</button>
+          <button class="dropdown-item" [class.active]="selectedTripFilter === 'completed'"
+            (click)="selectTripFilter('completed')">Đã hoàn tất</button>
+          <button class="dropdown-item" [class.active]="selectedTripFilter === 'cancelled'"
+            (click)="selectTripFilter('cancelled')">Đã hủy</button>
+        </div>
       </div>
     </div>
-  </div>
-  <div class="cards-list" *ngIf="!loading && cars.length > 0 && !showRentalSection">
-    <div *ngFor="let car of displayedCars()" class="car-card">
-      <div class="car-avatar">
-        <div class="thumb">
-          <img [src]="(car && car.Anh_xe && car.Anh_xe.length) ? car.Anh_xe[0] : 'assets/images/placeholder.webp'"
-            alt="">
-        </div>
-      </div>
-      <div class="car-details">
-        <div style="margin-bottom: 10px;">
-          <span *ngIf="getMaintenanceStatusLabel(car)" class="maintenance-tag" [ngClass]="getMaintenanceStatusClass(car)">
-            {{ getMaintenanceStatusLabel(car) }}
-          </span>
-        </div>
-        <div>
-          <h3 class="car-name">{{car.Hang_xe}} {{car.Dong_xe}} {{car.Nam_san_xuat}}</h3>
-        </div>
-        <div class="meta-row">
-          <div class="meta">
-            <i class="bi bi-gear"></i>
-            <span>{{car.Hop_so}}</span>
-          </div>
-          <div class="meta">
-            <i class="bi bi-people"></i>
-            <span>{{car.So_cho}} chỗ</span>
-          </div>
-          <div class="meta">
-            <i class="bi bi-fuel-pump"></i>
-            <span>{{car.Nhien_lieu}}</span>
+    <div class="cards-list" *ngIf="!loading && cars.length > 0 && !showRentalSection">
+      <div *ngFor="let car of displayedCars()" class="car-card">
+        <div class="car-avatar">
+          <div class="thumb">
+            <img [src]="(car && car.Anh_xe && car.Anh_xe.length) ? car.Anh_xe[0] : 'assets/images/placeholder.webp'"
+              alt="">
           </div>
         </div>
+        <div class="car-details">
+          <div style="margin-bottom: 10px;">
+            <span *ngIf="getMaintenanceStatusLabel(car)" class="maintenance-tag"
+              [ngClass]="getMaintenanceStatusClass(car)">
+              {{ getMaintenanceStatusLabel(car) }}
+            </span>
+          </div>
+          <div>
+            <h3 class="car-name">{{car.Hang_xe}} {{car.Dong_xe}} {{car.Nam_san_xuat}}</h3>
+          </div>
+          <div class="meta-row">
+            <div class="meta">
+              <i class="bi bi-gear"></i>
+              <span>{{car.Hop_so}}</span>
+            </div>
+            <div class="meta">
+              <i class="bi bi-people"></i>
+              <span>{{car.So_cho}} chỗ</span>
+            </div>
+            <div class="meta">
+              <i class="bi bi-fuel-pump"></i>
+              <span>{{car.Nhien_lieu}}</span>
+            </div>
+          </div>
 
-        <!-- Địa điểm (resolve Ma_vi_tri → địa chỉ từ location.json) -->
-        <!-- <div class="loc-row" *ngIf="car.Ma_vi_tri != null">
+          <!-- Địa điểm (resolve Ma_vi_tri → địa chỉ từ location.json) -->
+          <!-- <div class="loc-row" *ngIf="car.Ma_vi_tri != null">
                   <i class="bi bi-geo-alt"></i>
                   <span>{{ getLocationAddress(car.Ma_vi_tri) }}</span>
                 </div> -->
 
 
 
-        <!-- Điểm & số chuyến -->
-        <!-- <div *ngIf="car.Trang_thai === 2" class="action-buttons">
+          <!-- Điểm & số chuyến -->
+          <!-- <div *ngIf="car.Trang_thai === 2" class="action-buttons">
           <button class="action-btn detail" (click)="viewRentalDetail(car)"><i class="bi bi-eye"></i> Xem chi tiết</button>
           <button class="action-btn complaint" (click)="openComplaintModal(car)"><i class="bi bi-exclamation-circle"></i> Khiếu nại</button>
         </div> -->
-        <div class="meta-row">
-          <div class="meta">
-            <i class="bi bi-star-fill text-warning"></i>
-            <span>{{car.Diem_danh_gia || '5.0'}}</span>
+          <div class="meta-row">
+            <div class="meta">
+              <i class="bi bi-star-fill text-warning"></i>
+              <span>{{car.Diem_danh_gia || '5.0'}}</span>
+            </div>
+            <div class="meta">
+              <i class="bi bi-graph-up"></i>
+              <span>{{car.So_chuyen || car.So_luot_thue || 0}} chuyến</span>
+            </div>
           </div>
-          <div class="meta">
-            <i class="bi bi-graph-up"></i>
-            <span>{{car.So_chuyen || car.So_luot_thue || 0}} chuyến</span>
-          </div>
-        </div>
 
-        <!-- Giá -->
-        <div class="price-row">
-          <div class="price fs-4">
-            {{vnd(car.Gia_thue)}} VNĐ/Ngày
+          <!-- Giá -->
+          <div class="price-row">
+            <div class="price fs-4">
+              {{vnd(car.Gia_thue)}} VNĐ/Ngày
+            </div>
+          </div>
+          <div class="car-status"
+            [class.status-stopped]="car.Tinh_trang_xe === 'stopped' || car.Tinh_trang_xe === 'Đã dừng cho thuê'"
+            [class.status-pending]="car.Tinh_trang_xe === 'pending' || car.Tinh_trang_xe === 'Đang chờ duyệt'"
+            [class.status-rejected]="car.Tinh_trang_xe === 'rejected' || car.Tinh_trang_xe === 'Từ chối duyệt'"
+            [class.status-active]="car.Tinh_trang_xe === 'active' || car.Tinh_trang_xe === 'Sẵn sàng cho thuê'">
+            {{ getCarStatusText(car.Tinh_trang_xe) }}
           </div>
         </div>
-        <div class="car-status" 
-             [class.status-stopped]="car.Tinh_trang_xe === 'stopped' || car.Tinh_trang_xe === 'Đã dừng cho thuê'"
-             [class.status-pending]="car.Tinh_trang_xe === 'pending' || car.Tinh_trang_xe === 'Đang chờ duyệt'"
-             [class.status-rejected]="car.Tinh_trang_xe === 'rejected' || car.Tinh_trang_xe === 'Từ chối duyệt'"
-             [class.status-active]="car.Tinh_trang_xe === 'active' || car.Tinh_trang_xe === 'Sẵn sàng cho thuê'">
-          {{ getCarStatusText(car.Tinh_trang_xe) }}
-        </div>
-      </div>
-      <div class="car-actions">
-        <p class="car-status" 
-           [class.status-stopped]="car.Tinh_trang_xe === 'stopped' || car.Tinh_trang_xe === 'Đã dừng cho thuê'"
-           [class.status-pending]="car.Tinh_trang_xe === 'pending' || car.Tinh_trang_xe === 'Đang chờ duyệt'"
-           [class.status-rejected]="car.Tinh_trang_xe === 'rejected' || car.Tinh_trang_xe === 'Từ chối duyệt'"
-           [class.status-active]="car.Tinh_trang_xe === 'active' || car.Tinh_trang_xe === 'Sẵn sàng cho thuê'">
-          {{ getCarStatusText(car.Tinh_trang_xe) }}
-        </p>
-        <button (click)="onAction('view', car)" class="btn btn-solid-primary">Cập nhật thông tin</button>
-        
-        <!-- Hiển thị nút theo trạng thái xe -->
-        <button *ngIf="car.Tinh_trang_xe === 'active' || car.Tinh_trang_xe === 'stopped' || car.Tinh_trang_xe === 'Sẵn sàng cho thuê' || car.Tinh_trang_xe === 'Đã dừng cho thuê'" 
-                (click)="onAction('approve', car)" 
-                class="btn btn-approve">Lịch cho thuê</button>
-        
-        <!-- Nút dừng/tiếp tục cho thuê (chỉ hiện với xe active/stopped) -->
-        <button *ngIf="car.Tinh_trang_xe === 'active' || car.Tinh_trang_xe === 'stopped' || car.Tinh_trang_xe === 'Sẵn sàng cho thuê' || car.Tinh_trang_xe === 'Đã dừng cho thuê'"
-                (click)="onAction('reject', car)" 
-                class="btn"
-                [class.btn-outline-danger]="car.Tinh_trang_xe !== 'stopped' && car.Tinh_trang_xe !== 'Đã dừng cho thuê'"
-                [class.btn-outline-success]="car.Tinh_trang_xe === 'stopped' || car.Tinh_trang_xe === 'Đã dừng cho thuê'">
-          {{ (car.Tinh_trang_xe === 'stopped' || car.Tinh_trang_xe === 'Đã dừng cho thuê') ? 'Tiếp tục cho thuê' : 'Dừng cho thuê' }}
-        </button>
-        
-        <!-- Nút gửi lại duyệt (với xe bị từ chối) -->
-        <button *ngIf="car.Tinh_trang_xe === 'rejected' || car.Tinh_trang_xe === 'Từ chối duyệt'" 
-                (click)="onAction('resubmit', car)" 
-                class="btn btn-solid-primary">Gửi lại duyệt</button>
-                
-        <!-- Thông báo chờ duyệt -->
-        <div *ngIf="car.Tinh_trang_xe === 'pending' || car.Tinh_trang_xe === 'Đang chờ duyệt'" class="alert alert-info">
-          <i class="bi bi-clock"></i> Xe đang chờ admin duyệt
+        <div class="car-actions">
+          <p class="car-status"
+            [class.status-stopped]="car.Tinh_trang_xe === 'stopped' || car.Tinh_trang_xe === 'Đã dừng cho thuê'"
+            [class.status-pending]="car.Tinh_trang_xe === 'pending' || car.Tinh_trang_xe === 'Đang chờ duyệt'"
+            [class.status-rejected]="car.Tinh_trang_xe === 'rejected' || car.Tinh_trang_xe === 'Từ chối duyệt'"
+            [class.status-active]="car.Tinh_trang_xe === 'active' || car.Tinh_trang_xe === 'Sẵn sàng cho thuê'">
+            {{ getCarStatusText(car.Tinh_trang_xe) }}
+          </p>
+          <button (click)="onAction('view', car)" class="btn btn-solid-primary">Cập nhật thông tin</button>
+
+          <!-- Hiển thị nút theo trạng thái xe -->
+          <button
+            *ngIf="car.Tinh_trang_xe === 'active' || car.Tinh_trang_xe === 'stopped' || car.Tinh_trang_xe === 'Sẵn sàng cho thuê' || car.Tinh_trang_xe === 'Đã dừng cho thuê'"
+            (click)="onAction('approve', car)" class="btn btn-approve">Lịch cho thuê</button>
+
+          <!-- Nút dừng/tiếp tục cho thuê (chỉ hiện với xe active/stopped) -->
+          <button
+            *ngIf="car.Tinh_trang_xe === 'active' || car.Tinh_trang_xe === 'stopped' || car.Tinh_trang_xe === 'Sẵn sàng cho thuê' || car.Tinh_trang_xe === 'Đã dừng cho thuê'"
+            (click)="onAction('reject', car)" class="btn"
+            [class.btn-outline-danger]="car.Tinh_trang_xe !== 'stopped' && car.Tinh_trang_xe !== 'Đã dừng cho thuê'"
+            [class.btn-outline-success]="car.Tinh_trang_xe === 'stopped' || car.Tinh_trang_xe === 'Đã dừng cho thuê'">
+            {{ (car.Tinh_trang_xe === 'stopped' || car.Tinh_trang_xe === 'Đã dừng cho thuê') ? 'Tiếp tục cho thuê' :
+            'Dừng cho thuê' }}
+          </button>
+
+          <!-- Nút gửi lại duyệt (với xe bị từ chối) -->
+          <button *ngIf="car.Tinh_trang_xe === 'rejected' || car.Tinh_trang_xe === 'Từ chối duyệt'"
+            (click)="onAction('resubmit', car)" class="btn btn-solid-primary">Gửi lại duyệt</button>
+
+          <!-- Thông báo chờ duyệt -->
+          <div *ngIf="car.Tinh_trang_xe === 'pending' || car.Tinh_trang_xe === 'Đang chờ duyệt'"
+            class="alert alert-info">
+            <i class="bi bi-clock"></i> Xe đang chờ admin duyệt
+          </div>
         </div>
       </div>
     </div>
+
+    <nav aria-label="Page navigation" class="d-flex justify-content-end mt-3"
+      *ngIf="totalPages() > 1 && !showRentalSection">
+      <ul class="pagination">
+        <li class="page-item" [class.disabled]="currentPage === 1">
+          <a class="page-link" (click)="prevPage()" href="javascript:void(0)" aria-label="Previous">
+            <i class="bi bi-chevron-left"></i>
+          </a>
+        </li>
+
+        <li *ngFor="let page of totalPagesArray()" class="page-item" [class.active]="page === currentPage">
+          <a class="page-link" (click)="goToPage(page)" href="javascript:void(0)">
+            {{ page }}
+          </a>
+        </li>
+
+        <li class="page-item" [class.disabled]="currentPage === totalPages()">
+          <a class="page-link" (click)="nextPage()" href="javascript:void(0)" aria-label="Next">
+            <i class="bi bi-chevron-right"></i>
+          </a>
+        </li>
+
+      </ul>
+    </nav>
+
+    <div *ngIf="users().length === 0 && !showRentalSection" class="alert alert-info mt-3">Không có xe nào để hiển thị
+      cho người dùng này.
+    </div>
   </div>
 
-  <nav aria-label="Page navigation" class="d-flex justify-content-end mt-3" *ngIf="totalPages() > 1 && !showRentalSection">
-    <ul class="pagination">
-      <li class="page-item" [class.disabled]="currentPage === 1">
-        <a class="page-link" (click)="prevPage()" href="javascript:void(0)" aria-label="Previous">
-          <i class="bi bi-chevron-left"></i>
-        </a>
-      </li>
-
-      <li *ngFor="let page of totalPagesArray()" class="page-item" [class.active]="page === currentPage">
-        <a class="page-link" (click)="goToPage(page)" href="javascript:void(0)">
-          {{ page }}
-        </a>
-      </li>
-
-      <li class="page-item" [class.disabled]="currentPage === totalPages()">
-        <a class="page-link" (click)="nextPage()" href="javascript:void(0)" aria-label="Next">
-          <i class="bi bi-chevron-right"></i>
-        </a>
-      </li>
-
-    </ul>
-  </nav>
-
-  <div *ngIf="users().length === 0 && !showRentalSection" class="alert alert-info mt-3">Không có xe nào để hiển thị cho người dùng này.
+  <!-- Hiển thị cho người thuê (role = 1) -->
+  <div *ngIf="isRenterRole" class="renter-message">
+    <div class="renter-message-content">
+      <i class="bi bi-info-circle renter-icon"></i>
+      <h3 class="renter-title">Bạn không đăng ký xe cho thuê</h3>
+      <p class="renter-description">
+        Bạn đang không có xe cho thuê. Vui lòng đăng ký xe để bắt đầu cho thuê.
+      </p>
+    </div>
   </div>
 
 </main>
 
-<!-- Rental Section - Hiển thị riêng biệt -->
-<div *ngIf="showRentalSection" class="rental-main-section">
+<!-- Rental Section - Hiển thị riêng biệt (chỉ cho người cho thuê) -->
+<div *ngIf="showRentalSection && !isRenterRole" class="rental-main-section">
   <div class="rental-container">
     <div class="section-header">
       <h2>
@@ -201,7 +219,7 @@
             <h4>{{ getCarName(rental.Ma_xe) }}</h4>
             <!-- status label removed (handled by action-buttons) -->
           </div>
-          
+
           <div class="rental-details">
             <div class="detail-row">
               <i class="bi bi-person"></i>
@@ -230,12 +248,15 @@
           </div>
         </div>
 
-        <div *ngIf="rental.Trang_thai === 4 || rental.Trang_thai === 3 || rental.Trang_thai === 0" class="action-buttons">
-          <button class="action-btn detail" (click)="viewRentalDetail(rental)"><i class="bi bi-eye"></i> Xem chi tiết</button>
-          <button class="action-btn complaint" (click)="openComplaintModal(rental)"><i class="bi bi-exclamation-circle"></i> Khiếu nại</button>
+        <div *ngIf="rental.Trang_thai === 4 || rental.Trang_thai === 3 || rental.Trang_thai === 0"
+          class="action-buttons">
+          <button class="action-btn detail" (click)="viewRentalDetail(rental)"><i class="bi bi-eye"></i> Xem chi
+            tiết</button>
+          <button class="action-btn complaint" (click)="openComplaintModal(rental)"><i
+              class="bi bi-exclamation-circle"></i> Khiếu nại</button>
         </div>
         <div *ngIf="rental.Trang_thai !== 4" class="rental-actions">
-          <button *ngIf="rental.Trang_thai === 1" class="btn btn-sm btn-success" >
+          <button *ngIf="rental.Trang_thai === 1" class="btn btn-sm btn-success">
             <i class="bi bi-check-circle"></i>
             Duyệt
           </button>
@@ -247,7 +268,7 @@
       </div>
     </div>
 
-    <div *ngIf="filteredRentals.length === 0" class="alert alert-info" >
+    <div *ngIf="filteredRentals.length === 0" class="alert alert-info">
       <i class="bi bi-info-circle"></i>
       Không có chuyến nào trong danh mục "{{ getTripFilterText() }}".
     </div>
@@ -272,9 +293,6 @@
 </app-block-date-modal>
 
 <!-- Complaint modal -->
-<app-complaint-modal 
-  [show]="showComplaintModal" 
-  [selectedRental]="selectedRental"
-  (closeModal)="showComplaintModal = false"
-  (submitComplaint)="handleComplaintSubmit($event)">
+<app-complaint-modal [show]="showComplaintModal" [selectedRental]="selectedRental"
+  (closeModal)="showComplaintModal = false" (submitComplaint)="handleComplaintSubmit($event)">
 </app-complaint-modal>

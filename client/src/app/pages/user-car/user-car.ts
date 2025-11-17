@@ -71,6 +71,8 @@ export class UserCar implements OnInit, OnDestroy, AfterViewInit {
 
   ownerId: number | null = null;
   private subscriptions: Subscription[] = [];
+  currentUserRole: string | null = null; // Lưu role của user hiện tại
+  isRenterRole: boolean = false; // true nếu là người thuê (role = "1")
 
   constructor(
     private carService: CarService,
@@ -156,7 +158,18 @@ export class UserCar implements OnInit, OnDestroy, AfterViewInit {
     
     if (currentUser) {
       this.ownerId = currentUser.Ma_nguoi_dung;
-      this.loadUserData();
+      this.currentUserRole = currentUser.Vai_tro || null;
+      // Kiểm tra nếu là người thuê (role = "1")
+      this.isRenterRole = this.currentUserRole === "1";
+      
+      // Chỉ load data nếu là người cho thuê (role = "2")
+      if (!this.isRenterRole) {
+        this.loadUserData();
+      } else {
+        // Nếu là người thuê, không cần load data
+        this.loading = false;
+        this.cdr.detectChanges();
+      }
     } else {
       // Fallback cho testing
       this.loadUserDataFallback();
@@ -228,15 +241,36 @@ export class UserCar implements OnInit, OnDestroy, AfterViewInit {
     const currentUserId = this.ownerService.getOwnerId();
     this.userService.getAllUsers().subscribe((users: any[]) => {
       const list = Array.isArray(users) ? users : [];
+      let selectedUser = null;
+      
       if (currentUserId) {
-        this.ownerId = Number(currentUserId);
-      } else if (list.length > 0) {
-        const first = list[0];
-        this.ownerId = Number(first.Ma_nguoi_dung);
+        selectedUser = list.find(u => Number(u.Ma_nguoi_dung) === Number(currentUserId));
+        if (selectedUser) {
+          this.ownerId = Number(currentUserId);
+        }
+      }
+      
+      if (!selectedUser && list.length > 0) {
+        selectedUser = list[0];
+        this.ownerId = Number(selectedUser.Ma_nguoi_dung);
         try { this.ownerService.setOwnerId(this.ownerId); } catch (e) {}
       }
-
-      this.loadUserData();
+      
+      // Kiểm tra role từ selectedUser
+      if (selectedUser) {
+        this.currentUserRole = selectedUser.Vai_tro || null;
+        this.isRenterRole = this.currentUserRole === "1";
+        
+        // Chỉ load data nếu là người cho thuê (role = "2")
+        if (!this.isRenterRole) {
+          this.loadUserData();
+        } else {
+          this.loading = false;
+          this.cdr.detectChanges();
+        }
+      } else {
+        this.loadUserData();
+      }
     });
   }
 
